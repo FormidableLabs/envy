@@ -1,0 +1,24 @@
+{
+  "name": "envy",
+  "version": "1.0.0",
+  "description": "Node.js Network & Telemetry Viewer",
+  "main": "index.js",
+  "repository": "https://github.com/FormidableLabs/envy.git",
+  "contributors": [
+    "Charlie Brown <carbonrobot@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@tsconfig/node14": "^14.1.0",
+    "rimraf": "^5.0.1",
+    "turbo": "^1.10.13",
+    "typescript": "^5.2.2"
+  }
+}

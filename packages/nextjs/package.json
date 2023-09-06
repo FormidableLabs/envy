@@ -1,0 +1,15 @@
+{
+  "name": "@envy/nexjs",
+  "version": "1.0.0",
+  "description": "Node.js Network & Telemetry Viewer",
+  "main": "dist/index.js",
+  "repository": "https://github.com/FormidableLabs/envy.git",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@envy/node": "1.0.0"
+  }
+}
