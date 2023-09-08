@@ -3,13 +3,41 @@
   "version": "1.0.0",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
+  "type": "module",
   "repository": "https://github.com/FormidableLabs/envy.git",
   "license": "MIT",
   "scripts": {
+    "start": "vite --port 8888",
     "prebuild": "rimraf dist",
-    "build": "tsc"
+    "build": "tsc && vite build",
+    "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@envy/client": "1.0.0"
-  }
+    "@envy/client": "1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-json-view": "^1.21.3",
+    "ws": "^8.14.0",
+    "xml-formatter": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@types/ws": "^8.5.5",
+    "@vitejs/plugin-react": "^4.0.4",
+    "autoprefixer": "^10.4.15",
+    "concurrently": "^8.2.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.29",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.9",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not ie <= 11"
+  ]
 }
