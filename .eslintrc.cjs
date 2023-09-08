@@ -32,14 +32,7 @@ module.exports = {
       'error',
       {
         'newlines-between': 'always',
-        'groups': [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-        ],
+        'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
       },
     ],
     'import/no-empty-named-blocks': 'error',
