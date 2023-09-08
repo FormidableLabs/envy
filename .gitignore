@@ -40,6 +40,8 @@ jspm_packages/
 # build output
 .turbo
 dist
+.vscode
+.parcel-cache
 
 # yarn v2
 .yarn/cache
