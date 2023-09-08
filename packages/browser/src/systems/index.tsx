@@ -25,13 +25,9 @@ export const systems: System<unknown>[] = [
   defaultSystem, // fallback presentation
 ];
 
-function callOrFallback<T>(
-  connection: ConnectionData,
-  fnName: keyof Omit<System<unknown>, 'name'>,
-): T {
+function callOrFallback<T>(connection: ConnectionData, fnName: keyof Omit<System<unknown>, 'name'>): T {
   const system = systems.find(x => x.isMatch(connection));
-  if (system && typeof system[fnName] === 'function')
-    return system[fnName]!(connection);
+  if (system && typeof system[fnName] === 'function') return system[fnName]!(connection);
 
   return defaultSystem[fnName]!(connection);
 }
@@ -52,20 +48,14 @@ export function getResponseBody(connection: ConnectionData): any {
   return callOrFallback(connection, 'transformResponseBody');
 }
 
-export function ListDataComponent({
-  connection,
-}: SystemDetailProps): React.ReactNode {
+export function ListDataComponent({ connection }: SystemDetailProps): React.ReactNode {
   return callOrFallback(connection, 'listComponent');
 }
 
-export function SystemRequestDetailsComponent({
-  connection,
-}: SystemDetailProps): React.ReactNode {
+export function SystemRequestDetailsComponent({ connection }: SystemDetailProps): React.ReactNode {
   return callOrFallback(connection, 'requestDetailComponent');
 }
 
-export function SystemResponseDetailsComponent({
-  connection,
-}: SystemDetailProps): React.ReactNode {
+export function SystemResponseDetailsComponent({ connection }: SystemDetailProps): React.ReactNode {
   return callOrFallback(connection, 'responseDetailComponent');
 }

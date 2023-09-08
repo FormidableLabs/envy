@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  forwardRef,
-  Ref,
-  RefObject,
-  useEffect,
-  useRef,
-} from 'react';
+import { ChangeEvent, forwardRef, Ref, RefObject, useEffect, useRef } from 'react';
 import { IconType } from 'react-icons';
 import { HiX } from 'react-icons/hi';
 
@@ -15,19 +8,13 @@ import { tw } from '@/utils';
 
 const DEBOUNCE_TIMEOUT = 300;
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'onChange'
-> & {
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   Icon?: IconType;
   focusKey?: string;
   onChange?: (value: string) => void;
 };
 
-function Input(
-  { className, onChange, Icon, focusKey, ...props }: InputProps,
-  ref: Ref<HTMLInputElement>,
-) {
+function Input({ className, onChange, Icon, focusKey, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
   const { isMac, specialKey } = usePlatform();
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -43,9 +30,7 @@ function Input(
   useKeyboardShortcut([
     {
       condition: !!focusKey,
-      predicate: e =>
-        (isMac ? e.metaKey : e.ctrlKey) &&
-        e.key.toLowerCase() === focusKey?.toLowerCase(),
+      predicate: e => (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === focusKey?.toLowerCase(),
       callback: () => {
         if (finalRef.current) finalRef.current.focus();
       },
@@ -71,19 +56,11 @@ function Input(
     onChange?.('');
   }
 
-  const fullProps =
-    typeof onChange === 'function'
-      ? { ...props, onChange: debouncedHandleChange }
-      : props;
+  const fullProps = typeof onChange === 'function' ? { ...props, onChange: debouncedHandleChange } : props;
 
   return (
     <span className="group input-container">
-      <input
-        ref={finalRef}
-        type="text"
-        className={tw('input w-full', Icon && 'pl-9', className)}
-        {...fullProps}
-      />
+      <input ref={finalRef} type="text" className={tw('input w-full', Icon && 'pl-9', className)} {...fullProps} />
       {Icon && <Icon />}
       {focusKey && specialKey && (
         <span className="focus-key">

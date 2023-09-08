@@ -15,6 +15,8 @@ type GraphQLData = {
   response: string | null;
 };
 
+const icon = new URL('GraphQL.svg', import.meta.url);
+
 export default class GraphQL implements System<GraphQLData> {
   name = 'GraphQL';
 
@@ -24,9 +26,7 @@ export default class GraphQL implements System<GraphQLData> {
 
   getData(connection: ConnectionData) {
     const body = connection.req.body as Record<string, any>;
-    const type = (
-      body?.query?.startsWith('mutation') ? 'Mutation' : 'Query'
-    ) as OperationType;
+    const type = (body?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
     const response =
       typeof connection.res?.body === 'object'
         ? JSON.stringify(connection.res.body, undefined, 2)
@@ -42,7 +42,7 @@ export default class GraphQL implements System<GraphQLData> {
   }
 
   getIconPath(_?: ConnectionData) {
-    return '/images/systems/graphql.svg';
+    return icon.pathname;
   }
 
   listComponent(connection: ConnectionData) {

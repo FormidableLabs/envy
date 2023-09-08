@@ -15,9 +15,7 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   return (
     <>
       <span className="block">{method.toUpperCase()}</span>
-      <span className="block text-opacity-70 text-black text-xs font-semibold">
-        {statusCode ?? '-'}
-      </span>
+      <span className="block text-opacity-70 text-black text-xs font-semibold">{statusCode ?? '-'}</span>
     </>
   );
 }
@@ -25,23 +23,11 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
 type ConnectionListProps = React.HTMLAttributes<HTMLElement>;
 
 export default function ConnectionList({ className }: ConnectionListProps) {
-  const {
-    port,
-    connected,
-    connecting,
-    connections,
-    connectionId,
-    setSelectedConnection,
-  } = useApplication();
+  const { port, connected, connecting, connections, connectionId, setSelectedConnection } = useApplication();
   const data = Object.entries(connections);
 
   function getMethodAndStatus(connection: ConnectionData) {
-    return (
-      <MethodAndStatus
-        method={connection.req.method}
-        statusCode={connection.res?.statusCode}
-      />
-    );
+    return <MethodAndStatus method={connection.req.method} statusCode={connection.res?.statusCode} />;
   }
 
   function rowStyle({ res }: ConnectionData) {
@@ -70,11 +56,7 @@ export default function ConnectionList({ className }: ConnectionListProps) {
   }
 
   function getRequestDuration(connection: ConnectionData) {
-    return connection.duration ? (
-      `${(connection.duration / 1000).toFixed(2)}s`
-    ) : (
-      <Loading size={2} />
-    );
+    return connection.duration ? `${(connection.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
   }
 
   const columns: [
@@ -89,9 +71,7 @@ export default function ConnectionList({ className }: ConnectionListProps) {
   ];
 
   return (
-    <div
-      className={`h-full flex flex-col overflow-y-scroll bg-slate-300 ${className}`}
-    >
+    <div className={`h-full flex flex-col overflow-y-scroll bg-slate-300 ${className}`}>
       {data.length === 0 ? (
         <div className="flex flex-none h-full justify-center items-center text-3xl md:text-6xl text-slate-400">
           {connected ? (
@@ -109,10 +89,7 @@ export default function ConnectionList({ className }: ConnectionListProps) {
         <div className="table table-fixed w-full relative">
           <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-slate-400 uppercase shadow-lg z-10">
             {columns.map(([label, , baseStyle]) => (
-              <div
-                key={label}
-                className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}
-              >
+              <div key={label} className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}>
                 {label}
               </div>
             ))}
@@ -127,9 +104,7 @@ export default function ConnectionList({ className }: ConnectionListProps) {
                   id === connectionId
                     ? 'bg-orange-300 shadow-lg'
                     : rowStyle(connection) ||
-                        (idx % 2 === 0
-                          ? 'bg-opacity-70 bg-slate-200'
-                          : 'bg-opacity-100 bg-slate-200'),
+                        (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
                   'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
                 )}
               >

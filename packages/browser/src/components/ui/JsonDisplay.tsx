@@ -4,9 +4,7 @@ import colors from 'tailwindcss/colors';
 
 import { tw } from '@/utils';
 
-const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(
-  async () => await import('react-json-view'),
-);
+const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('react-json-view'));
 
 type JsonDisplayProps = React.HTMLAttributes<HTMLElement> & {
   className?: string;

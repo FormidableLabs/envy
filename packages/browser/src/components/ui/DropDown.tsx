@@ -22,31 +22,18 @@ type DropDownProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'onChange'> & {
 };
 
 function DropDown(
-  {
-    items,
-    multiSelect = false,
-    label,
-    placeholder,
-    className,
-    focusKey,
-    onChange,
-    ...props
-  }: DropDownProps,
+  { items, multiSelect = false, label, placeholder, className, focusKey, onChange, ...props }: DropDownProps,
   ref: Ref<HTMLSpanElement>,
 ) {
   const { isMac, specialKey } = usePlatform();
   const selectedItems = items.filter(x => x.isSelected);
   const [isOpen, setIsOpen] = useState(false);
-  const [selection, setSelection] = useState(
-    multiSelect ? selectedItems : [selectedItems[0]],
-  );
+  const [selection, setSelection] = useState(multiSelect ? selectedItems : [selectedItems[0]]);
 
   useKeyboardShortcut([
     {
       condition: !!focusKey,
-      predicate: e =>
-        (isMac ? e.metaKey : e.ctrlKey) &&
-        e.key.toLowerCase() === focusKey?.toLowerCase(),
+      predicate: e => (isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === focusKey?.toLowerCase(),
       callback: () => {
         setIsOpen(true);
       },
@@ -88,17 +75,10 @@ function DropDown(
   }
 
   return (
-    <span
-      ref={finalRef}
-      className={tw('flex input-container self-stretch', className)}
-      {...props}
-    >
+    <span ref={finalRef} className={tw('flex input-container self-stretch', className)} {...props}>
       <span className="group absolute top-0 left-0 cursor-pointer w-full z-50">
         <span
-          className={tw(
-            'relative flex input',
-            isOpen && 'bg-white rounded-b-none hover:shadow-none',
-          )}
+          className={tw('relative flex input', isOpen && 'bg-white rounded-b-none hover:shadow-none')}
           onClick={() => setIsOpen(curr => !curr)}
         >
           {selection.length === 0 ? (
@@ -112,11 +92,7 @@ function DropDown(
                   return (
                     <span key={x.value}>
                       {x.icon ? (
-                        <img
-                          src={x.icon}
-                          alt=""
-                          className="flex-0 w-6 object-contain"
-                        />
+                        <img src={x.icon} alt="" className="flex-0 w-6 object-contain" />
                       ) : (
                         <>{x.label || x.value}</>
                       )}
@@ -124,21 +100,13 @@ function DropDown(
                   );
                 })}
               </span>
-              <span
-                className={tw('input-clear', isOpen && 'flex')}
-                onClick={() => clearSelection()}
-              >
+              <span className={tw('input-clear', isOpen && 'flex')} onClick={() => clearSelection()}>
                 <HiX />
               </span>
             </>
           )}
         </span>
-        <span
-          className={tw(
-            'input w-full bg-white rounded-t-none',
-            !isOpen && 'hidden',
-          )}
-        >
+        <span className={tw('input w-full bg-white rounded-t-none', !isOpen && 'hidden')}>
           <ul className="flex flex-col gap-1">
             {items.map(x => {
               const isSelected = selection.some(y => y.value === x.value);
@@ -150,13 +118,7 @@ function DropDown(
                       isSelected && 'bg-orange-100 border-orange-200',
                     )}
                   >
-                    {x.icon && (
-                      <img
-                        src={x.icon}
-                        alt=""
-                        className="flex-0 mr-2 w-6 object-contain"
-                      />
-                    )}
+                    {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
                     <span className="flex-1">{x.label ?? x.value}</span>
                     {isSelected && <HiCheck className="flex-0  w-6 h-6" />}
                   </span>

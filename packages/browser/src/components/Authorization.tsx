@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  HiChevronDown,
-  HiChevronUp,
-  HiCode,
-  HiDotsHorizontal,
-} from 'react-icons/hi';
+import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
 import { Code, IconButton, JsonDisplay } from '@/components/ui';
 import { tw } from '@/utils';
@@ -90,10 +85,7 @@ export default function Authorization({ value }: AuthorizationProps) {
           switch (tokenState) {
             case TokenState.Minimal:
               return (
-                <span
-                  className="btn-inline"
-                  onClick={() => setTokenState(TokenState.Expanded)}
-                >
+                <span className="btn-inline" onClick={() => setTokenState(TokenState.Expanded)}>
                   <span className="flex-1 self-start h-6 overflow-y-hidden">
                     {type} {token}
                   </span>
@@ -114,9 +106,7 @@ export default function Authorization({ value }: AuthorizationProps) {
               short
               Icon={HiDotsHorizontal}
               title="View full token"
-              className={tw(
-                tokenState === TokenState.Expanded && 'btn-selected',
-              )}
+              className={tw(tokenState === TokenState.Expanded && 'btn-selected')}
               disabled={tokenState === TokenState.Expanded}
               onClick={() => setTokenState(TokenState.Expanded)}
             >
@@ -126,9 +116,7 @@ export default function Authorization({ value }: AuthorizationProps) {
               short
               Icon={HiCode}
               title="Decode token"
-              className={tw(
-                tokenState === TokenState.Decoded && 'btn-selected',
-              )}
+              className={tw(tokenState === TokenState.Decoded && 'btn-selected')}
               onClick={() => setTokenState(TokenState.Decoded)}
             >
               Decoded token

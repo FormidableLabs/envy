@@ -15,10 +15,7 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
   return (
     <Field label={label}>
       {keyValuePairs.map(([k, v]) => (
-        <span
-          key={`${uid}_${k}`}
-          className="w-full flex flex-row pt-2 first:pt-0"
-        >
+        <span key={`${uid}_${k}`} className="w-full flex flex-row pt-2 first:pt-0">
           <span className="flex-[1] font-semibold">{k}: </span>
           <span className="group flex-[3] break-all overflow-x-visible">
             {typeof v === 'string' ? decodeURIComponent(v) : v}
@@ -33,36 +30,18 @@ export function RequestHeaders({ connection }: { connection: ConnectionData }) {
   if (!Object.keys(connection.req.headers).length) return null;
 
   const headers = cloneHeaders(connection.req.headers);
-  if (headers.authorization)
-    headers.authorization = <Authorization value={headers.authorization} />;
-  return (
-    <KeyValueList
-      label="Headers"
-      uid={connection.req.connectionID}
-      keyValuePairs={Object.entries(headers)}
-    />
-  );
+  if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
+  return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
 }
 
-export function ResponseHeaders({
-  connection,
-}: {
-  connection: ConnectionData;
-}) {
+export function ResponseHeaders({ connection }: { connection: ConnectionData }) {
   if (!connection.res) return null;
   if (!Object.keys(connection.res?.headers || {})?.length) return null;
 
   const headers = cloneHeaders(connection.res.headers);
-  if (headers.authorization)
-    headers.authorization = <Authorization value={headers.authorization} />;
+  if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
-  return (
-    <KeyValueList
-      label="Headers"
-      uid={connection.req.connectionID}
-      keyValuePairs={Object.entries(headers)}
-    />
-  );
+  return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
 }
 
 export function QueryParams({ connection }: { connection: ConnectionData }) {
@@ -73,11 +52,5 @@ export function QueryParams({ connection }: { connection: ConnectionData }) {
     queryParams.push([key, value]);
   });
 
-  return (
-    <KeyValueList
-      label="Query params"
-      uid={connection.req.connectionID}
-      keyValuePairs={queryParams}
-    />
-  );
+  return <KeyValueList label="Query params" uid={connection.req.connectionID} keyValuePairs={queryParams} />;
 }

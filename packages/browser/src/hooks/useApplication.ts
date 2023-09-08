@@ -15,9 +15,7 @@ export type ApplicationContextData = {
   clearConnections: () => void;
 };
 
-export const ApplicationContext = createContext<ApplicationContextData>(
-  {} as ApplicationContextData,
-);
+export const ApplicationContext = createContext<ApplicationContextData>({} as ApplicationContextData);
 
 export default function useApplication() {
   return useContext(ApplicationContext);

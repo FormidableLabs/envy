@@ -3,10 +3,10 @@ import { RequestRowData } from '@/components/RequestRowData';
 import { ConnectionData } from '@/types';
 import { pathAndQuery } from '@/utils';
 
+const icon = new URL('Default.svg', import.meta.url);
+
 export default class DefaultSystem implements System<null> {
   name = 'Default';
-
-  static ICON_PATH = '/images/systems/default.svg';
 
   isMatch() {
     return true;
@@ -17,18 +17,13 @@ export default class DefaultSystem implements System<null> {
   }
 
   getIconPath(_?: ConnectionData) {
-    return DefaultSystem.ICON_PATH;
+    return icon.pathname;
   }
 
   listComponent(connection: ConnectionData) {
     const [path, qs] = pathAndQuery(connection);
     return (
-      <RequestRowData
-        iconPath={this.getIconPath(connection)}
-        hostName={connection.req.host}
-        path={path}
-        data={qs}
-      />
+      <RequestRowData iconPath={this.getIconPath(connection)} hostName={connection.req.host} path={path} data={qs} />
     );
   }
 

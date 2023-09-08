@@ -2,23 +2,13 @@ import { forwardRef, MouseEvent, Ref, RefObject, useRef } from 'react';
 
 import { tw } from '@/utils';
 
-export type ButtonProps = Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'type'
-> & {
+export type ButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
   type?: 'standard' | 'action' | 'ghost' | 'danger';
   short?: boolean;
 };
 
 function Button(
-  {
-    type = 'standard',
-    short,
-    onClick,
-    className,
-    children,
-    ...props
-  }: ButtonProps,
+  { type = 'standard', short, onClick, className, children, ...props }: ButtonProps,
   ref: Ref<HTMLButtonElement>,
 ) {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -31,12 +21,7 @@ function Button(
   return (
     <button
       ref={finalRef}
-      className={tw(
-        'btn-icon',
-        short && 'btn-short',
-        type && `btn-${type}`,
-        className,
-      )}
+      className={tw('btn-icon', short && 'btn-short', type && `btn-${type}`, className)}
       onClick={handleClick}
       {...props}
     >

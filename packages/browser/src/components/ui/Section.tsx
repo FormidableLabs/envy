@@ -8,12 +8,7 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
   collapsible?: boolean;
 };
 
-export default function Section({
-  title,
-  collapsible = true,
-  className,
-  children,
-}: SectionProps) {
+export default function Section({ title, collapsible = true, className, children }: SectionProps) {
   const [expanded, setExpanded] = useState(true);
   const Icon = expanded ? HiMinus : HiPlus;
   return (

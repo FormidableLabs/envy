@@ -46,12 +46,7 @@ export default function FiltersAndActions() {
         />
       )}
 
-      <SearchInput
-        className="w-96"
-        focusKey="K"
-        placeholder="Filter..."
-        onChange={handleFilterChange}
-      />
+      <SearchInput className="w-96" focusKey="K" placeholder="Filter..." onChange={handleFilterChange} />
 
       <IconButton Icon={HiTrash} type="ghost" onClick={clearData}>
         Clear

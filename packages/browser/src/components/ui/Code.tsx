@@ -5,14 +5,8 @@ type CodeProps = React.HTMLAttributes<HTMLElement> & {
   prettify?: boolean;
 };
 
-export default function Code({
-  inline = false,
-  prettify = true,
-  className,
-  children,
-}: CodeProps) {
-  if (inline)
-    return <div className={`code-inline ${className}`}>{children}</div>;
+export default function Code({ inline = false, prettify = true, className, children }: CodeProps) {
+  if (inline) return <div className={`code-inline ${className}`}>{children}</div>;
 
   let content: string;
   if (typeof children === 'object') content = JSON.stringify(children, null, 2);

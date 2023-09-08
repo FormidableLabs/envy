@@ -23,9 +23,7 @@ export function Field({ label, className, children, ...props }: FieldProps) {
       <div className={`table-cell pr-2 w-36 ${className || ''}`}>
         <Label label={label} />
       </div>
-      <div className="table-cell pb-2 align-top whitespace-normal font-mono">
-        {children}
-      </div>
+      <div className="table-cell pb-2 align-top whitespace-normal font-mono">{children}</div>
     </div>
   );
 }

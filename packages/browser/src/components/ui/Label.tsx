@@ -3,9 +3,5 @@ type LabelProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 export default function Label({ label, className }: LabelProps) {
-  return (
-    <div className={`font-lg font-bold mb-2 uppercase ${className}`}>
-      {label}
-    </div>
-  );
+  return <div className={`font-lg font-bold mb-2 uppercase ${className}`}>{label}</div>;
 }

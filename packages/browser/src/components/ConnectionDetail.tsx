@@ -1,15 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import {
-  Code,
-  DateTime,
-  Field,
-  Fields,
-  JsonDisplay,
-  Loading,
-  Section,
-  XmlDisplay,
-} from '@/components/ui';
+import { Code, DateTime, Field, Fields, JsonDisplay, Loading, Section, XmlDisplay } from '@/components/ui';
 import useApplication from '@/hooks/useApplication';
 import {
   SystemRequestDetailsComponent,
@@ -18,7 +9,7 @@ import {
   getResponseBody,
   getSystemIconPath,
 } from '@/systems';
-import { getHeader, pathAndQuery, timeFormat } from '@/utils';
+import { getHeader, pathAndQuery, numberFormat } from '@/utils';
 
 import { QueryParams, RequestHeaders, ResponseHeaders } from './KeyValueList';
 
@@ -61,7 +52,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
 
     if (counterElRef.current) {
       const elapsedReqTime = Date.now() - reqTime;
-      counterElRef.current.textContent = `${timeFormat(elapsedReqTime)}ms`;
+      counterElRef.current.textContent = `${numberFormat(elapsedReqTime)}ms`;
     }
   }, [reqTime]);
 
@@ -95,9 +86,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
   }
 
   return (
-    <div
-      className={`relative h-full overflow-y-scroll bg-slate-200 ${className}`}
-    >
+    <div className={`relative h-full overflow-y-scroll bg-slate-200 ${className}`}>
       <div className="sticky top-0 z-10">
         <Section collapsible={false} title="Request" />
         <button
@@ -111,11 +100,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
       <div className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img
-              src={getSystemIconPath(connection)}
-              alt=""
-              className="w-6 h-6 md:w-12 md:h-12"
-            />
+            <img src={getSystemIconPath(connection)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">
@@ -150,9 +135,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
           <Field label="Path">
             <span className="break-all">{path}</span>
           </Field>
-          <CodeDisplay contentType={getHeader(req?.headers, 'content-type')}>
-            {requestBody}
-          </CodeDisplay>
+          <CodeDisplay contentType={getHeader(req?.headers, 'content-type')}>{requestBody}</CodeDisplay>
           <QueryParams connection={connection} />
           <RequestHeaders connection={connection} />
         </Fields>
@@ -168,7 +151,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
               <Field label="Status">
                 {statusCode} {statusMessage}
               </Field>
-              <Field label="Duration">{timeFormat(duration)}ms</Field>
+              <Field label="Duration">{numberFormat(duration)}ms</Field>
               <ResponseHeaders connection={connection} />
             </Fields>
             <SystemResponseDetailsComponent connection={connection} />
@@ -183,15 +166,9 @@ export default function ConnectionDetail({ className }: DetailProps) {
       {responseComplete && (
         <Section title="Response body">
           <Fields>
-            <Field label="Type">
-              {getHeader(res?.headers, 'content-type')}
-            </Field>
-            <Field label="Length">
-              {getHeader(res?.headers, 'content-length')}
-            </Field>
-            <CodeDisplay contentType={getHeader(res?.headers, 'content-type')}>
-              {responseBody}
-            </CodeDisplay>
+            <Field label="Type">{getHeader(res?.headers, 'content-type')}</Field>
+            <Field label="Length">{getHeader(res?.headers, 'content-length')}</Field>
+            <CodeDisplay contentType={getHeader(res?.headers, 'content-type')}>{responseBody}</CodeDisplay>
           </Fields>
         </Section>
       )}

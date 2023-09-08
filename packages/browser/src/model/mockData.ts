@@ -23,9 +23,7 @@ export default [
         'Content-Type': ['application/x-www-form-urlencoded'],
         'Accept': ['*/*'],
         'Content-Length': ['0'],
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'Accept-Encoding': ['gzip,deflate'],
         'Connection': ['close'],
       },
@@ -68,14 +66,11 @@ export default [
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
         'content-type': ['application/json'],
         'Accept': ['*/*'],
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'Accept-Encoding': ['gzip,deflate'],
       },
       body: {
-        query:
-          'query People {\n  people {\n    id\nfirstName\nlastName\n  }\n}\n',
+        query: 'query People {\n  people {\n    id\nfirstName\nlastName\n  }\n}\n',
         operationName: 'People',
         variables: {},
       },
@@ -122,9 +117,7 @@ export default [
       path: '/features',
       headers: {
         'accept': 'application/json',
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'accept-encoding': 'br, gzip, deflate',
       },
     },
@@ -159,9 +152,7 @@ export default [
       path: '/countries?start=0&count=20',
       headers: {
         'accept': 'application/json',
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'accept-encoding': 'br, gzip, deflate',
       },
     },
@@ -196,9 +187,7 @@ export default [
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
         'content-type': ['application/json'],
         'Accept': ['*/*'],
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'Accept-Encoding': ['gzip,deflate'],
       },
       body: {
@@ -244,14 +233,11 @@ export default [
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
         'content-type': ['application/json'],
         'Accept': ['*/*'],
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'Accept-Encoding': ['gzip,deflate'],
       },
       body: {
-        query:
-          'mutation RegisterPerson($id: String) {\n  registerPerson(id: $id) {\n    success\n}\n}',
+        query: 'mutation RegisterPerson($id: String) {\n  registerPerson(id: $id) {\n    success\n}\n}',
         operationName: 'RegisterPerson',
         variables: {
           id: '4',
@@ -296,9 +282,7 @@ export default [
       path: '/movies?start=0&count=20',
       headers: {
         'accept': 'application/json',
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'accept-encoding': 'br, gzip, deflate',
       },
     },
@@ -330,9 +314,7 @@ export default [
       path: '/features',
       headers: {
         'accept': 'application/json',
-        'User-Agent': [
-          'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
-        ],
+        'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
         'accept-encoding': 'br, gzip, deflate',
       },
     },

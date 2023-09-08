@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  ApplicationContext,
-  ApplicationContextData,
-} from '@/hooks/useApplication';
+import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
 import { ConnectionData } from '@/types';
 import mockData from '@/model/mockData';
@@ -15,9 +12,7 @@ type ConnectionFilter = {
   value: string;
 };
 
-export default function ApplicationContextProvider({
-  children,
-}: React.HTMLAttributes<HTMLElement>) {
+export default function ApplicationContextProvider({ children }: React.HTMLAttributes<HTMLElement>) {
   // TODO: find a better way to force a redraw
   const [, forceUpdate] = useState<boolean>(false);
   const [connectionId, setConnectionId] = useState<string | undefined>();
@@ -39,8 +34,7 @@ export default function ApplicationContextProvider({
       callback: () => {
         setConnectionId(curr => {
           const connectionIds = Object.keys(manager.traces);
-          if (!curr)
-            return connectionIds?.[connectionIds.length - 1] ?? undefined;
+          if (!curr) return connectionIds?.[connectionIds.length - 1] ?? undefined;
           const idx = connectionIds.findIndex(x => x === curr);
           if (idx !== -1 && idx > 0) return connectionIds[idx - 1];
           else return curr;
@@ -54,8 +48,7 @@ export default function ApplicationContextProvider({
           const connectionIds = Object.keys(manager.traces);
           if (!curr) return connectionIds?.[0] ?? undefined;
           const idx = connectionIds.findIndex(x => x === curr);
-          if (idx !== -1 && idx < connectionIds.length - 1)
-            return connectionIds[idx + 1];
+          if (idx !== -1 && idx < connectionIds.length - 1) return connectionIds[idx + 1];
           else return curr;
         });
       },
@@ -92,13 +85,10 @@ export default function ApplicationContextProvider({
           const url = `${conn?.req?.host || ''}${conn?.req?.path || ''}`;
           let includeInConnections = true;
 
-          if (!!filter.value && !url.includes(filter.value))
-            includeInConnections = false;
+          if (!!filter.value && !url.includes(filter.value)) includeInConnections = false;
 
           if (includeInConnections && filter.systems.length > 0) {
-            const validSystems = systems.filter(x =>
-              filter.systems.includes(x.name),
-            );
+            const validSystems = systems.filter(x => filter.systems.includes(x.name));
             includeInConnections = validSystems.some(x => x.isMatch(conn));
           }
 
@@ -126,9 +116,5 @@ export default function ApplicationContextProvider({
     },
   };
 
-  return (
-    <ApplicationContext.Provider value={value}>
-      {children}
-    </ApplicationContext.Provider>
-  );
+  return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>;
 }

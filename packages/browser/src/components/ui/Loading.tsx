@@ -4,11 +4,7 @@ type LoadingProps = React.HTMLAttributes<HTMLElement> & {
   size?: 2 | 3 | 4 | 8 | 32;
 };
 
-export default function Loading({
-  size = 2,
-  className,
-  ...props
-}: LoadingProps) {
+export default function Loading({ size = 2, className, ...props }: LoadingProps) {
   return (
     <div className={className}>
       <div
