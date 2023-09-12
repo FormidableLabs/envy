@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-bold;
+}
+
+h1 {
+  @apply text-3xl mb-8;
+}
+
+h2 {
+  @apply text-2xl mb-4;
+}
+
+h3 {
+  @apply text-xl mb-4;
+}
+
+h4 {
+  @apply text-lg mt-4 mb-2;
+}
+
+ul {
+  @apply list-disc ml-8;
+}
+
+button {
+  @apply block bg-orange-500 text-white px-8 py-2 rounded mt-auto;
+}
+
+.content {
+  @apply space-y-4;
+  @apply xl:flex xl:flex-row xl:space-x-4 xl:space-y-0;
+}
+
+.thingy {
+  @apply flex flex-col bg-slate-50 shadow-md p-4 rounded-lg xl:flex-1;
+}
+
+.button-container {
+  @apply mt-auto pt-4;
+}
