@@ -13,10 +13,10 @@ export function App() {
   return (
     <Provider value={client}>
       <main className="container my-8 mx-auto">
-        <h1>Envy - Example website</h1>
+        <h1>Envy - Example website with Apollo GraphQL server</h1>
         <p>
-          This website will make calls to the example server, which will send request telemetry over websockets for Envy
-          to display in one of the Network Viewer UIs.
+          This website will make calls to the example apollo GraphQL server, which will send request telemetry over
+          websockets for Envy to display in one of the Network Viewer UIs.
         </p>
         <hr className="my-8" />
         <div className="content">

@@ -12,8 +12,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "postinstall": "(cd example/website && yarn install) && (cd example/server && yarn install)",
-    "example": "concurrently \"cd example/server && yarn start\" \"wait-on tcp:4000 && (cd example/website && yarn start)\""
+    "postinstall": "(cd example/apollo && yarn install) && (cd example/apollo-client && yarn install)",
+    "example:apollo": "concurrently \"cd example/apollo && yarn start\" \"wait-on tcp:4000 && (cd example/apollo-client && yarn start)\""
   },
   "workspaces": [
     "packages/*"

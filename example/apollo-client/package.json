@@ -1,7 +1,7 @@
 {
-  "name": "@envy/example-website",
+  "name": "@envy/example-apollo-client",
   "version": "0.0.1",
-  "description": "Example server application using Envy",
+  "description": "Example website connected to apollo server application using Envy",
   "main": "src/index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",
   "contributors": [
@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "parcel ./src/index.html --port 400  --open"
+    "start": "parcel ./src/index.html --port 4001 --open"
   },
   "dependencies": {
     "react": "^18.2.0",
