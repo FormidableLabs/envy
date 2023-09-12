@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "parcel ./src/index.html"
+    "start": "parcel ./src/index.html --port 400  --open"
   },
   "dependencies": {
     "react": "^18.2.0",
