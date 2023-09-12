@@ -3,11 +3,11 @@
 
 /* eslint-disable import/order */
 /* eslint-disable no-console */
-import { StartTracing } from './tracing';
+import { enableTracing } from './tracing';
 
 // must happen first in order to wrap http/https
 // https://github.com/open-telemetry/opentelemetry-js/issues/1315
-StartTracing({
+enableTracing({
   debug: true,
   serviceName: 'unicorns',
 });

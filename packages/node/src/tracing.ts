@@ -1,15 +1,14 @@
-import * as http from 'http';
 import process from 'process';
 
 import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 import { InstrumentationOption } from '@opentelemetry/instrumentation';
-import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { Resource } from '@opentelemetry/resources';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 import { WebsocketSpanExporter } from './exporter';
+import { HttpInstrumentation } from './http';
 
 const DEFAULT_SOCKET = 'ws://localhost/path';
 
@@ -21,7 +20,7 @@ export interface TracingOptions {
   traceExporter?: SpanExporter;
 }
 
-export function StartTracing(options: TracingOptions) {
+export function enableTracing(options: TracingOptions) {
   const traceExporter =
     options.traceExporter ||
     new WebsocketSpanExporter({
@@ -40,35 +39,7 @@ export function StartTracing(options: TracingOptions) {
       [SemanticResourceAttributes.SERVICE_NAME]: options.serviceName,
     }),
     traceExporter,
-    instrumentations: [
-      new HttpInstrumentation({
-        requestHook: (span, request) => {
-          if (request instanceof http.ClientRequest) {
-            const headers = request.getHeaders();
-            for (const name in headers) {
-              span.setAttribute(`http.request.header.${name.toLowerCase()}`, headers[name]!);
-            }
-          }
-        },
-        responseHook: (span, response) => {
-          if (response instanceof http.IncomingMessage) {
-            const headers = response.headers;
-            for (const name in headers) {
-              span.setAttribute(`http.response.header.${name.toLowerCase()}`, headers[name]!);
-            }
-
-            const body: any = [];
-            response
-              .on('data', chunk => {
-                body.push(chunk);
-              })
-              .on('end', () => {
-                span.setAttribute('http.response.body', Buffer.concat(body).toString());
-              });
-          }
-        },
-      }),
-    ],
+    instrumentations: [HttpInstrumentation(), ...(options.instrumentations || [])],
   });
 
   // initialize the SDK and register with the OpenTelemetry API
