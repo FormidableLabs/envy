@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
+    "declaration": true,
     "esModuleInterop": true,
     "preserveConstEnums": true,
   }
