@@ -13,8 +13,8 @@ export default function Home() {
       <div>
         <h1>Envy - Example website with Next JS</h1>
         <p>
-          This website will make calls to the example Next JS, which will send request telemetry over websockets for
-          Envy to display in one of the Network Viewer UIs.
+          This website will make calls to few endpoints using server render components, which will send request
+          telemetry over websockets for Envy to display in one of the Network Viewer UIs.
         </p>
       </div>
       <hr className="my-8" />
