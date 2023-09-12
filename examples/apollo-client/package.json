@@ -1,0 +1,28 @@
+{
+  "name": "@envy/example-apollo-client",
+  "version": "0.0.1",
+  "description": "Example website connected to apollo server application using Envy",
+  "main": "src/index.js",
+  "repository": "https://github.com/FormidableLabs/envy.git",
+  "contributors": [
+    "Kevin Paxton <kevinpaxton82@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "parcel ./src/index.html --port 4001 --open"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "urql": "^4.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "parcel": "^2.9.3",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
+  }
+}

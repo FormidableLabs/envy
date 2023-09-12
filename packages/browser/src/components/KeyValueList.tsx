@@ -29,7 +29,7 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
 export function RequestHeaders({ connection }: { connection: ConnectionData }) {
   if (!Object.keys(connection.req.headers).length) return null;
 
-  const headers = cloneHeaders(connection.req.headers);
+  const headers = cloneHeaders(connection.req.headers) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
   return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
 }
@@ -38,7 +38,7 @@ export function ResponseHeaders({ connection }: { connection: ConnectionData }) 
   if (!connection.res) return null;
   if (!Object.keys(connection.res?.headers || {})?.length) return null;
 
-  const headers = cloneHeaders(connection.res.headers);
+  const headers = cloneHeaders(connection.res.headers) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
   return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
