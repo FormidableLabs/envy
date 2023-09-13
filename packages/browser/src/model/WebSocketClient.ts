@@ -99,7 +99,7 @@ export default class WebSocketClient {
     if (!trace) return;
 
     trace.res = payload;
-    trace.duration = payload.timestamp - trace.req.timestamp;
+    trace.duration = (payload.timestamp - trace.req.timestamp) / 1000;
     this._traces = updatedTraces;
     this._signalChange();
   }
