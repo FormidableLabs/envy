@@ -3,7 +3,7 @@ import { HiOutlineEmojiSad } from 'react-icons/hi';
 import { Loading } from '@/components/ui';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 import { tw } from '@/utils';
 
 type MethodAndStatusProps = {
@@ -20,17 +20,17 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   );
 }
 
-type ConnectionListProps = React.HTMLAttributes<HTMLElement>;
+type TraceListProps = React.HTMLAttributes<HTMLElement>;
 
-export default function ConnectionList({ className }: ConnectionListProps) {
-  const { port, connected, connecting, connections, connectionId, setSelectedConnection } = useApplication();
-  const data = Object.entries(connections);
+export default function TraceList({ className }: TraceListProps) {
+  const { port, connected, connecting, traces, traceId, setSelectedTrace } = useApplication();
+  const data = Object.entries(traces);
 
-  function getMethodAndStatus(connection: ConnectionData) {
+  function getMethodAndStatus(connection: Trace) {
     return <MethodAndStatus method={connection.req.method} statusCode={connection.res?.statusCode} />;
   }
 
-  function rowStyle({ res }: ConnectionData) {
+  function rowStyle({ res }: Trace) {
     let color = '';
     if (!res) color = '';
     else if (res.statusCode >= 500) color = 'bg-purple-500';
@@ -41,7 +41,7 @@ export default function ConnectionList({ className }: ConnectionListProps) {
     return color ? `bg-opacity-20 ${color}` : '';
   }
 
-  function cellStyle({ res }: ConnectionData) {
+  function cellStyle({ res }: Trace) {
     let color = 'border-transparent';
     if (!res) color = 'border-transparent';
     else if (res.statusCode >= 500) color = 'border-purple-500';
@@ -51,20 +51,15 @@ export default function ConnectionList({ className }: ConnectionListProps) {
     return `border-0 border-l-8 ${color}`;
   }
 
-  function getRequestURI(connection: ConnectionData) {
+  function getRequestURI(connection: Trace) {
     return <ListDataComponent connection={connection} />;
   }
 
-  function getRequestDuration(connection: ConnectionData) {
+  function getRequestDuration(connection: Trace) {
     return connection.duration ? `${(connection.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
   }
 
-  const columns: [
-    string,
-    (x: ConnectionData) => string | number | React.ReactNode,
-    string,
-    (x: ConnectionData) => string,
-  ][] = [
+  const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [
     ['Method', getMethodAndStatus, 'w-[50px] md:w-[100px]', cellStyle],
     ['Request', getRequestURI, '', () => ''],
     ['Time', getRequestDuration, 'w-[50px] md:w-[100px] text-center', () => ''],
@@ -98,10 +93,10 @@ export default function ConnectionList({ className }: ConnectionListProps) {
             {data.map(([id, connection], idx) => (
               <div
                 key={id}
-                onClick={() => setSelectedConnection(id)}
+                onClick={() => setSelectedTrace(id)}
                 className={tw(
                   'gap-4 table-row',
-                  id === connectionId
+                  id === traceId
                     ? 'bg-orange-300 shadow-lg'
                     : rowStyle(connection) ||
                         (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),

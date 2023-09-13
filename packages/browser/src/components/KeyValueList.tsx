@@ -1,5 +1,5 @@
 import { Field } from '@/components/ui';
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 import { cloneHeaders, pathAndQuery } from '@/utils';
 
 import Authorization from './Authorization';
@@ -26,7 +26,7 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
   );
 }
 
-export function RequestHeaders({ connection }: { connection: ConnectionData }) {
+export function RequestHeaders({ connection }: { connection: Trace }) {
   if (!Object.keys(connection.req.headers).length) return null;
 
   const headers = cloneHeaders(connection.req.headers) as Record<string, any>;
@@ -34,7 +34,7 @@ export function RequestHeaders({ connection }: { connection: ConnectionData }) {
   return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
 }
 
-export function ResponseHeaders({ connection }: { connection: ConnectionData }) {
+export function ResponseHeaders({ connection }: { connection: Trace }) {
   if (!connection.res) return null;
   if (!Object.keys(connection.res?.headers || {})?.length) return null;
 
@@ -44,7 +44,7 @@ export function ResponseHeaders({ connection }: { connection: ConnectionData }) 
   return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
 }
 
-export function QueryParams({ connection }: { connection: ConnectionData }) {
+export function QueryParams({ connection }: { connection: Trace }) {
   const [, qs] = pathAndQuery(connection);
   const urlSearchParams = new URLSearchParams(qs);
   const queryParams: [string, string | null][] = [];

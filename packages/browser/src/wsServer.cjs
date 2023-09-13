@@ -1,4 +1,5 @@
 const { DEFAULT_WEB_SOCKET_PORT } = require('@envy/core');
+const chalk = require('chalk');
 const { WebSocketServer, WebSocket } = require('ws');
 
 // TODO: allow configuration
@@ -10,13 +11,30 @@ const wss = new WebSocketServer({
   host: '127.0.0.1',
 });
 
+wss.on('listening', () => {
+  // eslint-disable-next-line no-console
+  log(chalk.magenta(`🚀 Envy WS Server started on ws://localhost:${port}`));
+  log(chalk.cyan(`🚀 Envy browser client started on http://localhost:9998`));
+});
+
 wss.on('connection', (ws, request) => {
-  if (request.headers?.['sec-websocket-protocol'] === 'viewer') {
+  if (request.url === '/viewer' && !viewer) {
+    log(chalk.green('✅ Envy viewer client connected'));
     viewer = ws;
   }
 
+  ws.on('close', () => {
+    if (viewer !== null) {
+      log(chalk.red('❌ Envy viewer client disconnected'));
+      viewer = null;
+    }
+  });
+
   ws.on('message', data => {
-    if (!viewer || viewer.readyState !== WebSocket.OPEN) return;
+    if (!viewer || viewer.readyState !== WebSocket.OPEN) {
+      handleError('No viewers registered');
+      return;
+    }
 
     try {
       const json = JSON.parse(data);
@@ -35,6 +53,11 @@ wss.on('connection', (ws, request) => {
     handleError(e);
   });
 });
+
+function log(message) {
+  // eslint-disable-next-line no-console
+  console.log(message);
+}
 
 function handleError(e) {
   // TODO: better error handling

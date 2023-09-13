@@ -1,10 +1,10 @@
 import { HttpRequestBase } from '@envy/core/dist/http';
 import { twMerge } from 'tailwind-merge';
 
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 
-export function pathAndQuery(connection: ConnectionData, decodeQs = false): [string, string] {
-  const [path, qs] = (connection.req.path ?? '').split('?');
+export function pathAndQuery(trace: Trace, decodeQs = false): [string, string] {
+  const [path, qs] = (trace.req.path ?? '').split('?');
   return [path, decodeQs ? decodeURIComponent(qs) : qs];
 }
 

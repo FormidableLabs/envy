@@ -6,19 +6,19 @@ import useApplication from '@/hooks/useApplication';
 import { systems } from '@/systems';
 
 export default function FiltersAndActions() {
-  const { filterConnections, clearConnections } = useApplication();
+  const { filterTraces, clearTraces } = useApplication();
   const [selectedSystems, setSelectedSystems] = useState<string[]>([]);
   const [filter, setFilter] = useState<string>('');
 
   useEffect(() => {
-    filterConnections(selectedSystems, filter);
+    filterTraces(selectedSystems, filter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSystems, filter]);
 
   const systemsExceptDefault = systems.filter(x => x.name !== 'Default');
 
   function clearData() {
-    clearConnections();
+    clearTraces();
   }
 
   function handleSystemsChange(value: string[]) {

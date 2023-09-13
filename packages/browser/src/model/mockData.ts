@@ -1,4 +1,4 @@
-// import { ConnectionData } from '@/types';
+// import { Trace } from '@/types';
 
 // let now = Date.now();
 
@@ -319,4 +319,4 @@
 //       },
 //     },
 //   },
-// ] as ConnectionData[];
+// ] as Trace[];

@@ -1,6 +1,6 @@
 import { RequestRowData } from '@/components/RequestRowData';
 import { Code, Field, Fields, Label } from '@/components/ui';
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 import { pathAndQuery } from '@/utils';
 
 import { System } from '.';
@@ -20,11 +20,11 @@ const icon = new URL('GraphQL.svg', import.meta.url);
 export default class GraphQL implements System<GraphQLData> {
   name = 'GraphQL';
 
-  isMatch(connection: ConnectionData) {
+  isMatch(connection: Trace) {
     return connection.req.path === '/api/graphql';
   }
 
-  getData(connection: ConnectionData) {
+  getData(connection: Trace) {
     const body = JSON.parse(connection.req.body ?? '{}') as Record<string, any>;
     const type = (body?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
     const response =
@@ -41,11 +41,11 @@ export default class GraphQL implements System<GraphQLData> {
     };
   }
 
-  getIconPath(_?: ConnectionData) {
+  getIconPath(_?: Trace) {
     return icon.pathname;
   }
 
-  listComponent(connection: ConnectionData) {
+  listComponent(connection: Trace) {
     const { type, operationName } = this.getData(connection);
     const [path] = pathAndQuery(connection);
     return (
@@ -58,7 +58,7 @@ export default class GraphQL implements System<GraphQLData> {
     );
   }
 
-  requestDetailComponent(connection: ConnectionData) {
+  requestDetailComponent(connection: Trace) {
     const { type, operationName, query } = this.getData(connection);
 
     return (
@@ -74,7 +74,7 @@ export default class GraphQL implements System<GraphQLData> {
     );
   }
 
-  responseDetailComponent(connection: ConnectionData) {
+  responseDetailComponent(connection: Trace) {
     const { response } = this.getData(connection);
     if (!response) return null;
 

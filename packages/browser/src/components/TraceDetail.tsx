@@ -38,11 +38,11 @@ function CodeDisplay({ contentType, children }: CodeDisplayProps) {
   );
 }
 
-export default function ConnectionDetail({ className }: DetailProps) {
-  const { getSelectedConnection, clearSelectedConnection } = useApplication();
-  const connection = getSelectedConnection();
+export default function TraceDetail({ className }: DetailProps) {
+  const { getSelectedTrace, clearSelectedTrace } = useApplication();
+  const trace = getSelectedTrace();
 
-  const { req, res, duration } = connection || {};
+  const { req, res, duration } = trace || {};
   const { timestamp: reqTime, method, host, path: fullPath } = req || {};
   const { timestamp: resTime, statusCode, statusMessage } = res || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
@@ -69,11 +69,11 @@ export default function ConnectionDetail({ className }: DetailProps) {
     }
   }, [responseComplete, updateTimer]);
 
-  if (!connection) return null;
+  if (!trace) return null;
 
-  const [path] = pathAndQuery(connection);
-  const requestBody = getRequestBody(connection);
-  const responseBody = getResponseBody(connection);
+  const [path] = pathAndQuery(trace);
+  const requestBody = getRequestBody(trace);
+  const responseBody = getResponseBody(trace);
 
   function statusCodeStyle() {
     let style = 'bg-transparent';
@@ -89,10 +89,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
     <div className={`relative h-full overflow-y-scroll bg-slate-200 ${className}`}>
       <div className="sticky top-0 z-10">
         <Section collapsible={false} title="Request" />
-        <button
-          className="absolute top-1 md:top-2 right-6 text-xl text-black"
-          onClick={() => clearSelectedConnection()}
-        >
+        <button className="absolute top-1 md:top-2 right-6 text-xl text-black" onClick={() => clearSelectedTrace()}>
           &#10006;
         </button>
       </div>
@@ -100,7 +97,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
       <div className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img src={getSystemIconPath(connection)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
+            <img src={getSystemIconPath(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">
@@ -123,7 +120,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
       </div>
 
       <Section title="Request summary">
-        <SystemRequestDetailsComponent connection={connection} />
+        <SystemRequestDetailsComponent connection={trace} />
       </Section>
 
       <Section title="Request details">
@@ -136,8 +133,8 @@ export default function ConnectionDetail({ className }: DetailProps) {
             <span className="break-all">{path}</span>
           </Field>
           <CodeDisplay contentType={getHeader(req?.headers, 'content-type')}>{requestBody}</CodeDisplay>
-          <QueryParams connection={connection} />
-          <RequestHeaders connection={connection} />
+          <QueryParams connection={trace} />
+          <RequestHeaders connection={trace} />
         </Fields>
       </Section>
 
@@ -152,9 +149,9 @@ export default function ConnectionDetail({ className }: DetailProps) {
                 {statusCode} {statusMessage}
               </Field>
               <Field label="Duration">{numberFormat(duration)}ms</Field>
-              <ResponseHeaders connection={connection} />
+              <ResponseHeaders connection={trace} />
             </Fields>
-            <SystemResponseDetailsComponent connection={connection} />
+            <SystemResponseDetailsComponent connection={trace} />
           </>
         ) : (
           <span className="flex flex-col my-20 mx-auto items-center">

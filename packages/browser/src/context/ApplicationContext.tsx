@@ -3,11 +3,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
-import ConnectionManager from '@/model/ConnectionManager';
+import WebSocketClient from '@/model/WebSocketClient';
 import { systems } from '@/systems';
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 
-type ConnectionFilter = {
+type TraceFilter = {
   systems: string[];
   value: string;
 };
@@ -18,28 +18,28 @@ const port = DEFAULT_WEB_SOCKET_PORT;
 export default function ApplicationContextProvider({ children }: React.HTMLAttributes<HTMLElement>) {
   // TODO: find a better way to force a redraw
   const [, forceUpdate] = useState<boolean>(false);
-  const [connectionId, setConnectionId] = useState<string | undefined>();
-  const [filter, setFilter] = useState<ConnectionFilter | undefined>();
+  const [selectedTraceId, setSelectedTraceId] = useState<string | undefined>();
+  const [filter, setFilter] = useState<TraceFilter | undefined>();
 
   const changeHandler = () => {
     forceUpdate(curr => !curr);
   };
 
-  const manager = useMemo(() => new ConnectionManager({ port, changeHandler }), []);
+  const manager = useMemo(() => new WebSocketClient({ port, changeHandler }), []);
 
   useKeyboardShortcut([
     {
       predicate: e => e.key === 'Escape',
-      callback: () => setConnectionId(undefined),
+      callback: () => setSelectedTraceId(undefined),
     },
     {
       predicate: e => e.key === 'ArrowUp',
       callback: () => {
-        setConnectionId(curr => {
-          const connectionIds = Object.keys(manager.traces);
-          if (!curr) return connectionIds?.[connectionIds.length - 1] ?? undefined;
-          const idx = connectionIds.findIndex(x => x === curr);
-          if (idx !== -1 && idx > 0) return connectionIds[idx - 1];
+        setSelectedTraceId(curr => {
+          const traceIds = Object.keys(manager.traces);
+          if (!curr) return traceIds?.[traceIds.length - 1] ?? undefined;
+          const idx = traceIds.findIndex(x => x === curr);
+          if (idx !== -1 && idx > 0) return traceIds[idx - 1];
           else return curr;
         });
       },
@@ -47,11 +47,11 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     {
       predicate: e => e.key === 'ArrowDown',
       callback: () => {
-        setConnectionId(curr => {
-          const connectionIds = Object.keys(manager.traces);
-          if (!curr) return connectionIds?.[0] ?? undefined;
-          const idx = connectionIds.findIndex(x => x === curr);
-          if (idx !== -1 && idx < connectionIds.length - 1) return connectionIds[idx + 1];
+        setSelectedTraceId(curr => {
+          const traceIds = Object.keys(manager.traces);
+          if (!curr) return traceIds?.[0] ?? undefined;
+          const idx = traceIds.findIndex(x => x === curr);
+          if (idx !== -1 && idx < traceIds.length - 1) return traceIds[idx + 1];
           else return curr;
         });
       },
@@ -73,42 +73,42 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     port: manager.port,
     connecting: manager.connecting,
     connected: manager.connected,
-    get connections() {
+    get traces() {
       if (!filter || !hasFilters()) return manager.traces;
       else {
-        const filteredConnections: Record<string, ConnectionData> = {};
-        for (const connectionId in manager.traces) {
-          const conn = manager.traces[connectionId];
+        const filteredTraces: Record<string, Trace> = {};
+        for (const traceId in manager.traces) {
+          const conn = manager.traces[traceId];
           const url = `${conn?.req?.host || ''}${conn?.req?.path || ''}`;
-          let includeInConnections = true;
+          let includeInTraces = true;
 
-          if (!!filter.value && !url.includes(filter.value)) includeInConnections = false;
+          if (!!filter.value && !url.includes(filter.value)) includeInTraces = false;
 
-          if (includeInConnections && filter.systems.length > 0) {
+          if (includeInTraces && filter.systems.length > 0) {
             const validSystems = systems.filter(x => filter.systems.includes(x.name));
-            includeInConnections = validSystems.some(x => x.isMatch(conn));
+            includeInTraces = validSystems.some(x => x.isMatch(conn));
           }
 
-          if (includeInConnections) filteredConnections[connectionId] = conn;
+          if (includeInTraces) filteredTraces[traceId] = conn;
         }
-        return filteredConnections;
+        return filteredTraces;
       }
     },
-    connectionId: connectionId,
-    setSelectedConnection(id: string) {
-      setConnectionId(() => id);
+    traceId: selectedTraceId,
+    setSelectedTrace(id: string) {
+      setSelectedTraceId(() => id);
     },
-    getSelectedConnection() {
-      return (connectionId && manager.traces[connectionId]) || undefined;
+    getSelectedTrace() {
+      return (selectedTraceId && manager.traces[selectedTraceId]) || undefined;
     },
-    clearSelectedConnection() {
-      setConnectionId(undefined);
+    clearSelectedTrace() {
+      setSelectedTraceId(undefined);
     },
-    filterConnections(systems, value) {
+    filterTraces(systems, value) {
       setFilter({ systems, value });
     },
-    clearConnections() {
-      setConnectionId(undefined);
+    clearTraces() {
+      setSelectedTraceId(undefined);
       manager.clearTraces();
     },
   };

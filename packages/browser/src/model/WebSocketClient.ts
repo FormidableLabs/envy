@@ -2,12 +2,12 @@ import { Event, EventType, HttpRequest, HttpResponse } from '@envy/core';
 
 import { Traces } from '@/types';
 
-type ConnectionManagerOptions = {
+type WebSocketClientOptions = {
   port: number;
   changeHandler?: () => void;
 };
 
-export default class ConnectionManager {
+export default class WebSocketClient {
   private readonly _port: number;
 
   private _connected: boolean = true;
@@ -17,7 +17,7 @@ export default class ConnectionManager {
   private _traces: Traces = {};
   private _changeHandler?: () => void;
 
-  constructor({ port, changeHandler }: ConnectionManagerOptions) {
+  constructor({ port, changeHandler }: WebSocketClientOptions) {
     this._port = port;
     this._changeHandler = changeHandler;
   }
@@ -43,7 +43,7 @@ export default class ConnectionManager {
   }
 
   private _connect() {
-    const socket = new WebSocket(`ws://localhost:${this._port}`, 'viewer');
+    const socket = new WebSocket(`ws://localhost:${this._port}/viewer`);
 
     socket.onopen = () => {
       this._connecting = false;
@@ -70,7 +70,7 @@ export default class ConnectionManager {
     socket.onmessage = ({ data }) => {
       const payload = JSON.parse(data.toString()) as Event;
       // eslint-disable-next-line no-console
-      console.log('recv', payload);
+      console.log('recv', payload.traceId, payload.type, (payload as any).method, (payload as any).url);
       switch (payload?.type) {
         case EventType.HttpRequest:
           this.addRequest(payload as HttpRequest);
@@ -87,8 +87,6 @@ export default class ConnectionManager {
   }
 
   addRequest(payload: HttpRequest) {
-    // eslint-disable-next-line no-console
-    console.log('addreq', payload.traceId);
     this._traces = {
       ...this._traces,
       [payload.traceId]: { req: payload, res: null },
@@ -98,8 +96,6 @@ export default class ConnectionManager {
   }
 
   addResponse(payload: HttpResponse) {
-    // eslint-disable-next-line no-console
-    console.log('addresp', payload.traceId);
     const updatedTraces = { ...this._traces };
     const trace = updatedTraces[payload.traceId];
     if (!trace) return;

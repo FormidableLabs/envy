@@ -1,14 +1,14 @@
-import ConnectionDetail from '@/components/ConnectionDetail';
-import ConnectionList from '@/components/ConnectionList';
+import TraceDetail from '@/components/TraceDetail';
+import TraceList from '@/components/TraceList';
 import useApplication from '@/hooks/useApplication';
 
 export default function MainDisplay() {
-  const { connectionId } = useApplication();
+  const { traceId } = useApplication();
 
   return (
     <div className="h-full flex flex-col md:flex-row bg-slate-400 overflow-hidden">
-      <ConnectionList className="flex-[2]" />
-      {connectionId && <ConnectionDetail className="flex-[3]" />}
+      <TraceList className="flex-[2]" />
+      {traceId && <TraceDetail className="flex-[3]" />}
     </div>
   );
 }
