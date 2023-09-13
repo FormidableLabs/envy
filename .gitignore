@@ -49,3 +49,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# examples/next.js
+**/.next/
+**/next-env.d.ts

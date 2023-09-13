@@ -12,7 +12,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"wait-on tcp:4000 && (cd examples/apollo-client && yarn start)\""
+    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"wait-on tcp:4000 && (cd examples/apollo-client && yarn start)\"",
+    "example:next": "cd examples/next && yarn && yarn dev"
   },
   "workspaces": [
     "packages/*",
