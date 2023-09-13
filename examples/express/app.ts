@@ -11,7 +11,7 @@ app.get('/api/cat-fact', async (_, response) => {
     text: fact.text,
   }));
   const randomIdx = Math.floor(Math.random() * allFacts.length);
-  return response.send({ data: allFacts[randomIdx].text });
+  return response.send({ data: allFacts[randomIdx] });
 });
 
 app.get('/api/cocktail', async (_, response) => {

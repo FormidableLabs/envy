@@ -1,6 +1,6 @@
 import { CatFact, Cocktail, Dog } from './types';
 
-export async function fetchCatFact(): Promise<string> {
+export async function fetchCatFact(): Promise<CatFact> {
   const res = await fetch('/api/cat-fact');
   const { data } = await res.json();
   return data;
