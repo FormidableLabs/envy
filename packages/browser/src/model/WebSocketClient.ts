@@ -69,8 +69,6 @@ export default class WebSocketClient {
 
     socket.onmessage = ({ data }) => {
       const payload = JSON.parse(data.toString()) as Event;
-      // eslint-disable-next-line no-console
-      console.log('recv', payload.traceId, payload.type, (payload as any).method, (payload as any).url);
       switch (payload?.type) {
         case EventType.HttpRequest:
           this.addRequest(payload as HttpRequest);
