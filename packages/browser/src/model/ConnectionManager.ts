@@ -69,6 +69,8 @@ export default class ConnectionManager {
 
     socket.onmessage = ({ data }) => {
       const payload = JSON.parse(data.toString()) as Event;
+      // eslint-disable-next-line no-console
+      console.log('recv', payload);
       switch (payload?.type) {
         case EventType.HttpRequest:
           this.addRequest(payload as HttpRequest);
@@ -85,6 +87,8 @@ export default class ConnectionManager {
   }
 
   addRequest(payload: HttpRequest) {
+    // eslint-disable-next-line no-console
+    console.log('addreq', payload.traceId);
     this._traces = {
       ...this._traces,
       [payload.traceId]: { req: payload, res: null },
@@ -94,6 +98,8 @@ export default class ConnectionManager {
   }
 
   addResponse(payload: HttpResponse) {
+    // eslint-disable-next-line no-console
+    console.log('addresp', payload.traceId);
     const updatedTraces = { ...this._traces };
     const trace = updatedTraces[payload.traceId];
     if (!trace) return;

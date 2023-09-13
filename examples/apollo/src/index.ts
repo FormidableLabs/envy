@@ -1,9 +1,10 @@
+// eslint-disable-next-line import/order
+import { enableTracing } from '../../../packages/node/src';
+enableTracing({ debug: true, serviceName: 'examples/apollo' });
+
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { mergeDeep } from 'apollo-utilities';
-
-import { enableTracing } from '../../../packages/node/src';
-enableTracing({ serviceName: 'examples/apollo' });
 
 import catFactsResolvers from './schema/catFacts/resolvers';
 import catFactsSchema from './schema/catFacts/schema';
