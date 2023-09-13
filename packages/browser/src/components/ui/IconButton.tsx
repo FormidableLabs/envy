@@ -1,4 +1,4 @@
-import { forwardRef, Ref } from 'react';
+import { Ref, forwardRef } from 'react';
 import { IconType } from 'react-icons';
 
 import Button, { ButtonProps } from './Button';

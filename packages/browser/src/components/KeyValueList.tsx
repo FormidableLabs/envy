@@ -31,7 +31,7 @@ export function RequestHeaders({ connection }: { connection: ConnectionData }) {
 
   const headers = cloneHeaders(connection.req.headers) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
-  return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
+  return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
 }
 
 export function ResponseHeaders({ connection }: { connection: ConnectionData }) {
@@ -41,7 +41,7 @@ export function ResponseHeaders({ connection }: { connection: ConnectionData }) 
   const headers = cloneHeaders(connection.res.headers) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
-  return <KeyValueList label="Headers" uid={connection.req.connectionID} keyValuePairs={Object.entries(headers)} />;
+  return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
 }
 
 export function QueryParams({ connection }: { connection: ConnectionData }) {
@@ -52,5 +52,5 @@ export function QueryParams({ connection }: { connection: ConnectionData }) {
     queryParams.push([key, value]);
   });
 
-  return <KeyValueList label="Query params" uid={connection.req.connectionID} keyValuePairs={queryParams} />;
+  return <KeyValueList label="Query params" uid={connection.req.traceId} keyValuePairs={queryParams} />;
 }

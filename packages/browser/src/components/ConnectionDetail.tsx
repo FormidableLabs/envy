@@ -9,7 +9,7 @@ import {
   getResponseBody,
   getSystemIconPath,
 } from '@/systems';
-import { getHeader, pathAndQuery, numberFormat } from '@/utils';
+import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
 import { QueryParams, RequestHeaders, ResponseHeaders } from './KeyValueList';
 
@@ -43,8 +43,8 @@ export default function ConnectionDetail({ className }: DetailProps) {
   const connection = getSelectedConnection();
 
   const { req, res, duration } = connection || {};
-  const { time: reqTime, method, host, path: fullPath } = req || {};
-  const { time: resTime, statusCode, statusMessage } = res || {};
+  const { timestamp: reqTime, method, host, path: fullPath } = req || {};
+  const { timestamp: resTime, statusCode, statusMessage } = res || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {

@@ -9,7 +9,9 @@
   "repository": "https://github.com/FormidableLabs/envy.git",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/index.html --host localhost --port 8888 --hmr-port 8889 --no-cache",
+    "start": "concurrently \"yarn start:wss\" \"yarn start:ui\"",
+    "start:wss": "node ./src/wsServer.cjs",
+    "start:ui": "parcel src/index.html --host localhost --port 9998 --hmr-port 9997 --no-cache --open",
     "test": "jest",
     "prebuild": "rimraf dist",
     "build": "tsc && parcel build",
@@ -17,11 +19,12 @@
   },
   "dependencies": {
     "@envy/client": "1.0.0",
+    "@envy/core": "1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-json-view": "^1.21.3",
-    "ws": "^8.14.0",
+    "ws": "^8.14.1",
     "xml-formatter": "^3.5.0"
   },
   "devDependencies": {

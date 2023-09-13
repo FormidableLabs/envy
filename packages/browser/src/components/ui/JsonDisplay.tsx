@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { ReactJsonViewProps } from 'react-json-view';
 import colors from 'tailwindcss/colors';
 

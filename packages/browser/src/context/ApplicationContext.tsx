@@ -1,16 +1,19 @@
+import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
-import { ConnectionData } from '@/types';
-import mockData from '@/model/mockData';
-import { systems } from '@/systems';
 import ConnectionManager from '@/model/ConnectionManager';
+import { systems } from '@/systems';
+import { ConnectionData } from '@/types';
 
 type ConnectionFilter = {
   systems: string[];
   value: string;
 };
+
+// TODO: allow configuration
+const port = DEFAULT_WEB_SOCKET_PORT;
 
 export default function ApplicationContextProvider({ children }: React.HTMLAttributes<HTMLElement>) {
   // TODO: find a better way to force a redraw
@@ -22,7 +25,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     forceUpdate(curr => !curr);
   };
 
-  const manager = useMemo(() => new ConnectionManager({ changeHandler }), []);
+  const manager = useMemo(() => new ConnectionManager({ port, changeHandler }), []);
 
   useKeyboardShortcut([
     {
@@ -56,12 +59,6 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   ]);
 
   useEffect(() => {
-    // TEMPORARY: seed with mock data for now
-    for (const { req, res } of mockData) {
-      manager.addRequest(req);
-      if (res) manager.addResponse(res);
-    }
-
     manager.start();
   }, [manager]);
 

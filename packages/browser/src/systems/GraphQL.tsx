@@ -25,7 +25,7 @@ export default class GraphQL implements System<GraphQLData> {
   }
 
   getData(connection: ConnectionData) {
-    const body = connection.req.body as Record<string, any>;
+    const body = JSON.parse(connection.req.body ?? '{}') as Record<string, any>;
     const type = (body?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
     const response =
       typeof connection.res?.body === 'object'

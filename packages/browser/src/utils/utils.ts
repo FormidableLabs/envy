@@ -1,9 +1,10 @@
+import { HttpRequestBase } from '@envy/core/dist/http';
 import { twMerge } from 'tailwind-merge';
 
 import { ConnectionData } from '@/types';
 
 export function pathAndQuery(connection: ConnectionData, decodeQs = false): [string, string] {
-  const [path, qs] = connection.req.path.split('?');
+  const [path, qs] = (connection.req.path ?? '').split('?');
   return [path, decodeQs ? decodeURIComponent(qs) : qs];
 }
 
@@ -11,7 +12,10 @@ export function numberFormat(num: number): string {
   return Intl.NumberFormat('en-US').format(num);
 }
 
-export function cloneHeaders(headers: Record<string, string> | undefined, lowercase = true): Record<string, string> {
+export function cloneHeaders(
+  headers: HttpRequestBase['headers'] | undefined,
+  lowercase = true,
+): Record<string, string> {
   if (!headers) return {};
 
   return Object.entries(headers).reduce<Record<string, any>>((a, [k, v]) => {
@@ -21,7 +25,7 @@ export function cloneHeaders(headers: Record<string, string> | undefined, lowerc
   }, {});
 }
 
-export function getHeader(headers: Record<string, string> | undefined, name: string): string | null {
+export function getHeader(headers: HttpRequestBase['headers'] | undefined, name: string): string | null {
   if (!headers) return null;
 
   const allLowercaseHeaders = cloneHeaders(headers, true);

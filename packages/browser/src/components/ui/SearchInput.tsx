@@ -1,4 +1,4 @@
-import { forwardRef, Ref } from 'react';
+import { Ref, forwardRef } from 'react';
 import { HiOutlineSearchCircle } from 'react-icons/hi';
 
 import Input, { InputProps } from './Input';

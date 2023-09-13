@@ -1,24 +1,29 @@
+import { EventType, HttpRequest } from '@envy/core';
 import { twMerge } from 'tailwind-merge';
 
-import { ConnectionData, Request } from '@/types';
+import { ConnectionData } from '@/types';
 
-import { pathAndQuery, numberFormat, cloneHeaders, getHeader, prettyFormat, tw } from './utils';
+import { cloneHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, tw } from './utils';
 
 jest.mock('tailwind-merge');
 
 describe('utils', () => {
   describe('pathAndQuery', () => {
-    function mockConnection(req: Partial<Request>): ConnectionData {
+    function mockConnection(req: Partial<HttpRequest>): ConnectionData {
       return {
         req: {
-          connectionID: '1',
-          time: 0,
+          id: '1',
+          traceId: '1',
+          type: EventType.HttpRequest,
+          timestamp: 0,
           method: 'GET',
           host: 'www.example.com',
-          port: '80',
+          port: 443,
+          httpVersion: '1.1',
           path: '/',
+          url: 'https://www.example.com/',
           headers: {},
-          body: {},
+          body: undefined,
           ...req,
         },
         res: null,
