@@ -17,7 +17,8 @@
     "example:next": "cd examples/next && yarn && yarn dev"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "devDependencies": {
     "@tsconfig/node14": "^14.1.0",
