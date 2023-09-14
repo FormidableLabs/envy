@@ -1,4 +1,8 @@
+// eslint-disable-next-line import/order
+import { enableTracing } from '@envy/node';
+enableTracing({ debug: true, serviceName: 'examples/express' });
 import express from 'express';
+import fetch from 'node-fetch';
 
 const app = express();
 const port = 4000;
