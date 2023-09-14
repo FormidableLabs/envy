@@ -23,6 +23,10 @@ wss.on('connection', (ws, request) => {
     viewer = ws;
   }
 
+  if (request.url === '/node' && !viewer) {
+    log(chalk.green('✅ Envy node sender connected'));
+  }
+
   ws.on('close', () => {
     if (viewer !== null) {
       log(chalk.red('❌ Envy viewer client disconnected'));
