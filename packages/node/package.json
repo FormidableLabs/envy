@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "test": "ts-node ./src/test.ts"
+    "test:live": "ts-node ./src/test.ts"
   },
   "dependencies": {
     "@envy/core": "1.0.0",
