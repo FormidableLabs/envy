@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/order
-import { enableTracing } from '../../../packages/node/src';
+import { enableTracing } from '@envy/node';
 enableTracing({ debug: true, serviceName: 'examples/apollo' });
 
 import { ApolloServer } from '@apollo/server';
