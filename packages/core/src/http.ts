@@ -18,7 +18,7 @@ export interface HttpRequestBase extends Event {
   /**
    * The canonical HTTP version of the request
    */
-  httpVersion: string;
+  httpVersion?: string;
 
   /**
    * The url path after the hostname

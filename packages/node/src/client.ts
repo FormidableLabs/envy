@@ -8,7 +8,7 @@ export interface WebSocketClientOptions {
 }
 
 const DEFAULT_RETRY_DELAY = 3 * 1000;
-const DEFAULT_RETRY_MAX_ATTEMPTS = 2;
+const DEFAULT_RETRY_MAX_ATTEMPTS = 25;
 
 export function WebSocketClient(options: WebSocketClientOptions) {
   let ws: WebSocket;
