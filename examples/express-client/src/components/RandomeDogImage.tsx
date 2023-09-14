@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 export default function RandomDogImage() {
   const [dog, setDog] = useState<DogType>();
-  console.log({ dog });
   const onRefresh = useCallback(() => fetchRandomDog().then(setDog), []);
 
   useEffect(() => {

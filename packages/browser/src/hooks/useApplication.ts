@@ -1,8 +1,10 @@
 import { createContext, useContext } from 'react';
 
+import Collector from '@/model/Collector';
 import { Trace, Traces } from '@/types';
 
 export type ApplicationContextData = {
+  collector: Collector;
   port: number;
   connecting: boolean;
   connected: boolean;

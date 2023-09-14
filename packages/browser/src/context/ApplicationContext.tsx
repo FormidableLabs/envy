@@ -70,6 +70,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   };
 
   const value: ApplicationContextData = {
+    collector,
     port: collector.port,
     connecting: collector.connecting,
     connected: collector.connected,

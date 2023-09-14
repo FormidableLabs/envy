@@ -115,9 +115,7 @@ export default function TraceDetail({ className }: DetailProps) {
         </div>
       </div>
 
-      <Section title="Request summary">
-        <SystemRequestDetailsComponent trace={trace} />
-      </Section>
+      <SystemRequestDetailsComponent trace={trace} />
 
       <Section title="Request details">
         <Fields>

@@ -37,12 +37,6 @@ wss.on('connection', (ws, request) => {
     }
 
     try {
-      const json = JSON.parse(data);
-      if (!json.traceId) {
-        handleError(`Invalid message: ${data}`);
-        return;
-      }
-
       viewer.send(data.toString());
     } catch (e) {
       handleError(`Unable to parse message: ${e}`);

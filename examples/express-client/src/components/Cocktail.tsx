@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 export default function Cocktail() {
   const [cocktail, setCocktail] = useState<CocktailType>();
-  console.log({ cocktail });
   const onRefresh = useCallback(() => fetchRandomCocktail().then(setCocktail), []);
 
   useEffect(() => {

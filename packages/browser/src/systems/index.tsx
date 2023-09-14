@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
+import { Section } from '@/components/ui';
 import { Trace } from '@/types';
 
 import Default from './Default';
@@ -53,7 +54,10 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
 }
 
 export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(trace, 'requestDetailComponent');
+  const Component = callOrFallback<ReactNode | null>(trace, 'requestDetailComponent');
+
+  if (!Component) return null;
+  return <Section title="Request summary">{Component}</Section>;
 }
 
 export function SystemResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
