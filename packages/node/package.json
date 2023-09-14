@@ -12,13 +12,12 @@
   },
   "dependencies": {
     "@envy/core": "1.0.0",
-    "@opentelemetry/api": "1.4.1",
-    "@opentelemetry/instrumentation-http": "0.41.2",
-    "@opentelemetry/sdk-node": "0.41.2",
+    "shimmer": "^1.2.1",
     "ws": "8.14.1"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.4",
+    "@types/shimmer": "^1.0.2",
     "@types/ws": "^8.5.5",
     "node-fetch": "^2.7.0",
     "ts-node": "^10.9.1"

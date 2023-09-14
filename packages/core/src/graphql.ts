@@ -1,5 +1,5 @@
 import { EventType } from './eventType';
-import { HttpRequestBase, HttpResponseBase } from './http';
+import { HttpRequestBase } from './http';
 
 /**
  * A Graphql Request
@@ -24,11 +24,4 @@ export interface GraphqlRequest extends HttpRequestBase {
    * The event type
    */
   type: EventType.GraphqlRequest;
-}
-
-export interface GraphqlResponse extends HttpResponseBase {
-  /**
-   * The event type
-   */
-  type: EventType.GraphqlResponse;
 }

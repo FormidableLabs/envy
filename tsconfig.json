@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "esModuleInterop": true,
     "preserveConstEnums": true,

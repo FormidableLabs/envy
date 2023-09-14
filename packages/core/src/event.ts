@@ -11,15 +11,6 @@ export interface Event {
   id: string;
 
   /**
-   * A unique identifier for this trace
-   * which may include 1 or more events
-   *
-   * @example
-   * A request and response event pair will have the same traceId
-   */
-  traceId: string;
-
-  /**
    * A unique identifier used for grouping
    * multiple events
    */

@@ -4,22 +4,12 @@ import { EventType } from './eventType';
 /**
  * @private This is an internal type and should not be used by consumers
  */
-interface HttpMessage extends Event {
+export interface HttpRequestBase extends Event {
   /**
-   * The http request or response body
+   * Request duration in milliseconds
    */
-  body?: string;
+  duration?: number;
 
-  /**
-   * The normalized http headers (lowercase)
-   */
-  headers: Record<string, undefined | string | string[]>;
-}
-
-/**
- * @private This is an internal type and should not be used by consumers
- */
-export interface HttpRequestBase extends HttpMessage {
   /**
    * The host name
    */
@@ -43,7 +33,37 @@ export interface HttpRequestBase extends HttpMessage {
   /**
    * The HTTP method
    */
-  method: 'GET' | 'POST';
+  method: 'GET' | 'POST' | 'OPTIONS' | 'PUT' | 'DELETE';
+
+  /**
+   * The http response body
+   */
+  responseBody?: string;
+
+  /**
+   * The normalized http response headers (lowercase)
+   */
+  responseHeaders?: Record<string, undefined | string | string[]>;
+
+  /**
+   * The http request body
+   */
+  requestBody?: string;
+
+  /**
+   * The normalized http request headers (lowercase)
+   */
+  requestHeaders: Record<string, undefined | string | string[]>;
+
+  /**
+   * The HTTP status code
+   */
+  statusCode?: number;
+
+  /**
+   * The HTTP response text
+   */
+  statusMessage?: string;
 
   /**
    * The full url of the request
@@ -52,30 +72,8 @@ export interface HttpRequestBase extends HttpMessage {
 }
 
 /**
- * @private This is an internal type and should not be used by consumers
- */
-export interface HttpResponseBase extends HttpMessage {
-  /**
-   * The HTTP status code
-   */
-  statusCode: number;
-
-  /**
-   * The HTTP response text
-   */
-  statusMessage: string;
-}
-
-/**
  * An HTTP Request
  */
 export interface HttpRequest extends HttpRequestBase {
   type: EventType.HttpRequest;
-}
-
-/**
- * An HTTP Response
- */
-export interface HttpResponse extends HttpResponseBase {
-  type: EventType.HttpResponse;
 }

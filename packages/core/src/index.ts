@@ -1,3 +1,3 @@
 export { EventType } from './eventType';
-export { HttpRequest, HttpResponse } from './http';
-export { GraphqlRequest, GraphqlResponse } from './graphql';
+export { HttpRequest } from './http';
+export { GraphqlRequest } from './graphql';
