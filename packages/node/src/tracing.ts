@@ -1,5 +1,6 @@
 import { WebSocketClient } from './client';
 import { Http } from './http';
+import log from './log';
 import { Middleware } from './middleware';
 import { Options } from './options';
 
@@ -10,8 +11,7 @@ export interface TracingOptions extends Options {
 
 export function enableTracing(options: TracingOptions) {
   if (options.debug) {
-    // eslint-disable-next-line no-console
-    console.log('@envy/node', 'debug mode');
+    log.info('debug mode');
   }
 
   const client = WebSocketClient(options);

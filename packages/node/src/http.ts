@@ -10,6 +10,7 @@ import { wrap } from 'shimmer';
 // eslint-disable-next-line import/order
 import { createBrotliDecompress, unzip } from 'zlib';
 
+import log from './log';
 import { Middleware } from './middleware';
 import { nanoid } from './nanoid';
 
@@ -43,6 +44,7 @@ export const Http: Middleware = ({ client }) => {
           requestHeaders[key] = headers[key] as any;
         }
 
+        const options = args[0];
         const httpRequest: HttpRequest = {
           id,
           timestamp: startTs,
@@ -50,10 +52,9 @@ export const Http: Middleware = ({ client }) => {
           host: request.host,
           path: request.path,
           method: request.method as HttpRequest['method'],
-          url: `${request.protocol}//${request.host}${request.path}`,
+          url: `${request.protocol}//${requestHeaders.host}${request.path}`,
           type: EventType.HttpRequest,
-          httpVersion: '1.1', // TODO: correctly parse http version
-          port: request.protocol === 'https' ? 443 : 80, // TODO: correctly parse port
+          port: options.port as number,
           requestBody: undefined,
         };
 
@@ -89,6 +90,7 @@ export const Http: Middleware = ({ client }) => {
               ...httpRequest,
 
               duration: endTs - startTs,
+              httpVersion: response.httpVersion,
               responseBody: undefined,
               responseHeaders: response.headers,
               statusCode: Number(response.statusCode),
@@ -116,8 +118,7 @@ export const Http: Middleware = ({ client }) => {
 function parsePayload(httpResponse: HttpRequest, payload: any, callback: (body: string) => void) {
   if (httpResponse.responseHeaders?.['content-encoding'] === 'gzip') {
     unzip(Buffer.concat(payload), (error, result) => {
-      // eslint-disable-next-line no-console
-      if (error) console.log('@envy/node', 'could not unzip response,', { error });
+      if (error) log.error('could not unzip response,', { error });
       if (!error) callback(result.toString());
     });
   } else if (httpResponse.responseHeaders?.['content-encoding'] === 'br') {
