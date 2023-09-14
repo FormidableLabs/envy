@@ -8,7 +8,7 @@ import { wrap } from 'shimmer';
 
 // eslint thinks this is node20:builtin, but this is a node module
 // eslint-disable-next-line import/order
-import { unzip } from 'zlib';
+import { createBrotliDecompress, unzip } from 'zlib';
 
 import { Middleware } from './middleware';
 import { nanoid } from './nanoid';
@@ -95,17 +95,10 @@ export const Http: Middleware = ({ client }) => {
               statusMessage: String(response.statusMessage),
             };
 
-            if (httpResponse.responseHeaders?.['content-encoding'] === 'gzip') {
-              unzip(Buffer.concat(payload), (error, result) => {
-                // eslint-disable-next-line no-console
-                if (error) console.log('@envy/node', 'could not unzip response,', { error });
-                if (!error) httpResponse.responseBody = result.toString();
-                client.send(httpResponse);
-              });
-            } else {
-              httpResponse.responseBody = Buffer.concat(payload).toString();
+            parsePayload(httpResponse, payload, body => {
+              httpResponse.responseBody = body;
               client.send(httpResponse);
-            }
+            });
           };
 
           response.on('data', onRequestData).on('end', onRequestEnd);
@@ -119,3 +112,21 @@ export const Http: Middleware = ({ client }) => {
   override(http);
   override(https);
 };
+
+function parsePayload(httpResponse: HttpRequest, payload: any, callback: (body: string) => void) {
+  if (httpResponse.responseHeaders?.['content-encoding'] === 'gzip') {
+    unzip(Buffer.concat(payload), (error, result) => {
+      // eslint-disable-next-line no-console
+      if (error) console.log('@envy/node', 'could not unzip response,', { error });
+      if (!error) callback(result.toString());
+    });
+  } else if (httpResponse.responseHeaders?.['content-encoding'] === 'br') {
+    const decompress = createBrotliDecompress();
+    decompress.write(Buffer.concat(payload));
+    decompress.on('data', result => {
+      callback(result.toString());
+    });
+  } else {
+    callback(Buffer.concat(payload).toString());
+  }
+}
