@@ -1,6 +1,6 @@
 {
   "name": "@envy/browser",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Envy Web UI",
   "source": [
     "src/index.html"
@@ -18,8 +18,8 @@
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@envy/client": "1.0.0",
-    "@envy/core": "1.0.0",
+    "@envy/client": "0.1.0",
+    "@envy/core": "0.1.0",
     "chalk": "^4.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
