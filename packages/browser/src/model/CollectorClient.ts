@@ -7,7 +7,7 @@ type WebSocketClientOptions = {
   changeHandler?: () => void;
 };
 
-export default class Collector {
+export default class CollectorClient {
   private readonly _port: number;
 
   private _connected: boolean = true;
@@ -72,7 +72,6 @@ export default class Collector {
       switch (payload?.type) {
         case EventType.HttpRequest: {
           this.addHttpRequest(payload as HttpRequest);
-
           break;
         }
       }
@@ -84,6 +83,12 @@ export default class Collector {
   }
 
   addHttpRequest(httpRequest: HttpRequest) {
+    const trace = { ...httpRequest };
+
+    if (trace.responseHeaders?.['content-encoding'] === 'gzip') {
+      trace.responseBody = '';
+    }
+
     this._traces.set(httpRequest.id, httpRequest);
     this._signalChange();
   }

@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"yarn start:wss\" \"yarn start:ui\"",
-    "start:wss": "node ./src/wsServer.cjs",
+    "start:wss": "node ./src/scripts/startCollector.cjs",
     "start:ui": "parcel src/index.html --host localhost --port 9998 --hmr-port 9997 --no-cache --log-level error",
     "test": "jest",
     "prebuild": "rimraf dist",

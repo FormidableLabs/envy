@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
-import Collector from '@/model/Collector';
+import CollectorClient from '@/model/CollectorClient';
 import { systems } from '@/systems';
 import { Trace } from '@/types';
 
@@ -25,7 +25,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     forceUpdate(curr => !curr);
   };
 
-  const collector = useMemo(() => new Collector({ port, changeHandler }), []);
+  const collector = useMemo(() => new CollectorClient({ port, changeHandler }), []);
 
   useKeyboardShortcut([
     {
