@@ -1,9 +1,9 @@
-import { HttpRequestBase } from '@envy/core/dist/http';
+import { HttpRequest } from '@envy/core';
 import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
-type Headers = HttpRequestBase['requestHeaders'] | HttpRequestBase['responseHeaders'] | undefined;
+type Headers = HttpRequest['requestHeaders'] | HttpRequest['responseHeaders'] | undefined;
 
 export function pathAndQuery(trace: Trace, decodeQs = false): [string, string] {
   const [path, qs] = (trace.path ?? '').split('?');

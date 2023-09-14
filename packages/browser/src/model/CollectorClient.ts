@@ -75,6 +75,11 @@ export default class CollectorClient {
           this.addHttpRequest(payload as HttpRequest);
           break;
         }
+        case EventType.SanityRequest: {
+          // TODO: this is probably not correct??
+          this.addHttpRequest(payload as HttpRequest);
+          break;
+        }
       }
     };
   }

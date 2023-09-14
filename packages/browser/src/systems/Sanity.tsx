@@ -1,3 +1,5 @@
+import { Event, EventType, SanityRequest } from '@envy/core';
+
 import { RequestRowData } from '@/components/RequestRowData';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
@@ -6,8 +8,8 @@ import { pathAndQuery, safeParseJson } from '@/utils';
 import { System } from '.';
 
 type SanityData = {
-  type: string | null;
-  query: string | null;
+  type?: string | null;
+  query?: string | null;
 };
 
 const icon = new URL('Sanity.svg', import.meta.url);
@@ -16,27 +18,14 @@ export default class Sanity implements System<SanityData> {
   name = 'Sanity';
 
   isMatch(trace: Trace) {
-    return trace.host.endsWith('.sanity.io');
+    return (trace as Event).type === EventType.SanityRequest;
   }
 
   getData(trace: Trace) {
-    const { method, requestBody } = trace;
-    const [, qs] = pathAndQuery(trace, true);
+    const sanityRequest = trace as unknown as SanityRequest;
 
-    let query: string | null = null;
-    switch (method) {
-      case 'GET': {
-        query = qs.replace('query=', '');
-        break;
-      }
-      case 'POST': {
-        const json = safeParseJson(requestBody);
-        query = json?.query;
-        break;
-      }
-    }
-
-    const type = query ? /_type\s*==\s*['"](.*?)['"]/m.exec(query)?.[1] ?? null : null;
+    const query = sanityRequest.query;
+    const type = sanityRequest.queryType;
 
     return {
       type: type,

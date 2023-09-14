@@ -6,13 +6,13 @@ import { types as utilTypes } from 'util';
 import { EventType, HttpRequest } from '@envy/core';
 import { wrap } from 'shimmer';
 
-// eslint thinks this is node20:builtin, but this is a node module
+// eslint thinks zlib is node20:builtin, but this is a node module
 // eslint-disable-next-line import/order
 import { createBrotliDecompress, unzip } from 'zlib';
 
 import log from './log';
-import { Middleware } from './middleware';
 import { nanoid } from './nanoid';
+import { Plugin } from './plugin';
 
 // ESM handling of wrapping
 const _wrap: typeof wrap = (moduleExports, name, wrapper) => {
@@ -27,7 +27,7 @@ const _wrap: typeof wrap = (moduleExports, name, wrapper) => {
   }
 };
 
-export const Http: Middleware = ({ client }) => {
+export const Http: Plugin = (_options, exporter) => {
   function override(module: any) {
     _wrap(module, 'request', (original: any) => {
       return function (this: any, ...args: http.ClientRequestArgs[]) {
@@ -70,7 +70,7 @@ export const Http: Middleware = ({ client }) => {
         request.end = function (...args: any) {
           httpRequest.requestBody = payload.length > 0 ? payload.join() : undefined;
 
-          client.send(httpRequest);
+          exporter.send(httpRequest);
           return end.apply(this, args);
         };
 
@@ -99,7 +99,7 @@ export const Http: Middleware = ({ client }) => {
 
             parsePayload(httpResponse, payload, body => {
               httpResponse.responseBody = body;
-              client.send(httpResponse);
+              exporter.send(httpResponse);
             });
           };
 
