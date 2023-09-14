@@ -1,30 +1,6 @@
-export type Response = {
-  connectionID: string;
-  time: number;
-  httpVersion: string;
-  statusCode: number;
-  statusMessage: string;
-  headers: { [key: string]: any };
-  body?: object | string;
-  error?: Error;
-};
+import { HttpRequest } from '@envy/core';
 
-export type Request = {
-  connectionID: string;
-  time: number;
-  method: string;
-  host: string;
-  port: string;
-  path: string;
-  headers: { [key: string]: any };
-  body?: string | Record<string, any>;
-  [key: string]: any;
-};
+// TODO: support additional trace types such as GraphqlRequest, etc
+export type Trace = HttpRequest;
 
-export type ConnectionData = {
-  req: Request;
-  res: Response | null;
-  duration?: number;
-};
-
-export type Traces = Record<string, ConnectionData>;
+export type Traces = Map<string, Trace>;

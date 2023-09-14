@@ -1,42 +1,45 @@
+import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
-import { ConnectionData } from '@/types';
-import mockData from '@/model/mockData';
+import CollectorClient from '@/model/CollectorClient';
 import { systems } from '@/systems';
-import ConnectionManager from '@/model/ConnectionManager';
+import { Trace } from '@/types';
 
-type ConnectionFilter = {
+type TraceFilter = {
   systems: string[];
   value: string;
 };
 
+// TODO: allow configuration
+const port = DEFAULT_WEB_SOCKET_PORT;
+
 export default function ApplicationContextProvider({ children }: React.HTMLAttributes<HTMLElement>) {
   // TODO: find a better way to force a redraw
   const [, forceUpdate] = useState<boolean>(false);
-  const [connectionId, setConnectionId] = useState<string | undefined>();
-  const [filter, setFilter] = useState<ConnectionFilter | undefined>();
+  const [selectedTraceId, setSelectedTraceId] = useState<string | undefined>();
+  const [filter, setFilter] = useState<TraceFilter | undefined>();
 
   const changeHandler = () => {
     forceUpdate(curr => !curr);
   };
 
-  const manager = useMemo(() => new ConnectionManager({ changeHandler }), []);
+  const collector = useMemo(() => new CollectorClient({ port, changeHandler }), []);
 
   useKeyboardShortcut([
     {
       predicate: e => e.key === 'Escape',
-      callback: () => setConnectionId(undefined),
+      callback: () => setSelectedTraceId(undefined),
     },
     {
       predicate: e => e.key === 'ArrowUp',
       callback: () => {
-        setConnectionId(curr => {
-          const connectionIds = Object.keys(manager.traces);
-          if (!curr) return connectionIds?.[connectionIds.length - 1] ?? undefined;
-          const idx = connectionIds.findIndex(x => x === curr);
-          if (idx !== -1 && idx > 0) return connectionIds[idx - 1];
+        setSelectedTraceId(curr => {
+          const traceIds = Object.keys(collector.traces);
+          if (!curr) return traceIds?.[traceIds.length - 1] ?? undefined;
+          const idx = traceIds.findIndex(x => x === curr);
+          if (idx !== -1 && idx > 0) return traceIds[idx - 1];
           else return curr;
         });
       },
@@ -44,11 +47,11 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     {
       predicate: e => e.key === 'ArrowDown',
       callback: () => {
-        setConnectionId(curr => {
-          const connectionIds = Object.keys(manager.traces);
-          if (!curr) return connectionIds?.[0] ?? undefined;
-          const idx = connectionIds.findIndex(x => x === curr);
-          if (idx !== -1 && idx < connectionIds.length - 1) return connectionIds[idx + 1];
+        setSelectedTraceId(curr => {
+          const traceIds = Object.keys(collector.traces);
+          if (!curr) return traceIds?.[0] ?? undefined;
+          const idx = traceIds.findIndex(x => x === curr);
+          if (idx !== -1 && idx < traceIds.length - 1) return traceIds[idx + 1];
           else return curr;
         });
       },
@@ -56,14 +59,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   ]);
 
   useEffect(() => {
-    // TEMPORARY: seed with mock data for now
-    for (const { req, res } of mockData) {
-      manager.addRequest(req);
-      if (res) manager.addResponse(res);
-    }
-
-    manager.start();
-  }, [manager]);
+    collector.start();
+  }, [collector]);
 
   const hasFilters = () => {
     if (!filter) return false;
@@ -73,46 +70,45 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   };
 
   const value: ApplicationContextData = {
-    port: manager.port,
-    connecting: manager.connecting,
-    connected: manager.connected,
-    get connections() {
-      if (!filter || !hasFilters()) return manager.traces;
+    collector,
+    port: collector.port,
+    connecting: collector.connecting,
+    connected: collector.connected,
+    get traces() {
+      if (!filter || !hasFilters()) return collector.traces;
       else {
-        const filteredConnections: Record<string, ConnectionData> = {};
-        for (const connectionId in manager.traces) {
-          const conn = manager.traces[connectionId];
-          const url = `${conn?.req?.host || ''}${conn?.req?.path || ''}`;
-          let includeInConnections = true;
+        const filteredTraces = new Map<string, Trace>();
+        for (const [traceId, trace] of collector.traces.entries()) {
+          let includeInTraces = true;
 
-          if (!!filter.value && !url.includes(filter.value)) includeInConnections = false;
+          if (!!filter.value && !trace?.url.includes(filter.value)) includeInTraces = false;
 
-          if (includeInConnections && filter.systems.length > 0) {
+          if (includeInTraces && filter.systems.length > 0) {
             const validSystems = systems.filter(x => filter.systems.includes(x.name));
-            includeInConnections = validSystems.some(x => x.isMatch(conn));
+            includeInTraces = validSystems.some(x => x.isMatch(trace));
           }
 
-          if (includeInConnections) filteredConnections[connectionId] = conn;
+          if (includeInTraces) filteredTraces.set(traceId, trace);
         }
-        return filteredConnections;
+        return filteredTraces;
       }
     },
-    connectionId: connectionId,
-    setSelectedConnection(id: string) {
-      setConnectionId(() => id);
+    selectedTraceId: selectedTraceId,
+    setSelectedTrace(id: string) {
+      setSelectedTraceId(() => id);
     },
-    getSelectedConnection() {
-      return (connectionId && manager.traces[connectionId]) || undefined;
+    getSelectedTrace() {
+      return (selectedTraceId && collector.traces.get(selectedTraceId)) || undefined;
     },
-    clearSelectedConnection() {
-      setConnectionId(undefined);
+    clearSelectedTrace() {
+      setSelectedTraceId(undefined);
     },
-    filterConnections(systems, value) {
+    filterTraces(systems, value) {
       setFilter({ systems, value });
     },
-    clearConnections() {
-      setConnectionId(undefined);
-      manager.clearTraces();
+    clearTraces() {
+      setSelectedTraceId(undefined);
+      collector.clearTraces();
     },
   };
 

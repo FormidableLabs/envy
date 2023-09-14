@@ -25,6 +25,7 @@ module.exports = {
     },
   },
   plugins: ['import'],
+  ignorePatterns: ['**/dist', '**/node_modules'],
   rules: {
     'eslint-comments/disable-enable-pair': 'off',
     'import/no-named-as-default-member': 'off',
@@ -32,6 +33,11 @@ module.exports = {
       'error',
       {
         'newlines-between': 'always',
+        'alphabetize': {
+          order: 'asc',
+          orderImportKind: 'asc',
+          caseInsensitive: true,
+        },
         'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
       },
     ],
@@ -42,10 +48,10 @@ module.exports = {
     'no-unused-vars': 'off',
     'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     'sort-imports': [
-      'off',
+      'error',
       {
         ignoreCase: false,
-        ignoreDeclarationSort: false,
+        ignoreDeclarationSort: true,
         ignoreMemberSort: false,
         memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
         allowSeparatedGroups: false,

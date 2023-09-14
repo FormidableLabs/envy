@@ -1,6 +1,6 @@
 import { RequestRowData } from '@/components/RequestRowData';
 import { Code, Field, Fields, Label } from '@/components/ui';
-import { ConnectionData } from '@/types';
+import { Trace } from '@/types';
 import { pathAndQuery } from '@/utils';
 
 import { System } from '.';
@@ -20,46 +20,42 @@ const icon = new URL('GraphQL.svg', import.meta.url);
 export default class GraphQL implements System<GraphQLData> {
   name = 'GraphQL';
 
-  isMatch(connection: ConnectionData) {
-    return connection.req.path === '/api/graphql';
+  isMatch(trace: Trace) {
+    return trace.path === '/api/graphql';
   }
 
-  getData(connection: ConnectionData) {
-    const body = connection.req.body as Record<string, any>;
-    const type = (body?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
-    const response =
-      typeof connection.res?.body === 'object'
-        ? JSON.stringify(connection.res.body, undefined, 2)
-        : connection.res?.body ?? null;
+  getData(trace: Trace) {
+    const reqBody = JSON.parse(trace.requestBody ?? '{}') as Record<string, any>;
+    const type = (reqBody?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
 
     return {
       type,
-      operationName: body?.operationName,
-      query: body?.query,
-      variables: body?.variables,
-      response,
+      operationName: reqBody?.operationName,
+      query: reqBody?.query,
+      variables: reqBody?.variables,
+      response: trace.responseBody ?? null,
     };
   }
 
-  getIconPath(_?: ConnectionData) {
+  getIconPath(_?: Trace) {
     return icon.pathname;
   }
 
-  listComponent(connection: ConnectionData) {
-    const { type, operationName } = this.getData(connection);
-    const [path] = pathAndQuery(connection);
+  listComponent(trace: Trace) {
+    const { type, operationName } = this.getData(trace);
+    const [path] = pathAndQuery(trace);
     return (
       <RequestRowData
-        iconPath={this.getIconPath(connection)}
-        hostName={connection.req.host}
+        iconPath={this.getIconPath(trace)}
+        hostName={trace.host}
         path={path}
         data={`GQL ${type}: ${operationName}`}
       />
     );
   }
 
-  requestDetailComponent(connection: ConnectionData) {
-    const { type, operationName, query } = this.getData(connection);
+  requestDetailComponent(trace: Trace) {
+    const { type, operationName, query } = this.getData(trace);
 
     return (
       <>
@@ -74,8 +70,8 @@ export default class GraphQL implements System<GraphQLData> {
     );
   }
 
-  responseDetailComponent(connection: ConnectionData) {
-    const { response } = this.getData(connection);
+  responseDetailComponent(trace: Trace) {
+    const { response } = this.getData(trace);
     if (!response) return null;
 
     const json = JSON.parse(response);

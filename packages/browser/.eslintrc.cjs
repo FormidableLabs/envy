@@ -1,11 +1,21 @@
+const path = require('path');
+
 const rootConfig = require('../../.eslintrc.cjs');
 
 module.exports = {
   ...rootConfig,
   extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended', ...rootConfig.extends],
   settings: {
-    react: { version: 'detect' },
-    ...rootConfig.settings,
+    'react': { version: 'detect' },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        project: 'packages/browser/tsconfig.json',
+      },
+      alias: [['@', path.resolve(__dirname, './src')]],
+    },
   },
   rules: {
     'react/button-has-type': 'off',

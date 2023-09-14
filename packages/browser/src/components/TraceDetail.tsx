@@ -9,7 +9,7 @@ import {
   getResponseBody,
   getSystemIconPath,
 } from '@/systems';
-import { getHeader, pathAndQuery, numberFormat } from '@/utils';
+import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
 import { QueryParams, RequestHeaders, ResponseHeaders } from './KeyValueList';
 
@@ -38,23 +38,22 @@ function CodeDisplay({ contentType, children }: CodeDisplayProps) {
   );
 }
 
-export default function ConnectionDetail({ className }: DetailProps) {
-  const { getSelectedConnection, clearSelectedConnection } = useApplication();
-  const connection = getSelectedConnection();
+export default function TraceDetail({ className }: DetailProps) {
+  const { getSelectedTrace, clearSelectedTrace } = useApplication();
+  const trace = getSelectedTrace();
 
-  const { req, res, duration } = connection || {};
-  const { time: reqTime, method, host, path: fullPath } = req || {};
-  const { time: resTime, statusCode, statusMessage } = res || {};
+  const { timestamp, method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } =
+    trace || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {
-    if (reqTime === undefined) return;
+    if (timestamp === undefined) return;
 
     if (counterElRef.current) {
-      const elapsedReqTime = Date.now() - reqTime;
+      const elapsedReqTime = Date.now() - timestamp;
       counterElRef.current.textContent = `${numberFormat(elapsedReqTime)}ms`;
     }
-  }, [reqTime]);
+  }, [timestamp]);
 
   const counterRef = useRef<NodeJS.Timeout>();
 
@@ -69,19 +68,19 @@ export default function ConnectionDetail({ className }: DetailProps) {
     }
   }, [responseComplete, updateTimer]);
 
-  if (!connection) return null;
+  if (!trace) return null;
 
-  const [path] = pathAndQuery(connection);
-  const requestBody = getRequestBody(connection);
-  const responseBody = getResponseBody(connection);
+  const [path] = pathAndQuery(trace);
+  const requestBody = getRequestBody(trace);
+  const responseBody = getResponseBody(trace);
 
   function statusCodeStyle() {
     let style = 'bg-transparent';
-    if (!res) style = 'bg-transparent';
-    else if (res.statusCode >= 500) style = 'bg-purple-500';
-    else if (res.statusCode >= 400) style = 'bg-red-500';
-    else if (res.statusCode >= 300) style = 'bg-yellow-500';
-    else if (res.statusCode >= 200) style = 'bg-green-500';
+    if (!statusCode) style = 'bg-transparent';
+    else if (statusCode >= 500) style = 'bg-purple-500';
+    else if (statusCode >= 400) style = 'bg-red-500';
+    else if (statusCode >= 300) style = 'bg-yellow-500';
+    else if (statusCode >= 200) style = 'bg-green-500';
     return `inline-block rounded-full h-3 w-3 ${style}`;
   }
 
@@ -89,10 +88,7 @@ export default function ConnectionDetail({ className }: DetailProps) {
     <div className={`relative h-full overflow-y-scroll bg-slate-200 ${className}`}>
       <div className="sticky top-0 z-10">
         <Section collapsible={false} title="Request" />
-        <button
-          className="absolute top-1 md:top-2 right-6 text-xl text-black"
-          onClick={() => clearSelectedConnection()}
-        >
+        <button className="absolute top-1 md:top-2 right-6 text-xl text-black" onClick={() => clearSelectedTrace()}>
           &#10006;
         </button>
       </div>
@@ -100,44 +96,39 @@ export default function ConnectionDetail({ className }: DetailProps) {
       <div className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img src={getSystemIconPath(connection)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
+            <img src={getSystemIconPath(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">
               <span className="flex justify-between items-center">
                 <span className="font-bold">{method}</span>
-                {res && (
+                {responseComplete && (
                   <span className="flex items-center gap-2">
                     <span className={statusCodeStyle()}></span>
                     {`${statusCode} ${statusMessage}`}
                   </span>
                 )}
               </span>
-              <span className="block text-opacity-70 text-black">
-                https://{host}
-                {fullPath}
-              </span>
+              <span className="block text-opacity-70 text-black">{url}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <Section title="Request summary">
-        <SystemRequestDetailsComponent connection={connection} />
-      </Section>
+      <SystemRequestDetailsComponent trace={trace} />
 
       <Section title="Request details">
         <Fields>
           <Field label="Sent">
-            <DateTime time={reqTime} />
+            <DateTime time={timestamp} />
           </Field>
           <Field label="Host">{host}</Field>
           <Field label="Path">
             <span className="break-all">{path}</span>
           </Field>
-          <CodeDisplay contentType={getHeader(req?.headers, 'content-type')}>{requestBody}</CodeDisplay>
-          <QueryParams connection={connection} />
-          <RequestHeaders connection={connection} />
+          <CodeDisplay contentType={getHeader(requestHeaders, 'content-type')}>{requestBody}</CodeDisplay>
+          <QueryParams trace={trace} />
+          <RequestHeaders trace={trace} />
         </Fields>
       </Section>
 
@@ -146,15 +137,15 @@ export default function ConnectionDetail({ className }: DetailProps) {
           <>
             <Fields>
               <Field label="Received">
-                <DateTime time={resTime} />
+                <DateTime time={timestamp} />
               </Field>
               <Field label="Status">
                 {statusCode} {statusMessage}
               </Field>
               <Field label="Duration">{numberFormat(duration)}ms</Field>
-              <ResponseHeaders connection={connection} />
+              <ResponseHeaders trace={trace} />
             </Fields>
-            <SystemResponseDetailsComponent connection={connection} />
+            <SystemResponseDetailsComponent trace={trace} />
           </>
         ) : (
           <span className="flex flex-col my-20 mx-auto items-center">
@@ -166,9 +157,9 @@ export default function ConnectionDetail({ className }: DetailProps) {
       {responseComplete && (
         <Section title="Response body">
           <Fields>
-            <Field label="Type">{getHeader(res?.headers, 'content-type')}</Field>
-            <Field label="Length">{getHeader(res?.headers, 'content-length')}</Field>
-            <CodeDisplay contentType={getHeader(res?.headers, 'content-type')}>{responseBody}</CodeDisplay>
+            <Field label="Type">{getHeader(responseHeaders, 'content-type')}</Field>
+            <Field label="Length">{getHeader(responseHeaders, 'content-length')}</Field>
+            <CodeDisplay contentType={getHeader(responseHeaders, 'content-type')}>{responseBody}</CodeDisplay>
           </Fields>
         </Section>
       )}

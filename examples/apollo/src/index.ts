@@ -1,13 +1,17 @@
+// eslint-disable-next-line import/order
+import { enableTracing } from '../../../packages/node/src';
+enableTracing({ debug: true, serviceName: 'examples/apollo' });
+
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { mergeDeep } from 'apollo-utilities';
 
-import catFactsSchema from './schema/catFacts/schema';
-import cocktailsSchema from './schema/cocktails/schema';
-import xkcdSchema from './schema/xkcd/schema';
 import catFactsResolvers from './schema/catFacts/resolvers';
+import catFactsSchema from './schema/catFacts/schema';
 import cocktailsResolvers from './schema/cocktails/resolvers';
+import cocktailsSchema from './schema/cocktails/schema';
 import xkcdResolvers from './schema/xkcd/resolvers';
+import xkcdSchema from './schema/xkcd/schema';
 
 const baseSchema = `#graphql
   # allows Query type to be extended

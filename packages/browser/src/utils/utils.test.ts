@@ -1,61 +1,63 @@
+import { EventType } from '@envy/core';
 import { twMerge } from 'tailwind-merge';
 
-import { ConnectionData, Request } from '@/types';
+import { Trace } from '@/types';
 
-import { pathAndQuery, numberFormat, cloneHeaders, getHeader, prettyFormat, tw } from './utils';
+import { cloneHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, tw } from './utils';
 
 jest.mock('tailwind-merge');
 
 describe('utils', () => {
   describe('pathAndQuery', () => {
-    function mockConnection(req: Partial<Request>): ConnectionData {
+    function mockTrace(req: Partial<Trace>): Trace {
       return {
-        req: {
-          connectionID: '1',
-          time: 0,
-          method: 'GET',
-          host: 'www.example.com',
-          port: '80',
-          path: '/',
-          headers: {},
-          body: {},
-          ...req,
-        },
-        res: null,
+        id: '1',
+        parentId: undefined,
+        type: EventType.HttpRequest,
+        timestamp: 0,
+        httpVersion: '1.1',
+        method: 'GET',
+        host: 'www.example.com',
+        port: 443,
+        path: '/',
+        url: 'https://www.example.com/',
+        requestHeaders: {},
+        requestBody: undefined,
+        ...req,
       };
     }
 
     it('should return path and as an array', () => {
-      const connection = mockConnection({ path: '/foo/bar?baz=qux' });
-      const result = pathAndQuery(connection);
+      const trace = mockTrace({ path: '/foo/bar?baz=qux' });
+      const result = pathAndQuery(trace);
 
       expect(result).toBeInstanceOf(Array);
     });
 
     it('should return two items in the array', () => {
-      const connection = mockConnection({ path: '/foo/bar?baz=qux' });
-      const result = pathAndQuery(connection);
+      const trace = mockTrace({ path: '/foo/bar?baz=qux' });
+      const result = pathAndQuery(trace);
 
       expect(result).toHaveLength(2);
     });
 
     it('should return the path as the first item', () => {
-      const connection = mockConnection({ path: '/foo/bar?baz=qux' });
-      const result = pathAndQuery(connection);
+      const trace = mockTrace({ path: '/foo/bar?baz=qux' });
+      const result = pathAndQuery(trace);
 
       expect(result[0]).toEqual('/foo/bar');
     });
 
     it('should return the querystring as the second item', () => {
-      const connection = mockConnection({ path: '/foo/bar?baz=qux' });
-      const result = pathAndQuery(connection);
+      const trace = mockTrace({ path: '/foo/bar?baz=qux' });
+      const result = pathAndQuery(trace);
 
       expect(result[1]).toEqual('baz=qux');
     });
 
     it('should return undefined for the second item if no querystring is present', () => {
-      const connection = mockConnection({ path: '/foo/bar' });
-      const result = pathAndQuery(connection);
+      const trace = mockTrace({ path: '/foo/bar' });
+      const result = pathAndQuery(trace);
 
       expect(result[0]).toEqual('/foo/bar');
       expect(result[1]).toBeUndefined();

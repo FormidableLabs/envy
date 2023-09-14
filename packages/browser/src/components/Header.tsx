@@ -1,6 +1,7 @@
 import { tw } from '@/utils';
 
 import ConnectionStatus from './ConnectionStatus';
+import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 
 export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
@@ -22,7 +23,9 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
           <h1 className="font-extrabold text-xl uppercase mr-2 select-none ">Network Inspector</h1>
         </span>
       </span>
-      <span className="flex-0 flex items-center ml-auto">
+      <span className="flex-0 flex items-center ml-auto gap-2">
+        {/* TODO: only show this in dev mode (or debug mode?) */}
+        <DebugToolbar />
         <FiltersAndActions />
       </span>
     </header>

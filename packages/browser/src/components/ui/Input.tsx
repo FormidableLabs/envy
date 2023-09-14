@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef, Ref, RefObject, useEffect, useRef } from 'react';
+import { ChangeEvent, Ref, RefObject, forwardRef, useEffect, useRef } from 'react';
 import { IconType } from 'react-icons';
 import { HiX } from 'react-icons/hi';
 

@@ -1,4 +1,4 @@
-import { forwardRef, Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { HiCheck, HiX } from 'react-icons/hi';
 
 import useClickAway from '@/hooks/useClickAway';
