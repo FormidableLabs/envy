@@ -1,0 +1,15 @@
+name: Setup
+description: Setup Build Step
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --frozen-lockfile
