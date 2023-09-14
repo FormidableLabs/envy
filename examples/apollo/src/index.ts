@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/order
 import { enableTracing } from '@envy/node';
-enableTracing({ debug: true, serviceName: 'examples/apollo' });
+enableTracing({ serviceName: 'examples/apollo' });
 
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
@@ -10,6 +10,8 @@ import catFactsResolvers from './schema/catFacts/resolvers';
 import catFactsSchema from './schema/catFacts/schema';
 import cocktailsResolvers from './schema/cocktails/resolvers';
 import cocktailsSchema from './schema/cocktails/schema';
+import sanityResolvers from './schema/sanity/resolvers';
+import sanitySchema from './schema/sanity/schema';
 import xkcdResolvers from './schema/xkcd/resolvers';
 import xkcdSchema from './schema/xkcd/schema';
 
@@ -18,8 +20,8 @@ const baseSchema = `#graphql
   type Query
 `;
 
-const typeDefs = [baseSchema, catFactsSchema, cocktailsSchema, xkcdSchema];
-const resolvers = mergeDeep(catFactsResolvers, cocktailsResolvers, xkcdResolvers);
+const typeDefs = [baseSchema, catFactsSchema, cocktailsSchema, sanitySchema, xkcdSchema];
+const resolvers = mergeDeep(catFactsResolvers, cocktailsResolvers, sanityResolvers, xkcdResolvers);
 
 const server = new ApolloServer({
   typeDefs,

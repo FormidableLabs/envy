@@ -1,6 +1,7 @@
 import { Event, EventType, HttpRequest } from '@envy/core';
 
 import { Traces } from '@/types';
+import { safeParseJson } from '@/utils';
 
 type WebSocketClientOptions = {
   port: number;
@@ -68,7 +69,7 @@ export default class CollectorClient {
     };
 
     socket.onmessage = ({ data }) => {
-      const payload = JSON.parse(data.toString()) as Event;
+      const payload = safeParseJson<Event>(data.toString());
       switch (payload?.type) {
         case EventType.HttpRequest: {
           this.addHttpRequest(payload as HttpRequest);

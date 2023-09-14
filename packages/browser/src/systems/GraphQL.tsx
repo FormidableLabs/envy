@@ -1,7 +1,7 @@
 import { RequestRowData } from '@/components/RequestRowData';
 import { Code, Field, Fields, Label } from '@/components/ui';
 import { Trace } from '@/types';
-import { pathAndQuery } from '@/utils';
+import { pathAndQuery, safeParseJson } from '@/utils';
 
 import { System } from '.';
 
@@ -25,7 +25,7 @@ export default class GraphQL implements System<GraphQLData> {
   }
 
   getData(trace: Trace) {
-    const reqBody = JSON.parse(trace.requestBody ?? '{}') as Record<string, any>;
+    const reqBody = safeParseJson<Record<string, any>>(trace.requestBody ?? '{}') as Record<string, any>;
     const type = (reqBody?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
 
     return {
@@ -74,7 +74,7 @@ export default class GraphQL implements System<GraphQLData> {
     const { response } = this.getData(trace);
     if (!response) return null;
 
-    const json = JSON.parse(response);
+    const json = safeParseJson(response);
     return <>{json.error && <Label label="Errors">ERRORS!</Label>}</>;
   }
 }

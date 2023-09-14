@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { ReactJsonViewProps } from 'react-json-view';
 import colors from 'tailwindcss/colors';
 
-import { tw } from '@/utils';
+import { safeParseJson, tw } from '@/utils';
 
 const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('react-json-view'));
 
@@ -37,11 +37,12 @@ const customTheme = {
 };
 
 export default function JsonDisplay({ className, children }: JsonDisplayProps) {
+  const errorData = { error: 'Error parsing JSON data', data: children };
   let src;
   try {
-    src = typeof children === 'string' ? JSON.parse(children) : children;
+    src = typeof children === 'string' ? safeParseJson(children) ?? errorData : children;
   } catch {
-    src = { error: 'Error parsing JSON data', data: children };
+    src = errorData;
   }
 
   return (

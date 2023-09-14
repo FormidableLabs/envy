@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
+    "@envy/node": "*",
+    "@sanity/client": "^4.0.1",
     "apollo-utilities": "^1.3.4",
     "graphql": "^16.8.0",
-    "node-fetch": "2",
-    "@envy/node": "*"
+    "groqd": "^0.15.9",
+    "node-fetch": "2"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
