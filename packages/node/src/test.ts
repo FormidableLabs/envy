@@ -23,3 +23,14 @@ fetch('https://api.quotable.io/quotes/random', {
   .then((quote: Array<{ content: string }>) => {
     console.log('Quote Fetched:', quote[0].content);
   });
+
+// gzip test
+fetch('https://xkcd.com/info.0.json')
+  .then(response => response.json())
+  .then(item => {
+    console.log('xkcd', {
+      id: Buffer.from(item.img).toString('base64'),
+      title: item.title,
+      imageUrl: item.img,
+    });
+  });

@@ -29,7 +29,7 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
 export function RequestHeaders({ trace }: { trace: Trace }) {
   if (!Object.keys(trace.requestHeaders).length) return null;
 
-  const headers = cloneHeaders(trace.requestHeaders.headers) as Record<string, any>;
+  const headers = cloneHeaders(trace.requestHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
   return <KeyValueList label="Headers" uid={trace.id} keyValuePairs={Object.entries(headers)} />;
 }

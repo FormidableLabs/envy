@@ -1,9 +1,14 @@
 import http from 'http';
 import https from 'https';
+import { performance } from 'perf_hooks';
 import { types as utilTypes } from 'util';
 
 import { EventType, HttpRequest } from '@envy/core';
 import { wrap } from 'shimmer';
+
+// eslint thinks this is node20:builtin, but this is a node module
+// eslint-disable-next-line import/order
+import { unzip } from 'zlib';
 
 import { Middleware } from './middleware';
 import { nanoid } from './nanoid';
@@ -84,13 +89,23 @@ export const Http: Middleware = ({ client }) => {
               ...httpRequest,
 
               duration: endTs - startTs,
-              responseBody: Buffer.concat(payload).toString(),
+              responseBody: undefined,
               responseHeaders: response.headers,
               statusCode: Number(response.statusCode),
               statusMessage: String(response.statusMessage),
             };
 
-            client.send(httpResponse);
+            if (httpResponse.responseHeaders?.['content-encoding'] === 'gzip') {
+              unzip(Buffer.concat(payload), (error, result) => {
+                // eslint-disable-next-line no-console
+                if (error) console.log('@envy/node', 'could not unzip response,', { error });
+                if (!error) httpResponse.responseBody = result.toString();
+                client.send(httpResponse);
+              });
+            } else {
+              httpResponse.responseBody = Buffer.concat(payload).toString();
+              client.send(httpResponse);
+            }
           };
 
           response.on('data', onRequestData).on('end', onRequestEnd);
