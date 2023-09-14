@@ -8,7 +8,7 @@ export type RequestHeadingProps = {
 };
 
 export function RequestRowData({ iconPath, hostName, path, data }: RequestHeadingProps) {
-  const { traceId } = useApplication();
+  const { selectedTraceId: traceId } = useApplication();
   const hasSelected = !!traceId;
   const pathValue = hasSelected ? `.../${path.split('/').splice(-1, 1).join('/')}` : path;
   return (

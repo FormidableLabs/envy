@@ -20,26 +20,24 @@ export default class DefaultSystem implements System<null> {
     return icon.pathname;
   }
 
-  listComponent(connection: Trace) {
-    const [path, qs] = pathAndQuery(connection);
-    return (
-      <RequestRowData iconPath={this.getIconPath(connection)} hostName={connection.req.host} path={path} data={qs} />
-    );
+  listComponent(trace: Trace) {
+    const [path, qs] = pathAndQuery(trace);
+    return <RequestRowData iconPath={this.getIconPath(trace)} hostName={trace.host} path={path} data={qs} />;
   }
 
   requestDetailComponent(_: Trace) {
     return null;
   }
 
-  transformRequestBody(connection: Trace) {
-    return connection.req?.body;
+  transformRequestBody(trace: Trace) {
+    return trace.requestBody;
   }
 
   responseDetailComponent(_: Trace) {
     return null;
   }
 
-  transformResponseBody(connection: Trace) {
-    return connection.res?.body;
+  transformResponseBody(trace: Trace) {
+    return trace.responseBody;
   }
 }

@@ -37,11 +37,18 @@ const customTheme = {
 };
 
 export default function JsonDisplay({ className, children }: JsonDisplayProps) {
+  let src;
+  try {
+    src = typeof children === 'string' ? JSON.parse(children) : children;
+  } catch {
+    src = { error: 'Error parsing JSON data', data: children };
+  }
+
   return (
     <Suspense fallback={<></>}>
       <div className={tw('w-full overflow-auto', className)}>
         <ReactJson
-          src={children}
+          src={src}
           theme={customTheme}
           name={null}
           collapsed={3}

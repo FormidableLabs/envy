@@ -6,8 +6,8 @@ export type ApplicationContextData = {
   port: number;
   connecting: boolean;
   connected: boolean;
-  traceId?: string;
   traces: Traces;
+  selectedTraceId?: string;
   getSelectedTrace: () => Trace | undefined;
   setSelectedTrace: (id: string) => void;
   clearSelectedTrace: () => void;

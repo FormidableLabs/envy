@@ -1,9 +1,6 @@
-import { HttpRequest, HttpResponse } from '@envy/core';
+import { HttpRequest } from '@envy/core';
 
-export type Trace = {
-  req: HttpRequest;
-  res: HttpResponse | null;
-  duration?: number;
-};
+// TODO: support additional trace types such as GraphqlRequest, etc
+export type Trace = HttpRequest;
 
-export type Traces = Record<string, Trace>;
+export type Traces = Map<string, Trace>;

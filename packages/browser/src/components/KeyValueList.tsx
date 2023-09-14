@@ -26,31 +26,31 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
   );
 }
 
-export function RequestHeaders({ connection }: { connection: Trace }) {
-  if (!Object.keys(connection.req.headers).length) return null;
+export function RequestHeaders({ trace }: { trace: Trace }) {
+  if (!Object.keys(trace.requestHeaders).length) return null;
 
-  const headers = cloneHeaders(connection.req.headers) as Record<string, any>;
+  const headers = cloneHeaders(trace.requestHeaders.headers) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
-  return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
+  return <KeyValueList label="Headers" uid={trace.id} keyValuePairs={Object.entries(headers)} />;
 }
 
-export function ResponseHeaders({ connection }: { connection: Trace }) {
-  if (!connection.res) return null;
-  if (!Object.keys(connection.res?.headers || {})?.length) return null;
+export function ResponseHeaders({ trace }: { trace: Trace }) {
+  if (!trace.responseHeaders) return null;
+  if (!Object.keys(trace.responseHeaders).length) return null;
 
-  const headers = cloneHeaders(connection.res.headers) as Record<string, any>;
+  const headers = cloneHeaders(trace.responseHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
-  return <KeyValueList label="Headers" uid={connection.req.traceId} keyValuePairs={Object.entries(headers)} />;
+  return <KeyValueList label="Headers" uid={trace.id} keyValuePairs={Object.entries(headers)} />;
 }
 
-export function QueryParams({ connection }: { connection: Trace }) {
-  const [, qs] = pathAndQuery(connection);
+export function QueryParams({ trace }: { trace: Trace }) {
+  const [, qs] = pathAndQuery(trace);
   const urlSearchParams = new URLSearchParams(qs);
   const queryParams: [string, string | null][] = [];
   urlSearchParams.forEach((value, key) => {
     queryParams.push([key, value]);
   });
 
-  return <KeyValueList label="Query params" uid={connection.req.traceId} keyValuePairs={queryParams} />;
+  return <KeyValueList label="Query params" uid={trace.id} keyValuePairs={queryParams} />;
 }

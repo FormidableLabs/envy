@@ -1,4 +1,4 @@
-import { Event, EventType, HttpRequest, HttpResponse } from '@envy/core';
+import { Event, EventType, HttpRequest } from '@envy/core';
 
 import { Traces } from '@/types';
 
@@ -7,14 +7,14 @@ type WebSocketClientOptions = {
   changeHandler?: () => void;
 };
 
-export default class WebSocketClient {
+export default class Collector {
   private readonly _port: number;
 
   private _connected: boolean = true;
   private _connecting: boolean = false;
   private _shouldRetry: boolean = true;
   private _retryCount: number = 0;
-  private _traces: Traces = {};
+  private _traces: Traces = new Map();
   private _changeHandler?: () => void;
 
   constructor({ port, changeHandler }: WebSocketClientOptions) {
@@ -70,12 +70,11 @@ export default class WebSocketClient {
     socket.onmessage = ({ data }) => {
       const payload = JSON.parse(data.toString()) as Event;
       switch (payload?.type) {
-        case EventType.HttpRequest:
-          this.addRequest(payload as HttpRequest);
+        case EventType.HttpRequest: {
+          this.addHttpRequest(payload as HttpRequest);
+
           break;
-        case EventType.HttpResponse:
-          this.addResponse(payload as HttpResponse);
-          break;
+        }
       }
     };
   }
@@ -84,28 +83,13 @@ export default class WebSocketClient {
     this._connect();
   }
 
-  addRequest(payload: HttpRequest) {
-    this._traces = {
-      ...this._traces,
-      [payload.traceId]: { req: payload, res: null },
-    };
-
-    this._signalChange();
-  }
-
-  addResponse(payload: HttpResponse) {
-    const updatedTraces = { ...this._traces };
-    const trace = updatedTraces[payload.traceId];
-    if (!trace) return;
-
-    trace.res = payload;
-    trace.duration = (payload.timestamp - trace.req.timestamp) / 1000;
-    this._traces = updatedTraces;
+  addHttpRequest(httpRequest: HttpRequest) {
+    this._traces.set(httpRequest.id, httpRequest);
     this._signalChange();
   }
 
   clearTraces() {
-    this._traces = {};
+    this._traces.clear();
     this._signalChange();
   }
 }

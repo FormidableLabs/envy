@@ -3,7 +3,7 @@ import TraceList from '@/components/TraceList';
 import useApplication from '@/hooks/useApplication';
 
 export default function MainDisplay() {
-  const { traceId } = useApplication();
+  const { selectedTraceId: traceId } = useApplication();
 
   return (
     <div className="h-full flex flex-col md:flex-row bg-slate-400 overflow-hidden">

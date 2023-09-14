@@ -23,40 +23,40 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
 type TraceListProps = React.HTMLAttributes<HTMLElement>;
 
 export default function TraceList({ className }: TraceListProps) {
-  const { port, connected, connecting, traces, traceId, setSelectedTrace } = useApplication();
-  const data = Object.entries(traces);
+  const { port, connected, connecting, traces, selectedTraceId, setSelectedTrace } = useApplication();
+  const data = [...traces.values()];
 
-  function getMethodAndStatus(connection: Trace) {
-    return <MethodAndStatus method={connection.req.method} statusCode={connection.res?.statusCode} />;
+  function getMethodAndStatus(trace: Trace) {
+    return <MethodAndStatus method={trace.method} statusCode={trace.statusCode} />;
   }
 
-  function rowStyle({ res }: Trace) {
+  function rowStyle({ statusCode }: Trace) {
     let color = '';
-    if (!res) color = '';
-    else if (res.statusCode >= 500) color = 'bg-purple-500';
-    else if (res.statusCode >= 400) color = 'bg-red-500';
-    else if (res.statusCode >= 300) color = '';
-    else if (res.statusCode >= 200) color = '';
+    if (!statusCode) color = '';
+    else if (statusCode >= 500) color = 'bg-purple-500';
+    else if (statusCode >= 400) color = 'bg-red-500';
+    else if (statusCode >= 300) color = '';
+    else if (statusCode >= 200) color = '';
 
     return color ? `bg-opacity-20 ${color}` : '';
   }
 
-  function cellStyle({ res }: Trace) {
+  function cellStyle({ statusCode }: Trace) {
     let color = 'border-transparent';
-    if (!res) color = 'border-transparent';
-    else if (res.statusCode >= 500) color = 'border-purple-500';
-    else if (res.statusCode >= 400) color = 'border-red-500';
-    else if (res.statusCode >= 300) color = 'border-yellow-500';
-    else if (res.statusCode >= 200) color = 'border-green-500';
+    if (!statusCode) color = 'border-transparent';
+    else if (statusCode >= 500) color = 'border-purple-500';
+    else if (statusCode >= 400) color = 'border-red-500';
+    else if (statusCode >= 300) color = 'border-yellow-500';
+    else if (statusCode >= 200) color = 'border-green-500';
     return `border-0 border-l-8 ${color}`;
   }
 
-  function getRequestURI(connection: Trace) {
-    return <ListDataComponent connection={connection} />;
+  function getRequestURI(trace: Trace) {
+    return <ListDataComponent trace={trace} />;
   }
 
-  function getRequestDuration(connection: Trace) {
-    return connection.duration ? `${(connection.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
+  function getRequestDuration(trace: Trace) {
+    return trace.duration ? `${(trace.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
   }
 
   const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [
@@ -90,29 +90,28 @@ export default function TraceList({ className }: TraceListProps) {
             ))}
           </div>
           <div className="flex-1 table-row-group">
-            {data.map(([id, connection], idx) => (
+            {data.map((trace, idx) => (
               <div
-                key={id}
-                onClick={() => setSelectedTrace(id)}
+                key={trace.id}
+                onClick={() => setSelectedTrace(trace.id)}
                 className={tw(
                   'gap-4 table-row',
-                  id === traceId
+                  trace.id === selectedTraceId
                     ? 'bg-orange-300 shadow-lg'
-                    : rowStyle(connection) ||
-                        (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
+                    : rowStyle(trace) || (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
                   'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
                 )}
               >
                 {columns.map(([, prop, baseStyle, cellStyle]) => (
                   <div
-                    key={`${id}_${prop}`}
+                    key={`${trace.id}_${prop}`}
                     className={tw(
                       'table-cell p-cell align-middle overflow-hidden whitespace-nowrap text-ellipsis',
                       baseStyle || '',
-                      cellStyle(connection) || '',
+                      cellStyle(trace) || '',
                     )}
                   >
-                    {typeof prop === 'function' && prop(connection)}
+                    {typeof prop === 'function' && prop(trace)}
                   </div>
                 ))}
               </div>

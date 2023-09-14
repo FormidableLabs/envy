@@ -9,24 +9,21 @@ jest.mock('tailwind-merge');
 
 describe('utils', () => {
   describe('pathAndQuery', () => {
-    function mockTrace(req: Partial<Trace['req']>): Trace {
+    function mockTrace(req: Partial<Trace>): Trace {
       return {
-        req: {
-          id: '1',
-          traceId: '1',
-          type: EventType.HttpRequest,
-          timestamp: 0,
-          method: 'GET',
-          host: 'www.example.com',
-          port: 443,
-          httpVersion: '1.1',
-          path: '/',
-          url: 'https://www.example.com/',
-          headers: {},
-          body: undefined,
-          ...req,
-        },
-        res: null,
+        id: '1',
+        parentId: undefined,
+        type: EventType.HttpRequest,
+        timestamp: 0,
+        httpVersion: '1.1',
+        method: 'GET',
+        host: 'www.example.com',
+        port: 443,
+        path: '/',
+        url: 'https://www.example.com/',
+        requestHeaders: {},
+        requestBody: undefined,
+        ...req,
       };
     }
 

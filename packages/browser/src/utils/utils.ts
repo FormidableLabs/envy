@@ -3,8 +3,10 @@ import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
+type Headers = HttpRequestBase['requestHeaders'] | HttpRequestBase['responseHeaders'] | undefined;
+
 export function pathAndQuery(trace: Trace, decodeQs = false): [string, string] {
-  const [path, qs] = (trace.req.path ?? '').split('?');
+  const [path, qs] = (trace.path ?? '').split('?');
   return [path, decodeQs ? decodeURIComponent(qs) : qs];
 }
 
@@ -12,10 +14,7 @@ export function numberFormat(num: number): string {
   return Intl.NumberFormat('en-US').format(num);
 }
 
-export function cloneHeaders(
-  headers: HttpRequestBase['headers'] | undefined,
-  lowercase = true,
-): Record<string, string> {
+export function cloneHeaders(headers: Headers, lowercase = true): Record<string, string> {
   if (!headers) return {};
 
   return Object.entries(headers).reduce<Record<string, any>>((a, [k, v]) => {
@@ -25,7 +24,7 @@ export function cloneHeaders(
   }, {});
 }
 
-export function getHeader(headers: HttpRequestBase['headers'] | undefined, name: string): string | null {
+export function getHeader(headers: Headers, name: string): string | null {
   if (!headers) return null;
 
   const allLowercaseHeaders = cloneHeaders(headers, true);

@@ -7,14 +7,14 @@ import GraphQL from './GraphQL';
 
 export interface System<T> {
   name: string;
-  isMatch(connection: Trace): boolean;
-  getData?(connection: Trace): T;
-  getIconPath?(connection?: Trace): string;
-  listComponent?(connection: Trace): React.ReactNode;
-  requestDetailComponent?(connection: Trace): React.ReactNode;
-  transformRequestBody?(connection: Trace): any;
-  responseDetailComponent?(connection: Trace): React.ReactNode;
-  transformResponseBody?(connection: Trace): any;
+  isMatch(trace: Trace): boolean;
+  getData?(trace: Trace): T;
+  getIconPath?(trace?: Trace): string;
+  listComponent?(trace: Trace): React.ReactNode;
+  requestDetailComponent?(trace: Trace): React.ReactNode;
+  transformRequestBody?(trace: Trace): any;
+  responseDetailComponent?(trace: Trace): React.ReactNode;
+  transformResponseBody?(trace: Trace): any;
 }
 
 const defaultSystem: System<unknown> = new Default();
@@ -25,37 +25,37 @@ export const systems: System<unknown>[] = [
   defaultSystem, // fallback presentation
 ];
 
-function callOrFallback<T>(connection: Trace, fnName: keyof Omit<System<unknown>, 'name'>): T {
-  const system = systems.find(x => x.isMatch(connection));
-  if (system && typeof system[fnName] === 'function') return system[fnName]!(connection);
+function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name'>): T {
+  const system = systems.find(x => x.isMatch(trace));
+  if (system && typeof system[fnName] === 'function') return system[fnName]!(trace);
 
-  return defaultSystem[fnName]!(connection);
+  return defaultSystem[fnName]!(trace);
 }
 
 export type SystemDetailProps = {
-  connection: Trace;
+  trace: Trace;
 };
 
-export function getSystemIconPath(connection: Trace): string {
-  return callOrFallback(connection, 'getIconPath');
+export function getSystemIconPath(trace: Trace): string {
+  return callOrFallback(trace, 'getIconPath');
 }
 
-export function getRequestBody(connection: Trace): any {
-  return callOrFallback(connection, 'transformRequestBody');
+export function getRequestBody(trace: Trace): any {
+  return callOrFallback(trace, 'transformRequestBody');
 }
 
-export function getResponseBody(connection: Trace): any {
-  return callOrFallback(connection, 'transformResponseBody');
+export function getResponseBody(trace: Trace): any {
+  return callOrFallback(trace, 'transformResponseBody');
 }
 
-export function ListDataComponent({ connection }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(connection, 'listComponent');
+export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode {
+  return callOrFallback(trace, 'listComponent');
 }
 
-export function SystemRequestDetailsComponent({ connection }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(connection, 'requestDetailComponent');
+export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
+  return callOrFallback(trace, 'requestDetailComponent');
 }
 
-export function SystemResponseDetailsComponent({ connection }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(connection, 'responseDetailComponent');
+export function SystemResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
+  return callOrFallback(trace, 'responseDetailComponent');
 }

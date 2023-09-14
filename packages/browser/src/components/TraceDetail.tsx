@@ -42,19 +42,18 @@ export default function TraceDetail({ className }: DetailProps) {
   const { getSelectedTrace, clearSelectedTrace } = useApplication();
   const trace = getSelectedTrace();
 
-  const { req, res, duration } = trace || {};
-  const { timestamp: reqTime, method, host, path: fullPath } = req || {};
-  const { timestamp: resTime, statusCode, statusMessage } = res || {};
+  const { timestamp, method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } =
+    trace || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {
-    if (reqTime === undefined) return;
+    if (timestamp === undefined) return;
 
     if (counterElRef.current) {
-      const elapsedReqTime = Date.now() - reqTime;
+      const elapsedReqTime = Date.now() - timestamp;
       counterElRef.current.textContent = `${numberFormat(elapsedReqTime)}ms`;
     }
-  }, [reqTime]);
+  }, [timestamp]);
 
   const counterRef = useRef<NodeJS.Timeout>();
 
@@ -77,11 +76,11 @@ export default function TraceDetail({ className }: DetailProps) {
 
   function statusCodeStyle() {
     let style = 'bg-transparent';
-    if (!res) style = 'bg-transparent';
-    else if (res.statusCode >= 500) style = 'bg-purple-500';
-    else if (res.statusCode >= 400) style = 'bg-red-500';
-    else if (res.statusCode >= 300) style = 'bg-yellow-500';
-    else if (res.statusCode >= 200) style = 'bg-green-500';
+    if (!statusCode) style = 'bg-transparent';
+    else if (statusCode >= 500) style = 'bg-purple-500';
+    else if (statusCode >= 400) style = 'bg-red-500';
+    else if (statusCode >= 300) style = 'bg-yellow-500';
+    else if (statusCode >= 200) style = 'bg-green-500';
     return `inline-block rounded-full h-3 w-3 ${style}`;
   }
 
@@ -103,38 +102,35 @@ export default function TraceDetail({ className }: DetailProps) {
             <div className="break-all">
               <span className="flex justify-between items-center">
                 <span className="font-bold">{method}</span>
-                {res && (
+                {responseComplete && (
                   <span className="flex items-center gap-2">
                     <span className={statusCodeStyle()}></span>
                     {`${statusCode} ${statusMessage}`}
                   </span>
                 )}
               </span>
-              <span className="block text-opacity-70 text-black">
-                https://{host}
-                {fullPath}
-              </span>
+              <span className="block text-opacity-70 text-black">{url}</span>
             </div>
           </div>
         </div>
       </div>
 
       <Section title="Request summary">
-        <SystemRequestDetailsComponent connection={trace} />
+        <SystemRequestDetailsComponent trace={trace} />
       </Section>
 
       <Section title="Request details">
         <Fields>
           <Field label="Sent">
-            <DateTime time={reqTime} />
+            <DateTime time={timestamp} />
           </Field>
           <Field label="Host">{host}</Field>
           <Field label="Path">
             <span className="break-all">{path}</span>
           </Field>
-          <CodeDisplay contentType={getHeader(req?.headers, 'content-type')}>{requestBody}</CodeDisplay>
-          <QueryParams connection={trace} />
-          <RequestHeaders connection={trace} />
+          <CodeDisplay contentType={getHeader(requestHeaders, 'content-type')}>{requestBody}</CodeDisplay>
+          <QueryParams trace={trace} />
+          <RequestHeaders trace={trace} />
         </Fields>
       </Section>
 
@@ -143,15 +139,15 @@ export default function TraceDetail({ className }: DetailProps) {
           <>
             <Fields>
               <Field label="Received">
-                <DateTime time={resTime} />
+                <DateTime time={timestamp} />
               </Field>
               <Field label="Status">
                 {statusCode} {statusMessage}
               </Field>
               <Field label="Duration">{numberFormat(duration)}ms</Field>
-              <ResponseHeaders connection={trace} />
+              <ResponseHeaders trace={trace} />
             </Fields>
-            <SystemResponseDetailsComponent connection={trace} />
+            <SystemResponseDetailsComponent trace={trace} />
           </>
         ) : (
           <span className="flex flex-col my-20 mx-auto items-center">
@@ -163,9 +159,9 @@ export default function TraceDetail({ className }: DetailProps) {
       {responseComplete && (
         <Section title="Response body">
           <Fields>
-            <Field label="Type">{getHeader(res?.headers, 'content-type')}</Field>
-            <Field label="Length">{getHeader(res?.headers, 'content-length')}</Field>
-            <CodeDisplay contentType={getHeader(res?.headers, 'content-type')}>{responseBody}</CodeDisplay>
+            <Field label="Type">{getHeader(responseHeaders, 'content-type')}</Field>
+            <Field label="Length">{getHeader(responseHeaders, 'content-length')}</Field>
+            <CodeDisplay contentType={getHeader(responseHeaders, 'content-type')}>{responseBody}</CodeDisplay>
           </Fields>
         </Section>
       )}
