@@ -2,6 +2,7 @@ import { Client, Provider, cacheExchange, fetchExchange } from 'urql';
 
 import CatFact from './components/CatFact';
 import Cocktail from './components/Cocktail';
+import Sanity from './components/Sanity';
 import Xkcd from './components/Xkcd';
 
 const client = new Client({
@@ -19,10 +20,15 @@ export function App() {
           websockets for Envy to display in one of the Network Viewer UIs.
         </p>
         <hr className="my-8" />
-        <div className="content">
-          <CatFact />
-          <Cocktail />
-          <Xkcd />
+        <div className="space-y-4">
+          <div className="content">
+            <CatFact />
+            <Cocktail />
+            <Xkcd />
+          </div>
+          <div className="content">
+            <Sanity />
+          </div>
         </div>
       </main>
     </Provider>

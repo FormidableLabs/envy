@@ -5,6 +5,7 @@ import { Trace } from '@/types';
 
 import Default from './Default';
 import GraphQL from './GraphQL';
+import Sanity from './Sanity';
 
 export interface System<T> {
   name: string;
@@ -22,6 +23,7 @@ const defaultSystem: System<unknown> = new Default();
 export const systems: System<unknown>[] = [
   // TODO: provide a way to register custom systems here, before `defaultSystem`
   new GraphQL(),
+  new Sanity(),
 
   defaultSystem, // fallback presentation
 ];

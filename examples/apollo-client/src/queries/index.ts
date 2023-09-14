@@ -30,3 +30,24 @@ export const LATEST_XKCD_QUERY = gql`
     }
   }
 `;
+
+export const CATEGORIES_WITH_PRODUCTS_QUERY = gql`
+  query CategoriesWithProducts {
+    categoriesWithProducts {
+      id
+      name
+      description
+      products {
+        id
+        name
+        description
+        categoryIds
+        variants {
+          id
+          name
+          price
+        }
+      }
+    }
+  }
+`;

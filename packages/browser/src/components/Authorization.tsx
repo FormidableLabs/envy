@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
 import { Code, IconButton, JsonDisplay } from '@/components/ui';
-import { tw } from '@/utils';
+import { safeParseJson, tw } from '@/utils';
 
 enum TokenType {
   JWT = 0,
@@ -69,7 +69,7 @@ export default function Authorization({ value }: AuthorizationProps) {
           .join(''),
       );
 
-      decoded = JSON.parse(jsonPayload);
+      decoded = safeParseJson(jsonPayload);
     } else if (type === TokenType.BasicAuth) {
       const [un, pw] = atob(token).split(':');
       decoded = { username: un, password: pw };
