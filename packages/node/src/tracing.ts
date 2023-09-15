@@ -2,6 +2,7 @@ import { WebSocketClient } from './client';
 import { Http } from './http';
 import log from './log';
 import { Middleware } from './middleware';
+import { Meta } from './middleware/meta';
 import { Sanity } from './middleware/sanity';
 import { Options } from './options';
 import { Exporter, Plugin } from './plugin';
@@ -20,12 +21,12 @@ export function enableTracing(options: TracingOptions) {
   const wsClient = WebSocketClient(options);
 
   // middleware transforms event data
-  const middleware: Middleware[] = [Sanity];
+  const middleware: Middleware[] = [Meta, Sanity];
 
   // apply the middleware and send with the websocket
   const exporter: Exporter = {
     send(message) {
-      const result = middleware.reduce((prev, t) => t(prev), message);
+      const result = middleware.reduce((prev, t) => t(prev, options), message);
       wsClient.send(result);
     },
   };

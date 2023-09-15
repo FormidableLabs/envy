@@ -17,6 +17,11 @@ export interface Event {
   parentId?: string;
 
   /**
+   * Optional service name identifier
+   */
+  serviceName?: string;
+
+  /**
    * UNIX Epoch time in seconds since 00:00:00 UTC on 1 January 1970
    */
   timestamp: number;

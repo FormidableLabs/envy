@@ -1,3 +1,5 @@
 import { Event } from '@envy/core';
 
-export type Middleware = (event: Event) => Event;
+import { Options } from '../options';
+
+export type Middleware = (event: Event, options: Options) => Event;
