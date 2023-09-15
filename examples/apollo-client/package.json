@@ -5,9 +5,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "parcel ./src/index.html --port 4001"
+    "start": "parcel ./src/index.html --port 4001 --no-cache"
   },
   "dependencies": {
+    "@envy/web": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "urql": "^4.0.5"

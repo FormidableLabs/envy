@@ -18,21 +18,18 @@ wss.on('listening', () => {
 });
 
 wss.on('connection', (ws, request) => {
-  if (request.url === '/viewer' && !viewer) {
+  if (request.url === '/viewer') {
     log(chalk.green('✅ Envy viewer client connected'));
     viewer = ws;
   }
 
-  if (request.url === '/node' && !viewer) {
+  if (request.startsWith === '/node') {
     log(chalk.green('✅ Envy node sender connected'));
   }
 
-  ws.on('close', () => {
-    if (viewer !== null) {
-      log(chalk.red('❌ Envy viewer client disconnected'));
-      viewer = null;
-    }
-  });
+  if (request.startsWith === '/web') {
+    log(chalk.green('✅ Envy web sender connected'));
+  }
 
   ws.on('message', data => {
     if (!viewer || viewer.readyState !== WebSocket.OPEN) {

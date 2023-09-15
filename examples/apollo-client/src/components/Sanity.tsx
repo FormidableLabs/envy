@@ -26,7 +26,7 @@ export default function Sanity() {
                   <div className="flex flex-col gap-2">
                     {category.products.map((product: any) => {
                       return product.variants.map((variant: any) => (
-                        <div className="flex flex-row justify-between ml-4 mr-12">
+                        <div key={variant.id} className="flex flex-row justify-between ml-4 mr-12">
                           <div>{variant.name}</div>
                           <div>${variant.price.toFixed(2)}</div>
                         </div>

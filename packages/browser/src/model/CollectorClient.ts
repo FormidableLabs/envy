@@ -1,4 +1,4 @@
-import { Event, EventType, HttpRequest } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event, EventType, HttpRequest } from '@envy/core';
 
 import { Traces } from '@/types';
 import { safeParseJson } from '@/utils';
@@ -44,7 +44,8 @@ export default class CollectorClient {
   }
 
   private _connect() {
-    const socket = new WebSocket(`ws://localhost:${this._port}/viewer`);
+    const port = this._port ?? DEFAULT_WEB_SOCKET_PORT;
+    const socket = new WebSocket(`ws://localhost:${port}/viewer`);
 
     socket.onopen = () => {
       this._connecting = false;
@@ -57,15 +58,6 @@ export default class CollectorClient {
       this._connected = false;
       this._connecting = true;
       this._signalChange();
-      this._retryCount += 1;
-      if (this._shouldRetry && this._retryCount < 3) {
-        // TODO: implement incremental back-off?
-        setTimeout(this._connect, 3000);
-      } else {
-        this._shouldRetry = false;
-        this._connecting = false;
-        this._signalChange();
-      }
     };
 
     socket.onmessage = ({ data }) => {

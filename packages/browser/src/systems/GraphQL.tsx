@@ -21,7 +21,7 @@ export default class GraphQL implements System<GraphQLData> {
   name = 'GraphQL';
 
   isMatch(trace: Trace) {
-    return trace.path === '/api/graphql';
+    return trace.path?.endsWith('/graphql') ?? false;
   }
 
   getData(trace: Trace) {

@@ -14,12 +14,11 @@ function requestData(
   host: Trace['host'],
   port: Trace['port'],
   path: Trace['path'],
-): Pick<Trace, 'httpVersion' | 'method' | 'host' | 'port' | 'path' | 'url'> {
+): Pick<Trace, 'method' | 'host' | 'port' | 'path' | 'url'> {
   const protocol = port === 433 ? 'https://' : 'http://';
   const hostString = port === 80 || port === 443 ? `${host}` : `${host}:${port.toString()}`;
 
   return {
-    httpVersion: '1.1',
     method,
     host,
     port,
@@ -47,6 +46,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: 200,
     statusMessage: 'OK',
     responseHeaders: {
@@ -128,6 +128,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: 200,
     statusMessage: 'OK',
     responseHeaders: {
@@ -158,6 +159,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: 404,
     statusMessage: 'Not found',
     responseHeaders: {
@@ -191,6 +193,7 @@ const mockTraces: Trace[] = [
       lastName: 'Bear',
     }),
     // ---------
+    httpVersion: '1.1',
     statusCode: 200,
     statusMessage: 'OK',
     responseHeaders: {
@@ -205,7 +208,6 @@ const mockTraces: Trace[] = [
       'connection': 'keep-alive',
       'keep-alive': 'timeout=5',
     },
-    httpVersion: '1.1',
     responseBody: JSON.stringify({
       id: '4',
     }),
@@ -239,6 +241,7 @@ const mockTraces: Trace[] = [
       },
     }),
     // ---------
+    httpVersion: '1.1',
     statusCode: 200,
     statusMessage: 'OK',
     responseHeaders: {
@@ -276,6 +279,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: 500,
     statusMessage: 'Internal Server Error',
     responseHeaders: {
@@ -303,6 +307,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: 200,
     statusMessage: 'OK',
     responseHeaders: {
@@ -330,6 +335,7 @@ const mockTraces: Trace[] = [
     },
     requestBody: undefined,
     // ---------
+    httpVersion: '1.1',
     statusCode: undefined,
     statusMessage: undefined,
     responseHeaders: undefined,
