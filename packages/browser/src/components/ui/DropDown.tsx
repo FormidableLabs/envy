@@ -51,7 +51,7 @@ function DropDown(
     onChange?.(selection.map(x => x.value));
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selection]);
 
   const dropDownFieldRef = useRef<HTMLSpanElement>(null);
   const finalRef = (ref || dropDownFieldRef) as RefObject<HTMLSpanElement>;
