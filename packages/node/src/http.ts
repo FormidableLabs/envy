@@ -3,7 +3,7 @@ import https from 'https';
 import { performance } from 'perf_hooks';
 import { types as utilTypes } from 'util';
 
-import { EventType, HttpRequest } from '@envy/core';
+import { EventType, HttpRequest, nanoid } from '@envy/core';
 import { wrap } from 'shimmer';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
@@ -11,7 +11,6 @@ import { wrap } from 'shimmer';
 import { createBrotliDecompress, unzip } from 'zlib';
 
 import log from './log';
-import { nanoid } from './nanoid';
 import { Plugin } from './plugin';
 
 // ESM handling of wrapping
