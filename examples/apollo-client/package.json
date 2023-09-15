@@ -1,12 +1,6 @@
 {
   "name": "@envy/example-apollo-client",
-  "version": "0.0.2",
   "description": "Example website connected to apollo server application using Envy",
-  "source": "src/index.html",
-  "repository": "https://github.com/FormidableLabs/envy.git",
-  "contributors": [
-    "Kevin Paxton <kevinpaxton82@gmail.com>"
-  ],
   "license": "MIT",
   "private": true,
   "scripts": {

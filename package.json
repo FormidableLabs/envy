@@ -1,6 +1,5 @@
 {
   "name": "envy",
-  "version": "0.1.0",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",
