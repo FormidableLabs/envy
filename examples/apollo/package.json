@@ -1,6 +1,6 @@
 {
   "name": "@envy/example-apollo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Example Apollo server application using Envy",
   "main": "index.ts",
   "repository": "https://github.com/FormidableLabs/envy.git",
