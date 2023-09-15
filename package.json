@@ -17,7 +17,8 @@
     "test": "turbo run test",
     "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"wait-on tcp:4000 && (cd examples/apollo-client && yarn start)\"",
     "example:express": "concurrently \"cd examples/express && yarn start\" \"wait-on tcp:4000 && (cd examples/express-client && yarn dev)\"",
-    "example:next": "cd examples/next && yarn && yarn dev"
+    "example:next": "cd examples/next && yarn && yarn dev",
+    "changeset": "changeset"
   },
   "workspaces": [
     "packages/*",
@@ -28,6 +29,7 @@
     "@types/jest": "^29.5.4",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
+    "@changesets/cli": "2.26.2",
     "concurrently": "^8.2.1",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
