@@ -1,5 +1,6 @@
 {
   "name": "@envy/example-express",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "ts-node ./app.ts"

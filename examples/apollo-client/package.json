@@ -1,5 +1,6 @@
 {
   "name": "@envy/example-apollo-client",
+  "version": "1.0.0",
   "description": "Example website connected to apollo server application using Envy",
   "license": "MIT",
   "private": true,
