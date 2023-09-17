@@ -22,7 +22,8 @@ type DetailProps = React.HTMLAttributes<HTMLElement>;
 function CodeDisplay({ contentType, children }: CodeDisplayProps) {
   if (!children) return null;
 
-  const isJson = contentType?.includes('application/json');
+  const isJson =
+    contentType?.includes('application/json') || contentType?.includes('application/graphql-response+json');
   const isXml = contentType?.includes('application/xml');
 
   return (
