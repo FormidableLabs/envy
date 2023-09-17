@@ -22,7 +22,8 @@ type DetailProps = React.HTMLAttributes<HTMLElement>;
 function CodeDisplay({ contentType, children }: CodeDisplayProps) {
   if (!children) return null;
 
-  const isJson = contentType?.includes('application/json');
+  const isJson =
+    contentType?.includes('application/json') || contentType?.includes('application/graphql-response+json');
   const isXml = contentType?.includes('application/xml');
 
   return (
@@ -42,8 +43,18 @@ export default function TraceDetail({ className }: DetailProps) {
   const { getSelectedTrace, clearSelectedTrace } = useApplication();
   const trace = getSelectedTrace();
 
-  const { timestamp, method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } =
-    trace || {};
+  const {
+    serviceName,
+    timestamp,
+    method,
+    host,
+    url,
+    requestHeaders,
+    statusCode,
+    statusMessage,
+    responseHeaders,
+    duration,
+  } = trace || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {
@@ -110,6 +121,9 @@ export default function TraceDetail({ className }: DetailProps) {
                 )}
               </span>
               <span className="block text-opacity-70 text-black">{url}</span>
+            </div>
+            <div className="mt-4">
+              Sent from <span className="font-bold">{serviceName}</span>
             </div>
           </div>
         </div>

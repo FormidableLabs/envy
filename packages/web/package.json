@@ -1,0 +1,15 @@
+{
+  "name": "@envy/web",
+  "version": "0.1.0",
+  "description": "Node.js Network & Telemetry Viewer",
+  "main": "dist/index.js",
+  "repository": "https://github.com/FormidableLabs/envy.git",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@envy/core": "0.2.0"
+  }
+}
