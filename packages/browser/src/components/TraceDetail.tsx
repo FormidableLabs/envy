@@ -42,8 +42,18 @@ export default function TraceDetail({ className }: DetailProps) {
   const { getSelectedTrace, clearSelectedTrace } = useApplication();
   const trace = getSelectedTrace();
 
-  const { timestamp, method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } =
-    trace || {};
+  const {
+    serviceName,
+    timestamp,
+    method,
+    host,
+    url,
+    requestHeaders,
+    statusCode,
+    statusMessage,
+    responseHeaders,
+    duration,
+  } = trace || {};
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {
@@ -110,6 +120,9 @@ export default function TraceDetail({ className }: DetailProps) {
                 )}
               </span>
               <span className="block text-opacity-70 text-black">{url}</span>
+            </div>
+            <div className="mt-4">
+              Sent from <span className="font-bold">{serviceName}</span>
             </div>
           </div>
         </div>

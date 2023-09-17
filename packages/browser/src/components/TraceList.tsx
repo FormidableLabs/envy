@@ -1,4 +1,4 @@
-import { HiOutlineEmojiSad } from 'react-icons/hi';
+import { HiOutlineChartBar, HiOutlineEmojiSad, HiOutlineLightningBolt } from 'react-icons/hi';
 
 import { Loading } from '@/components/ui';
 import useApplication from '@/hooks/useApplication';
@@ -65,20 +65,17 @@ export default function TraceList({ className }: TraceListProps) {
     ['Time', getRequestDuration, 'w-[50px] md:w-[100px] text-center', () => ''],
   ];
 
+  const [Icon, message] = connected
+    ? [HiOutlineLightningBolt, `Connected to ws://localhost:${port}...`]
+    : connecting
+    ? [HiOutlineChartBar, 'Connecting...']
+    : [HiOutlineEmojiSad, 'Unable to connect'];
+
   return (
     <div className={`h-full flex flex-col overflow-y-scroll bg-slate-300 ${className}`}>
       {data.length === 0 ? (
-        <div className="flex flex-none h-full justify-center items-center text-3xl md:text-6xl text-slate-400">
-          {connected ? (
-            `Server established on ws://localhost:${port} - waiting for data...`
-          ) : connecting ? (
-            'connecting...'
-          ) : (
-            <span className="flex items-center gap-2">
-              <HiOutlineEmojiSad className="translate-y-[0.1em] w-8 h-8 md:w-16 md:h-16" />
-              <span>unable to connect</span>
-            </span>
-          )}
+        <div className="flex flex-none h-full justify-center items-center text-3xl text-slate-400">
+          <Icon className="translate-y-[0.1em] w-8 h-8 mr-2" /> <span>{message}</span>
         </div>
       ) : (
         <div className="table table-fixed w-full relative">

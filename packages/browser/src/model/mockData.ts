@@ -33,6 +33,7 @@ const mockTraces: Trace[] = [
     id: '1',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(0),
     ...requestData('GET', 'auth.restserver.com', 443, '/auth?client=mock_client'),
     requestHeaders: {
@@ -71,6 +72,7 @@ const mockTraces: Trace[] = [
     id: '2',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'web',
     timestamp: elapseTime(0.1),
     ...requestData('POST', 'localhost', 3000, '/api/graphql'),
     requestHeaders: {
@@ -119,6 +121,7 @@ const mockTraces: Trace[] = [
     id: '3',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(1.2),
     ...requestData('GET', 'data.restserver.com', 443, '/features'),
     requestHeaders: {
@@ -150,6 +153,7 @@ const mockTraces: Trace[] = [
     id: '4',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(3.1),
     ...requestData('GET', 'data.restserver.com', 443, '/countries?start=0&count=20'),
     requestHeaders: {
@@ -178,6 +182,7 @@ const mockTraces: Trace[] = [
     id: '5',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(16.3),
     ...requestData('POST', 'data.restserver.com', 443, '/people'),
     requestHeaders: {
@@ -219,6 +224,7 @@ const mockTraces: Trace[] = [
     id: '6',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'web',
     timestamp: elapseTime(0.1),
     ...requestData('POST', 'localhost', 3000, '/api/graphql'),
     requestHeaders: {
@@ -270,6 +276,7 @@ const mockTraces: Trace[] = [
     id: '7',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(3.14),
     ...requestData('GET', 'data.restserver.com', 433, '/movies?start=0&count=20'),
     requestHeaders: {
@@ -298,6 +305,7 @@ const mockTraces: Trace[] = [
     id: '8',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(3.14),
     ...requestData('GET', 'hits.webstats.com', 433, '/?apikey=c82e66bd-4d5b-4bb7-b439-896936c94eb2'),
     requestHeaders: {
@@ -326,6 +334,7 @@ const mockTraces: Trace[] = [
     id: '9',
     parentId: undefined,
     type: EventType.HttpRequest,
+    serviceName: 'gql',
     timestamp: elapseTime(0.4),
     ...requestData('GET', 'data.restserver.com', 433, '/features'),
     requestHeaders: {

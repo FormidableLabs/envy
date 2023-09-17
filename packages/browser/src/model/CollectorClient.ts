@@ -13,8 +13,6 @@ export default class CollectorClient {
 
   private _connected: boolean = true;
   private _connecting: boolean = false;
-  private _shouldRetry: boolean = true;
-  private _retryCount: number = 0;
   private _traces: Traces = new Map();
   private _changeHandler?: () => void;
 
@@ -50,7 +48,6 @@ export default class CollectorClient {
     socket.onopen = () => {
       this._connecting = false;
       this._connected = true;
-      this._retryCount = 0;
       this._signalChange();
     };
 
