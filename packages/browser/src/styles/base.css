@@ -8,6 +8,10 @@ main#root {
   @apply h-full;
 }
 
+hr {
+  @apply block border-0 border-b border-b-slate-300 h-0 pt-4 !mb-4;
+}
+
 ::-webkit-scrollbar {
   @apply bg-slate-500 w-3 h-3;
 }
@@ -235,13 +239,7 @@ main#root {
 }
 
 /* Hide the root expand/collapse icon */
-.react-json-view
-  > .pretty-json-container
-  > .object-content
-  > .object-key-val
-  > span
-  > span
-  > .icon-container {
+.react-json-view > .pretty-json-container > .object-content > .object-key-val > span > span > .icon-container {
   @apply !hidden;
 }
 

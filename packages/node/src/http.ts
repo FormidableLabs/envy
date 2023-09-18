@@ -1,6 +1,5 @@
 import http from 'http';
 import https from 'https';
-import { performance } from 'perf_hooks';
 import { types as utilTypes } from 'util';
 
 import { EventType, HttpRequest, nanoid } from '@envy/core';
@@ -31,7 +30,7 @@ export const Http: Plugin = (_options, exporter) => {
     _wrap(module, 'request', (original: any) => {
       return function (this: any, ...args: http.ClientRequestArgs[]) {
         const id = nanoid();
-        const startTs = performance.now();
+        const startTs = Date.now();
 
         const request = original.apply(this, args) as http.ClientRequest;
         const write = request.write;
@@ -83,7 +82,7 @@ export const Http: Plugin = (_options, exporter) => {
           };
 
           const onRequestEnd = () => {
-            const endTs = performance.now();
+            const endTs = Date.now();
 
             const httpResponse: HttpRequest = {
               ...httpRequest,
