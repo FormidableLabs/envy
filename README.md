@@ -14,7 +14,7 @@ Import the tracing package into your applications entry point. These lines must 
 
 ```
 import { enableTracing } from '@envy/node';
-enableTracing();
+enableTracing({ serviceName: 'name-of-your-app' });
 ```
 
 Start your application and then launch the `@envy/browser` in a new terminal to start viewing network traces

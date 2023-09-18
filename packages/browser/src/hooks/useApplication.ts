@@ -4,7 +4,7 @@ import CollectorClient from '@/model/CollectorClient';
 import { Trace, Traces } from '@/types';
 
 export type ApplicationContextData = {
-  collector: CollectorClient;
+  collector: CollectorClient | undefined;
   port: number;
   connecting: boolean;
   connected: boolean;

@@ -51,12 +51,6 @@ export default class CollectorClient {
       this._signalChange();
     };
 
-    socket.onclose = () => {
-      this._connected = false;
-      this._connecting = true;
-      this._signalChange();
-    };
-
     socket.onmessage = ({ data }) => {
       const payload = safeParseJson<Event>(data.toString());
       switch (payload?.type) {

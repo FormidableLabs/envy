@@ -1,9 +1,10 @@
+import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
 import WebSocket from 'ws';
 
 import log from './log';
+import { Options } from './options';
 
-export interface WebSocketClientOptions {
-  debug?: boolean;
+export interface WebSocketClientOptions extends Options {
   port?: number;
 }
 
@@ -15,7 +16,7 @@ export function WebSocketClient(options: WebSocketClientOptions) {
   let retryDelay = DEFAULT_RETRY_DELAY;
   let retryAttempts = 0;
 
-  const socket = `ws://127.0.0.1:${options.port ?? 9999}/node`;
+  const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/node/${options.serviceName}`;
 
   function connect() {
     ws = new WebSocket(socket);

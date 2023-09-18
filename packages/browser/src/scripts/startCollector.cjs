@@ -18,22 +18,21 @@ wss.on('listening', () => {
 });
 
 wss.on('connection', (ws, request) => {
-  if (request.url === '/viewer') {
-    log(chalk.green('✅ Envy viewer client connected'));
+  const identifier = request.url.startsWith('/') ? request.url.substring(1) : request.url;
+  const idxFirstSlash = identifier.indexOf('/');
+  const [namespace, serviceName] =
+    idxFirstSlash === -1 ? [identifier, ''] : [identifier.slice(0, idxFirstSlash), identifier.slice(idxFirstSlash + 1)];
+
+  if (namespace === 'viewer') {
     viewer = ws;
   }
 
-  if (request.startsWith === '/node') {
-    log(chalk.green('✅ Envy node sender connected'));
-  }
-
-  if (request.startsWith === '/web') {
-    log(chalk.green('✅ Envy web sender connected'));
-  }
+  const serviceNameDetail = !!serviceName ? `: ${chalk.yellow(serviceName)}` : '';
+  log(chalk.green(`✅ Envy ${chalk.cyan(namespace)} connected${serviceNameDetail}`));
 
   ws.on('message', data => {
     if (!viewer || viewer.readyState !== WebSocket.OPEN) {
-      handleError('No viewers registered');
+      handleError('No viewers connected');
       return;
     }
 

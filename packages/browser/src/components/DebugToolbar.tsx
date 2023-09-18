@@ -10,7 +10,7 @@ export default function DebugToolbar() {
 
   const addMockData = useCallback(() => {
     for (const trace of mockData) {
-      collector.addHttpRequest(trace);
+      collector?.addHttpRequest(trace);
     }
   }, [collector]);
 
