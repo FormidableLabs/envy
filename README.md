@@ -6,23 +6,64 @@ Zero Config Node.js Telemetry &amp; Network Viewer
 
 ## Usage
 
-Install the Envy ecosystem in your project using `yarn`, `npm`, or your favorite tool.
+There are two parts to using Envy:
+
+1. Install and run the viewer
+2. Install and run one or more senders
+
+### Running the browser viewer
+
+The `@envy/browser` package allows you to start a web socket server and a browser-based application to display traces sent by various sender packages. You should install it like this:
+
+For now, this can be run from this repo by running
 
 ```
-yarn add @envy/node @envy/browser
+yarn workspace @envy/broswer start
 ```
 
-Import the tracing package into your applications entry point. These lines must be at the top of the file prior to any other import statements.
+TODO: Allow this package to be installed and run standalone from another codebase.
+
+### Sending traces from a node-based application
+
+Install the `@envy/node` sender package in your node application:
 
 ```
+yarn add @envy/node
+```
+
+Import and invoke the `enableTracing` function to the root of your app before any other code.
+
+```ts
 import { enableTracing } from '@envy/node';
-enableTracing({ serviceName: 'name-of-your-app' });
+enableTracing({ serviceName: 'your-node-app-name' });
+
+// ... your app code
 ```
 
-Start your application and then launch the `@envy/browser` in a new terminal to start viewing network traces
+### Sending traces froma website
+
+Install the `@envy/web` sender package in your website:
 
 ```
-npx start @envy/browser
+yarn add @envy/web
+```
+
+Import the `enableTracing` function to the root of your app, and invoke it before mounting your application.
+
+For example, in a simple React application:
+
+```ts
+import { enableTracing } from '@envy/web';
+import { createRoot } from 'react-dom/client';
+
+import { App } from './App';
+
+const container = document.getElementById('app');
+const root = createRoot(container);
+
+enableTracing({ serviceName: 'your-website-name' }).then(() => {
+  root.render(<App />);
+});
 ```
 
 ## Development
