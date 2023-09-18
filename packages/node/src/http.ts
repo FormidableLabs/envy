@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import { types as utilTypes } from 'util';
 
-import { EventType, HttpRequest, nanoid } from '@envy/core';
+import { Event, HttpRequest, nanoid } from '@envy/core';
 import { wrap } from 'shimmer';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
@@ -43,17 +43,18 @@ export const Http: Plugin = (_options, exporter) => {
         }
 
         const options = args[0];
-        const httpRequest: HttpRequest = {
+        const httpRequest: Event = {
           id,
           timestamp: startTs,
-          requestHeaders,
-          host: request.host,
-          path: request.path,
-          method: request.method as HttpRequest['method'],
-          url: `${request.protocol}//${requestHeaders.host}${request.path}`,
-          type: EventType.HttpRequest,
-          port: options.port as number,
-          requestBody: undefined,
+          http: {
+            requestHeaders,
+            host: request.host,
+            path: request.path,
+            method: request.method as HttpRequest['method'],
+            url: `${request.protocol}//${requestHeaders.host}${request.path}`,
+            port: options.port as number,
+            requestBody: undefined,
+          },
         };
 
         const payload: any = [];
@@ -66,9 +67,11 @@ export const Http: Plugin = (_options, exporter) => {
         };
 
         request.end = function (...args: any) {
-          httpRequest.requestBody = payload.length > 0 ? payload.join() : undefined;
+          if (httpRequest.http) {
+            httpRequest.http.requestBody = payload.length > 0 ? payload.join() : undefined;
+            exporter.send(httpRequest);
+          }
 
-          exporter.send(httpRequest);
           return end.apply(this, args);
         };
 
@@ -84,19 +87,22 @@ export const Http: Plugin = (_options, exporter) => {
           const onRequestEnd = () => {
             const endTs = Date.now();
 
-            const httpResponse: HttpRequest = {
+            const httpResponse: Event = {
               ...httpRequest,
 
-              duration: endTs - startTs,
-              httpVersion: response.httpVersion,
-              responseBody: undefined,
-              responseHeaders: response.headers,
-              statusCode: Number(response.statusCode),
-              statusMessage: String(response.statusMessage),
+              http: {
+                ...httpRequest.http!,
+                duration: endTs - startTs,
+                httpVersion: response.httpVersion,
+                responseBody: undefined,
+                responseHeaders: response.headers,
+                statusCode: Number(response.statusCode),
+                statusMessage: String(response.statusMessage),
+              },
             };
 
-            parsePayload(httpResponse, payload, body => {
-              httpResponse.responseBody = body;
+            parsePayload(httpResponse.http!, payload, body => {
+              httpResponse.http!.responseBody = body;
               exporter.send(httpResponse);
             });
           };

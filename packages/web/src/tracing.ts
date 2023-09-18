@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, HttpRequest } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envy/core';
 
 import { fetchRequestToEvent, fetchResponseToEvent } from './http';
 import log from './log';
@@ -9,7 +9,7 @@ export interface TracingOptions extends Options {
   port?: number;
 }
 
-const initialTraces: Record<string, HttpRequest> = {};
+const initialTraces: Record<string, Event> = {};
 
 export async function enableTracing(options: TracingOptions): Promise<void> {
   if (typeof window === 'undefined') {

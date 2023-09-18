@@ -1,10 +1,4 @@
-import { Event } from './event';
-import { EventType } from './eventType';
-
-/**
- * @private This is an internal type and should not be used by consumers
- */
-export interface HttpRequestBase extends Event {
+export interface HttpRequest {
   /**
    * Request duration in milliseconds
    */
@@ -69,11 +63,4 @@ export interface HttpRequestBase extends Event {
    * The full url of the request
    */
   url: string;
-}
-
-/**
- * An HTTP Request
- */
-export interface HttpRequest extends HttpRequestBase {
-  type: EventType.HttpRequest;
 }

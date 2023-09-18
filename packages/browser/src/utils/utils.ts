@@ -6,7 +6,7 @@ import { Trace } from '@/types';
 type Headers = HttpRequest['requestHeaders'] | HttpRequest['responseHeaders'] | undefined;
 
 export function pathAndQuery(trace: Trace, decodeQs = false): [string, string] {
-  const [path, qs] = (trace.path ?? '').split('?');
+  const [path, qs] = (trace.http?.path ?? '').split('?');
   return [path, decodeQs ? decodeURIComponent(qs) : qs];
 }
 

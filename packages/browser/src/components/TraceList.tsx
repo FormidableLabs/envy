@@ -27,10 +27,14 @@ export default function TraceList({ className }: TraceListProps) {
   const data = [...traces.values()];
 
   function getMethodAndStatus(trace: Trace) {
-    return <MethodAndStatus method={trace.method} statusCode={trace.statusCode} />;
+    if (trace.http) {
+      return <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} />;
+    }
   }
 
-  function rowStyle({ statusCode }: Trace) {
+  function rowStyle(trace: Trace) {
+    const statusCode = trace.http?.statusCode;
+
     let color = '';
     if (!statusCode) color = '';
     else if (statusCode >= 500) color = 'bg-purple-500';
@@ -41,7 +45,9 @@ export default function TraceList({ className }: TraceListProps) {
     return color ? `bg-opacity-20 ${color}` : '';
   }
 
-  function cellStyle({ statusCode }: Trace) {
+  function cellStyle(trace: Trace) {
+    const statusCode = trace.http?.statusCode;
+
     let color = 'border-transparent';
     if (!statusCode) color = 'border-transparent';
     else if (statusCode >= 500) color = 'border-purple-500';
@@ -56,7 +62,7 @@ export default function TraceList({ className }: TraceListProps) {
   }
 
   function getRequestDuration(trace: Trace) {
-    return trace.duration ? `${(trace.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
+    return trace.http?.duration ? `${(trace.http.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
   }
 
   const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [

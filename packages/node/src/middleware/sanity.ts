@@ -1,18 +1,12 @@
-import { EventType, HttpRequest, SanityRequest } from '@envy/core';
-
 import { Middleware } from '.';
 
 const HOST = '.sanity.io';
 
 export const Sanity: Middleware = event => {
-  if (event.type === EventType.HttpRequest) {
-    const httpRequest = event as HttpRequest;
+  if (event.http) {
+    const httpRequest = event.http;
 
     if (httpRequest.host.endsWith(HOST)) {
-      event.type = EventType.SanityRequest;
-
-      const sanityRequest = event as SanityRequest;
-
       let query: string | null = null;
       switch (httpRequest.method) {
         case 'GET': {
@@ -33,8 +27,10 @@ export const Sanity: Middleware = event => {
       }
       const queryType = query ? /_type\s*==\s*['"](.*?)['"]/m.exec(query)?.[1] ?? null : null;
 
-      sanityRequest.query = query || undefined;
-      sanityRequest.queryType = queryType || undefined;
+      event.sanity = {
+        query: query || undefined,
+        queryType: queryType || undefined,
+      };
     }
   }
   return event;

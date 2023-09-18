@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event, EventType, HttpRequest } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envy/core';
 
 import { Traces } from '@/types';
 import { safeParseJson } from '@/utils';
@@ -53,16 +53,8 @@ export default class CollectorClient {
 
     socket.onmessage = ({ data }) => {
       const payload = safeParseJson<Event>(data.toString());
-      switch (payload?.type) {
-        case EventType.HttpRequest: {
-          this.addHttpRequest(payload as HttpRequest);
-          break;
-        }
-        case EventType.SanityRequest: {
-          // TODO: this is probably not correct??
-          this.addHttpRequest(payload as HttpRequest);
-          break;
-        }
+      if (payload) {
+        this.addEvent(payload);
       }
     };
   }
@@ -71,14 +63,9 @@ export default class CollectorClient {
     this._connect();
   }
 
-  addHttpRequest(httpRequest: HttpRequest) {
-    const trace = { ...httpRequest };
-
-    if (trace.responseHeaders?.['content-encoding'] === 'gzip') {
-      trace.responseBody = '';
-    }
-
-    this._traces.set(httpRequest.id, httpRequest);
+  addEvent(event: Event) {
+    const trace = { ...event };
+    this._traces.set(trace.id, trace);
     this._signalChange();
   }
 

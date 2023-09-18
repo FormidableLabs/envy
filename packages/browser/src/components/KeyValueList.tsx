@@ -27,18 +27,19 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
 }
 
 export function RequestHeaders({ trace }: { trace: Trace }) {
-  if (!Object.keys(trace.requestHeaders).length) return null;
+  const requestHeaders = trace.http?.requestHeaders;
+  if (!(requestHeaders && Object.keys(requestHeaders).length)) return null;
 
-  const headers = cloneHeaders(trace.requestHeaders) as Record<string, any>;
+  const headers = cloneHeaders(requestHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
   return <KeyValueList label="Headers" uid={trace.id} keyValuePairs={Object.entries(headers)} />;
 }
 
 export function ResponseHeaders({ trace }: { trace: Trace }) {
-  if (!trace.responseHeaders) return null;
-  if (!Object.keys(trace.responseHeaders).length) return null;
+  const responseHeaders = trace.http?.responseHeaders;
+  if (!(responseHeaders && Object.keys(responseHeaders).length)) return null;
 
-  const headers = cloneHeaders(trace.responseHeaders) as Record<string, any>;
+  const headers = cloneHeaders(responseHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
   return <KeyValueList label="Headers" uid={trace.id} keyValuePairs={Object.entries(headers)} />;

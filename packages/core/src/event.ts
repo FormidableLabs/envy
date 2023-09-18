@@ -1,4 +1,6 @@
-import { EventType } from './eventType';
+import { GraphqlRequest } from './graphql';
+import { HttpRequest } from './http';
+import { SanityRequest } from './sanity';
 
 /**
  * An event that can be emitted through the websocket
@@ -9,6 +11,11 @@ export interface Event {
    * A unique identifier for this span
    */
   id: string;
+
+  /**
+   * UNIX Epoch time in seconds since 00:00:00 UTC on 1 January 1970
+   */
+  timestamp: number;
 
   /**
    * A unique identifier used for grouping
@@ -22,12 +29,17 @@ export interface Event {
   serviceName?: string;
 
   /**
-   * UNIX Epoch time in seconds since 00:00:00 UTC on 1 January 1970
+   * Graphql request data
    */
-  timestamp: number;
+  graphql?: GraphqlRequest;
 
   /**
-   * The type of event
+   * Http request data
    */
-  type: EventType;
+  http?: HttpRequest;
+
+  /**
+   * Sanity request data
+   */
+  sanity?: SanityRequest;
 }
