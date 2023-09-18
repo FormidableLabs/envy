@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 
-import { Section } from '@/components/ui';
 import { Trace } from '@/types';
 
 import Default from './Default';
