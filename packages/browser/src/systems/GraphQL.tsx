@@ -1,5 +1,5 @@
 import { RequestRowData } from '@/components/RequestRowData';
-import { Code, Field, Fields, Label } from '@/components/ui';
+import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
 
