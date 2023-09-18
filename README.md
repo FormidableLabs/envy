@@ -1,3 +1,5 @@
+[![Envy — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/envy/main/envy-hero.png)](https://formidable.com/open-source/envy)
+
 # Envy
 
 Zero Config Node.js Telemetry &amp; Network Viewer
