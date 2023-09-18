@@ -70,11 +70,7 @@ export default class GraphQL implements System<GraphQLData> {
     );
   }
 
-  responseDetailComponent(trace: Trace) {
-    const { response } = this.getData(trace);
-    if (!response) return null;
-
-    const json = safeParseJson(response);
-    return <>{json.error && <Label label="Errors">ERRORS!</Label>}</>;
+  responseDetailComponent(_: Trace) {
+    return null;
   }
 }

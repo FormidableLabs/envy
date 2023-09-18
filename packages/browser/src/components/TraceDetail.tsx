@@ -129,8 +129,6 @@ export default function TraceDetail({ className }: DetailProps) {
         </div>
       </div>
 
-      <SystemRequestDetailsComponent trace={trace} />
-
       <Section title="Request details">
         <Fields>
           <Field label="Sent">
@@ -144,6 +142,7 @@ export default function TraceDetail({ className }: DetailProps) {
           <QueryParams trace={trace} />
           <RequestHeaders trace={trace} />
         </Fields>
+        <SystemRequestDetailsComponent trace={trace} />
       </Section>
 
       <Section title="Response details">

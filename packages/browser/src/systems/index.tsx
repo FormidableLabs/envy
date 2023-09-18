@@ -57,11 +57,20 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
 
 export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'requestDetailComponent');
-
-  if (!Component) return null;
-  return <Section title="Request summary">{Component}</Section>;
+  return Component ? (
+    <>
+      <hr />
+      {Component}
+    </>
+  ) : null;
 }
 
 export function SystemResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(trace, 'responseDetailComponent');
+  const Component = callOrFallback<ReactNode | null>(trace, 'responseDetailComponent');
+  return Component ? (
+    <>
+      <hr />
+      {Component}
+    </>
+  ) : null;
 }
