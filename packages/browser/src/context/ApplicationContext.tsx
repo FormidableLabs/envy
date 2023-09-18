@@ -1,5 +1,5 @@
 import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
@@ -25,7 +25,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     forceUpdate(curr => !curr);
   };
 
-  const collector = useMemo(() => new CollectorClient({ port, changeHandler }), []);
+  const collectorRef = useRef<CollectorClient>();
 
   useKeyboardShortcut([
     {
@@ -36,7 +36,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       predicate: e => e.key === 'ArrowUp',
       callback: () => {
         setSelectedTraceId(curr => {
-          const traceIds = Object.keys(collector.traces);
+          if (!collectorRef.current) return;
+          const traceIds = Object.keys(collectorRef.current.traces);
           if (!curr) return traceIds?.[traceIds.length - 1] ?? undefined;
           const idx = traceIds.findIndex(x => x === curr);
           if (idx !== -1 && idx > 0) return traceIds[idx - 1];
@@ -48,7 +49,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       predicate: e => e.key === 'ArrowDown',
       callback: () => {
         setSelectedTraceId(curr => {
-          const traceIds = Object.keys(collector.traces);
+          if (!collectorRef.current) return;
+          const traceIds = Object.keys(collectorRef.current.traces);
           if (!curr) return traceIds?.[0] ?? undefined;
           const idx = traceIds.findIndex(x => x === curr);
           if (idx !== -1 && idx < traceIds.length - 1) return traceIds[idx + 1];
@@ -59,8 +61,11 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   ]);
 
   useEffect(() => {
-    collector.start();
-  }, [collector]);
+    if (!collectorRef.current) {
+      collectorRef.current = new CollectorClient({ port, changeHandler });
+      collectorRef.current.start();
+    }
+  }, []);
 
   const hasFilters = () => {
     if (!filter) return false;
@@ -70,15 +75,16 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   };
 
   const value: ApplicationContextData = {
-    collector,
-    port: collector.port,
-    connecting: collector.connecting,
-    connected: collector.connected,
+    collector: collectorRef.current,
+    port: collectorRef.current?.port ?? 0,
+    connecting: collectorRef.current?.connecting ?? true,
+    connected: collectorRef.current?.connected ?? false,
     get traces() {
-      if (!filter || !hasFilters()) return collector.traces;
+      if (!collectorRef.current) return new Map();
+      if (!filter || !hasFilters()) return collectorRef.current?.traces;
       else {
         const filteredTraces = new Map<string, Trace>();
-        for (const [traceId, trace] of collector.traces.entries()) {
+        for (const [traceId, trace] of collectorRef.current.traces.entries()) {
           let includeInTraces = true;
 
           if (!!filter.value && !trace?.url.includes(filter.value)) includeInTraces = false;
@@ -98,7 +104,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       setSelectedTraceId(() => id);
     },
     getSelectedTrace() {
-      return (selectedTraceId && collector.traces.get(selectedTraceId)) || undefined;
+      return (selectedTraceId && collectorRef.current?.traces.get(selectedTraceId)) || undefined;
     },
     clearSelectedTrace() {
       setSelectedTraceId(undefined);
@@ -108,7 +114,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     },
     clearTraces() {
       setSelectedTraceId(undefined);
-      collector.clearTraces();
+      collectorRef.current?.clearTraces();
     },
   };
 
