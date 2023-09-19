@@ -1,4 +1,26 @@
-import { Event, HttpRequest } from '@envy/core';
+import { Event, HttpRequest, Plugin } from '@envy/core';
+
+import { generateId } from './id';
+
+export const Http: Plugin = (_options, exporter) => {
+  const { fetch: originalFetch } = window;
+  window.fetch = async (...args) => {
+    const tsReq = Date.now();
+    const id = generateId();
+
+    const reqEvent = fetchRequestToEvent(tsReq, id, ...args);
+    exporter.send(reqEvent);
+
+    const response = await originalFetch(...args);
+    const tsRes = Date.now();
+    const responseClone = response.clone();
+    const resEvent = await fetchResponseToEvent(tsRes, reqEvent, responseClone);
+
+    exporter.send(resEvent);
+
+    return response;
+  };
+};
 
 function formatHeaders(headers: HeadersInit | Headers | undefined): HttpRequest['requestHeaders'] {
   if (headers) {
@@ -17,12 +39,7 @@ function formatHeaders(headers: HeadersInit | Headers | undefined): HttpRequest[
   return {};
 }
 
-export function fetchRequestToEvent(
-  timestamp: number,
-  id: string,
-  input: RequestInfo | URL,
-  init?: RequestInit,
-): Event {
+function fetchRequestToEvent(timestamp: number, id: string, input: RequestInfo | URL, init?: RequestInit): Event {
   let url: URL;
   if (typeof input === 'string') {
     url = new URL(input);
@@ -48,7 +65,7 @@ export function fetchRequestToEvent(
   };
 }
 
-export async function fetchResponseToEvent(timestamp: number, req: Event, response: Response): Promise<Event> {
+async function fetchResponseToEvent(timestamp: number, req: Event, response: Response): Promise<Event> {
   return {
     ...req,
 

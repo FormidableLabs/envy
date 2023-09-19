@@ -5,4 +5,5 @@ export * from './http';
 export * from './middleware';
 export * from './nanoid';
 export * from './options';
+export * from './plugin';
 export * from './sanity';

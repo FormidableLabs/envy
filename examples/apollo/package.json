@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npx @envy/browser\" \"ts-node ./src/index.ts\""
+    "start": "ts-node ./src/index.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
