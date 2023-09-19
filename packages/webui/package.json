@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "start": "node ./src/scripts/start.cjs --dev",
-    "test": "jest",
+    "test": "jest --watch",
+    "test:coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
     "prebuild": "rimraf dist && rimraf bin",
     "build": "yarn build:parcel && yarn build:scripts",
     "build:parcel": "cross-env NODE_ENV=production parcel build --no-cache",
@@ -60,6 +61,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "events": "^3.1.0",
     "jest-environment-jsdom": "^29.7.0",
+    "mock-socket": "^9.3.1",
     "parcel": "^2.9.3",
     "postcss": "^8.4.29",
     "stream-browserify": "^3.0.0",
