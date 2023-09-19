@@ -6,7 +6,7 @@
     "src/index.html"
   ],
   "bin": {
-    "browser": "bin/start.cjs"
+    "envy": "bin/start.cjs"
   },
   "type": "module",
   "repository": "https://github.com/FormidableLabs/envy.git",
@@ -16,7 +16,7 @@
     "test": "jest",
     "prebuild": "rimraf dist && rimraf bin",
     "build": "yarn build:parcel && yarn build:scripts",
-    "build:parcel": "NODE_ENV=production parcel build --no-cache",
+    "build:parcel": "cross-env NODE_ENV=production parcel build --no-cache",
     "build:scripts": "copyfiles --flat ./src/scripts/start.cjs ./src/scripts/startCollector.cjs ./src/scripts/startViewer.cjs ./bin",
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
@@ -47,6 +47,7 @@
     "autoprefixer": "^10.4.15",
     "buffer": "^5.5.0||^6.0.0",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
