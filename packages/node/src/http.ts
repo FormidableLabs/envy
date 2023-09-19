@@ -2,13 +2,14 @@ import http from 'http';
 import https from 'https';
 import { types as utilTypes } from 'util';
 
-import { Event, HttpRequest, nanoid } from '@envy/core';
+import { Event, HttpRequest } from '@envy/core';
 import { wrap } from 'shimmer';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
 // eslint-disable-next-line import/order
 import { createBrotliDecompress, unzip } from 'zlib';
 
+import { generateId } from './id';
 import log from './log';
 import { Plugin } from './plugin';
 
@@ -29,7 +30,7 @@ export const Http: Plugin = (_options, exporter) => {
   function override(module: any) {
     _wrap(module, 'request', (original: any) => {
       return function (this: any, ...args: http.ClientRequestArgs[]) {
-        const id = nanoid();
+        const id = generateId();
         const startTs = Date.now();
 
         const request = original.apply(this, args) as http.ClientRequest;

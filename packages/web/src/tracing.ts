@@ -1,8 +1,8 @@
 import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envy/core';
 
 import { fetchRequestToEvent, fetchResponseToEvent } from './http';
+import { generateId } from './id';
 import log from './log';
-import { nanoid } from './nanoid';
 import { Options } from './options';
 
 export interface TracingOptions extends Options {
@@ -29,7 +29,7 @@ export async function enableTracing(options: TracingOptions): Promise<void> {
     const { fetch: originalFetch } = window;
     window.fetch = async (...args) => {
       const tsReq = Date.now();
-      const id = nanoid();
+      const id = generateId();
 
       const reqEvent = fetchRequestToEvent(tsReq, id, ...args);
       if (ws.readyState === ws.OPEN) {
