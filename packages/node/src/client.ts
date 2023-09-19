@@ -1,8 +1,7 @@
-import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Options } from '@envy/core';
 import WebSocket from 'ws';
 
 import log from './log';
-import { Options } from './options';
 
 export interface WebSocketClientOptions extends Options {
   port?: number;

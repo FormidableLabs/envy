@@ -1,10 +1,8 @@
+import { Meta, Middleware, Options, Sanity } from '@envy/core';
+
 import { WebSocketClient } from './client';
 import { Http } from './http';
 import log from './log';
-import { Middleware } from './middleware';
-import { Meta } from './middleware/meta';
-import { Sanity } from './middleware/sanity';
-import { Options } from './options';
 import { Exporter, Plugin } from './plugin';
 
 export interface TracingOptions extends Options {

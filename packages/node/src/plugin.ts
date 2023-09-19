@@ -1,6 +1,4 @@
-import { Event } from '@envy/core';
-
-import { Options } from './options';
+import { Event, Options } from '@envy/core';
 
 export interface Exporter {
   send: (data: Event) => void;
