@@ -1,6 +1,4 @@
-import { Event, EventType, SanityRequest } from '@envy/core';
-
-import { RequestRowData } from '@/components/RequestRowData';
+import { TraceListItem } from '@/components/TraceListItem';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
@@ -18,17 +16,14 @@ export default class Sanity implements System<SanityData> {
   name = 'Sanity';
 
   isMatch(trace: Trace) {
-    return (trace as Event).type === EventType.SanityRequest;
+    return !!trace.sanity;
   }
 
   getData(trace: Trace) {
-    const sanityRequest = trace as unknown as SanityRequest;
-
-    const query = sanityRequest.query;
-    const type = sanityRequest.queryType;
+    const { queryType, query } = trace.sanity!;
 
     return {
-      type: type,
+      type: queryType,
       query:
         query &&
         query
@@ -46,7 +41,12 @@ export default class Sanity implements System<SanityData> {
     const { type } = this.getData(trace);
     const [path] = pathAndQuery(trace);
     return (
-      <RequestRowData iconPath={this.getIconPath(trace)} hostName={trace.host} path={path} data={`Type: ${type}`} />
+      <TraceListItem
+        iconPath={this.getIconPath(trace)}
+        hostName={trace.http?.host}
+        path={path}
+        data={`Type: ${type}`}
+      />
     );
   }
 
@@ -66,9 +66,9 @@ export default class Sanity implements System<SanityData> {
   }
 
   transformResponseBody(trace: Trace) {
-    if (!trace.responseBody) return null;
+    if (!trace.http?.responseBody) return null;
 
-    const json = safeParseJson(trace.responseBody);
+    const json = safeParseJson(trace.http.responseBody);
     const transformed = { ...json };
     delete transformed.query;
     return transformed;

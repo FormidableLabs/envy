@@ -1,4 +1,4 @@
-import { RequestRowData } from '@/components/RequestRowData';
+import { TraceListItem } from '@/components/TraceListItem';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
@@ -21,11 +21,11 @@ export default class GraphQL implements System<GraphQLData> {
   name = 'GraphQL';
 
   isMatch(trace: Trace) {
-    return trace.path?.endsWith('/graphql') ?? false;
+    return trace.http?.path?.endsWith('/graphql') ?? false;
   }
 
   getData(trace: Trace) {
-    const reqBody = safeParseJson<Record<string, any>>(trace.requestBody ?? '{}') as Record<string, any>;
+    const reqBody = safeParseJson<Record<string, any>>(trace.http?.requestBody ?? '{}') as Record<string, any>;
     const type = (reqBody?.query?.startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
 
     return {
@@ -33,7 +33,7 @@ export default class GraphQL implements System<GraphQLData> {
       operationName: reqBody?.operationName,
       query: reqBody?.query,
       variables: reqBody?.variables,
-      response: trace.responseBody ?? null,
+      response: trace.http?.responseBody ?? null,
     };
   }
 
@@ -45,9 +45,9 @@ export default class GraphQL implements System<GraphQLData> {
     const { type, operationName } = this.getData(trace);
     const [path] = pathAndQuery(trace);
     return (
-      <RequestRowData
+      <TraceListItem
         iconPath={this.getIconPath(trace)}
-        hostName={trace.host}
+        hostName={trace.http?.host}
         path={path}
         data={`GQL ${type}: ${operationName}`}
       />

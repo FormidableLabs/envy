@@ -87,7 +87,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
         for (const [traceId, trace] of collectorRef.current.traces.entries()) {
           let includeInTraces = true;
 
-          if (!!filter.value && !trace?.url.includes(filter.value)) includeInTraces = false;
+          if (!!filter.value && !trace?.http?.url.includes(filter.value)) includeInTraces = false;
 
           if (includeInTraces && filter.systems.length > 0) {
             const validSystems = systems.filter(x => filter.systems.includes(x.name));

@@ -1,4 +1,3 @@
-import { EventType } from '@envy/core';
 import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
@@ -9,21 +8,22 @@ jest.mock('tailwind-merge');
 
 describe('utils', () => {
   describe('pathAndQuery', () => {
-    function mockTrace(req: Partial<Trace>): Trace {
+    function mockTrace(req: Partial<Trace['http']>): Trace {
       return {
         id: '1',
         parentId: undefined,
-        type: EventType.HttpRequest,
         timestamp: 0,
-        httpVersion: '1.1',
-        method: 'GET',
-        host: 'www.example.com',
-        port: 443,
-        path: '/',
-        url: 'https://www.example.com/',
-        requestHeaders: {},
-        requestBody: undefined,
-        ...req,
+        http: {
+          httpVersion: '1.1',
+          method: 'GET',
+          host: 'www.example.com',
+          port: 443,
+          path: '/',
+          url: 'https://www.example.com/',
+          requestHeaders: {},
+          requestBody: undefined,
+          ...req,
+        },
       };
     }
 

@@ -1,4 +1,4 @@
-import { EventType, HttpRequest } from '@envy/core';
+import { Event, HttpRequest } from '@envy/core';
 
 function formatHeaders(headers: HeadersInit | Headers | undefined): HttpRequest['requestHeaders'] {
   if (headers) {
@@ -22,7 +22,7 @@ export function fetchRequestToEvent(
   id: string,
   input: RequestInfo | URL,
   init?: RequestInit,
-): HttpRequest {
+): Event {
   let url: URL;
   if (typeof input === 'string') {
     url = new URL(input);
@@ -36,29 +36,30 @@ export function fetchRequestToEvent(
     id,
     parentId: undefined,
     timestamp,
-    type: EventType.HttpRequest,
-    method: (init?.method ?? 'GET') as HttpRequest['method'],
-    host: url.host,
-    port: parseInt(url.port, 10),
-    path: url.pathname,
-    url: url.toString(),
-    requestHeaders: formatHeaders(init?.headers),
-    requestBody: init?.body?.toString() ?? undefined,
+    http: {
+      method: (init?.method ?? 'GET') as HttpRequest['method'],
+      host: url.host,
+      port: parseInt(url.port, 10),
+      path: url.pathname,
+      url: url.toString(),
+      requestHeaders: formatHeaders(init?.headers),
+      requestBody: init?.body?.toString() ?? undefined,
+    },
   };
 }
 
-export async function fetchResponseToEvent(
-  timestamp: number,
-  req: HttpRequest,
-  response: Response,
-): Promise<HttpRequest> {
+export async function fetchResponseToEvent(timestamp: number, req: Event, response: Response): Promise<Event> {
   return {
     ...req,
-    httpVersion: response.type,
-    statusCode: response.status,
-    statusMessage: response.statusText,
-    responseHeaders: formatHeaders(response.headers),
-    responseBody: await response.text(),
-    duration: timestamp - req.timestamp,
+
+    http: {
+      ...req.http!,
+      httpVersion: response.type,
+      statusCode: response.status,
+      statusMessage: response.statusText,
+      responseHeaders: formatHeaders(response.headers),
+      responseBody: await response.text(),
+      duration: timestamp - req.timestamp,
+    },
   };
 }

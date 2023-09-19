@@ -43,18 +43,9 @@ export default function TraceDetail({ className }: DetailProps) {
   const { getSelectedTrace, clearSelectedTrace } = useApplication();
   const trace = getSelectedTrace();
 
-  const {
-    serviceName,
-    timestamp,
-    method,
-    host,
-    url,
-    requestHeaders,
-    statusCode,
-    statusMessage,
-    responseHeaders,
-    duration,
-  } = trace || {};
+  const { http, serviceName, timestamp } = trace || {};
+  const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } = http || {};
+
   const responseComplete = duration !== undefined && statusCode !== undefined;
 
   const updateTimer = useCallback(() => {
