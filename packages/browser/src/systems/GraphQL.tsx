@@ -1,4 +1,4 @@
-import { RequestRowData } from '@/components/RequestRowData';
+import { TraceListItem } from '@/components/TraceListItem';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
@@ -45,9 +45,9 @@ export default class GraphQL implements System<GraphQLData> {
     const { type, operationName } = this.getData(trace);
     const [path] = pathAndQuery(trace);
     return (
-      <RequestRowData
+      <TraceListItem
         iconPath={this.getIconPath(trace)}
-        hostName={trace.http?.host || ''}
+        hostName={trace.http?.host}
         path={path}
         data={`GQL ${type}: ${operationName}`}
       />

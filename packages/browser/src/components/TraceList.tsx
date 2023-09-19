@@ -27,9 +27,7 @@ export default function TraceList({ className }: TraceListProps) {
   const data = [...traces.values()];
 
   function getMethodAndStatus(trace: Trace) {
-    if (trace.http) {
-      return <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} />;
-    }
+    return trace.http ? <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} /> : null;
   }
 
   function rowStyle(trace: Trace) {

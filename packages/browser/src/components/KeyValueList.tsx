@@ -28,7 +28,7 @@ export function KeyValueList({ label, uid, keyValuePairs }: KeyValueListProps) {
 
 export function RequestHeaders({ trace }: { trace: Trace }) {
   const requestHeaders = trace.http?.requestHeaders;
-  if (!(requestHeaders && Object.keys(requestHeaders).length)) return null;
+  if (!requestHeaders || Object.keys(requestHeaders).length === 0) return null;
 
   const headers = cloneHeaders(requestHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
@@ -37,7 +37,7 @@ export function RequestHeaders({ trace }: { trace: Trace }) {
 
 export function ResponseHeaders({ trace }: { trace: Trace }) {
   const responseHeaders = trace.http?.responseHeaders;
-  if (!(responseHeaders && Object.keys(responseHeaders).length)) return null;
+  if (!responseHeaders || Object.keys(responseHeaders).length === 0) return null;
 
   const headers = cloneHeaders(responseHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
