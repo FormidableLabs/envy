@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
-import { cloneHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, tw } from './utils';
+import { cloneHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, safeParseJson, tw } from './utils';
 
 jest.mock('tailwind-merge');
 
@@ -55,12 +55,40 @@ describe('utils', () => {
       expect(result[1]).toEqual('baz=qux');
     });
 
+    it('should default to an empty string path if one is not supplied', () => {
+      const trace = mockTrace({ path: undefined });
+      const result = pathAndQuery(trace);
+
+      expect(result[0]).toEqual('');
+    });
+
     it('should return undefined for the second item if no querystring is present', () => {
       const trace = mockTrace({ path: '/foo/bar' });
       const result = pathAndQuery(trace);
 
       expect(result[0]).toEqual('/foo/bar');
       expect(result[1]).toBeUndefined();
+    });
+
+    it('should not decode querystring values by default`', () => {
+      const trace = mockTrace({ path: '/foo/bar?data=foo%20and%20bar' });
+      const result = pathAndQuery(trace, false);
+
+      expect(result[1]).toBe('data=foo%20and%20bar');
+    });
+
+    it('should not decode querystring values if `decodeQs` is `false`', () => {
+      const trace = mockTrace({ path: '/foo/bar?data=foo%20and%20bar' });
+      const result = pathAndQuery(trace, false);
+
+      expect(result[1]).toBe('data=foo%20and%20bar');
+    });
+
+    it('should decode querystring values if `decodeQs` is `true`', () => {
+      const trace = mockTrace({ path: '/foo/bar?data=foo%20and%20bar' });
+      const result = pathAndQuery(trace, true);
+
+      expect(result[1]).toBe('data=foo and bar');
     });
   });
 
@@ -109,7 +137,7 @@ describe('utils', () => {
       expect(result).not.toBe(originalHeaders);
     });
 
-    it('should return lowercased header keys when specified', () => {
+    it('should transform header keys to lowercased by default', () => {
       const originalHeaders = {
         Foo: 'BAR',
         Baz: 'qux',
@@ -120,6 +148,34 @@ describe('utils', () => {
       expect(result).toEqual({
         foo: 'BAR',
         baz: 'qux',
+      });
+    });
+
+    it('should transform header keys to lowercased when `lowercase` is `true`', () => {
+      const originalHeaders = {
+        Foo: 'BAR',
+        Baz: 'qux',
+      };
+
+      const result = cloneHeaders(originalHeaders, true);
+
+      expect(result).toEqual({
+        foo: 'BAR',
+        baz: 'qux',
+      });
+    });
+
+    it('should not transform header keys to lowercased when `lowercase` is `false`', () => {
+      const originalHeaders = {
+        Foo: 'BAR',
+        Baz: 'qux',
+      };
+
+      const result = cloneHeaders(originalHeaders, false);
+
+      expect(result).toEqual({
+        Foo: 'BAR',
+        Baz: 'qux',
       });
     });
   });
@@ -157,6 +213,23 @@ describe('utils', () => {
       const result = getHeader(headers, 'banana');
 
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('safeParseJson', () => {
+    it('should return parsed JSON if input is valid', () => {
+      const result = safeParseJson('{"foo":"bar"}');
+      expect(result).toEqual({ foo: 'bar' });
+    });
+
+    it('should return null if input is invalid', () => {
+      const result = safeParseJson('{"foo"');
+      expect(result).toBeNull();
+    });
+
+    it('should return null if input is undefined', () => {
+      const result = safeParseJson(undefined);
+      expect(result).toBeNull();
     });
   });
 
