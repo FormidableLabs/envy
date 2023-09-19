@@ -1,38 +1,45 @@
-[![Envy — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/envy/main/envy-hero.png)](https://formidable.com/open-source/envy)
+<div align="center">
+  <a href="https://formidable.com/open-source/" target="_blank">
+    <img alt="Envy — Formidable, We build the modern web" src="https://raw.githubusercontent.com/FormidableLabs/envy/main//envy-hero.png" />
+  </a>
+
+  <strong>
+    Zero Config Node.js Telemetry &amp; Network Viewer
+  </strong>
+
+  <br />
+  <br />
+</div>
 
 # Envy
 
-Zero Config Node.js Telemetry &amp; Network Viewer
+## Contents
 
-## Usage
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
 
-There are two parts to using Envy:
+## Getting Started
 
-1. Install and run the viewer
-2. Install and run one or more senders
+1. Install the Envy Browser to view application telemetry in your browser
 
-### Running the browser viewer
-
-The `@envy/browser` package allows you to start a web socket server and a browser-based application to display traces sent by various sender packages.
-
-Install it globally as follows:
-
-```
-npm install --global @envy/browser
+```sh
+# npm
+$ npm i --save-dev @envy/browser
+# or yarn
+$ yarn add --dev @envy/browser
 ```
 
-Then, you can start it by running the following in the terminal:
+2. Install the correct package for your application
 
-```
-npx @envy/browser
-```
-
-### Sending traces from a node-based application
+### Node.js Application
 
 Install the `@envy/node` sender package in your node application:
 
-```
-yarn add @envy/node
+```sh
+# npm
+$ npm i --save-dev @envy/node
+# or yarn
+$ yarn add --dev @envy/node
 ```
 
 Import and invoke the `enableTracing` function to the root of your app before any other code.
@@ -44,12 +51,15 @@ enableTracing({ serviceName: 'your-node-app-name' });
 // ... your app code
 ```
 
-### Sending traces froma website
+### Web Client Application
 
 Install the `@envy/web` sender package in your website:
 
-```
-yarn add @envy/web
+```sh
+# npm
+$ npm i --save-dev @envy/web
+# or yarn
+$ yarn add --dev @envy/web
 ```
 
 Import the `enableTracing` function to the root of your app, and invoke it before mounting your application.
@@ -70,12 +80,26 @@ enableTracing({ serviceName: 'your-website-name' }).then(() => {
 });
 ```
 
-## Development
+3. Run the browser and start collecting telemetry
 
-Builds are executed using [TurboRepo](https://turbo.build/repo/docs) by running the following command
+You can run the browser in a seperate terminal session
 
 ```
-$ yarn build
+npx @envy/browser
 ```
 
-and packages are automatically linked using [Yarn](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
+or optionally, add it to your NPM scripts using something like [concurrently`](https://www.npmjs.com/package/concurrently)
+
+```json
+  "scripts": {
+    "start": "concurrently \"npx @envy/browser\" \"<your application start command>""
+  },
+```
+
+## Contributing
+
+Please see the [Contributing guide](CONTRIBUTING.md).
+
+## Maintenance Status
+
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
