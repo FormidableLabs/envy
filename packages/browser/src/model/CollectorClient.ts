@@ -43,7 +43,7 @@ export default class CollectorClient {
 
   private _connect() {
     const port = this._port ?? DEFAULT_WEB_SOCKET_PORT;
-    const socket = new WebSocket(`ws://localhost:${port}/viewer`);
+    const socket = new WebSocket(`ws://127.0.0.1:${port}/viewer`);
 
     socket.onopen = () => {
       this._connecting = false;

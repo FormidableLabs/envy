@@ -1,9 +1,11 @@
+#! /usr/bin/env node
+
 const { DEFAULT_WEB_SOCKET_PORT } = require('@envy/core');
 const chalk = require('chalk');
 const { WebSocketServer, WebSocket } = require('ws');
+const argv = require('yargs-parser')(process.argv.slice(2));
 
-// TODO: allow configuration
-const port = DEFAULT_WEB_SOCKET_PORT;
+const port = argv.port || DEFAULT_WEB_SOCKET_PORT;
 let viewer = null;
 
 const wss = new WebSocketServer({
@@ -12,9 +14,10 @@ const wss = new WebSocketServer({
 });
 
 wss.on('listening', () => {
-  // eslint-disable-next-line no-console
-  log(chalk.magenta(`🚀 Envy WS Server started on ws://localhost:${port}`));
-  log(chalk.cyan(`🚀 Envy browser client started on http://localhost:9998`));
+  log(chalk.magenta(`🚀 Envy collector started on ws://127.0.0.1:${port}`));
+  if (typeof global?.collectorStarted === 'function') {
+    global.collectorStarted();
+  }
 });
 
 wss.on('connection', (ws, request) => {
@@ -23,12 +26,14 @@ wss.on('connection', (ws, request) => {
   const [namespace, serviceName] =
     idxFirstSlash === -1 ? [identifier, ''] : [identifier.slice(0, idxFirstSlash), identifier.slice(idxFirstSlash + 1)];
 
-  if (namespace === 'viewer') {
-    viewer = ws;
-  }
-
   const serviceNameDetail = !!serviceName ? `: ${chalk.yellow(serviceName)}` : '';
-  log(chalk.green(`✅ Envy ${chalk.cyan(namespace)} connected${serviceNameDetail}`));
+
+  if (namespace === 'viewer') {
+    log(chalk.green(`✅ Envy ${chalk.cyan(namespace)} connected${serviceNameDetail}`));
+    viewer = ws;
+  } else {
+    log(chalk.green(`✅ Envy ${chalk.cyan(`${namespace} sender`)} connected${serviceNameDetail}`));
+  }
 
   ws.on('message', data => {
     if (!viewer || viewer.readyState !== WebSocket.OPEN) {

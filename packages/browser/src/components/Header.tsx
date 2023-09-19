@@ -5,6 +5,8 @@ import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 
 export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
+  const isDebugMode = process.env.NODE_ENV === 'development';
+
   return (
     <header
       className={tw(
@@ -24,8 +26,7 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
         </span>
       </span>
       <span className="flex-0 flex items-center ml-auto gap-2">
-        {/* TODO: only show this in dev mode (or debug mode?) */}
-        <DebugToolbar />
+        {isDebugMode && <DebugToolbar />}
         <FiltersAndActions />
       </span>
     </header>

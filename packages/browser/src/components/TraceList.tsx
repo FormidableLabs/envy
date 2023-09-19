@@ -70,7 +70,7 @@ export default function TraceList({ className }: TraceListProps) {
   ];
 
   const [Icon, message] = connected
-    ? [HiStatusOnline, `Connected to ws://localhost:${port}/ ...`]
+    ? [HiStatusOnline, `Connected to ws://127.0.0.1:${port}/ ...`]
     : connecting
     ? [HiOutlineLightningBolt, 'Connecting...']
     : [HiOutlineEmojiSad, 'Unable to connect'];

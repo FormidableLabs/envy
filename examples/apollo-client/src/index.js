@@ -6,6 +6,6 @@ import { App } from './App';
 const container = document.getElementById('app');
 const root = createRoot(container);
 
-enableTracing({ serviceName: 'examples/apollo-client', debug: true, port: 9999 }).then(() => {
+enableTracing({ serviceName: 'examples/apollo-client' }).then(() => {
   root.render(<App />);
 });
