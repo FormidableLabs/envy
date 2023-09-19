@@ -20,7 +20,7 @@
 
 ## Getting Started
 
-1. Install the Envy Browser to view application telemetry in your browser
+### 1. Install the Envy Browser to view application telemetry in your browser
 
 ```sh
 # npm
@@ -29,7 +29,29 @@ $ npm i --save-dev @envy/browser
 $ yarn add --dev @envy/browser
 ```
 
-2. Install the correct package for your application
+### 2. Install a telemetry package for your application
+
+- [Node.js Application](#nodejs-application)
+- [Web Client Application](#web-client-application)
+
+### 3. Run the browser and start collecting telemetry
+
+Run the browser in a seperate terminal session
+
+```
+npx @envy/browser
+```
+
+or optionally, add it to your NPM scripts using a tool like [concurrently](https://www.npmjs.com/package/concurrently)
+
+```json
+"scripts": {
+  "start": "<your application start command>",
+  "start:withenvy": "concurrently \"npx @envy/browser\" \"npm start\""
+},
+```
+
+## Available Telemetry Packages
 
 ### Node.js Application
 
@@ -78,22 +100,6 @@ const root = createRoot(container);
 enableTracing({ serviceName: 'your-website-name' }).then(() => {
   root.render(<App />);
 });
-```
-
-3. Run the browser and start collecting telemetry
-
-You can run the browser in a seperate terminal session
-
-```
-npx @envy/browser
-```
-
-or optionally, add it to your NPM scripts using something like [concurrently`](https://www.npmjs.com/package/concurrently)
-
-```json
-  "scripts": {
-    "start": "concurrently \"npx @envy/browser\" \"<your application start command>""
-  },
 ```
 
 ## Contributing
