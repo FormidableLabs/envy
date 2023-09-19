@@ -5,16 +5,19 @@
   "source": [
     "src/index.html"
   ],
+  "bin": {
+    "browser": "bin/start.cjs"
+  },
   "type": "module",
   "repository": "https://github.com/FormidableLabs/envy.git",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn start:wss\" \"yarn start:ui\"",
-    "start:wss": "node ./src/scripts/startCollector.cjs",
-    "start:ui": "parcel src/index.html --host localhost --port 9998 --hmr-port 9997 --no-cache --log-level error",
+    "start": "node ./src/scripts/start.cjs --dev",
     "test": "jest",
-    "prebuild": "rimraf dist",
-    "build": "tsc && parcel build",
+    "prebuild": "rimraf dist && rimraf bin",
+    "build": "yarn build:parcel && yarn build:scripts",
+    "build:parcel": "NODE_ENV=production parcel build --no-cache",
+    "build:scripts": "copyfiles --flat ./src/scripts/start.cjs ./src/scripts/startCollector.cjs ./src/scripts/startViewer.cjs ./bin",
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
@@ -25,10 +28,14 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-json-view": "^1.21.3",
+    "servor": "^4.0.2",
     "ws": "^8.14.1",
-    "xml-formatter": "^3.5.0"
+    "xml-formatter": "^3.5.0",
+    "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
+    "@parcel/config-default": "^2.9.3",
+    "@parcel/core": "^2.9.3",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
@@ -39,6 +46,7 @@
     "@types/ws": "^8.5.5",
     "autoprefixer": "^10.4.15",
     "buffer": "^5.5.0||^6.0.0",
+    "copyfiles": "^2.4.1",
     "crypto-browserify": "^3.12.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",

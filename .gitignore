@@ -40,6 +40,7 @@ jspm_packages/
 # build output
 .turbo
 dist
+bin
 .vscode
 .parcel-cache
 

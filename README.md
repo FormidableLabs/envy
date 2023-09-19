@@ -13,15 +13,19 @@ There are two parts to using Envy:
 
 ### Running the browser viewer
 
-The `@envy/browser` package allows you to start a web socket server and a browser-based application to display traces sent by various sender packages. You should install it like this:
+The `@envy/browser` package allows you to start a web socket server and a browser-based application to display traces sent by various sender packages.
 
-For now, this can be run from this repo by running
+Install it globally as follows:
 
 ```
-yarn workspace @envy/broswer start
+npm install --global @envy/browser
 ```
 
-TODO: Allow this package to be installed and run standalone from another codebase.
+Then, you can start it by running the following in the terminal:
+
+```
+npx @envy/browser
+```
 
 ### Sending traces from a node-based application
 
