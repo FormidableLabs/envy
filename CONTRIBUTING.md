@@ -1,5 +1,10 @@
 # Contributing
 
+- [How to Contribute](#how-to-contribute)
+- [Development](#development)
+- [Release](#release)
+- [Code of Conduct](#contributor-covenant-code-of-conduct)
+
 ## How to Contribute
 
 Envy is open to pull requests, issue reports, and questions from the community. Here are some good ways to get help if you need it.
@@ -11,7 +16,7 @@ Envy is open to pull requests, issue reports, and questions from the community. 
 
 We are currently working toward our first 1.0 release. As such, current features and APIs should be considered experimental and may rapidly change.
 
-## Monorepo!
+## Development
 
 Envy is a monorepo managed by [Yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) and commands are executed using [TurboRepo](https://turbo.build/repo/docs)
 
@@ -34,8 +39,6 @@ Use [yarn](https://classic.yarnpkg.com/) to install dependencies:
 ```sh
 $ yarn install
 ```
-
-## Development
 
 ### Builds
 
@@ -100,47 +103,6 @@ On a merge of a feature PR, the changesets GitHub action will open a new PR titl
 ### Publishing packages
 
 On the merge of a version packages PR, the changesets GitHub action will publish the packages to npm.
-
-### The manual version
-
-For exceptional circumstances, here is a quick guide to manually publishing from a local computer using changesets.
-
-1. Add a changeset with `yarn changeset`. Add changeset file, review file, tweak, and commit.
-2. Make a version. Due to our changelog plugin you will need to create a personal GitHub token and pass it to the environment.
-
-    ```sh
-    $ GITHUB_TOKEN=<INSERT TOKEN> yarn run version
-    ```
-
-    Review git changes, tweak, and commit.
-
-3. Publish.
-
-    First, build necessary files:
-
-    ```sh
-    # Build everything
-    $ yarn build
-    ```
-
-    Then publish:
-
-    ```sh
-    # Test things out first
-    $ yarn changeset publish --dry-run
-
-    # The real publish
-    # This first does a single git tag (if not already present), then publishes
-    $ yarn changeset publish --otp=<insert otp code>
-    ```
-
-    Note that publishing multiple pacakges via `changeset` to npm with an OTP code can often fail with `429 Too Many Requests` rate limiting error. Take a 5+ minute coffee break, then come back and try again.
-
-    Then issue the following to also push git tags:
-
-    ```sh
-    $ git push && git push --tags
-    ```
 
 ## Contributor Covenant Code of Conduct
 
