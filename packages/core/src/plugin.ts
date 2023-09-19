@@ -1,5 +1,4 @@
-import { Event } from '@envy/core';
-
+import { Event } from './event';
 import { Options } from './options';
 
 export interface Exporter {

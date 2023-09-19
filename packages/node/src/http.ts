@@ -11,7 +11,7 @@ import { createBrotliDecompress, unzip } from 'zlib';
 
 import { generateId } from './id';
 import log from './log';
-import { Plugin } from './plugin';
+import { Plugin } from '@envy/core';
 
 // ESM handling of wrapping
 const _wrap: typeof wrap = (moduleExports, name, wrapper) => {

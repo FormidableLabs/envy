@@ -1,5 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Options } from '@envy/core';
-import WebSocket from 'ws';
+import { DEFAULT_WEB_SOCKET_PORT, Event, Options } from '@envy/core';
 
 import log from './log';
 
@@ -9,35 +8,36 @@ export interface WebSocketClientOptions extends Options {
 
 const DEFAULT_RETRY_DELAY = 3 * 1000;
 const DEFAULT_RETRY_MAX_ATTEMPTS = 25;
+const initialTraces: Record<string, Event> = {};
 
 export function WebSocketClient(options: WebSocketClientOptions) {
   let ws: WebSocket;
   let retryDelay = DEFAULT_RETRY_DELAY;
   let retryAttempts = 0;
 
-  const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/node/${options.serviceName}`;
+  const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/web/${options.serviceName}`;
 
   function connect() {
     ws = new WebSocket(socket);
 
-    ws.on('open', () => {
+    ws.onopen = () => {
       log.info('client connected');
       retryDelay = DEFAULT_RETRY_DELAY;
-    });
 
-    ws.on('close', () => {
+      for (const trace of Object.entries(initialTraces)) {
+        ws.send(JSON.stringify(trace));
+      }
+    };
+
+    ws.onclose = () => {
       log.error('client disconnected');
       reconnect();
-    });
+    };
 
-    ws.on('error', error => {
-      if (error.message.includes('ECONNREFUSED')) {
-        log.error('websocket server not found', socket);
-      } else {
-        log.error('websocket', error);
-      }
+    ws.onerror = error => {
+      log.error('websocket', error);
       reconnect();
-    });
+    };
   }
 
   function reconnect() {
@@ -59,25 +59,19 @@ export function WebSocketClient(options: WebSocketClientOptions) {
   connect();
 
   return {
-    send: (data: Record<string, any>) => {
-      if (options.debug) {
-        if (data.url !== socket.replace('ws', 'http')) {
-          log.debug('sending', data);
-        }
-      }
+    send: (data: Event) => {
+      // if (options.debug) {
+      //   if (data.url !== socket.replace('ws', 'http')) {
+      //     log.debug('sending', data);
+      //   }
+      // }
 
       try {
-        ws.send(JSON.stringify(data), error => {
-          if (options.debug) {
-            if (ws.readyState === ws.CLOSED || ws.readyState === ws.CLOSING) {
-              log.debug('event not sent, websocket closed');
-            } else if (ws.readyState === ws.CONNECTING) {
-              log.debug('event not sent, websocket still connecting');
-            } else {
-              if (error) log.debug('websocket send', { error });
-            }
-          }
-        });
+        if (ws.readyState === ws.OPEN) {
+          ws.send(JSON.stringify(data));
+        } else {
+          initialTraces[data.id] = data;
+        }
       } catch (error) {
         if (options.debug) {
           log.debug('websocket error');

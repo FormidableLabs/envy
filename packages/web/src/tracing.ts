@@ -1,15 +1,14 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Exporter, Meta, Middleware, Plugin, Sanity } from '@envy/core';
 
-import { fetchRequestToEvent, fetchResponseToEvent } from './http';
-import { generateId } from './id';
+import { WebSocketClient } from './client';
+import { Http } from './http';
 import log from './log';
 import { Options } from './options';
 
 export interface TracingOptions extends Options {
+  plugins?: Plugin[];
   port?: number;
 }
-
-const initialTraces: Record<string, Event> = {};
 
 export async function enableTracing(options: TracingOptions): Promise<void> {
   if (typeof window === 'undefined') {
@@ -23,59 +22,23 @@ export async function enableTracing(options: TracingOptions): Promise<void> {
     const port = options.port ?? DEFAULT_WEB_SOCKET_PORT;
     const serviceName = options.serviceName;
 
-    const wsUri = `ws://127.0.0.1:${port}/web/${serviceName}`;
-    const ws = new WebSocket(wsUri);
+    // custom websocket client
+    const ws = WebSocketClient({ port, serviceName });
 
-    const { fetch: originalFetch } = window;
-    window.fetch = async (...args) => {
-      const tsReq = Date.now();
-      const id = generateId();
+    // middleware transforms event data
+    const middleware: Middleware[] = [Meta, Sanity];
 
-      const reqEvent = fetchRequestToEvent(tsReq, id, ...args);
-      if (ws.readyState === ws.OPEN) {
-        ws.send(
-          JSON.stringify({
-            ...reqEvent,
-            serviceName,
-          }),
-        );
-      } else {
-        initialTraces[id] = reqEvent;
-      }
-
-      const response = await originalFetch(...args);
-      const tsRes = Date.now();
-      const responseClone = response.clone();
-      const resEvent = await fetchResponseToEvent(tsRes, reqEvent, responseClone);
-
-      if (ws.readyState === ws.OPEN) {
-        ws.send(
-          JSON.stringify({
-            ...resEvent,
-            serviceName,
-          }),
-        );
-      } else {
-        initialTraces[id] = resEvent;
-      }
-
-      return response;
+    // apply the middleware and send with the websocket
+    const exporter: Exporter = {
+      send(message) {
+        const result = middleware.reduce((prev, t) => t(prev, options), message);
+        ws.send(result);
+      },
     };
 
-    ws.onopen = () => {
-      if (options.debug) log.info(`Connected to ${wsUri}`);
+    // initialize all plugins
+    [Http, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
 
-      // flush any request traces captured prior to the socket being open
-      for (const trace of Object.entries(initialTraces)) {
-        ws.send(
-          JSON.stringify({
-            ...trace,
-            serviceName,
-          }),
-        );
-      }
-
-      resolve();
-    };
+    resolve();
   });
 }
