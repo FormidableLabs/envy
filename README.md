@@ -15,6 +15,8 @@
 
 Envy will trace the network calls from every application in your stack and allow you to view them in a central place. Whether you are running a Node.js backend, Express, Apollo, or even a Next.js server, Envy will capture it all.
 
+_Note: Envy is intended for development usage only, and is not a replacement for optimized production telemetry_
+
 <div align="center">
   <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main//envy-example.png" />
 </div>
