@@ -12,7 +12,7 @@ module.exports = {
     },
     'import/resolver': {
       typescript: {
-        project: 'packages/browser/tsconfig.json',
+        project: 'packages/webui/tsconfig.json',
       },
       alias: [['@', path.resolve(__dirname, './src')]],
     },
