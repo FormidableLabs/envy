@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT } from '@envyjs/core';
 import { Server } from 'mock-socket';
 
 import { Trace } from '@/types';

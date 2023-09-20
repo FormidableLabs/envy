@@ -14,9 +14,5 @@ export default function DebugToolbar() {
     }
   }, [collector]);
 
-  return (
-    <>
-      <Button onClick={addMockData}>Mock data</Button>
-    </>
-  );
+  return <Button onClick={addMockData}>Mock data</Button>;
 }
