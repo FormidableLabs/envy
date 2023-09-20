@@ -1,4 +1,4 @@
-# @envy/core
+# @envyjs/core
 
 ## 0.2.0
 

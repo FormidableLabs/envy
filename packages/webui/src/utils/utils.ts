@@ -1,4 +1,4 @@
-import { HttpRequest } from '@envy/core';
+import { HttpRequest } from '@envyjs/core';
 import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';

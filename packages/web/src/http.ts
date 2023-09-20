@@ -1,4 +1,4 @@
-import { Event, HttpRequest, Plugin } from '@envy/core';
+import { Event, HttpRequest, Plugin } from '@envyjs/core';
 
 import { generateId } from './id';
 

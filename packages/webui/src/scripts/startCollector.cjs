@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const { DEFAULT_WEB_SOCKET_PORT } = require('@envy/core');
+const { DEFAULT_WEB_SOCKET_PORT } = require('@envyjs/core');
 const chalk = require('chalk');
 const { WebSocketServer, WebSocket } = require('ws');
 const argv = require('yargs-parser')(process.argv.slice(2));

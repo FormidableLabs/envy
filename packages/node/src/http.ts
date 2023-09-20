@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import { types as utilTypes } from 'util';
 
-import { Event, HttpRequest } from '@envy/core';
+import { Event, HttpRequest } from '@envyjs/core';
 import { wrap } from 'shimmer';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
@@ -11,7 +11,7 @@ import { createBrotliDecompress, unzip } from 'zlib';
 
 import { generateId } from './id';
 import log from './log';
-import { Plugin } from '@envy/core';
+import { Plugin } from '@envyjs/core';
 
 // ESM handling of wrapping
 const _wrap: typeof wrap = (moduleExports, name, wrapper) => {

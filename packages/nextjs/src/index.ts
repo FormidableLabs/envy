@@ -1,4 +1,4 @@
-import { TracingOptions, enableTracing as nodeTracing } from '@envy/node';
+import { TracingOptions, enableTracing as nodeTracing } from '@envyjs/node';
 
 import { Routes } from './route';
 

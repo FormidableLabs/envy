@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Exporter, Meta, Middleware, Plugin, Sanity } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Exporter, Meta, Middleware, Plugin, Sanity } from '@envyjs/core';
 
 import { WebSocketClient } from './client';
 import { Http } from './http';
@@ -12,7 +12,7 @@ export interface TracingOptions extends Options {
 
 export async function enableTracing(options: TracingOptions): Promise<void> {
   if (typeof window === 'undefined') {
-    log.error('Attempted to use @envy/web in a non-browser environment');
+    log.error('Attempted to use @envyjs/web in a non-browser environment');
     return Promise.resolve();
   }
 

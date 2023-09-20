@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Options } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Options } from '@envyjs/core';
 import WebSocket from 'ws';
 
 import log from './log';

@@ -1,5 +1,5 @@
 {
-  "name": "@envy/example-apollo",
+  "name": "@envyjs/example-apollo",
   "version": "1.0.0",
   "description": "Example Apollo server application using Envy",
   "license": "MIT",
@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
-    "@envy/webui": "*",
-    "@envy/node": "*",
+    "@envyjs/webui": "*",
+    "@envyjs/node": "*",
     "@sanity/client": "^4.0.1",
     "apollo-utilities": "^1.3.4",
     "graphql": "^16.8.0",

@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT } from '@envyjs/core';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';

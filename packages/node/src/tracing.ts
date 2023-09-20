@@ -1,4 +1,4 @@
-import { Exporter, Meta, Middleware, Options, Plugin, Sanity } from '@envy/core';
+import { Exporter, Meta, Middleware, Options, Plugin, Sanity } from '@envyjs/core';
 
 import { WebSocketClient } from './client';
 import { Http } from './http';
