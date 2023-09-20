@@ -1,4 +1,4 @@
-# @envy/browser
+# @envy/webui
 
 ## 0.1.1
 

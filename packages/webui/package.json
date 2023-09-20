@@ -1,5 +1,5 @@
 {
-  "name": "@envy/browser",
+  "name": "@envy/webui",
   "version": "0.1.1",
   "description": "Envy Web UI",
   "source": [
@@ -66,7 +66,7 @@
   ],
   "staticFiles": {
     "staticPath": [
-      "packages/browser/static"
+      "packages/webui/static"
     ]
   }
 }
