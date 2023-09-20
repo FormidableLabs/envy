@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event } from '@envyjs/core';
 
 import { Traces } from '@/types';
 import { safeParseJson } from '@/utils';

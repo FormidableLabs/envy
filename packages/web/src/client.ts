@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event, Options } from '@envy/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event, Options } from '@envyjs/core';
 
 import log from './log';
 

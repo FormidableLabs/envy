@@ -1,4 +1,4 @@
-# @envy/node
+# @envyjs/node
 
 Node.js Integration Package
 

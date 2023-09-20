@@ -24,9 +24,9 @@
 
 ```sh
 # npm
-$ npm i --save-dev @envy/webui
+$ npm i --save-dev @envyjs/webui
 # or yarn
-$ yarn add --dev @envy/webui
+$ yarn add --dev @envyjs/webui
 ```
 
 ### 2. Install a telemetry package for your application
@@ -39,7 +39,7 @@ $ yarn add --dev @envy/webui
 Run the browser in a seperate terminal session
 
 ```
-npx @envy/webui
+npx @envyjs/webui
 ```
 
 or optionally, add it to your NPM scripts using a tool like [concurrently](https://www.npmjs.com/package/concurrently)
@@ -47,7 +47,7 @@ or optionally, add it to your NPM scripts using a tool like [concurrently](https
 ```json
 "scripts": {
   "start": "<your application start command>",
-  "start:withenvy": "concurrently \"npx @envy/webui\" \"npm start\""
+  "start:withenvy": "concurrently \"npx @envyjs/webui\" \"npm start\""
 },
 ```
 
@@ -55,19 +55,19 @@ or optionally, add it to your NPM scripts using a tool like [concurrently](https
 
 ### Node.js Application
 
-Install the `@envy/node` sender package in your node application:
+Install the `@envyjs/node` sender package in your node application:
 
 ```sh
 # npm
-$ npm i --save-dev @envy/node
+$ npm i --save-dev @envyjs/node
 # or yarn
-$ yarn add --dev @envy/node
+$ yarn add --dev @envyjs/node
 ```
 
 Import and invoke the `enableTracing` function to the root of your app before any other code.
 
 ```ts
-import { enableTracing } from '@envy/node';
+import { enableTracing } from '@envyjs/node';
 enableTracing({ serviceName: 'your-node-app-name' });
 
 // ... your app code
@@ -75,13 +75,13 @@ enableTracing({ serviceName: 'your-node-app-name' });
 
 ### Web Client Application
 
-Install the `@envy/web` sender package in your website:
+Install the `@envyjs/web` sender package in your website:
 
 ```sh
 # npm
-$ npm i --save-dev @envy/web
+$ npm i --save-dev @envyjs/web
 # or yarn
-$ yarn add --dev @envy/web
+$ yarn add --dev @envyjs/web
 ```
 
 Import the `enableTracing` function to the root of your app, and invoke it before mounting your application.
@@ -89,7 +89,7 @@ Import the `enableTracing` function to the root of your app, and invoke it befor
 For example, in a simple React application:
 
 ```ts
-import { enableTracing } from '@envy/web';
+import { enableTracing } from '@envyjs/web';
 import { createRoot } from 'react-dom/client';
 
 import { App } from './App';

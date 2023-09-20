@@ -1,3 +1,3 @@
-import { nanoid } from '@envy/core';
+import { nanoid } from '@envyjs/core';
 
 export const generateId = nanoid(crypto);

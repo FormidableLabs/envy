@@ -1,5 +1,5 @@
 {
-  "name": "@envy/core",
+  "name": "@envyjs/core",
   "version": "0.2.0",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",

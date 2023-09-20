@@ -1,4 +1,4 @@
-import { Plugin } from '@envy/core';
+import { Plugin } from '@envyjs/core';
 
 export const Routes: Plugin = () => {
   // intentionally blank

@@ -8,10 +8,10 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@envy/example-apollo",
-    "@envy/example-apollo-client",
-    "@envy/example-express",
-    "@envy/example-express-client",
-    "@envy/example-next"
+    "@envyjs/example-apollo",
+    "@envyjs/example-apollo-client",
+    "@envyjs/example-express",
+    "@envyjs/example-express-client",
+    "@envyjs/example-next"
   ]
 }
