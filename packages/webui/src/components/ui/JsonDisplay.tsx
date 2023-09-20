@@ -6,9 +6,9 @@ import { safeParseJson, tw } from '@/utils';
 
 const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('react-json-view'));
 
-type JsonDisplayProps = React.HTMLAttributes<HTMLElement> & {
+type JsonDisplayProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
   className?: string;
-  children: object;
+  children: object | string;
 };
 
 const bg = colors.slate['100'];
@@ -38,12 +38,7 @@ const customTheme = {
 
 export default function JsonDisplay({ className, children }: JsonDisplayProps) {
   const errorData = { error: 'Error parsing JSON data', data: children };
-  let src;
-  try {
-    src = typeof children === 'string' ? safeParseJson(children) ?? errorData : children;
-  } catch {
-    src = errorData;
-  }
+  const src = typeof children === 'string' ? safeParseJson(children) ?? errorData : children;
 
   return (
     <Suspense fallback={<></>}>

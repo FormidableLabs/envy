@@ -1,4 +1,4 @@
-import { ChangeEvent, Ref, RefObject, forwardRef, useEffect, useRef } from 'react';
+import { ChangeEvent, Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { IconType } from 'react-icons';
 import { HiX } from 'react-icons/hi';
 
@@ -17,6 +17,7 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
 function Input({ className, onChange, Icon, focusKey, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
   const { isMac, specialKey } = usePlatform();
   const timeout = useRef<NodeJS.Timeout>();
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     return () => {
@@ -44,32 +45,41 @@ function Input({ className, onChange, Icon, focusKey, ...props }: InputProps, re
     },
   ]);
 
-  function debouncedHandleChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setValue(e.target.value);
+
     if (timeout.current) clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      onChange?.(e.target.value);
-    }, DEBOUNCE_TIMEOUT);
+    if (typeof onChange === 'function') {
+      timeout.current = setTimeout(() => {
+        onChange(e.target.value);
+      }, DEBOUNCE_TIMEOUT);
+    }
   }
 
   function clearValue() {
-    if (finalRef.current) finalRef.current.value = '';
+    setValue('');
     onChange?.('');
   }
 
-  const fullProps = typeof onChange === 'function' ? { ...props, onChange: debouncedHandleChange } : props;
-
   return (
     <span className="group input-container">
-      <input ref={finalRef} type="text" className={tw('input w-full', Icon && 'pl-9', className)} {...fullProps} />
+      <input
+        ref={finalRef}
+        type="text"
+        className={tw('input w-full', Icon && 'pl-9', className)}
+        value={value}
+        onChange={handleChange}
+        {...props}
+      />
       {Icon && <Icon />}
       {focusKey && specialKey && (
-        <span className="focus-key">
+        <span data-test-id="focus-key" className="focus-key">
           {specialKey}
           {focusKey}
         </span>
       )}
-      {!!finalRef?.current?.value && (
-        <span className="input-clear" onClick={() => clearValue()}>
+      {!!value && (
+        <span data-test-id="input-clear" className="input-clear" onClick={clearValue}>
           <HiX />
         </span>
       )}

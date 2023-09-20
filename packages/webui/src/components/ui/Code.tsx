@@ -1,29 +1,35 @@
 import { prettyFormat, tw } from '@/utils';
 
-type CodeProps = React.HTMLAttributes<HTMLElement> & {
+type CodeProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
   inline?: boolean;
   prettify?: boolean;
+  children?: React.ReactNode | Record<string, unknown> | undefined;
 };
 
-export default function Code({ inline = false, prettify = true, className, children }: CodeProps) {
-  if (inline) return <div className={`code-inline ${className}`}>{children}</div>;
-
+export default function Code({ inline = false, prettify = true, className, children, ...props }: CodeProps) {
   let content: string;
   if (typeof children === 'object') content = JSON.stringify(children, null, 2);
   else content = children?.toString() ?? '';
 
-  const finalContent = prettify ? prettyFormat(content || '') : content;
+  if (inline)
+    return (
+      <div className={tw('code-inline', className)} {...props}>
+        {content}
+      </div>
+    );
+
+  const finalContent = content && prettify ? prettyFormat(content) : content;
   const lines = finalContent.split('\n');
 
-  const code = (
-    <ul>
-      {lines.map((x, idx) => (
-        <li key={idx} className="">
-          {x}
-        </li>
-      ))}
-    </ul>
+  return (
+    <div className={tw('code-block', className)} {...props}>
+      <ul>
+        {lines.map((x, idx) => (
+          <li key={idx}>
+            <pre>{x}</pre>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
-
-  return <div className={tw('code-block', className)}>{code}</div>;
 }

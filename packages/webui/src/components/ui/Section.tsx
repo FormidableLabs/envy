@@ -15,12 +15,13 @@ export default function Section({ title, collapsible = true, className, children
     <>
       {title && (
         <div
+          data-test-id="section-title"
           className={tw(
             `relative p-short`,
             `bg-slate-400 border-b border-slate-600 shadow-lg`,
             `font-semibold uppercase`,
             collapsible ? 'cursor-pointer' : '',
-            className || '',
+            className || ''
           )}
           onClick={() => {
             if (collapsible) setExpanded(x => !x);
@@ -30,7 +31,11 @@ export default function Section({ title, collapsible = true, className, children
           {collapsible && <Icon className="absolute-v-center right-6" />}
         </div>
       )}
-      {children && expanded && <div className="p-6">{children}</div>}
+      {children && expanded && (
+        <div data-test-id="section-content" className="p-6">
+          {children}
+        </div>
+      )}
     </>
   );
 }

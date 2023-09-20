@@ -6,7 +6,7 @@ type XmlDisplayProps = React.HTMLAttributes<HTMLElement> & {
   children: string;
 };
 
-export default function XmlDisplay({ children }: XmlDisplayProps) {
+export default function XmlDisplay({ children, ...props }: XmlDisplayProps) {
   const formattedXml = xmlFormat(children, {
     indentation: '  ',
     lineSeparator: '\n',
@@ -14,5 +14,9 @@ export default function XmlDisplay({ children }: XmlDisplayProps) {
     whiteSpaceAtEndOfSelfclosingTag: true,
   });
 
-  return <Code prettify={false}>{formattedXml}</Code>;
+  return (
+    <Code prettify={false} {...props}>
+      {formattedXml}
+    </Code>
+  );
 }

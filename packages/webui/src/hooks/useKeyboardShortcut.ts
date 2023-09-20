@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-type Shortcut = {
+export type Shortcut = {
   condition?: boolean;
   predicate: (e: KeyboardEvent) => boolean;
   callback: (e?: KeyboardEvent) => void;
