@@ -20,7 +20,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "node ./src/scripts/start.cjs --dev",
+    "start": "NODE_ENV=development node ./src/scripts/start.cjs --dev",
     "test": "jest --watch --coverage",
     "test:all": "jest --coverage && open ./coverage/lcov-report/index.html",
     "prebuild": "rimraf dist && rimraf bin",

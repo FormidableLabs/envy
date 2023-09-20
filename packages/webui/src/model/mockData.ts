@@ -13,7 +13,7 @@ function requestData(
   method: HttpRequest['method'],
   host: HttpRequest['host'],
   port: HttpRequest['port'],
-  path: HttpRequest['path'],
+  path: HttpRequest['path']
 ): Pick<HttpRequest, 'method' | 'host' | 'port' | 'path' | 'url'> {
   const protocol = port === 433 ? 'https://' : 'http://';
   const hostString = port === 80 || port === 443 ? `${host}` : `${host}:${port.toString()}`;
@@ -361,3 +361,10 @@ const mockTraces: Trace[] = [
 ];
 
 export default mockTraces;
+
+export function mockTracesAsTraceCollection(): Map<string, Trace> {
+  return mockTraces.reduce((acc, curr) => {
+    acc.set(curr.id, curr);
+    return acc;
+  }, new Map());
+}

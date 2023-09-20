@@ -36,8 +36,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       predicate: e => e.key === 'ArrowUp',
       callback: () => {
         setSelectedTraceId(curr => {
-          if (!collectorRef.current) return;
-          const traceIds = Object.keys(collectorRef.current.traces);
+          const traceIds = [...collectorRef.current!.traces.keys()];
           if (!curr) return traceIds?.[traceIds.length - 1] ?? undefined;
           const idx = traceIds.findIndex(x => x === curr);
           if (idx !== -1 && idx > 0) return traceIds[idx - 1];
@@ -49,8 +48,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       predicate: e => e.key === 'ArrowDown',
       callback: () => {
         setSelectedTraceId(curr => {
-          if (!collectorRef.current) return;
-          const traceIds = Object.keys(collectorRef.current.traces);
+          const traceIds = [...collectorRef.current!.traces.keys()];
           if (!curr) return traceIds?.[0] ?? undefined;
           const idx = traceIds.findIndex(x => x === curr);
           if (idx !== -1 && idx < traceIds.length - 1) return traceIds[idx + 1];
@@ -64,13 +62,13 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     if (!collectorRef.current) {
       collectorRef.current = new CollectorClient({ port, changeHandler });
       collectorRef.current.start();
+      changeHandler();
     }
   }, []);
 
   const hasFilters = () => {
-    if (!filter) return false;
-    if (filter.systems.length > 0) return true;
-    if (filter.value) return true;
+    if (!!filter?.systems?.length) return true;
+    if (!!filter?.value) return true;
     return false;
   };
 
@@ -96,6 +94,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
 
           if (includeInTraces) filteredTraces.set(traceId, trace);
         }
+
         return filteredTraces;
       }
     },

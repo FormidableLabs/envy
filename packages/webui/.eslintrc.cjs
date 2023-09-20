@@ -8,7 +8,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    ...rootConfig.extends
+    ...rootConfig.extends,
   ],
   settings: {
     'react': { version: 'detect' },
