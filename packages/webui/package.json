@@ -15,6 +15,7 @@
     "provenance": true
   },
   "files": [
+    "bin",
     "dist",
     "README.md"
   ],
