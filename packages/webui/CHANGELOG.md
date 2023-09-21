@@ -1,5 +1,11 @@
 # @envyjs/webui
 
+## 0.2.2
+
+### Patch Changes
+
+- 3db0538: Include bin folder in dist
+
 ## 0.2.1
 
 ### Patch Changes
