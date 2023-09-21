@@ -9,6 +9,16 @@
 
   <br />
   <br />
+
+  <a href="https://github.com/FormidableLabs/envy/actions">
+    <img alt="build status" src="https://github.com/FormidableLabs/envy/actions/workflows/release.yml/badge.svg">
+  </a>
+  <a href="https://github.com/FormidableLabs/envy#maintenance-status">
+    <img alt="Maintenance Status" src="https://img.shields.io/badge/maintenance-active-green.svg" />
+  </a>
+
+  <br />
+  <br />
 </div>
 
 # Envy

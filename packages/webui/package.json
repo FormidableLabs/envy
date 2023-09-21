@@ -11,6 +11,12 @@
   "type": "module",
   "repository": "https://github.com/FormidableLabs/envy.git",
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "node ./src/scripts/start.cjs --dev",
     "test": "jest",

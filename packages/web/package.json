@@ -5,6 +5,12 @@
   "main": "dist/index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc"
