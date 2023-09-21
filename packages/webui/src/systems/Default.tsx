@@ -1,4 +1,4 @@
-import TraceListItem from '@/components/TraceListItem';
+import TraceRequestData from '@/components/TraceRequestData';
 import { System } from '@/systems';
 import { Trace } from '@/types';
 import { pathAndQuery } from '@/utils';
@@ -22,7 +22,7 @@ export default class DefaultSystem implements System<null> {
 
   listComponent(trace: Trace) {
     const [path, qs] = pathAndQuery(trace);
-    return <TraceListItem iconPath={this.getIconPath(trace)} hostName={trace.http?.host} path={path} data={qs} />;
+    return <TraceRequestData iconPath={this.getIconPath(trace)} hostName={trace.http?.host} path={path} data={qs} />;
   }
 
   requestDetailComponent(_: Trace) {

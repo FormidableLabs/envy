@@ -7,7 +7,7 @@ export type RequestHeadingProps = {
   data?: string;
 };
 
-export default function TraceListItem({ iconPath, hostName, path, data }: RequestHeadingProps) {
+export default function TraceRequestData({ iconPath, hostName, path, data }: RequestHeadingProps) {
   const { selectedTraceId } = useApplication();
   const pathValue = !!selectedTraceId ? `.../${path.split('/').splice(-1, 1).join('/')}` : path;
 

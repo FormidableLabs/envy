@@ -1,4 +1,4 @@
-import TraceListItem from '@/components/TraceListItem';
+import TraceRequestData from '@/components/TraceRequestData';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
@@ -41,7 +41,7 @@ export default class Sanity implements System<SanityData> {
     const { type } = this.getData(trace);
     const [path] = pathAndQuery(trace);
     return (
-      <TraceListItem
+      <TraceRequestData
         iconPath={this.getIconPath(trace)}
         hostName={trace.http?.host}
         path={path}
