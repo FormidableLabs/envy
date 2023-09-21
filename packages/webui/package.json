@@ -15,7 +15,8 @@
     "provenance": true
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "start": "node ./src/scripts/start.cjs --dev",

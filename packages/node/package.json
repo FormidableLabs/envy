@@ -9,7 +9,8 @@
     "provenance": true
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
