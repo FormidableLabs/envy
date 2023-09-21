@@ -23,7 +23,7 @@ type DropDownProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'onChange'> & {
 
 function DropDown(
   { items, multiSelect = false, label, placeholder, className, focusKey, onChange, ...props }: DropDownProps,
-  ref: Ref<HTMLSpanElement>
+  ref: Ref<HTMLSpanElement>,
 ) {
   const { isMac, specialKey } = usePlatform();
   const selectedItems = items.filter(x => x.isSelected);
@@ -122,7 +122,7 @@ function DropDown(
                     <span
                       className={tw(
                         'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent',
-                        isSelected && 'bg-orange-100 border-orange-200'
+                        isSelected && 'bg-orange-100 border-orange-200',
                       )}
                     >
                       {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}

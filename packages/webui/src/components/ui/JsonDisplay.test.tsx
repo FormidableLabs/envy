@@ -7,7 +7,7 @@ jest.mock(
   () =>
     function MockReactJson({ src }: any) {
       return <div data-test-id="mock-react-json">{JSON.stringify(src)}</div>;
-    }
+    },
 );
 
 describe('JsonDisplay', () => {

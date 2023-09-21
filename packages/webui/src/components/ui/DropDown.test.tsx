@@ -1,4 +1,4 @@
-import { act, cleanup, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { setUsePlatformData } from '@/testing/mockUsePlatform';

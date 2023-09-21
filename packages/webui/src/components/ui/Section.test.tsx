@@ -1,13 +1,9 @@
 import { act, cleanup, render } from '@testing-library/react';
-
-import Section from './Section';
 import userEvent from '@testing-library/user-event';
 
-describe('Section', () => {
-  function Icon() {
-    return <div data-test-id="mock-icon">Mock Icon component</div>;
-  }
+import Section from './Section';
 
+describe('Section', () => {
   afterEach(() => {
     cleanup();
   });
@@ -72,7 +68,7 @@ describe('Section', () => {
     const { getByTestId, queryByTestId } = render(
       <Section title="Section title" collapsible={false}>
         Section content
-      </Section>
+      </Section>,
     );
 
     await act(async () => {

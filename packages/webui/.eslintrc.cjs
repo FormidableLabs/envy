@@ -4,12 +4,7 @@ const rootConfig = require('../../.eslintrc.cjs');
 
 module.exports = {
   ...rootConfig,
-  extends: [
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended',
-    ...rootConfig.extends,
-  ],
+  extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended', ...rootConfig.extends],
   settings: {
     'react': { version: 'detect' },
     'import/parsers': {

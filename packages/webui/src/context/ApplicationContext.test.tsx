@@ -1,12 +1,13 @@
-import { act, cleanup, render, waitFor } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ReactElement, useContext, useEffect } from 'react';
+
 import { ApplicationContext } from '@/hooks/useApplication';
+import CollectorClient from '@/model/CollectorClient';
+import mockTraces, { mockTracesAsTraceCollection } from '@/model/mockData';
+import { Trace } from '@/types';
 
 import ApplicationContextProvider from './ApplicationContext';
-import CollectorClient from '@/model/CollectorClient';
-import { Trace } from '@/types';
-import mockTraces, { mockTracesAsTraceCollection } from '@/model/mockData';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('@/model/CollectorClient');
 jest.mock('@/systems', () => ({
@@ -509,6 +510,7 @@ describe('ApplicationContext', () => {
 
         useEffect(() => {
           setSelectedTrace('2');
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;
@@ -536,6 +538,7 @@ describe('ApplicationContext', () => {
 
         useEffect(() => {
           setSelectedTrace(firstTraceId);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;
@@ -598,6 +601,7 @@ describe('ApplicationContext', () => {
 
         useEffect(() => {
           setSelectedTrace('2');
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;
@@ -625,6 +629,7 @@ describe('ApplicationContext', () => {
 
         useEffect(() => {
           setSelectedTrace(lastTraceId);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;
@@ -687,6 +692,7 @@ describe('ApplicationContext', () => {
 
         useEffect(() => {
           setSelectedTrace('2');
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;

@@ -21,7 +21,7 @@ export default function Section({ title, collapsible = true, className, children
             `bg-slate-400 border-b border-slate-600 shadow-lg`,
             `font-semibold uppercase`,
             collapsible ? 'cursor-pointer' : '',
-            className || ''
+            className || '',
           )}
           onClick={() => {
             if (collapsible) setExpanded(x => !x);
