@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/webui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Envy Web UI",
   "source": [
     "src/index.html"
@@ -21,8 +21,8 @@
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@envyjs/client": "0.1.1",
-    "@envyjs/core": "0.2.0",
+    "@envyjs/client": "0.2.0",
+    "@envyjs/core": "0.3.0",
     "chalk": "^4.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

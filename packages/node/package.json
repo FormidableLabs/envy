@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/node",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",
@@ -11,7 +11,7 @@
     "test:live": "ts-node ./src/test.ts"
   },
   "dependencies": {
-    "@envyjs/core": "0.2.0",
+    "@envyjs/core": "0.3.0",
     "chalk": "^4.1.2",
     "shimmer": "^1.2.1",
     "ws": "8.14.1",
