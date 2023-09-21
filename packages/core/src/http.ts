@@ -60,6 +60,53 @@ export interface HttpRequest {
   statusMessage?: string;
 
   /**
+   * HAR formatted timing information
+   *
+   * http://www.softwareishard.com/blog/har-12-spec/#timings
+   */
+  timings?: {
+    /**
+     * Time spent in a queue waiting for a network connection.
+     * -1 if the timing does not apply to the current request.
+     */
+    blocked: number;
+
+    /**
+     * DNS resolution time. The time required to resolve a host name.
+     * -1 if the timing does not apply to the current request.
+     */
+    dns: number;
+
+    /**
+     * Time required for SSL/TLS negotiation.
+     * If this field is defined then the time is also included in the connect field (to ensure backward compatibility with HAR 1.1).
+     * -1 if the timing does not apply to the current request.
+     */
+    ssl: number;
+
+    /**
+     * Time required to create TCP connection.
+     * -1 if the timing does not apply to the current request.
+     */
+    connect: number;
+
+    /**
+     * Time required to send HTTP request to the server.
+     */
+    send: number;
+
+    /**
+     * Waiting for a response from the server.
+     */
+    wait: number;
+
+    /**
+     * Time required to read entire response from the server (or cache).
+     */
+    receive: number;
+  };
+
+  /**
    * The full url of the request
    */
   url: string;

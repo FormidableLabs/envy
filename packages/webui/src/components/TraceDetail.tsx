@@ -146,8 +146,28 @@ export default function TraceDetail({ className }: DetailProps) {
               <Field label="Status">
                 {statusCode} {statusMessage}
               </Field>
-              <Field label="Duration">{numberFormat(duration)}ms</Field>
               <ResponseHeaders trace={trace} />
+              <Field label="Duration">{numberFormat(duration)} ms</Field>
+              {trace.http?.timings && (
+                <Field label="Timing">
+                  <Fields>
+                    <Field label="Queuing">{numberFormat(trace.http.timings.blocked)} ms</Field>
+                    <Field label="DNS Lookup">{numberFormat(trace.http.timings.dns)} ms</Field>
+                    <Field label="Connecting">
+                      {numberFormat(
+                        trace.http.timings.ssl === -1
+                          ? trace.http.timings.connect
+                          : trace.http.timings.connect - trace.http.timings.ssl,
+                      )}{' '}
+                      ms
+                    </Field>
+                    <Field label="SSL">{numberFormat(trace.http.timings.ssl)} ms</Field>
+                    <Field label="Sending">{numberFormat(trace.http.timings.send)} ms</Field>
+                    <Field label="Waiting">{numberFormat(trace.http.timings.wait)} ms</Field>
+                    <Field label="Receiving">{numberFormat(trace.http.timings.receive)} ms</Field>
+                  </Fields>
+                </Field>
+              )}
             </Fields>
             <SystemResponseDetailsComponent trace={trace} />
           </>

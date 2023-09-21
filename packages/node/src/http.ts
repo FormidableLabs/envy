@@ -1,9 +1,8 @@
 import http from 'http';
 import https from 'https';
-import { types as utilTypes } from 'util';
+import process from 'process';
 
-import { Event, HttpRequest } from '@envyjs/core';
-import { wrap } from 'shimmer';
+import { Event, HttpRequest, Plugin } from '@envyjs/core';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
 // eslint-disable-next-line import/order
@@ -11,27 +10,25 @@ import { createBrotliDecompress, unzip } from 'zlib';
 
 import { generateId } from './id';
 import log from './log';
-import { Plugin } from '@envyjs/core';
-
-// ESM handling of wrapping
-const _wrap: typeof wrap = (moduleExports, name, wrapper) => {
-  if (!utilTypes.isProxy(moduleExports)) {
-    return wrap(moduleExports, name, wrapper);
-  } else {
-    const wrapped = wrap(Object.assign({}, moduleExports), name, wrapper);
-
-    return Object.defineProperty(moduleExports, name, {
-      value: wrapped,
-    });
-  }
-};
+import { Timestamps, calculateTiming, getDuration } from './utils/time';
+import { wrap } from './utils/wrap';
 
 export const Http: Plugin = (_options, exporter) => {
   function override(module: any) {
-    _wrap(module, 'request', (original: any) => {
+    wrap(module, 'request', (original: any) => {
       return function (this: any, ...args: http.ClientRequestArgs[]) {
         const id = generateId();
         const startTs = Date.now();
+
+        const _timestamps: Timestamps = {
+          firstByte: [0, 0],
+          start: process.hrtime(),
+          socket: [0, 0],
+          lookup: [0, 0],
+          connect: [0, 0],
+          received: [0, 0],
+          sent: [0, 0],
+        };
 
         const request = original.apply(this, args) as http.ClientRequest;
         const write = request.write;
@@ -58,6 +55,40 @@ export const Http: Plugin = (_options, exporter) => {
           },
         };
 
+        // collect timing data
+        let removeSocketListeners: () => void;
+        request.on('socket', socket => {
+          _timestamps.socket = process.hrtime();
+
+          const onLookup = () => {
+            _timestamps.lookup = process.hrtime();
+          };
+
+          const onConnect = () => {
+            _timestamps.connect = process.hrtime();
+          };
+
+          const onSecureConnect = () => {
+            _timestamps.secureConnect = process.hrtime();
+          };
+
+          socket.once('lookup', onLookup);
+          socket.once('connect', onConnect);
+          socket.once('secureConnect', onSecureConnect);
+
+          removeSocketListeners = () => {
+            socket.removeListener('lookup', onLookup);
+            socket.removeListener('connect', onConnect);
+            socket.removeListener('secureConnect', onSecureConnect);
+          };
+        });
+        request.on('finish', () => {
+          _timestamps.sent = process.hrtime();
+          if (removeSocketListeners) removeSocketListeners();
+        });
+
+        // captures the request payload and waits until
+        // the caller is done writing to the stream
         const payload: any = [];
         request.write = function (...args: any) {
           const chunk = args[0];
@@ -76,7 +107,21 @@ export const Http: Plugin = (_options, exporter) => {
           return end.apply(this, args);
         };
 
+        // captures the response
         request.addListener('response', response => {
+          _timestamps.firstByte = process.hrtime();
+
+          // Now we know whether `lookup` or `connect` happened. It's possible they
+          // were skipped if the hostname was already resolved (or we were given an
+          // IP directly), or if a connection was already open (e.g. due to
+          // `keep-alive`).
+          if (!_timestamps.lookup) {
+            _timestamps.lookup = _timestamps.socket;
+          }
+          if (!_timestamps.connect) {
+            _timestamps.connect = _timestamps.lookup;
+          }
+
           const payload: any = [];
 
           const onRequestData = (chunk: any) => {
@@ -86,14 +131,11 @@ export const Http: Plugin = (_options, exporter) => {
           };
 
           const onRequestEnd = () => {
-            const endTs = Date.now();
-
             const httpResponse: Event = {
               ...httpRequest,
 
               http: {
                 ...httpRequest.http!,
-                duration: endTs - startTs,
                 httpVersion: response.httpVersion,
                 responseBody: undefined,
                 responseHeaders: response.headers,
@@ -103,7 +145,12 @@ export const Http: Plugin = (_options, exporter) => {
             };
 
             parsePayload(httpResponse.http!, payload, body => {
+              _timestamps.received = process.hrtime();
+
               httpResponse.http!.responseBody = body;
+              httpResponse.http!.timings = calculateTiming(_timestamps);
+              httpResponse.http!.duration = getDuration(_timestamps.start, _timestamps.received);
+
               exporter.send(httpResponse);
             });
           };
