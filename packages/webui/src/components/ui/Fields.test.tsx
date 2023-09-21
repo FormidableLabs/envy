@@ -54,6 +54,6 @@ describe('Fields', () => {
     );
 
     const fields = getByTestId('fields');
-    expect(fields.firstChild?.childNodes).toHaveLength(0);
+    expect(fields.firstChild).toBeEmptyDOMElement();
   });
 });

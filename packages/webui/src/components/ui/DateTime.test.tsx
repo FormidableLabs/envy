@@ -16,7 +16,7 @@ describe('DateTime', () => {
   it('should render nothing if no time is provided', () => {
     const { container } = render(<DateTime time={undefined} />);
 
-    expect(container.childElementCount).toEqual(0);
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('should render the time in the expected format', () => {

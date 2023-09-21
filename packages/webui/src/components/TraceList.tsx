@@ -37,7 +37,7 @@ export default function TraceList({ className }: TraceListProps) {
     if (!statusCode) color = '';
     else if (statusCode >= 500) color = 'bg-purple-500';
     else if (statusCode >= 400) color = 'bg-red-500';
-    else if (statusCode >= 300) color = '';
+    else if (statusCode >= 300) color = 'bg-yellow-500';
     else if (statusCode >= 200) color = '';
 
     return color ? `bg-opacity-20 ${color}` : '';
@@ -78,14 +78,21 @@ export default function TraceList({ className }: TraceListProps) {
   return (
     <div className={`h-full flex flex-col overflow-y-scroll bg-slate-300 ${className}`}>
       {data.length === 0 ? (
-        <div className="flex flex-none h-full justify-center items-center text-3xl text-slate-400">
+        <div
+          data-test-id="no-traces"
+          className="flex flex-none h-full justify-center items-center text-3xl text-slate-400"
+        >
           <Icon className="translate-y-[0.05em] w-8 h-8 mr-2" /> <span>{message}</span>
         </div>
       ) : (
-        <div className="table table-fixed w-full relative">
+        <div data-test-id="trace-list" className="table table-fixed w-full relative">
           <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-slate-400 uppercase shadow-lg z-10">
             {columns.map(([label, , baseStyle]) => (
-              <div key={label} className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}>
+              <div
+                key={label}
+                data-test-id={`column-heading-${label.toLowerCase()}`}
+                className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}
+              >
                 {label}
               </div>
             ))}
@@ -93,6 +100,7 @@ export default function TraceList({ className }: TraceListProps) {
           <div className="flex-1 table-row-group">
             {data.map((trace, idx) => (
               <div
+                data-test-id="trace"
                 key={trace.id}
                 onClick={() => setSelectedTrace(trace.id)}
                 className={tw(
@@ -103,9 +111,10 @@ export default function TraceList({ className }: TraceListProps) {
                   'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
                 )}
               >
-                {columns.map(([, prop, baseStyle, cellStyle]) => (
+                {columns.map(([label, prop, baseStyle, cellStyle]) => (
                   <div
                     key={`${trace.id}_${prop}`}
+                    data-test-id={`column-data-${label.toLowerCase()}`}
                     className={tw(
                       'table-cell p-cell align-middle overflow-hidden whitespace-nowrap text-ellipsis',
                       baseStyle || '',

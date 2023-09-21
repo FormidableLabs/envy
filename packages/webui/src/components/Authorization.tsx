@@ -33,19 +33,16 @@ export default function Authorization({ value }: AuthorizationProps) {
     const basicBase64Regex = /^Basic ([\w=]+)$/;
 
     if (jwtBearerRegex.test(value)) {
-      const token = jwtBearerRegex.exec(value)?.[1];
-      if (!token) return;
+      const token = jwtBearerRegex.exec(value)![1];
       setType('Bearer');
       setToken(token);
       decodeToken(TokenType.JWT, token);
     } else if (otherBearerRegex.test(value)) {
       const token = otherBearerRegex.exec(value)?.[1];
-      if (!token) return;
       setType('Bearer');
       setToken(token);
     } else if (basicBase64Regex.test(value)) {
-      const token = basicBase64Regex.exec(value)?.[1];
-      if (!token) return;
+      const token = basicBase64Regex.exec(value)![1];
       setType('Basic');
       setToken(token);
       decodeToken(TokenType.BasicAuth, token);
@@ -85,7 +82,11 @@ export default function Authorization({ value }: AuthorizationProps) {
           switch (tokenState) {
             case TokenState.Minimal:
               return (
-                <span className="btn-inline" onClick={() => setTokenState(TokenState.Expanded)}>
+                <span
+                  data-test-id="token-minimal-view"
+                  className="btn-inline"
+                  onClick={() => setTokenState(TokenState.Expanded)}
+                >
                   <span className="flex-1 self-start h-6 overflow-y-hidden">
                     {type} {token}
                   </span>
@@ -93,9 +94,9 @@ export default function Authorization({ value }: AuthorizationProps) {
                 </span>
               );
             case TokenState.Expanded:
-              return <Code>{`${type} ${token}`}</Code>;
+              return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
             case TokenState.Decoded:
-              return <>{decodedToken}</>;
+              return <div data-test-id="token-decoded-view">{decodedToken}</div>;
           }
         })()}
       </span>
@@ -103,6 +104,7 @@ export default function Authorization({ value }: AuthorizationProps) {
         <span className={tw('flex flex-row gap-2 bg-slate-100 px-4 pt-4')}>
           <>
             <IconButton
+              data-test-id="token-expanded-button"
               short
               Icon={HiDotsHorizontal}
               title="View full token"
@@ -112,16 +114,20 @@ export default function Authorization({ value }: AuthorizationProps) {
             >
               Full token
             </IconButton>
+            {decodedToken && (
+              <IconButton
+                data-test-id="token-decoded-button"
+                short
+                Icon={HiCode}
+                title="Decode token"
+                className={tw(tokenState === TokenState.Decoded && 'btn-selected')}
+                onClick={() => setTokenState(TokenState.Decoded)}
+              >
+                Decoded token
+              </IconButton>
+            )}
             <IconButton
-              short
-              Icon={HiCode}
-              title="Decode token"
-              className={tw(tokenState === TokenState.Decoded && 'btn-selected')}
-              onClick={() => setTokenState(TokenState.Decoded)}
-            >
-              Decoded token
-            </IconButton>
-            <IconButton
+              data-test-id="token-minimal-button"
               short
               Icon={HiChevronUp}
               title="Collapse"

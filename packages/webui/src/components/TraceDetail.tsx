@@ -11,7 +11,9 @@ import {
 } from '@/systems';
 import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
-import { QueryParams, RequestHeaders, ResponseHeaders } from './KeyValueList';
+import QueryParams from './QueryParams';
+import RequestHeaders from './RequestHeaders';
+import ResponseHeaders from './ResponseHeaders';
 
 type CodeDisplayProps = {
   contentType: string | null;

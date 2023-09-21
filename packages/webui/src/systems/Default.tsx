@@ -1,4 +1,4 @@
-import { TraceListItem } from '@/components/TraceListItem';
+import TraceListItem from '@/components/TraceListItem';
 import { System } from '@/systems';
 import { Trace } from '@/types';
 import { pathAndQuery } from '@/utils';

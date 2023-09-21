@@ -4,7 +4,7 @@ import { ReactElement, useContext, useEffect } from 'react';
 
 import { ApplicationContext } from '@/hooks/useApplication';
 import CollectorClient from '@/model/CollectorClient';
-import mockTraces, { mockTracesAsTraceCollection } from '@/model/mockData';
+import mockTraces, { mockDataAsTraceCollection } from '@/model/mockData';
 import { Trace } from '@/types';
 
 import ApplicationContextProvider from './ApplicationContext';
@@ -39,7 +39,7 @@ describe('ApplicationContext', () => {
     mockCollector.mockImplementation(() => {
       const defaults: CollectorClientData = {
         port: 1234,
-        traces: mockTracesAsTraceCollection(),
+        traces: mockDataAsTraceCollection(),
         connected: true,
         connecting: false,
         startFn: jest.fn(),
@@ -132,7 +132,7 @@ describe('ApplicationContext', () => {
     });
 
     it('should expose traces from collector client', async () => {
-      setupMockCollector({ traces: mockTracesAsTraceCollection() });
+      setupMockCollector({ traces: mockDataAsTraceCollection() });
 
       function TestComponent() {
         const { traces } = useContext(ApplicationContext);

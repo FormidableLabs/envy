@@ -1,4 +1,4 @@
-import { TraceListItem } from '@/components/TraceListItem';
+import TraceListItem from '@/components/TraceListItem';
 import { Code, Field, Fields } from '@/components/ui';
 import { Trace } from '@/types';
 import { pathAndQuery, safeParseJson } from '@/utils';
