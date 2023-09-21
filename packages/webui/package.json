@@ -36,7 +36,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-json-view": "^1.21.3",
-    "servor": "^4.0.2",
+    "serve-handler": "^6.1.5",
     "ws": "^8.14.1",
     "xml-formatter": "^3.5.0",
     "yargs-parser": "^21.1.1"
