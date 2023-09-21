@@ -1,5 +1,11 @@
 # @envyjs/webui
 
+## 0.3.0
+
+### Minor Changes
+
+- c59b155: Switch to serve-handler for http
+
 ## 0.2.2
 
 ### Patch Changes
