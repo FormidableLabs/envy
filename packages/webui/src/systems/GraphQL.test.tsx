@@ -6,7 +6,7 @@ import { Trace } from '@/types';
 import GraphQLSystem from './GraphQL';
 
 jest.mock(
-  '@/components/ui/Code',
+  '@/components/Code',
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;

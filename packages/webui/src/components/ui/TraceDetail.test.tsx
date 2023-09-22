@@ -14,7 +14,7 @@ import { Trace } from '@/types';
 
 import TraceDetail from './TraceDetail';
 
-jest.mock('@/components/ui', () => ({
+jest.mock('@/components', () => ({
   Code: function ({ children }: any) {
     return <>Mock Code component: {children}</>;
   },
@@ -42,7 +42,7 @@ jest.mock('@/components/ui', () => ({
 }));
 
 jest.mock(
-  '@/components/QueryParams',
+  '@/components/ui/QueryParams',
   () =>
     function MockQueryParams({ trace, ...props }: any) {
       return <div {...props}>Mock QueryParams component: {trace.id}</div>;
@@ -50,7 +50,7 @@ jest.mock(
 );
 
 jest.mock(
-  '@/components/RequestHeaders',
+  '@/components/ui/RequestHeaders',
   () =>
     function MockRequestHeaders({ trace, ...props }: any) {
       return <div {...props}>Mock RequestHeaders component: {trace.id}</div>;
@@ -58,7 +58,7 @@ jest.mock(
 );
 
 jest.mock(
-  '@/components/ResponseHeaders',
+  '@/components/ui/ResponseHeaders',
   () =>
     function MockResponseHeaders({ trace, ...props }: any) {
       return <div {...props}>Mock ResponseHeaders component: {trace.id}</div>;

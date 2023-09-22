@@ -2,7 +2,7 @@ import { cleanup, render, within } from '@testing-library/react';
 
 import KeyValueList, { KeyValuePair } from './KeyValueList';
 
-jest.mock('@/components/ui/Fields', () => ({
+jest.mock('@/components/Fields', () => ({
   Field: function MockField({ label, children }: React.PropsWithChildren<{ label: string }>) {
     return (
       <div data-test-id="mock-field">

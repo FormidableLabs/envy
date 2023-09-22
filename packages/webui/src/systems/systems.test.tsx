@@ -1,7 +1,7 @@
 import { cleanup, render } from '@testing-library/react';
 import { ReactElement } from 'react';
 
-import { TraceRequestDataProps } from '@/components/TraceRequestData';
+import { TraceRequestDataProps } from '@/components/ui/TraceRequestData';
 import { setupMockSystems } from '@/testing/mockSystems';
 import mockTraces from '@/testing/mockTraces';
 import { Trace } from '@/types';
@@ -18,7 +18,7 @@ import {
 jest.mock('@/systems/registration');
 
 jest.mock(
-  '@/components/TraceRequestData',
+  '@/components/ui/TraceRequestData',
   () =>
     function MockTraceRequestData({ iconPath, hostName, path, data }: TraceRequestDataProps) {
       return (

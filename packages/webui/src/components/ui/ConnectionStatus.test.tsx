@@ -12,7 +12,7 @@ jest.mock('react-icons/hi', () => ({
     return <>Mock HiStatusOnline component</>;
   },
 }));
-jest.mock('@/components/ui', () => ({
+jest.mock('@/components', () => ({
   Loading: function MockLoading() {
     return <>Mock Loading component</>;
   },

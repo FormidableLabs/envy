@@ -16,7 +16,7 @@ jest.mock('@/systems', () => ({
   },
 }));
 
-jest.mock('@/components/ui', () => ({
+jest.mock('@/components', () => ({
   Loading: function MockLoading() {
     return <>Mock Loading component</>;
   },

@@ -2,7 +2,7 @@
 // can be implemented and registered from the application using envt to send
 // network traces
 
-import { Code, Field, Fields } from '@/components/ui';
+import { Code, Field, Fields } from '@/components';
 import { System, Trace } from '@/types';
 import { safeParseJson } from '@/utils';
 

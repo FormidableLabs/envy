@@ -1,8 +1,7 @@
+import Authorization from '@/components/Authorization';
+import KeyValueList from '@/components/KeyValueList';
 import { Trace } from '@/types';
 import { cloneHeaders } from '@/utils';
-
-import Authorization from './Authorization';
-import KeyValueList from './KeyValueList';
 
 export default function ResponseHeaders({ trace }: { trace: Trace }) {
   const responseHeaders = trace.http?.responseHeaders;

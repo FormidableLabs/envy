@@ -5,14 +5,14 @@ import { setUseApplicationData } from '@/testing/mockUseApplication';
 import MainDisplay from './MainDisplay';
 
 jest.mock(
-  '@/components/TraceDetail',
+  '@/components/ui/TraceDetail',
   () =>
     function MockTraceDetail() {
       return <div data-test-id="mock-trace-detail">Mock TraceDetail component</div>;
     },
 );
 jest.mock(
-  '@/components/TraceList',
+  '@/components/ui/TraceList',
   () =>
     function MockTraceList() {
       return <div data-test-id="mock-trace-list">Mock TraceList component</div>;

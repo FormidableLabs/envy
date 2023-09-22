@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { Code, DateTime, Field, Fields, JsonDisplay, Loading, Section, XmlDisplay } from '@/components/ui';
+import { Code, DateTime, Field, Fields, JsonDisplay, Loading, Section, XmlDisplay } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import {
   SystemRequestDetailsComponent,

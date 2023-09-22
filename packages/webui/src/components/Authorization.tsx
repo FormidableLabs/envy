@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
-import { Code, IconButton, JsonDisplay } from '@/components/ui';
+import { Code, IconButton, JsonDisplay } from '@/components';
 import { safeParseJson, tw } from '@/utils';
 
 enum TokenType {

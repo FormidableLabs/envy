@@ -1,6 +1,6 @@
 import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiStatusOnline } from 'react-icons/hi';
 
-import { Loading } from '@/components/ui';
+import { Loading } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
 import { Trace } from '@/types';
