@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export { default as Code } from './Code';
 export { default as DateTime } from './DateTime';
 export { default as DropDown } from './DropDown';

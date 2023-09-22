@@ -1,9 +1,10 @@
-import { TraceListItem } from '@/components/TraceListItem';
-import { Code, Field, Fields } from '@/components/ui';
-import { Trace } from '@/types';
-import { pathAndQuery, safeParseJson } from '@/utils';
+// The plan is for this system to not part of the codebase, and rather be something that
+// can be implemented and registered from the application using envt to send
+// network traces
 
-import { System } from '.';
+import { Code, Field, Fields } from '@/components/ui';
+import { System, Trace } from '@/types';
+import { safeParseJson } from '@/utils';
 
 type SanityData = {
   type?: string | null;
@@ -12,11 +13,15 @@ type SanityData = {
 
 const icon = new URL('Sanity.svg', import.meta.url);
 
-export default class Sanity implements System<SanityData> {
+export default class SanitySystem implements System<SanityData> {
   name = 'Sanity';
 
   isMatch(trace: Trace) {
     return !!trace.sanity;
+  }
+
+  getIconPath() {
+    return icon.pathname;
   }
 
   getData(trace: Trace) {
@@ -33,21 +38,12 @@ export default class Sanity implements System<SanityData> {
     };
   }
 
-  getIconPath(_?: Trace) {
-    return icon.pathname;
-  }
-
-  listComponent(trace: Trace) {
+  getTraceRowData(trace: Trace) {
     const { type } = this.getData(trace);
-    const [path] = pathAndQuery(trace);
-    return (
-      <TraceListItem
-        iconPath={this.getIconPath(trace)}
-        hostName={trace.http?.host}
-        path={path}
-        data={`Type: ${type}`}
-      />
-    );
+
+    return {
+      data: `Type: ${type}`,
+    };
   }
 
   requestDetailComponent(trace: Trace) {
@@ -56,9 +52,11 @@ export default class Sanity implements System<SanityData> {
     return (
       <>
         <Fields>
-          <Field label="Item type">{type}</Field>
+          <Field data-test-id="type" label="Item type">
+            {type}
+          </Field>
           <Field label="Query">
-            <Code>{query}</Code>
+            <Code data-test-id="query">{query}</Code>
           </Field>
         </Fields>
       </>

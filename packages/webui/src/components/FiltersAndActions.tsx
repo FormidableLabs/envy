@@ -3,7 +3,7 @@ import { HiTrash } from 'react-icons/hi';
 
 import { DropDown, IconButton, SearchInput } from '@/components/ui';
 import useApplication from '@/hooks/useApplication';
-import { systems } from '@/systems';
+import { getDefaultSystem, getRegisteredSystems } from '@/systems/registration';
 
 export default function FiltersAndActions() {
   const { filterTraces, clearTraces } = useApplication();
@@ -15,7 +15,8 @@ export default function FiltersAndActions() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSystems, filter]);
 
-  const systemsExceptDefault = systems.filter(x => x.name !== 'Default');
+  const defaultSystem = getDefaultSystem();
+  const systems = getRegisteredSystems();
 
   function clearData() {
     clearTraces();
@@ -31,15 +32,15 @@ export default function FiltersAndActions() {
 
   return (
     <span className="flex flex-row items-center gap-2">
-      {systemsExceptDefault.length > 0 && (
+      {systems.length > 0 && (
         <DropDown
           className="w-60"
           focusKey="S"
           placeholder="Systems..."
           label="Systems:"
           multiSelect
-          items={systemsExceptDefault.map(x => ({
-            icon: x.getIconPath?.(),
+          items={systems.map(x => ({
+            icon: x.getIconPath?.(null) ?? defaultSystem.getIconPath(),
             value: x.name,
           }))}
           onChange={handleSystemsChange}

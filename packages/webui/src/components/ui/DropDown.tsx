@@ -28,7 +28,10 @@ function DropDown(
   const { isMac, specialKey } = usePlatform();
   const selectedItems = items.filter(x => x.isSelected);
   const [isOpen, setIsOpen] = useState(false);
-  const [selection, setSelection] = useState(multiSelect ? selectedItems : [selectedItems[0]]);
+  const [selection, setSelection] = useState(() => {
+    if (multiSelect) return selectedItems;
+    else return !!selectedItems[0] ? [selectedItems[0]] : [];
+  });
 
   useKeyboardShortcut([
     {
@@ -53,8 +56,8 @@ function DropDown(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection]);
 
-  const dropDownFieldRef = useRef<HTMLSpanElement>(null);
-  const finalRef = (ref || dropDownFieldRef) as RefObject<HTMLSpanElement>;
+  const dropDownFieldRef = useRef<HTMLDivElement>(null);
+  const finalRef = (ref || dropDownFieldRef) as RefObject<HTMLDivElement>;
 
   useClickAway(finalRef, () => setIsOpen(false));
 
@@ -67,6 +70,7 @@ function DropDown(
       }
     } else {
       setSelection([{ ...item, isSelected: true }]);
+      setIsOpen(false);
     }
   }
 
@@ -75,9 +79,11 @@ function DropDown(
   }
 
   return (
-    <span ref={finalRef} className={tw('flex input-container self-stretch', className)} {...props}>
+    <div ref={finalRef} className={tw('flex input-container self-stretch', className)} {...props}>
       <span className="group absolute top-0 left-0 cursor-pointer w-full z-50">
         <span
+          role="listbox"
+          data-test-item="list-selection"
           className={tw('relative flex input', isOpen && 'bg-white rounded-b-none hover:shadow-none')}
           onClick={() => setIsOpen(curr => !curr)}
         >
@@ -88,9 +94,9 @@ function DropDown(
               <span className="flex flex-row items-center gap-1">
                 {label && <span className="mr-2">{label}</span>}
                 {items.map(x => {
-                  if (!selection.some(y => y.value === x.value)) return;
+                  if (!selection.some(y => y.value === x.value)) return null;
                   return (
-                    <span key={x.value}>
+                    <span data-test-id="list-selection-item" key={x.value}>
                       {x.icon ? (
                         <img src={x.icon} alt="" className="flex-0 w-6 object-contain" />
                       ) : (
@@ -100,41 +106,43 @@ function DropDown(
                   );
                 })}
               </span>
-              <span className={tw('input-clear', isOpen && 'flex')} onClick={() => clearSelection()}>
+              <span data-test-id="input-clear" className={tw('input-clear', isOpen && 'flex')} onClick={clearSelection}>
                 <HiX />
               </span>
             </>
           )}
         </span>
-        <span className={tw('input w-full bg-white rounded-t-none', !isOpen && 'hidden')}>
-          <ul className="flex flex-col gap-1">
-            {items.map(x => {
-              const isSelected = selection.some(y => y.value === x.value);
-              return (
-                <li key={x.value} onClick={() => handleSelection(x)}>
-                  <span
-                    className={tw(
-                      'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent',
-                      isSelected && 'bg-orange-100 border-orange-200',
-                    )}
-                  >
-                    {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
-                    <span className="flex-1">{x.label ?? x.value}</span>
-                    {isSelected && <HiCheck className="flex-0  w-6 h-6" />}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </span>
+        {isOpen && (
+          <span data-test-id="list-items" className="input w-full bg-white rounded-t-none">
+            <ul className="flex flex-col gap-1">
+              {items.map(x => {
+                const isSelected = selection.some(y => y.value === x.value);
+                return (
+                  <li data-test-id="list-items-item" key={x.value} onClick={() => handleSelection(x)}>
+                    <span
+                      className={tw(
+                        'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent',
+                        isSelected && 'bg-orange-100 border-orange-200',
+                      )}
+                    >
+                      {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
+                      <span className="flex-1">{x.label ?? x.value}</span>
+                      {isSelected && <HiCheck className="flex-0  w-6 h-6" />}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </span>
+        )}
       </span>
       {focusKey && specialKey && (
-        <span className="focus-key">
+        <span data-test-id="focus-key" className="focus-key">
           {specialKey}
           {focusKey}
         </span>
       )}
-    </span>
+    </div>
   );
 }
 

@@ -4,20 +4,20 @@ import { Traces } from '@/types';
 import { safeParseJson } from '@/utils';
 
 type WebSocketClientOptions = {
-  port: number;
+  port?: number;
   changeHandler?: () => void;
 };
 
 export default class CollectorClient {
   private readonly _port: number;
 
-  private _connected: boolean = true;
-  private _connecting: boolean = false;
+  private _connected: boolean = false;
+  private _connecting: boolean = true;
   private _traces: Traces = new Map();
   private _changeHandler?: () => void;
 
   constructor({ port, changeHandler }: WebSocketClientOptions) {
-    this._port = port;
+    this._port = port ?? DEFAULT_WEB_SOCKET_PORT;
     this._changeHandler = changeHandler;
   }
 
@@ -42,21 +42,21 @@ export default class CollectorClient {
   }
 
   private _connect() {
-    const port = this._port ?? DEFAULT_WEB_SOCKET_PORT;
+    const port = this._port;
     const socket = new WebSocket(`ws://127.0.0.1:${port}/viewer`);
 
-    socket.onopen = () => {
+    socket.addEventListener('open', () => {
       this._connecting = false;
       this._connected = true;
       this._signalChange();
-    };
+    });
 
-    socket.onmessage = ({ data }) => {
+    socket.addEventListener('message', ({ data }) => {
       const payload = safeParseJson<Event>(data.toString());
       if (payload) {
         this.addEvent(payload);
       }
-    };
+    });
   }
 
   start() {

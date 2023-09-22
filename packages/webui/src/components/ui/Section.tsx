@@ -8,13 +8,14 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
   collapsible?: boolean;
 };
 
-export default function Section({ title, collapsible = true, className, children }: SectionProps) {
+export default function Section({ title, collapsible = true, className, children, ...props }: SectionProps) {
   const [expanded, setExpanded] = useState(true);
   const Icon = expanded ? HiMinus : HiPlus;
   return (
     <>
       {title && (
         <div
+          data-test-id="section-title"
           className={tw(
             `relative p-short`,
             `bg-slate-400 border-b border-slate-600 shadow-lg`,
@@ -25,12 +26,17 @@ export default function Section({ title, collapsible = true, className, children
           onClick={() => {
             if (collapsible) setExpanded(x => !x);
           }}
+          {...props}
         >
           {title}
           {collapsible && <Icon className="absolute-v-center right-6" />}
         </div>
       )}
-      {children && expanded && <div className="p-6">{children}</div>}
+      {children && expanded && (
+        <div data-test-id="section-content" className="p-6">
+          {children}
+        </div>
+      )}
     </>
   );
 }

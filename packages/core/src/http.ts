@@ -27,7 +27,7 @@ export interface HttpRequest {
   /**
    * The HTTP method
    */
-  method: 'GET' | 'POST' | 'OPTIONS' | 'PUT' | 'DELETE';
+  method: 'GET' | 'POST' | 'OPTIONS' | 'PUT' | 'PATCH' | 'DELETE';
 
   /**
    * The http response body

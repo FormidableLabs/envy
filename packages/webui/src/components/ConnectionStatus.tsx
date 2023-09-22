@@ -5,6 +5,7 @@ import useApplication from '@/hooks/useApplication';
 
 export default function ConnectionStatus() {
   const { connecting, connected } = useApplication();
+
   return (
     <>
       {connecting ? (

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import useApplication from '@/hooks/useApplication';
-import mockData from '@/model/mockData';
+import mockData from '@/testing/mockTraces';
 
 import Button from './ui/Button';
 
@@ -14,9 +14,5 @@ export default function DebugToolbar() {
     }
   }, [collector]);
 
-  return (
-    <>
-      <Button onClick={addMockData}>Mock data</Button>
-    </>
-  );
+  return <Button onClick={addMockData}>Mock data</Button>;
 }
