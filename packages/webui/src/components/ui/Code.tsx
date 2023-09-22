@@ -25,9 +25,7 @@ export default function Code({ inline = false, prettify = true, className, child
     <div className={tw('code-block', className)} {...props}>
       <ul>
         {lines.map((x, idx) => (
-          <li key={idx}>
-            <pre>{x}</pre>
-          </li>
+          <li key={idx}>{x}</li>
         ))}
       </ul>
     </div>

@@ -96,7 +96,11 @@ export default function Authorization({ value }: AuthorizationProps) {
             case TokenState.Expanded:
               return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
             case TokenState.Decoded:
-              return <div data-test-id="token-decoded-view">{decodedToken}</div>;
+              return (
+                <div data-test-id="token-decoded-view" className="flex-1">
+                  {decodedToken}
+                </div>
+              );
           }
         })()}
       </span>
