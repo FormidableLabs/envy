@@ -2,7 +2,7 @@ import { RefObject, useCallback, useEffect } from 'react';
 
 export default function useClickAway(ref: RefObject<HTMLElement>, callback: () => void) {
   const handler = useCallback<any>(
-    (e: React.MouseEvent<Node>) => {
+    (e: React.MouseEvent<HTMLElement>) => {
       if (ref?.current && !ref?.current?.contains(e.target as Node)) {
         callback?.();
       }

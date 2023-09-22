@@ -1,45 +1,26 @@
 import React, { ReactNode } from 'react';
 
-import { Trace } from '@/types';
+import TraceRequestData from '@/components/ui/TraceRequestData';
+import { System, Trace, TraceRowData } from '@/types';
+import { pathAndQuery } from '@/utils';
 
-import Default from './Default';
-import GraphQL from './GraphQL';
-import Sanity from './Sanity';
-
-export interface System<T> {
-  name: string;
-  isMatch(trace: Trace): boolean;
-  getData?(trace: Trace): T;
-  getIconPath?(trace?: Trace): string;
-  listComponent?(trace: Trace): React.ReactNode;
-  requestDetailComponent?(trace: Trace): React.ReactNode;
-  transformRequestBody?(trace: Trace): any;
-  responseDetailComponent?(trace: Trace): React.ReactNode;
-  transformResponseBody?(trace: Trace): any;
-}
-
-const defaultSystem: System<unknown> = new Default();
-export const systems: System<unknown>[] = [
-  // TODO: provide a way to register custom systems here, before `defaultSystem`
-  new GraphQL(),
-  new Sanity(),
-
-  defaultSystem, // fallback presentation
-];
+import { getDefaultSystem, getRegisteredSystems } from './registration';
 
 function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name'>): T {
-  const system = systems.find(x => x.isMatch(trace));
-  if (system && typeof system[fnName] === 'function') return system[fnName]!(trace);
+  const systems = getRegisteredSystems();
+  const defaultSystem = getDefaultSystem();
 
-  return defaultSystem[fnName]!(trace);
+  const system = systems.find(x => x.isMatch(trace));
+  const value = system?.[fnName]?.(trace);
+  return value ?? defaultSystem[fnName]!(trace);
 }
 
-export type SystemDetailProps = {
+type SystemDetailProps = {
   trace: Trace;
 };
 
-export function getSystemIconPath(trace: Trace): string {
-  return callOrFallback(trace, 'getIconPath');
+export function getIconPath(trace: Trace | null): string {
+  return callOrFallback(trace as Trace, 'getIconPath');
 }
 
 export function getRequestBody(trace: Trace): any {
@@ -51,7 +32,17 @@ export function getResponseBody(trace: Trace): any {
 }
 
 export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode {
-  return callOrFallback(trace, 'listComponent');
+  const traceRowData = callOrFallback<TraceRowData | null>(trace, 'getTraceRowData');
+
+  const [path, qs] = pathAndQuery(trace);
+  return (
+    <TraceRequestData
+      iconPath={getIconPath(trace)}
+      hostName={trace.http?.host}
+      path={path}
+      data={traceRowData?.data ?? qs}
+    />
+  );
 }
 
 export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-type Shortcut = {
+export type Shortcut = {
   condition?: boolean;
   predicate: (e: KeyboardEvent) => boolean;
   callback: (e?: KeyboardEvent) => void;
@@ -10,7 +10,6 @@ export default function useKeyboardShortcut(shortcuts: Shortcut[]) {
   const handler = useCallback(
     (e: KeyboardEvent) => {
       shortcuts.forEach(x => {
-        if (x.condition === false) return;
         if (x.predicate(e)) {
           e.preventDefault();
           x.callback(e);
@@ -21,7 +20,8 @@ export default function useKeyboardShortcut(shortcuts: Shortcut[]) {
   );
 
   useEffect(() => {
-    if (!shortcuts.filter(x => x.condition !== false).length) return;
+    if (shortcuts.filter(x => x.condition !== false).length === 0) return;
+
     document.addEventListener('keydown', handler);
     return () => {
       document.removeEventListener('keydown', handler);
