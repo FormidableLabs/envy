@@ -65,7 +65,7 @@ export default function TimingsDiagram({ timings }: TimingsDiagramProps) {
                 <div
                   className={tw(
                     'absolute top-[50%] -translate-y-1/2 opacity-75',
-                    offset > 0.7 ? 'right-2' : 'left-[calc(100%+theme(space.2))]',
+                    offset + percentage > 0.8 ? 'right-2' : 'left-[calc(100%+theme(space.2))]',
                   )}
                 >
                   {numberFormat(duration)}ms
@@ -78,24 +78,3 @@ export default function TimingsDiagram({ timings }: TimingsDiagramProps) {
     </div>
   );
 }
-
-/*
-<Field label="Timing">
-  <Fields>
-    <Field label="Queuing">{numberFormat(trace.http.timings.blocked)} ms</Field>
-    <Field label="DNS Lookup">{numberFormat(trace.http.timings.dns)} ms</Field>
-    <Field label="Connecting">
-      {numberFormat(
-        trace.http.timings.ssl === -1
-          ? trace.http.timings.connect
-          : trace.http.timings.connect - trace.http.timings.ssl,
-      )}{' '}
-      ms
-    </Field>
-    <Field label="SSL">{numberFormat(trace.http.timings.ssl)} ms</Field>
-    <Field label="Sending">{numberFormat(trace.http.timings.send)} ms</Field>
-    <Field label="Waiting">{numberFormat(trace.http.timings.wait)} ms</Field>
-    <Field label="Receiving">{numberFormat(trace.http.timings.receive)} ms</Field>
-  </Fields>
-</Field>
-*/
