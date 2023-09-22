@@ -164,7 +164,7 @@ export default function TraceDetail({ className }: DetailProps) {
                 {numberFormat(duration)}ms
               </Field>
               {trace.http?.timings && (
-                <Field label="Timing">
+                <Field data-test-id="timings" label="Timings">
                   <TimingsDiagram timings={trace.http.timings} />
                 </Field>
               )}

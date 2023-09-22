@@ -51,29 +51,31 @@ export default function TimingsDiagram({ timings }: TimingsDiagramProps) {
   return (
     <div className="w-full bg-slate-100 p-4 rounded">
       <table className="w-full">
-        {presentationData.map(({ name, color, duration, offset, percentage }) => (
-          <tr key={name}>
-            <th className="w-[15%] font-normal text-left">{name}</th>
-            <td>
-              <div
-                className={tw('relative h-8 text-sm', color)}
-                style={{
-                  marginLeft: `${offset * 100}%`,
-                  width: `${percentage * 100}%`,
-                }}
-              >
+        <tbody data-test-id="timings-table-body">
+          {presentationData.map(({ name, color, duration, offset, percentage }) => (
+            <tr key={name}>
+              <th className="w-[15%] font-normal text-left">{name}</th>
+              <td>
                 <div
-                  className={tw(
-                    'absolute top-[50%] -translate-y-1/2 opacity-75',
-                    offset + percentage > 0.8 ? 'right-2' : 'left-[calc(100%+theme(space.2))]',
-                  )}
+                  className={tw('relative h-8 text-sm', color)}
+                  style={{
+                    marginLeft: `${offset * 100}%`,
+                    width: `${percentage * 100}%`,
+                  }}
                 >
-                  {numberFormat(duration)}ms
+                  <div
+                    className={tw(
+                      'absolute top-[50%] -translate-y-1/2 opacity-75',
+                      offset + percentage > 0.8 ? 'right-2' : 'left-[calc(100%+theme(space.2))]',
+                    )}
+                  >
+                    {numberFormat(duration)}ms
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-        ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
