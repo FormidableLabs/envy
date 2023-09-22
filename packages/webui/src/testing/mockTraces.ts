@@ -362,7 +362,7 @@ const mockTraces: Trace[] = [
 
 export default mockTraces;
 
-export function mockTracesAsTraceCollection(): Map<string, Trace> {
+export function mockTraceCollection(): Map<string, Trace> {
   return mockTraces.reduce((acc, curr) => {
     acc.set(curr.id, curr);
     return acc;

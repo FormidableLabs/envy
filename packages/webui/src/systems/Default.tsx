@@ -1,7 +1,4 @@
-import TraceRequestData from '@/components/TraceRequestData';
-import { System } from '@/systems';
-import { Trace } from '@/types';
-import { pathAndQuery } from '@/utils';
+import { System, Trace } from '@/types';
 
 const icon = new URL('Default.svg', import.meta.url);
 
@@ -12,20 +9,19 @@ export default class DefaultSystem implements System<null> {
     return true;
   }
 
-  getData(_: Trace) {
-    return null;
-  }
-
-  getIconPath(_?: Trace) {
+  getIconPath() {
     return icon.pathname;
   }
 
-  listComponent(trace: Trace) {
-    const [path, qs] = pathAndQuery(trace);
-    return <TraceRequestData iconPath={this.getIconPath(trace)} hostName={trace.http?.host} path={path} data={qs} />;
+  getData() {
+    return null;
   }
 
-  requestDetailComponent(_: Trace) {
+  getTraceRowData() {
+    return null;
+  }
+
+  requestDetailComponent() {
     return null;
   }
 
@@ -33,7 +29,7 @@ export default class DefaultSystem implements System<null> {
     return trace.http?.requestBody;
   }
 
-  responseDetailComponent(_: Trace) {
+  responseDetailComponent() {
     return null;
   }
 

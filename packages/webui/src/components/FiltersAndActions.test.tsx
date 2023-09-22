@@ -1,6 +1,7 @@
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { setupMockSystems } from '@/testing/mockSystems';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 
 import FiltersAndActions from './FiltersAndActions';
@@ -32,25 +33,6 @@ jest.mock('@/components/ui', () => ({
   },
 }));
 
-jest.mock('@/systems', () => ({
-  get systems() {
-    return [
-      new (class {
-        name = 'System one';
-      })(),
-      new (class {
-        name = 'System two';
-      })(),
-      new (class {
-        name = 'System three';
-      })(),
-      new (class {
-        name = 'Default';
-      })(),
-    ];
-  },
-}));
-
 describe('FiltersAndActions', () => {
   let filterTracesFn: jest.Mock;
   let clearTracesFn: jest.Mock;
@@ -58,6 +40,8 @@ describe('FiltersAndActions', () => {
   beforeEach(() => {
     filterTracesFn = jest.fn();
     clearTracesFn = jest.fn();
+
+    setupMockSystems();
 
     setUseApplicationData({
       filterTraces: filterTracesFn,
@@ -79,20 +63,21 @@ describe('FiltersAndActions', () => {
       const { getByTestId } = render(<FiltersAndActions />);
 
       const dropDown = getByTestId('mock-drop-down');
-      const options = dropDown.querySelectorAll('option');
-
-      expect(options).toHaveLength(3);
+      expect(dropDown).toBeVisible();
     });
-    it('should list all systems except the "Default" one', () => {
+
+    it('should list all registered systems', () => {
       const { getByTestId } = render(<FiltersAndActions />);
 
       const dropDown = getByTestId('mock-drop-down');
       const options = dropDown.querySelectorAll('option');
 
-      expect(options).toHaveLength(3);
-      expect(options.item(0)!).toHaveTextContent('System one');
-      expect(options.item(1)!).toHaveTextContent('System two');
-      expect(options.item(2)!).toHaveTextContent('System three');
+      // see /src/testing/mockSystems.ts for where these test systems are registered
+      expect(options).toHaveLength(4);
+      expect(options.item(0)!).toHaveTextContent('Foo');
+      expect(options.item(1)!).toHaveTextContent('Bar');
+      expect(options.item(2)!).toHaveTextContent('Fallback');
+      expect(options.item(3)!).toHaveTextContent('OddNumbers');
     });
 
     it('should call `filterTraces` with selected systems when value changes', async () => {
@@ -101,10 +86,10 @@ describe('FiltersAndActions', () => {
       const dropDown = getByTestId('mock-drop-down');
 
       await act(async () => {
-        await userEvent.selectOptions(dropDown, 'System one');
+        await userEvent.selectOptions(dropDown, 'Foo');
       });
 
-      expect(filterTracesFn).toHaveBeenCalledWith(['System one'], '');
+      expect(filterTracesFn).toHaveBeenCalledWith(['Foo'], '');
     });
   });
 

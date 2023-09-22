@@ -1,7 +1,7 @@
 import { act, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import mockTraces from '@/model/mockData';
+import mockTraces from '@/testing/mockTraces';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 
 import DebugToolbar from './DebugToolbar';

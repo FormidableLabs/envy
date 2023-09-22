@@ -1,13 +1,13 @@
 import useApplication from '@/hooks/useApplication';
 
-export type RequestHeadingProps = {
+export type TraceRequestDataProps = {
   iconPath: string;
   hostName?: string;
   path: string;
   data?: string;
 };
 
-export default function TraceRequestData({ iconPath, hostName, path, data }: RequestHeadingProps) {
+export default function TraceRequestData({ iconPath, hostName, path, data }: TraceRequestDataProps) {
   const { selectedTraceId } = useApplication();
   const pathValue = !!selectedTraceId ? `.../${path.split('/').splice(-1, 1).join('/')}` : path;
 

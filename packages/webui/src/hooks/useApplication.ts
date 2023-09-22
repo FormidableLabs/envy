@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import CollectorClient from '@/model/CollectorClient';
+import CollectorClient from '@/collector/CollectorClient';
 import { Trace, Traces } from '@/types';
 
 export type ApplicationContextData = {

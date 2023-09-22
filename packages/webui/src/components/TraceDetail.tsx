@@ -5,9 +5,9 @@ import useApplication from '@/hooks/useApplication';
 import {
   SystemRequestDetailsComponent,
   SystemResponseDetailsComponent,
+  getIconPath,
   getRequestBody,
   getResponseBody,
-  getSystemIconPath,
 } from '@/systems';
 import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
@@ -102,7 +102,7 @@ export default function TraceDetail({ className }: DetailProps) {
       <div data-test-id="summary" className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img src={getSystemIconPath(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
+            <img src={getIconPath(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">

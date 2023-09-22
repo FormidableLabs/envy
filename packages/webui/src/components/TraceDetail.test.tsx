@@ -1,14 +1,14 @@
 import { act, cleanup, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import mockTraces from '@/model/mockData';
 import {
   SystemRequestDetailsComponent,
   SystemResponseDetailsComponent,
+  getIconPath,
   getRequestBody,
   getResponseBody,
-  getSystemIconPath,
 } from '@/systems';
+import mockTraces from '@/testing/mockTraces';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 import { Trace } from '@/types';
 
@@ -91,7 +91,7 @@ describe('TraceDetail', () => {
     });
     jest.mocked(getRequestBody).mockReturnValue('mock_request_body');
     jest.mocked(getResponseBody).mockReturnValue('mock_response_body');
-    jest.mocked(getSystemIconPath).mockReturnValue('mock_icon.jpg');
+    jest.mocked(getIconPath).mockReturnValue('mock_icon.jpg');
 
     setUseApplicationData({
       getSelectedTrace: getSelectedTraceFn as () => Trace,

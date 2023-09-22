@@ -1,10 +1,10 @@
 import { DEFAULT_WEB_SOCKET_PORT } from '@envyjs/core';
 import React, { useEffect, useRef, useState } from 'react';
 
+import CollectorClient from '@/collector/CollectorClient';
 import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
-import CollectorClient from '@/model/CollectorClient';
-import { systems } from '@/systems';
+import { getRegisteredSystems } from '@/systems/registration';
 import { Trace } from '@/types';
 
 type TraceFilter = {
@@ -88,6 +88,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
           if (!!filter.value && !trace?.http?.url.includes(filter.value)) includeInTraces = false;
 
           if (includeInTraces && filter.systems.length > 0) {
+            const systems = getRegisteredSystems();
             const validSystems = systems.filter(x => filter.systems.includes(x.name));
             includeInTraces = validSystems.some(x => x.isMatch(trace));
           }

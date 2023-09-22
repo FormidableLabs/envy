@@ -2,26 +2,15 @@ import { act, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ReactElement, useContext, useEffect } from 'react';
 
+import CollectorClient from '@/collector/CollectorClient';
 import { ApplicationContext } from '@/hooks/useApplication';
-import CollectorClient from '@/model/CollectorClient';
-import mockTraces, { mockTracesAsTraceCollection } from '@/model/mockData';
+import { setupMockSystems } from '@/testing/mockSystems';
+import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
 import { Trace } from '@/types';
 
 import ApplicationContextProvider from './ApplicationContext';
 
-jest.mock('@/model/CollectorClient');
-jest.mock('@/systems', () => ({
-  get systems() {
-    return [
-      new (class {
-        name = 'OddNumbers';
-        isMatch(trace: Trace) {
-          return parseInt(trace.id) % 2 === 1;
-        }
-      })(),
-    ];
-  },
-}));
+jest.mock('@/collector/CollectorClient');
 
 type CollectorClientData = {
   port: number;
@@ -39,7 +28,7 @@ describe('ApplicationContext', () => {
     mockCollector.mockImplementation(() => {
       const defaults: CollectorClientData = {
         port: 1234,
-        traces: mockTracesAsTraceCollection(),
+        traces: mockTraceCollection(),
         connected: true,
         connecting: false,
         startFn: jest.fn(),
@@ -81,6 +70,8 @@ describe('ApplicationContext', () => {
 
   beforeEach(() => {
     mockCollector = jest.mocked(CollectorClient) as jest.Mock<CollectorClient>;
+
+    setupMockSystems();
     setupMockCollector();
   });
 
@@ -132,7 +123,7 @@ describe('ApplicationContext', () => {
     });
 
     it('should expose traces from collector client', async () => {
-      setupMockCollector({ traces: mockTracesAsTraceCollection() });
+      setupMockCollector({ traces: mockTraceCollection() });
 
       function TestComponent() {
         const { traces } = useContext(ApplicationContext);

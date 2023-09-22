@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import useApplication from '@/hooks/useApplication';
-import mockData from '@/model/mockData';
+import mockData from '@/testing/mockTraces';
 
 import Button from './ui/Button';
 

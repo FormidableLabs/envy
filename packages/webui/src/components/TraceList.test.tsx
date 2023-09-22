@@ -1,7 +1,7 @@
 import { act, cleanup, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import mockTraces, { mockTracesAsTraceCollection } from '@/model/mockData';
+import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 import { Trace } from '@/types';
 
@@ -83,7 +83,7 @@ describe('TraceList', () => {
       setSelectedTraceFn = jest.fn();
 
       setUseApplicationData({
-        traces: mockTracesAsTraceCollection(),
+        traces: mockTraceCollection(),
         setSelectedTrace: setSelectedTraceFn,
       });
     });
