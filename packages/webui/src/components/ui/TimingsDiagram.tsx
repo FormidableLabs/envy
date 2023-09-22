@@ -49,13 +49,13 @@ export default function TimingsDiagram({ timings }: TimingsDiagramProps) {
   const presentationData = calculateOffsets(data);
 
   return (
-    <div className="w-full bg-slate-100 p-4 rounded">
+    <div className="w-full bg-slate-100 rounded">
       <table className="w-full">
         <tbody data-test-id="timings-table-body">
-          {presentationData.map(({ name, color, duration, offset, percentage }) => (
-            <tr key={name}>
-              <th className="w-[15%] font-normal text-left">{name}</th>
-              <td>
+          {presentationData.map(({ name, color, duration, offset, percentage }, idx) => (
+            <tr key={name} className={idx % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50'}>
+              <th className="px-4 py-2  w-[15%] font-normal text-left">{name}</th>
+              <td className="px-4 py-2">
                 <div
                   className={tw('relative h-8 text-sm', color)}
                   style={{
