@@ -65,6 +65,15 @@ const mockTraces: Trace[] = [
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
       }),
       duration: 200,
+      timings: {
+        blocked: 10,
+        dns: 20,
+        connect: 100,
+        ssl: 70,
+        send: 30,
+        wait: 30,
+        receive: 10,
+      },
     },
   },
 
