@@ -1,4 +1,4 @@
-import { cleanup, render, within } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 
 import { numberFormat } from '@/utils';
 
