@@ -21,8 +21,9 @@
   ],
   "scripts": {
     "start": "NODE_ENV=development node ./src/scripts/start.cjs --dev",
-    "test": "jest --watch --coverage",
-    "test:all": "jest --coverage && open ./coverage/lcov-report/index.html",
+    "test": "jest",
+    "test:watch": "jest --watch --coverage",
+    "test:coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
     "prebuild": "rimraf dist && rimraf bin",
     "build": "yarn build:parcel && yarn build:scripts",
     "build:parcel": "cross-env NODE_ENV=production parcel build --no-cache",
