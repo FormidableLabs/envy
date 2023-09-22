@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import TraceRequestData from '@/components/TraceRequestData';
+import TraceRequestData from '@/components/ui/TraceRequestData';
 import { System, Trace, TraceRowData } from '@/types';
 import { pathAndQuery } from '@/utils';
 

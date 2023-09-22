@@ -1,5 +1,5 @@
-import Header from '@/components/Header';
-import MainDisplay from '@/components/MainDisplay';
+import Header from '@/components/ui/Header';
+import MainDisplay from '@/components/ui/MainDisplay';
 import ApplicationContextProvider from '@/context/ApplicationContext';
 
 export default function App() {

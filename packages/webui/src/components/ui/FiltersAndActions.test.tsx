@@ -1,13 +1,13 @@
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { DropDownItem } from '@/components/DropDown';
 import { setupMockSystems } from '@/testing/mockSystems';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 
 import FiltersAndActions from './FiltersAndActions';
-import { DropDownItem } from './ui/DropDown';
 
-jest.mock('@/components/ui', () => ({
+jest.mock('@/components', () => ({
   DropDown: function ({ items, onChange }: any) {
     return (
       <select

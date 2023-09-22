@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 
+import Button from '@/components/Button';
 import useApplication from '@/hooks/useApplication';
 import mockData from '@/testing/mockTraces';
-
-import Button from './ui/Button';
 
 export default function DebugToolbar() {
   const { collector } = useApplication();

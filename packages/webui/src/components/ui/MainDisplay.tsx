@@ -1,5 +1,5 @@
-import TraceDetail from '@/components/TraceDetail';
-import TraceList from '@/components/TraceList';
+import TraceDetail from '@/components/ui/TraceDetail';
+import TraceList from '@/components/ui/TraceList';
 import useApplication from '@/hooks/useApplication';
 
 export default function MainDisplay() {

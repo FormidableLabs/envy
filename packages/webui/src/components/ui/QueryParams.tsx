@@ -1,7 +1,6 @@
+import KeyValueList from '@/components/KeyValueList';
 import { Trace } from '@/types';
 import { pathAndQuery } from '@/utils';
-
-import KeyValueList from './KeyValueList';
 
 export default function QueryParams({ trace }: { trace: Trace }) {
   const [, qs] = pathAndQuery(trace);

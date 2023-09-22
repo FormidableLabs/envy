@@ -1,4 +1,4 @@
-import { Field } from '@/components/ui';
+import { Field } from './Fields';
 
 export type KeyValuePair = [string, any];
 

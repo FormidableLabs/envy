@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 
 import Authorization from './Authorization';
 
-jest.mock('@/components/ui', () => ({
+jest.mock('@/components', () => ({
   Code: function ({ children, ...props }: any) {
     return <div {...props}>{children}</div>;
   },

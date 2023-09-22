@@ -1,9 +1,9 @@
 import { cleanup, render } from '@testing-library/react';
 
+import Authorization from '@/components/Authorization';
 import { Trace } from '@/types';
 
-import Authorization from './Authorization';
-import ResponseHeaders from './ResponseHeaders';
+import RequestHeaders from './RequestHeaders';
 
 const mockKeyValueListComponent = jest.fn();
 
@@ -18,7 +18,7 @@ jest.mock(
     },
 );
 
-describe('ResponseHeaders', () => {
+describe('RequestHeaders', () => {
   afterEach(() => {
     jest.resetAllMocks();
     cleanup();
@@ -26,12 +26,12 @@ describe('ResponseHeaders', () => {
 
   it('should render without error', () => {
     const trace = {} as Trace;
-    render(<ResponseHeaders trace={trace} />);
+    render(<RequestHeaders trace={trace} />);
   });
 
   it('should render nothing if trace has no headers', () => {
     const trace = {} as Trace;
-    const { container } = render(<ResponseHeaders trace={trace} />);
+    const { container } = render(<RequestHeaders trace={trace} />);
 
     expect(container).toBeEmptyDOMElement();
   });
@@ -39,13 +39,13 @@ describe('ResponseHeaders', () => {
   it('should pass `label` "Headers" to KeyValueList component', () => {
     const trace = {
       http: {
-        responseHeaders: {
+        requestHeaders: {
           foo: 'bar',
           baz: 'qux',
         } as Record<string, string>,
       },
     } as Trace;
-    render(<ResponseHeaders trace={trace} />);
+    render(<RequestHeaders trace={trace} />);
 
     expect(mockKeyValueListComponent).lastCalledWith(expect.objectContaining({ label: 'Headers' }));
   });
@@ -53,13 +53,13 @@ describe('ResponseHeaders', () => {
   it('should pass trace request headers as `keyValuePairs`', () => {
     const trace = {
       http: {
-        responseHeaders: {
+        requestHeaders: {
           foo: 'bar',
           baz: 'qux',
         } as Record<string, string>,
       },
     } as Trace;
-    render(<ResponseHeaders trace={trace} />);
+    render(<RequestHeaders trace={trace} />);
 
     expect(mockKeyValueListComponent).lastCalledWith(
       expect.objectContaining({
@@ -74,12 +74,12 @@ describe('ResponseHeaders', () => {
   it('should pass Authorizatin component for "authorization" header`', () => {
     const trace = {
       http: {
-        responseHeaders: {
+        requestHeaders: {
           authorization: 'some_auth_token',
         } as Record<string, string>,
       },
     } as Trace;
-    render(<ResponseHeaders trace={trace} />);
+    render(<RequestHeaders trace={trace} />);
 
     const [key, value] = mockKeyValueListComponent.mock.lastCall[0].keyValuePairs[0];
     expect(key).toEqual('authorization');

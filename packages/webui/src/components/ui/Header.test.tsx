@@ -3,21 +3,21 @@ import { cleanup, render } from '@testing-library/react';
 import Header from './Header';
 
 jest.mock(
-  '@/components/ConnectionStatus',
+  '@/components/ui/ConnectionStatus',
   () =>
     function MockConnectionStatus() {
       return <div data-test-id="mock-connection-status">Mock ConnectionStatus component</div>;
     },
 );
 jest.mock(
-  '@/components/DebugToolbar',
+  '@/components/ui/DebugToolbar',
   () =>
     function MockDebugToolbar() {
       return <div data-test-id="mock-debug-toolbar">Mock DebugToolbar component</div>;
     },
 );
 jest.mock(
-  '@/components/FiltersAndActions',
+  '@/components/ui/FiltersAndActions',
   () =>
     function MockFiltersAndActions() {
       return <div data-test-id="mock-filters-and-actions">Mock FiltersAndActions component</div>;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { HiTrash } from 'react-icons/hi';
 
-import { DropDown, IconButton, SearchInput } from '@/components/ui';
+import { DropDown, IconButton, SearchInput } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { getDefaultSystem, getRegisteredSystems } from '@/systems/registration';
 

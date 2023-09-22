@@ -1,6 +1,6 @@
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
-import { Loading } from '@/components/ui';
+import { Loading } from '@/components';
 import useApplication from '@/hooks/useApplication';
 
 export default function ConnectionStatus() {
