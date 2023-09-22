@@ -21,13 +21,7 @@ export const Http: Plugin = (_options, exporter) => {
         const startTs = Date.now();
 
         const _timestamps: Timestamps = {
-          firstByte: [0, 0],
           start: process.hrtime(),
-          socket: [0, 0],
-          lookup: [0, 0],
-          connect: [0, 0],
-          received: [0, 0],
-          sent: [0, 0],
         };
 
         const request = original.apply(this, args) as http.ClientRequest;

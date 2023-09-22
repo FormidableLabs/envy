@@ -6,14 +6,14 @@ import { HttpRequest } from '@envyjs/core';
 export type HRTime = [number, number];
 
 export type Timestamps = {
-  firstByte: HRTime;
+  firstByte?: HRTime;
   start: HRTime;
-  socket: HRTime;
-  lookup: HRTime;
-  connect: HRTime;
-  received: HRTime;
+  socket?: HRTime;
+  lookup?: HRTime;
+  connect?: HRTime;
+  received?: HRTime;
   secureConnect?: HRTime;
-  sent: HRTime;
+  sent?: HRTime;
 };
 
 export function calculateTiming(time: Timestamps): HttpRequest['timings'] {
@@ -45,7 +45,8 @@ export function calculateTiming(time: Timestamps): HttpRequest['timings'] {
   };
 }
 
-export function getDuration(a: HRTime, b: HRTime): number {
+export function getDuration(a: HRTime | undefined, b: HRTime | undefined): number {
+  if (!(a && b)) return 0;
   const seconds = b[0] - a[0];
   const nanoseconds = b[1] - a[1];
   return seconds * 1000 + nanoseconds / 1e6;
