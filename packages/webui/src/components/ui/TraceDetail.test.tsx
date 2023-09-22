@@ -48,7 +48,6 @@ jest.mock(
       return <div {...props}>Mock QueryParams component: {trace.id}</div>;
     },
 );
-
 jest.mock(
   '@/components/ui/RequestHeaders',
   () =>
@@ -56,12 +55,18 @@ jest.mock(
       return <div {...props}>Mock RequestHeaders component: {trace.id}</div>;
     },
 );
-
 jest.mock(
   '@/components/ui/ResponseHeaders',
   () =>
     function MockResponseHeaders({ trace, ...props }: any) {
       return <div {...props}>Mock ResponseHeaders component: {trace.id}</div>;
+    },
+);
+jest.mock(
+  '@/components/ui/TimingsDiagram',
+  () =>
+    function MockTimingsDiagram({ timings, ...props }: any) {
+      return <div {...props}>Mock TimingsDiagram component: {JSON.stringify(timings)}</div>;
     },
 );
 
@@ -467,6 +472,16 @@ describe('TraceDetail', () => {
         expect(status).toHaveTextContent(`204 No Content`);
       });
 
+      it('should render ResponseHeaders component for trace headers', () => {
+        const { getByTestId } = render(<TraceDetail />);
+
+        const responseDetails = getByTestId('response-details');
+        const headers = within(responseDetails).getByTestId('headers');
+
+        expect(headers).toBeVisible();
+        expect(headers).toHaveTextContent(`Mock ResponseHeaders component: ${mockTrace.id}`);
+      });
+
       it('should display request duration', () => {
         getSelectedTraceFn.mockReturnValue({
           ...mockTrace,
@@ -485,14 +500,50 @@ describe('TraceDetail', () => {
         expect(duration).toHaveTextContent(`1,234ms`);
       });
 
-      it('should render ResponseHeaders component for trace headers', () => {
+      it('should not render TimingsDiagram component if there are no timings in the trace', () => {
+        getSelectedTraceFn.mockReturnValue({
+          ...mockTrace,
+          http: {
+            ...mockTrace.http,
+            duration: 1234,
+            timings: undefined,
+          },
+        });
+
         const { getByTestId } = render(<TraceDetail />);
 
         const responseDetails = getByTestId('response-details');
-        const headers = within(responseDetails).getByTestId('headers');
+        const timings = within(responseDetails).queryByTestId('timings');
 
-        expect(headers).toBeVisible();
-        expect(headers).toHaveTextContent(`Mock ResponseHeaders component: ${mockTrace.id}`);
+        expect(timings).not.toBeInTheDocument();
+      });
+
+      it('should render TimingsDiagram component if there are timings in the trace', () => {
+        const timingsData = {
+          blocked: 10,
+          dns: 20,
+          connect: 100,
+          ssl: 70,
+          send: 30,
+          wait: 30,
+          receive: 10,
+        };
+        getSelectedTraceFn.mockReturnValue({
+          ...mockTrace,
+          http: {
+            ...mockTrace.http,
+            duration: 1234,
+            timings: timingsData,
+          },
+        });
+
+        const { getByTestId } = render(<TraceDetail />);
+
+        const responseDetails = getByTestId('response-details');
+        const timings = within(responseDetails).getByTestId('timings');
+
+        expect(timings).toBeVisible();
+        expect(timings).toHaveTextContent(JSON.stringify(timingsData));
       });
 
       it('should render SystemResponseDetailsComponent component for trace headers', () => {

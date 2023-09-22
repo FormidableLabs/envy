@@ -14,6 +14,7 @@ import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 import QueryParams from './QueryParams';
 import RequestHeaders from './RequestHeaders';
 import ResponseHeaders from './ResponseHeaders';
+import TimingsDiagram from './TimingsDiagram';
 
 type CodeDisplayProps = {
   contentType: string | null;
@@ -158,10 +159,15 @@ export default function TraceDetail({ className }: DetailProps) {
               <Field data-test-id="status" label="Status">
                 {statusCode} {statusMessage}
               </Field>
+              <ResponseHeaders data-test-id="headers" trace={trace} />
               <Field data-test-id="duration" label="Duration">
                 {numberFormat(duration)}ms
               </Field>
-              <ResponseHeaders data-test-id="headers" trace={trace} />
+              {trace.http?.timings && (
+                <Field data-test-id="timings" label="Timings">
+                  <TimingsDiagram timings={trace.http.timings} />
+                </Field>
+              )}
             </Fields>
             <SystemResponseDetailsComponent data-test-id="system-specific" trace={trace} />
           </>
