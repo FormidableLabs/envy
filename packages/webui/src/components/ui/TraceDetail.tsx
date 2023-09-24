@@ -3,9 +3,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Code, DateTime, Field, Fields, JsonDisplay, Loading, Section, XmlDisplay } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import {
-  SystemRequestDetailsComponent,
-  SystemResponseDetailsComponent,
-  getIconPath,
+  RequestDetailsComponent,
+  ResponseDetailsComponent,
+  getIconBase64,
   getRequestBody,
   getResponseBody,
 } from '@/systems';
@@ -103,7 +103,7 @@ export default function TraceDetail({ className }: DetailProps) {
       <div data-test-id="summary" className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img src={getIconPath(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
+            <img src={getIconBase64(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">
@@ -146,7 +146,7 @@ export default function TraceDetail({ className }: DetailProps) {
           <QueryParams data-test-id="query-params" trace={trace} />
           <RequestHeaders data-test-id="headers" trace={trace} />
         </Fields>
-        <SystemRequestDetailsComponent data-test-id="system-specific" trace={trace} />
+        <RequestDetailsComponent data-test-id="system-specific" trace={trace} />
       </Section>
 
       <Section data-test-id="response-details" title="Response details">
@@ -181,7 +181,7 @@ export default function TraceDetail({ className }: DetailProps) {
                 </Field>
               )}
             </Fields>
-            <SystemResponseDetailsComponent data-test-id="system-specific" trace={trace} />
+            <ResponseDetailsComponent data-test-id="system-specific" trace={trace} />
           </>
         ) : (
           <span className="flex flex-col my-20 mx-auto items-center">

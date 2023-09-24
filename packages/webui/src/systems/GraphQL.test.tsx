@@ -90,7 +90,7 @@ describe('GraphQLSystem', () => {
 
   it('should return the expected icon', () => {
     const instance = new GraphQLSystem();
-    expect(instance.getIconPath()).toEqual('/GraphQL.svg');
+    expect(instance.getIconBase64()).toEqual(expect.any(String));
   });
 
   it('should expected data for `getData` when trace represents a query', () => {

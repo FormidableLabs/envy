@@ -19,8 +19,8 @@ type SystemDetailProps = {
   trace: Trace;
 };
 
-export function getIconPath(trace: Trace | null): string {
-  return callOrFallback(trace as Trace, 'getIconPath');
+export function getIconBase64(trace: Trace | null): string {
+  return callOrFallback(trace as Trace, 'getIconBase64');
 }
 
 export function getRequestBody(trace: Trace): any {
@@ -37,7 +37,7 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
   const [path, qs] = pathAndQuery(trace);
   return (
     <TraceRequestData
-      iconPath={getIconPath(trace)}
+      iconPath={getIconBase64(trace)}
       hostName={trace.http?.host}
       path={path}
       data={traceRowData?.data ?? qs}
@@ -45,7 +45,7 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
   );
 }
 
-export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
+export function RequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'requestDetailComponent');
   return Component ? (
     <>
@@ -55,7 +55,7 @@ export function SystemRequestDetailsComponent({ trace }: SystemDetailProps): Rea
   ) : null;
 }
 
-export function SystemResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
+export function ResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'responseDetailComponent');
   return Component ? (
     <>

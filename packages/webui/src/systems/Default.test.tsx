@@ -15,7 +15,7 @@ describe('DefaultSystem', () => {
 
   it('should return the expected icon', () => {
     const instance = new DefaultSystem();
-    expect(instance.getIconPath()).toEqual('/Default.svg');
+    expect(instance.getIconBase64()).toEqual(expect.any(String));
   });
 
   it('should return `null` for `getData`', () => {
