@@ -24,7 +24,7 @@ export function WebSocketClient(options: WebSocketClientOptions) {
       log.info('client connected');
       retryDelay = DEFAULT_RETRY_DELAY;
 
-      for (const trace of Object.entries(initialTraces)) {
+      for (const trace of Object.values(initialTraces)) {
         ws.send(JSON.stringify(trace));
       }
     };
@@ -60,12 +60,6 @@ export function WebSocketClient(options: WebSocketClientOptions) {
 
   return {
     send: (data: Event) => {
-      // if (options.debug) {
-      //   if (data.url !== socket.replace('ws', 'http')) {
-      //     log.debug('sending', data);
-      //   }
-      // }
-
       try {
         if (ws.readyState === ws.OPEN) {
           ws.send(JSON.stringify(data));
