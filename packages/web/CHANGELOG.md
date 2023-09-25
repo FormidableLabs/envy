@@ -1,5 +1,12 @@
 # @envyjs/web
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [81f6e01]
+  - @envyjs/core@0.3.2
+
 ## 0.2.1
 
 ### Patch Changes

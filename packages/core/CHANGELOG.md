@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.3.2
+
+### Patch Changes
+
+- 81f6e01: Support HAR timing data
+
 ## 0.3.1
 
 ### Patch Changes

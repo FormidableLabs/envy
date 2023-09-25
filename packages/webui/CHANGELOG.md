@@ -1,5 +1,15 @@
 # @envyjs/webui
 
+## 0.3.1
+
+### Patch Changes
+
+- 8fb0d56: Updated some of the UI to better facilitate unit testing
+- 81f6e01: Support HAR timing data
+- Updated dependencies [81f6e01]
+  - @envyjs/core@0.3.2
+  - @envyjs/client@0.2.2
+
 ## 0.3.0
 
 ### Minor Changes
