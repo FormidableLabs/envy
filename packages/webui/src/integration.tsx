@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 /* eslint-disable import/no-unresolved */
 // @ts-expect-error
 import css from 'inline:../dist/viewer.css';
