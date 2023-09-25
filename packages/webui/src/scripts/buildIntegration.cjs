@@ -19,12 +19,12 @@ build({
   ...shared,
   format: 'esm',
   outfile: './dist/integration.esm.js',
-  target: ['esnext', 'node12.22.0'],
+  target: ['es2022', 'node16'],
 });
 
 build({
   ...shared,
   format: 'cjs',
   outfile: './dist/integration.cjs.js',
-  target: ['esnext', 'node12.22.0'],
+  target: ['es2022', 'node16'],
 });
