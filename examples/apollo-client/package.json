@@ -5,10 +5,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "parcel ./src/index.html --port 4001 --no-cache"
+    "start": "concurrently \"yarn start:envy\" \"yarn start:web\" \"yarn start:viewer\"",
+    "start:web": "parcel ./src/index.html --port 4001 --no-cache",
+    "start:envy": "npx @envyjs/webui --noUi",
+    "start:viewer": "parcel ./src/viewer/viewer.html --port 4002 --no-cache"
   },
   "dependencies": {
     "@envyjs/web": "*",
+    "@envyjs/webui": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "urql": "^4.0.5"
