@@ -5,7 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "concurrently \"yarn start:envy\" \"yarn start:web\" \"yarn start:viewer\"",
+    "start": "yarn start:web",
+    "start:custom-viewer": "concurrently \"yarn start:envy\" \"yarn start:web\" \"yarn start:viewer\"",
     "start:web": "parcel ./src/index.html --port 4001 --no-cache",
     "start:envy": "npx @envyjs/webui --noUi",
     "start:viewer": "parcel ./src/viewer/viewer.html --port 4002 --no-cache"
