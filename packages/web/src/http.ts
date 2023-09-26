@@ -29,11 +29,14 @@ export const Http: Plugin = (_options, exporter) => {
     const endMark = marks.find(x => (x as PerformanceMark).detail.type === 'end');
 
     // find the timings that occured between the two marks
-    const time = performance
-      .getEntriesByName(reqEvent.http!.url)
-      .find(x => x.startTime >= startMark!.startTime && x.startTime <= endMark!.startTime) as
-      | PerformanceResourceTiming
-      | undefined;
+    let time: PerformanceResourceTiming | undefined;
+    if (startMark && endMark) {
+      time = performance
+        .getEntriesByName(reqEvent.http!.url)
+        .find(x => x.startTime >= startMark!.startTime && x.startTime <= endMark!.startTime) as
+        | PerformanceResourceTiming
+        | undefined;
+    }
 
     // calculate a fallback if we don't have timing data available
     const fallbackDuration = performance.now() - startTs;

@@ -163,6 +163,18 @@ export default function TraceDetail({ className }: DetailProps) {
               <Field data-test-id="duration" label="Duration">
                 {numberFormat(duration)}ms
               </Field>
+              {!trace.http?.timings && trace.http?.statusCode !== 304 && (
+                <Field data-test-id="timings" label="Timings">
+                  <a
+                    href="https://github.com/FormidableLabs/envy#web-client-application"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                    Disabled by CORS policy
+                  </a>
+                </Field>
+              )}
               {trace.http?.timings && (
                 <Field data-test-id="timings" label="Timings">
                   <TimingsDiagram timings={trace.http.timings} />
