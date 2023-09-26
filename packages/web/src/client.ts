@@ -60,6 +60,10 @@ export function WebSocketClient(options: WebSocketClientOptions) {
 
   return {
     send: (data: Event) => {
+      if (options.debug) {
+        log.debug('sending', data);
+      }
+
       try {
         if (ws.readyState === ws.OPEN) {
           ws.send(JSON.stringify(data));

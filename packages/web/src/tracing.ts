@@ -20,10 +20,9 @@ export async function enableTracing(options: TracingOptions): Promise<void> {
     if (options.debug) log.info('Starting in debug mode');
 
     const port = options.port ?? DEFAULT_WEB_SOCKET_PORT;
-    const serviceName = options.serviceName;
 
     // custom websocket client
-    const ws = WebSocketClient({ port, serviceName });
+    const ws = WebSocketClient({ ...options, port });
 
     // middleware transforms event data
     const middleware: Middleware[] = [Meta, Sanity];
