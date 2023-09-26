@@ -1,21 +1,47 @@
 import { Event, HttpRequest, Plugin } from '@envyjs/core';
 
 import { generateId } from './id';
+import { calculateTiming } from './performance';
 
 export const Http: Plugin = (_options, exporter) => {
   const { fetch: originalFetch } = window;
   window.fetch = async (...args) => {
-    const tsReq = Date.now();
-    const id = generateId();
+    const startTs = performance.now();
 
-    const reqEvent = fetchRequestToEvent(tsReq, id, ...args);
+    // export the initial request data
+    const reqEvent = fetchRequestToEvent(...args);
     exporter.send(reqEvent);
 
-    const response = await originalFetch(...args);
-    const tsRes = Date.now();
-    const responseClone = response.clone();
-    const resEvent = await fetchResponseToEvent(tsRes, reqEvent, responseClone);
+    performance.mark(reqEvent.id, { detail: { type: 'start' } });
 
+    // execute the actual request
+    const response = await originalFetch(...args);
+    const responseClone = response.clone();
+    const resEvent = await fetchResponseToEvent(reqEvent, responseClone);
+
+    performance.mark(reqEvent.id, { detail: { type: 'end' } });
+
+    // the peformance API does not have a request identifier that
+    // allows us to associate it with a specific request, so we
+    // use performance marks to capture the window of the request
+    const marks = performance.getEntriesByName(reqEvent.id);
+    const startMark = marks.find(x => (x as PerformanceMark).detail.type === 'start');
+    const endMark = marks.find(x => (x as PerformanceMark).detail.type === 'end');
+
+    // find the timings that occured between the two marks
+    const time = performance
+      .getEntriesByName(reqEvent.http!.url)
+      .find(x => x.startTime >= startMark!.startTime && x.startTime <= endMark!.startTime) as
+      | PerformanceResourceTiming
+      | undefined;
+
+    // calculate a fallback if we don't have timing data available
+    const fallbackDuration = performance.now() - startTs;
+    const { duration, timings } = calculateTiming(time);
+    resEvent.http!.duration = duration || fallbackDuration;
+    resEvent.http!.timings = timings;
+
+    // export the final request data which now includes response
     exporter.send(resEvent);
 
     return response;
@@ -39,7 +65,7 @@ function formatHeaders(headers: HeadersInit | Headers | undefined): HttpRequest[
   return {};
 }
 
-function fetchRequestToEvent(timestamp: number, id: string, input: RequestInfo | URL, init?: RequestInit): Event {
+function fetchRequestToEvent(input: RequestInfo | URL, init?: RequestInit): Event {
   let url: URL;
   if (typeof input === 'string') {
     url = new URL(input);
@@ -50,9 +76,9 @@ function fetchRequestToEvent(timestamp: number, id: string, input: RequestInfo |
   }
 
   return {
-    id,
+    id: generateId(),
     parentId: undefined,
-    timestamp,
+    timestamp: Date.now(),
     http: {
       method: (init?.method ?? 'GET') as HttpRequest['method'],
       host: url.host,
@@ -65,7 +91,7 @@ function fetchRequestToEvent(timestamp: number, id: string, input: RequestInfo |
   };
 }
 
-async function fetchResponseToEvent(timestamp: number, req: Event, response: Response): Promise<Event> {
+async function fetchResponseToEvent(req: Event, response: Response): Promise<Event> {
   return {
     ...req,
 
@@ -76,7 +102,6 @@ async function fetchResponseToEvent(timestamp: number, req: Event, response: Res
       statusMessage: response.statusText,
       responseHeaders: formatHeaders(response.headers),
       responseBody: await response.text(),
-      duration: timestamp - req.timestamp,
     },
   };
 }

@@ -1,11 +1,16 @@
 // eslint-disable-next-line import/order
 import { enableTracing } from '@envyjs/node';
-enableTracing({ debug: true, serviceName: 'examples/express' });
-import express from 'express';
+enableTracing({ serviceName: 'examples/express' });
+import express, { NextFunction, Response } from 'express';
 import fetch from 'node-fetch';
 
 const app = express();
 const port = 4000;
+
+app.use((_, response: Response, next: NextFunction) => {
+  response.setHeader('Timing-Allow-Origin', '*');
+  next();
+});
 
 app.get('/api/cat-fact', async (_, response) => {
   const res = await fetch('https://cat-fact.herokuapp.com/facts');
