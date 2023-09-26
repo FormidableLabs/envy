@@ -1,5 +1,12 @@
 # @envyjs/web
 
+## 0.2.3
+
+### Patch Changes
+
+- 10ecbbe: Fix windows startup scripts
+- f6bc690: Fix debugging in web sender package
+
 ## 0.2.2
 
 ### Patch Changes

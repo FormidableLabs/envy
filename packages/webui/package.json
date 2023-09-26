@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/webui",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Envy Web UI",
   "source": [
     "src/index.html"
