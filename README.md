@@ -128,7 +128,7 @@ _Browsers prevent full timing data from being accessed from cross-origin request
 
 ## Customizing
 
-Whist Envy will run as a zero-config standalone viewer, it is also possible to run the Envy viewer locally from your application and to define your own systems to customize how traces are presented.
+Whilst Envy will run as a zero-config standalone viewer, it is also possible to run the Envy viewer locally from your application and to define your own systems to customize how traces are presented.
 
 See the [customization docs](docs/customizing.md) for more information.
 
