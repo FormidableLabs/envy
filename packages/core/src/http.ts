@@ -60,6 +60,11 @@ export interface HttpRequest {
   statusMessage?: string;
 
   /**
+   * Returns true ff timing data is blocked by CORS
+   */
+  timingsBlockedByCors?: boolean;
+
+  /**
    * HAR formatted timing information
    *
    * http://www.softwareishard.com/blog/har-12-spec/#timings

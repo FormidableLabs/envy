@@ -38,11 +38,16 @@ export const Http: Plugin = (_options, exporter) => {
         | undefined;
     }
 
-    // calculate a fallback if we don't have timing data available
-    const fallbackDuration = performance.now() - startTs;
+    // calculate the timing, or use a fallback if not available
     const { duration, timings } = calculateTiming(time);
-    resEvent.http!.duration = duration || fallbackDuration;
-    resEvent.http!.timings = timings;
+    if (duration) {
+      resEvent.http!.duration = duration;
+      resEvent.http!.timings = timings;
+    } else {
+      const fallbackDuration = performance.now() - startTs;
+      resEvent.http!.timingsBlockedByCors = true;
+      resEvent.http!.duration = fallbackDuration;
+    }
 
     // export the final request data which now includes response
     exporter.send(resEvent);
