@@ -34,6 +34,7 @@ _Note: Envy is intended for development usage only, and is not a replacement for
 ## Contents
 
 - [Getting Started](#getting-started)
+- [Production Bundles](#production-bundles)
 - [Contributing](#contributing)
 
 ## Getting Started
@@ -123,6 +124,40 @@ enableTracing({ serviceName: 'your-website-name' }).then(() => {
 #### Timing Data
 
 _Browsers prevent full timing data from being accessed from cross-origin requests unless the server responds with the [Timing-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Timing-Allow-Origin) header_.
+
+### Production Bundles
+
+Envy is designed to enhance your developer experience and is not intended for production usage. Depending on your application, there are various ways to exclude it from your bundle in production.
+
+#### Dynamic Imports (Typescript)
+
+```ts
+if (process.env.NODE_ENV !== 'production') {
+  import('@envyjs/node').then(({ enableTracing }) => {
+    enableTracing({ serviceName: 'examples/apollo' });
+  });
+}
+```
+
+#### Dynamic Require (Javascript)
+
+```ts
+if (process.env.NODE_ENV !== 'production') {
+  const { enableTracing } = require('@envyjs/node');
+  enableTracing({ serviceName: 'examples/apollo' });
+}
+```
+
+#### Disabling Tracing
+
+This option is the simplest, but will leave the code in your output bundle. Depending on your application and its deployment and packaging method, this may be acceptable in your usage.
+
+```ts
+import { enableTracing } from '@envyjs/node';
+if (process.env.NODE_ENV !== 'production') {
+  enableTracing({ serviceName: 'examples/apollo' });
+}
+```
 
 ## Contributing
 
