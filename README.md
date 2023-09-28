@@ -120,6 +120,10 @@ enableTracing({ serviceName: 'your-website-name' }).then(() => {
 });
 ```
 
+#### Timing Data
+
+_Browsers prevent full timing data from being accessed from cross-origin requests unless the server responds with the [Timing-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Timing-Allow-Origin) header_.
+
 ## Contributing
 
 Please see the [Contributing guide](CONTRIBUTING.md).
