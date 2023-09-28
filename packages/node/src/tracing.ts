@@ -1,6 +1,7 @@
 import { Exporter, Meta, Middleware, Options, Plugin, Sanity } from '@envyjs/core';
 
 import { WebSocketClient } from './client';
+import { Fetch } from './fetch';
 import { Http } from './http';
 import log from './log';
 
@@ -24,10 +25,15 @@ export function enableTracing(options: TracingOptions) {
   const exporter: Exporter = {
     send(message) {
       const result = middleware.reduce((prev, t) => t(prev, options), message);
-      wsClient.send(result);
+      if (result) {
+        if (result.http && options.filter && options.filter(result.http) === false) {
+          return;
+        }
+        wsClient.send(result);
+      }
     },
   };
 
   // initialize all plugins
-  [Http, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
+  [Http, Fetch, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
 }
