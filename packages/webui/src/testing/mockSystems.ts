@@ -11,8 +11,8 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.foo.com';
     }
-    getIconPath(trace: Trace | null) {
-      return `foo_${trace?.id}.jpg`;
+    getIconUri(trace: Trace | null) {
+      return `foo_${trace?.id}_base64`;
     }
     getData(trace: Trace) {
       return {
@@ -43,8 +43,8 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.bar.com';
     }
-    getIconPath(trace: Trace | null) {
-      return `bar_${trace?.id}.jpg`;
+    getIconUri(trace: Trace | null) {
+      return `bar_${trace?.id}_base64`;
     }
     getData(trace: Trace) {
       return {
@@ -75,7 +75,7 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.fallback.com';
     }
-    getIconPath() {
+    getIconUri() {
       return null;
     }
     getData() {
@@ -110,8 +110,8 @@ const mockDefaultSystem = new (class implements System<null> {
   isMatch() {
     return true;
   }
-  getIconPath() {
-    return 'default.jpg';
+  getIconUri() {
+    return 'default_base64';
   }
   getData() {
     return null;

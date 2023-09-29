@@ -2,9 +2,16 @@
   "name": "@envyjs/webui",
   "version": "0.3.2",
   "description": "Envy Web UI",
-  "source": [
-    "src/index.html"
-  ],
+  "targets": {
+    "main": false,
+    "viewer": {
+      "source": "src/index.html",
+      "distDir": "dist"
+    }
+  },
+  "main": "dist/integration.cjs.js",
+  "module": "dist/integration.esm.js",
+  "types": "dist/integration.d.ts",
   "bin": {
     "envy": "bin/start.cjs"
   },
@@ -25,9 +32,11 @@
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
     "prebuild": "rimraf dist && rimraf bin",
-    "build": "yarn build:parcel && yarn build:scripts",
-    "build:parcel": "cross-env NODE_ENV=production parcel build --no-cache",
-    "build:scripts": "copyfiles --flat ./src/scripts/start.cjs ./src/scripts/startCollector.cjs ./src/scripts/startViewer.cjs ./bin",
+    "build": "yarn build:app && yarn build:integration && yarn build:typedefs && yarn build:bin",
+    "build:app": "cross-env NODE_ENV=production parcel build --no-cache",
+    "build:integration": "tailwindcss -i ./src/styles/base.css -o ./dist/viewer.css && node ./src/scripts/buildIntegration.cjs",
+    "build:typedefs": "tsc --project ./tsconfig.types.json",
+    "build:bin": "copyfiles --flat ./src/scripts/start.cjs ./src/scripts/startCollector.cjs ./src/scripts/startViewer.cjs ./bin",
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
@@ -59,6 +68,8 @@
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
+    "esbuild": "^0.19.3",
+    "esbuild-plugin-inline-import": "^1.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "events": "^3.1.0",

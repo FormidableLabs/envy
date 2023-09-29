@@ -51,7 +51,7 @@ describe('SanitySystem', () => {
 
   it('should return the expected icon', () => {
     const instance = new SanitySystem();
-    expect(instance.getIconPath()).toEqual('/Sanity.svg');
+    expect(instance.getIconUri()).toEqual(expect.any(String));
   });
 
   it('should expected data for `getData`', () => {

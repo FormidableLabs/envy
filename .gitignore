@@ -54,3 +54,6 @@ bin
 # examples/next.js
 **/.next/
 **/next-env.d.ts
+
+# other
+.DS_Store

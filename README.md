@@ -28,13 +28,15 @@ Envy will trace the network calls from every application in your stack and allow
 _Note: Envy is intended for development usage only, and is not a replacement for optimized production telemetry_
 
 <div align="center">
-  <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main//envy-example.png" />
+  <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main/envy-example.png" />
 </div>
 
 ## Contents
 
 - [Getting Started](#getting-started)
 - [Additional Options](#additional-options)
+- [Customizing](#customizing)
+- [Production Bundles](#production-bundles)
 - [Contributing](#contributing)
 
 ## Getting Started
@@ -160,7 +162,7 @@ Envy supports these additional options for senders
 
 You can filter the requests that are traced by setting a `filter` function that returns `true` for all traces you want to keep. (The same way javascript array.filter works)
 
-```
+```ts
 enableTracing({ 
   serviceName: 'example-nextjs',
 
@@ -173,11 +175,51 @@ enableTracing({
 
 You can see the information we send to the Web UI by setting the Debug option
 
-```
+```ts
 enableTracing({ 
   serviceName: 'example-nextjs',
   debug: true
 });
+```
+
+## Customizing
+
+Whilst Envy will run as a zero-config standalone viewer, it is also possible to run the Envy viewer locally from your application and to define your own systems to customize how traces are presented.
+
+See the [customization docs](docs/customizing.md) for more information.
+
+## Production Bundles
+
+Envy is designed to enhance your developer experience and is not intended for production usage. Depending on your application, there are various ways to exclude it from your bundle in production.
+
+### Dynamic Imports (Typescript)
+
+```ts
+if (process.env.NODE_ENV !== 'production') {
+  import('@envyjs/node').then(({ enableTracing }) => {
+    enableTracing({ serviceName: 'examples/apollo' });
+  });
+}
+```
+
+### Dynamic Require (Javascript)
+
+```js
+if (process.env.NODE_ENV !== 'production') {
+  const { enableTracing } = require('@envyjs/node');
+  enableTracing({ serviceName: 'examples/apollo' });
+}
+```
+
+### Disabling Tracing
+
+This option is the simplest, but will leave the code in your output bundle. Depending on your application and its deployment and packaging method, this may be acceptable in your usage.
+
+```ts
+import { enableTracing } from '@envyjs/node';
+if (process.env.NODE_ENV !== 'production') {
+  enableTracing({ serviceName: 'examples/apollo' });
+}
 ```
 
 ## Contributing
