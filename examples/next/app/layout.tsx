@@ -4,8 +4,11 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-import { enableTracing } from '@envyjs/nextjs';
-enableTracing({ serviceName: 'example-nextjs', ignoreRSC: true, filter: request => request.host !== 'dog.ceo' });
+if (process.env.NODE_ENV !== 'production') {
+  import('@envyjs/nextjs').then(({ enableTracing }) => {
+    enableTracing({ serviceName: 'example-nextjs', ignoreRSC: true, debug: true });
+  });
+}
 
 export const metadata: Metadata = {
   title: 'Create Next App',
