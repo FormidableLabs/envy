@@ -14,8 +14,8 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"wait-on tcp:4000 && (cd examples/apollo-client && yarn start)\"",
-    "example:express": "concurrently \"cd examples/express && yarn start\" \"wait-on tcp:4000 && (cd examples/express-client && yarn dev)\"",
+    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"cd examples/apollo-client && yarn start:custom-viewer\"",
+    "example:express": "concurrently \"cd examples/express && yarn start\" \"cd examples/express-client && yarn dev\"",
     "example:next": "cd examples/next && yarn && yarn dev",
     "changeset": "changeset"
   },

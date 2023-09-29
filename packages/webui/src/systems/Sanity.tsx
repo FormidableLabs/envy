@@ -11,8 +11,6 @@ type SanityData = {
   query?: string | null;
 };
 
-const icon = new URL('Sanity.svg', import.meta.url);
-
 export default class SanitySystem implements System<SanityData> {
   name = 'Sanity';
 
@@ -20,8 +18,8 @@ export default class SanitySystem implements System<SanityData> {
     return !!trace.sanity;
   }
 
-  getIconPath() {
-    return icon.pathname;
+  getIconUri() {
+    return 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjggMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjI4IiBoZWlnaHQ9IjI4IiByeD0iNiIgZmlsbD0iI0YwM0UyRiI+PC9yZWN0PgogIDxwYXRoCiAgICBkPSJNOC42MiA3LjI1YzAgMi40MSAxLjUyIDMuODQgNC41NCA0LjZsMy4yMS43M2MyLjg3LjY0IDQuNjEgMi4yNSA0LjYxIDQuODdhNC45MSA0LjkxIDAgMDEtMS4wNyAzLjE1YzAtMi42MS0xLjM3LTQuMDItNC42OS00Ljg3bC0zLjE1LS43Yy0yLjUyLS41Ny00LjQ3LTEuODktNC40Ny00LjczYTQuODkgNC44OSAwIDAxMS4wMi0zLjA1eiIKICAgIGZpbGw9IiNmZmYiCiAgPjwvcGF0aD4KICA8cGF0aAogICAgZD0iTTE3Ljk0IDE2LjhjMS4zNy44NyAxLjk3IDIuMDcgMS45NyAzLjgtMS4xMyAxLjQyLTMuMTIgMi4yMi01LjQ2IDIuMjItMy45NCAwLTYuNy0xLjktNy4zLTUuMjFoMy43OGMuNDggMS41MiAxLjc3IDIuMjIgMy41IDIuMjIgMi4xIDAgMy40OS0xLjEgMy41Mi0zLjAzIgogICAgZmlsbD0iI0Y5QjFBQiIKICA+PC9wYXRoPgogIDxwYXRoCiAgICBkPSJNMTAuNTkgMTAuODJhMy45OSAzLjk5IDAgMDEtMS45Ny0zLjU3YzEuMS0xLjQgMy0yLjI3IDUuMzItMi4yNyA0IDAgNi4zMyAyLjA4IDYuOSA1SDE3LjJjLS40LTEuMTUtMS40LTIuMDUtMy4yMy0yLjA1LTEuOTYgMC0zLjMgMS4xMi0zLjM3IDIuOSIKICAgIGZpbGw9IiNGOUIxQUIiCiAgPjwvcGF0aD4KPC9zdmc+Cg==';
   }
 
   getData(trace: Trace) {

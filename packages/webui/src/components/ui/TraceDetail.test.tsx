@@ -2,9 +2,9 @@ import { act, cleanup, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
-  SystemRequestDetailsComponent,
-  SystemResponseDetailsComponent,
-  getIconPath,
+  RequestDetailsComponent,
+  ResponseDetailsComponent,
+  getIconUri,
   getRequestBody,
   getResponseBody,
 } from '@/systems';
@@ -88,15 +88,15 @@ describe('TraceDetail', () => {
     clearSelectedTraceFn = jest.fn();
 
     // having to do this here, like this, so that we can override some of the mock return values later
-    jest.mocked(SystemRequestDetailsComponent).mockImplementation(({ trace, ...props }: any) => {
+    jest.mocked(RequestDetailsComponent).mockImplementation(({ trace, ...props }: any) => {
       return <div {...props}>Mock SystemRequestDetailsComponent component: {trace.id}</div>;
     });
-    jest.mocked(SystemResponseDetailsComponent).mockImplementation(({ trace, ...props }: any) => {
+    jest.mocked(ResponseDetailsComponent).mockImplementation(({ trace, ...props }: any) => {
       return <div {...props}>Mock SystemResponseDetailsComponent component: {trace.id}</div>;
     });
     jest.mocked(getRequestBody).mockReturnValue('mock_request_body');
     jest.mocked(getResponseBody).mockReturnValue('mock_response_body');
-    jest.mocked(getIconPath).mockReturnValue('mock_icon.jpg');
+    jest.mocked(getIconUri).mockReturnValue('mock_icon.jpg');
 
     setUseApplicationData({
       getSelectedTrace: getSelectedTraceFn as () => Trace,

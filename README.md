@@ -28,12 +28,13 @@ Envy will trace the network calls from every application in your stack and allow
 _Note: Envy is intended for development usage only, and is not a replacement for optimized production telemetry_
 
 <div align="center">
-  <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main//envy-example.png" />
+  <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main/envy-example.png" />
 </div>
 
 ## Contents
 
 - [Getting Started](#getting-started)
+- [Customizing](#customizing)
 - [Production Bundles](#production-bundles)
 - [Contributing](#contributing)
 
@@ -125,11 +126,17 @@ enableTracing({ serviceName: 'your-website-name' }).then(() => {
 
 _Browsers prevent full timing data from being accessed from cross-origin requests unless the server responds with the [Timing-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Timing-Allow-Origin) header_.
 
-### Production Bundles
+## Customizing
+
+Whilst Envy will run as a zero-config standalone viewer, it is also possible to run the Envy viewer locally from your application and to define your own systems to customize how traces are presented.
+
+See the [customization docs](docs/customizing.md) for more information.
+
+## Production Bundles
 
 Envy is designed to enhance your developer experience and is not intended for production usage. Depending on your application, there are various ways to exclude it from your bundle in production.
 
-#### Dynamic Imports (Typescript)
+### Dynamic Imports (Typescript)
 
 ```ts
 if (process.env.NODE_ENV !== 'production') {
@@ -139,7 +146,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 ```
 
-#### Dynamic Require (Javascript)
+### Dynamic Require (Javascript)
 
 ```ts
 if (process.env.NODE_ENV !== 'production') {
@@ -148,7 +155,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 ```
 
-#### Disabling Tracing
+### Disabling Tracing
 
 This option is the simplest, but will leave the code in your output bundle. Depending on your application and its deployment and packaging method, this may be acceptable in your usage.
 

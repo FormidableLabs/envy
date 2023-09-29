@@ -8,9 +8,9 @@ import { Trace } from '@/types';
 
 import {
   ListDataComponent,
-  SystemRequestDetailsComponent,
-  SystemResponseDetailsComponent,
-  getIconPath,
+  RequestDetailsComponent,
+  ResponseDetailsComponent,
+  getIconUri,
   getRequestBody,
   getResponseBody,
 } from '.';
@@ -54,8 +54,8 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconPath(trace);
-      expect(result).toEqual('foo_foo_id.jpg');
+      const result = getIconUri(trace);
+      expect(result).toEqual('foo_foo_id_base64');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -71,17 +71,17 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('foo_foo_id.jpg | www.foo.com | /foo | Foo data: foo_id');
+      expect(container).toHaveTextContent('foo_foo_id_base64 | www.foo.com | /foo | Foo data: foo_id');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
-      const component = SystemRequestDetailsComponent({ trace });
+      const component = RequestDetailsComponent({ trace });
       const { container } = render(component as ReactElement);
       expect(container).toHaveTextContent('SystemRequestDetailsComponent: Foo foo_id');
     });
 
     it('should return correct `SystemResponseDetailsComponent`', () => {
-      const component = SystemResponseDetailsComponent({ trace });
+      const component = ResponseDetailsComponent({ trace });
       const { container } = render(component as ReactElement);
       expect(container).toHaveTextContent('SystemResponseDetailsComponent: Foo foo_id');
     });
@@ -101,9 +101,9 @@ describe('Systems', () => {
       },
     } as Trace;
 
-    it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconPath(trace);
-      expect(result).toEqual('bar_bar_id.jpg');
+    it('should return correct value for `getIconUri`', () => {
+      const result = getIconUri(trace);
+      expect(result).toEqual('bar_bar_id_base64');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -119,17 +119,17 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('bar_bar_id.jpg | www.bar.com | /bar | Bar data: bar_id');
+      expect(container).toHaveTextContent('bar_bar_id_base64 | www.bar.com | /bar | Bar data: bar_id');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
-      const component = SystemRequestDetailsComponent({ trace });
+      const component = RequestDetailsComponent({ trace });
       const { container } = render(component as ReactElement);
       expect(container).toHaveTextContent('SystemRequestDetailsComponent: Bar bar_id');
     });
 
     it('should return correct `SystemResponseDetailsComponent`', () => {
-      const component = SystemResponseDetailsComponent({ trace });
+      const component = ResponseDetailsComponent({ trace });
       const { container } = render(component as ReactElement);
       expect(container).toHaveTextContent('SystemResponseDetailsComponent: Bar bar_id');
     });
@@ -150,8 +150,8 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconPath(trace);
-      expect(result).toEqual('default.jpg');
+      const result = getIconUri(trace);
+      expect(result).toEqual('default_base64');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -167,16 +167,16 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('default.jpg | www.fallback.com | /fallback | query=fallback');
+      expect(container).toHaveTextContent('default_base64 | www.fallback.com | /fallback | query=fallback');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
-      const component = SystemRequestDetailsComponent({ trace });
+      const component = RequestDetailsComponent({ trace });
       expect(component).toBeNull();
     });
 
     it('should return correct `SystemResponseDetailsComponent`', () => {
-      const component = SystemResponseDetailsComponent({ trace });
+      const component = ResponseDetailsComponent({ trace });
       expect(component).toBeNull();
     });
   });
@@ -196,8 +196,8 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconPath(trace);
-      expect(result).toEqual('default.jpg');
+      const result = getIconUri(trace);
+      expect(result).toEqual('default_base64');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -213,16 +213,16 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('default.jpg | www.other.com | /other | query=other');
+      expect(container).toHaveTextContent('default_base64 | www.other.com | /other | query=other');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
-      const component = SystemRequestDetailsComponent({ trace });
+      const component = RequestDetailsComponent({ trace });
       expect(component).toBeNull();
     });
 
     it('should return correct `SystemResponseDetailsComponent`', () => {
-      const component = SystemResponseDetailsComponent({ trace });
+      const component = ResponseDetailsComponent({ trace });
       expect(component).toBeNull();
     });
   });
