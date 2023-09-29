@@ -19,8 +19,8 @@ type SystemDetailProps = {
   trace: Trace;
 };
 
-export function getIconBase64(trace: Trace | null): string {
-  return callOrFallback(trace as Trace, 'getIconBase64');
+export function getIconUri(trace: Trace | null): string {
+  return callOrFallback(trace as Trace, 'getIconUri');
 }
 
 export function getRequestBody(trace: Trace): any {
@@ -37,7 +37,7 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
   const [path, qs] = pathAndQuery(trace);
   return (
     <TraceRequestData
-      iconPath={getIconBase64(trace)}
+      iconPath={getIconUri(trace)}
       hostName={trace.http?.host}
       path={path}
       data={traceRowData?.data ?? qs}

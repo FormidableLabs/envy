@@ -26,8 +26,8 @@ export default class CatFactsSystem implements System<null> {
     return trace.http?.host === 'cat-fact.herokuapp.com';
   }
 
-  getIconBase64() {
-    // to ensure that there are no external dependencies, icons should be defined as `data:image/...` base64 data
+  getIconUri() {
+    // to avoid the need for external resources, icons can be defined as base64 data
     return '<base64_image_data>';
   }
 

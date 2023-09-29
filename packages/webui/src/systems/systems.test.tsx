@@ -10,7 +10,7 @@ import {
   ListDataComponent,
   RequestDetailsComponent,
   ResponseDetailsComponent,
-  getIconBase64,
+  getIconUri,
   getRequestBody,
   getResponseBody,
 } from '.';
@@ -54,7 +54,7 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconBase64(trace);
+      const result = getIconUri(trace);
       expect(result).toEqual('foo_foo_id_base64');
     });
 
@@ -101,8 +101,8 @@ describe('Systems', () => {
       },
     } as Trace;
 
-    it('should return correct value for `getIconBase64`', () => {
-      const result = getIconBase64(trace);
+    it('should return correct value for `getIconUri`', () => {
+      const result = getIconUri(trace);
       expect(result).toEqual('bar_bar_id_base64');
     });
 
@@ -150,7 +150,7 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconBase64(trace);
+      const result = getIconUri(trace);
       expect(result).toEqual('default_base64');
     });
 
@@ -196,7 +196,7 @@ describe('Systems', () => {
     } as Trace;
 
     it('should return correct value for `getSystemIconPath`', () => {
-      const result = getIconBase64(trace);
+      const result = getIconUri(trace);
       expect(result).toEqual('default_base64');
     });
 

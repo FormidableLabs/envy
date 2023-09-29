@@ -40,7 +40,7 @@ export default function FiltersAndActions() {
           label="Systems:"
           multiSelect
           items={systems.map(x => ({
-            icon: x.getIconBase64?.(null) ?? defaultSystem.getIconBase64(),
+            icon: x.getIconUri?.(null) ?? defaultSystem.getIconUri(),
             value: x.name,
           }))}
           onChange={handleSystemsChange}

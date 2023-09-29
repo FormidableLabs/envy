@@ -5,7 +5,7 @@ import useApplication from '@/hooks/useApplication';
 import {
   RequestDetailsComponent,
   ResponseDetailsComponent,
-  getIconBase64,
+  getIconUri,
   getRequestBody,
   getResponseBody,
 } from '@/systems';
@@ -103,7 +103,7 @@ export default function TraceDetail({ className }: DetailProps) {
       <div data-test-id="summary" className="p-default">
         <div className="flex flex-row">
           <div className="flex-0 mr-2 md:mr-4">
-            <img src={getIconBase64(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
+            <img src={getIconUri(trace)} alt="" className="w-6 h-6 md:w-12 md:h-12" />
           </div>
           <div className="flex-1 flex flex-col">
             <div className="break-all">

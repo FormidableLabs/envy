@@ -10,7 +10,7 @@ jest.mock(
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;
-    },
+    }
 );
 
 const query = `
@@ -90,7 +90,7 @@ describe('GraphQLSystem', () => {
 
   it('should return the expected icon', () => {
     const instance = new GraphQLSystem();
-    expect(instance.getIconBase64()).toEqual(expect.any(String));
+    expect(instance.getIconUri()).toEqual(expect.any(String));
   });
 
   it('should expected data for `getData` when trace represents a query', () => {

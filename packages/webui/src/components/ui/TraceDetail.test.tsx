@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {
   RequestDetailsComponent,
   ResponseDetailsComponent,
-  getIconBase64,
+  getIconUri,
   getRequestBody,
   getResponseBody,
 } from '@/systems';
@@ -96,7 +96,7 @@ describe('TraceDetail', () => {
     });
     jest.mocked(getRequestBody).mockReturnValue('mock_request_body');
     jest.mocked(getResponseBody).mockReturnValue('mock_response_body');
-    jest.mocked(getIconBase64).mockReturnValue('mock_icon.jpg');
+    jest.mocked(getIconUri).mockReturnValue('mock_icon.jpg');
 
     setUseApplicationData({
       getSelectedTrace: getSelectedTraceFn as () => Trace,

@@ -10,7 +10,7 @@ export type TraceRowData = {
 export interface System<T> {
   name: string;
   isMatch(trace: Trace): boolean;
-  getIconBase64?(trace: Trace | null): string | null;
+  getIconUri?(trace: Trace | null): string | null;
   getData?(trace: Trace): T;
   getTraceRowData?(trace: Trace): TraceRowData | null;
   requestDetailComponent?(trace: Trace): React.ReactNode;

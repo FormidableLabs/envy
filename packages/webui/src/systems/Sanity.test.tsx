@@ -10,7 +10,7 @@ jest.mock(
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;
-    },
+    }
 );
 
 const mockTrace = {
@@ -51,7 +51,7 @@ describe('SanitySystem', () => {
 
   it('should return the expected icon', () => {
     const instance = new SanitySystem();
-    expect(instance.getIconBase64()).toEqual(expect.any(String));
+    expect(instance.getIconUri()).toEqual(expect.any(String));
   });
 
   it('should expected data for `getData`', () => {
