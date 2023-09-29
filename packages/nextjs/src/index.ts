@@ -20,7 +20,12 @@ export function enableTracing(options: NextjsTracingOptions) {
 
   if (options.ignoreRSC === true) {
     nextjsOptions.filter = request => {
-      if (request.host?.includes('127.0.0.1:6') || request.host?.includes('localhost:6')) return false;
+      if (
+        request.host?.includes('127.0.0.1:6') ||
+        request.host?.includes('localhost:6') ||
+        request.host?.includes('[::1]:5')
+      )
+        return false;
 
       if (options.filter) {
         return options.filter(request);
