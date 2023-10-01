@@ -11,6 +11,7 @@ import {
 } from '@/systems';
 import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
+import CopyAsCurlButton from './CopyAsCurlButton';
 import QueryParams from './QueryParams';
 import RequestHeaders from './RequestHeaders';
 import ResponseHeaders from './ResponseHeaders';
@@ -122,8 +123,11 @@ export default function TraceDetail({ className }: DetailProps) {
                 {url}
               </span>
             </div>
-            <div data-test-id="service" className="mt-4">
-              Sent from <span className="font-bold">{serviceName}</span>
+            <div className="flex flex-row flex-wrap justify-between items-center mt-4">
+              <div data-test-id="service">
+                Sent from <span className="font-bold">{serviceName}</span>
+              </div>
+              <CopyAsCurlButton trace={trace} />
             </div>
           </div>
         </div>
