@@ -546,6 +546,25 @@ describe('TraceDetail', () => {
         expect(timings).toHaveTextContent(JSON.stringify(timingsData));
       });
 
+      it('should indicate if timings are blocked by CORS', () => {
+        getSelectedTraceFn.mockReturnValue({
+          ...mockTrace,
+          http: {
+            ...mockTrace.http,
+            duration: 1234,
+            timingsBlockedByCors: true,
+          },
+        });
+
+        const { getByTestId } = render(<TraceDetail />);
+
+        const responseDetails = getByTestId('response-details');
+        const timingsBlocked = within(responseDetails).getByTestId('timings-blocked');
+
+        expect(timingsBlocked).toBeVisible();
+        expect(timingsBlocked).toHaveTextContent('Disabled by CORS policy');
+      });
+
       it('should render SystemResponseDetailsComponent component for trace headers', () => {
         const { getByTestId } = render(<TraceDetail />);
 
