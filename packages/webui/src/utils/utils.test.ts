@@ -2,7 +2,16 @@ import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
-import { cloneHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, safeParseJson, tw } from './utils';
+import {
+  cloneHeaders,
+  flatMapHeaders,
+  getHeader,
+  numberFormat,
+  pathAndQuery,
+  prettyFormat,
+  safeParseJson,
+  tw,
+} from './utils';
 
 jest.mock('tailwind-merge');
 
@@ -180,6 +189,54 @@ describe('utils', () => {
     });
   });
 
+  describe('flatMapHeaders', () => {
+    it('should return an empty object if no headers supplied', () => {
+      const result = flatMapHeaders(undefined);
+
+      expect(result).toEqual({});
+    });
+
+    it('should return identical headers in a new object', () => {
+      const originalHeaders = {
+        foo: 'bar',
+        baz: 'qux',
+      };
+
+      const result = flatMapHeaders(originalHeaders);
+
+      expect(result).toEqual(originalHeaders);
+      expect(result).not.toBe(originalHeaders);
+    });
+
+    it('should transform header array values to comma delimited strings', () => {
+      const originalHeaders = {
+        foo: ['bar', 'baz'],
+        bar: ['baz', 'qux'],
+      };
+
+      const result = flatMapHeaders(originalHeaders);
+
+      expect(result).toEqual({
+        foo: 'bar,baz',
+        bar: 'baz,qux',
+      });
+    });
+
+    it('should retain header string values', () => {
+      const originalHeaders = {
+        foo: 'bar',
+        baz: 'qux',
+      };
+
+      const result = flatMapHeaders(originalHeaders);
+
+      expect(result).toEqual({
+        foo: 'bar',
+        baz: 'qux',
+      });
+    });
+  });
+
   describe('getHeader', () => {
     const headers = {
       Foo: 'BAR',
@@ -209,10 +266,10 @@ describe('utils', () => {
       expect(result).toEqual('BAR');
     });
 
-    it('should return undefined if header not found', () => {
+    it('should return null if header not found', () => {
       const result = getHeader(headers, 'banana');
 
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
     });
   });
 

@@ -18,7 +18,7 @@ import ResponseHeaders from './ResponseHeaders';
 import TimingsDiagram from './TimingsDiagram';
 
 type CodeDisplayProps = {
-  contentType: string | null;
+  contentType: string | string[] | null;
   children: any;
 };
 type DetailProps = React.HTMLAttributes<HTMLElement>;
@@ -26,8 +26,8 @@ type DetailProps = React.HTMLAttributes<HTMLElement>;
 function CodeDisplay({ contentType, children, ...props }: CodeDisplayProps) {
   if (!children) return null;
 
-  const isJson =
-    contentType?.includes('application/json') || contentType?.includes('application/graphql-response+json');
+  const type = Array.isArray(contentType) ? contentType[0] : contentType;
+  const isJson = type?.includes('application/json') || contentType?.includes('application/graphql-response+json');
   const isXml = contentType?.includes('application/xml');
 
   return (
@@ -127,7 +127,7 @@ export default function TraceDetail({ className }: DetailProps) {
               <div data-test-id="service">
                 Sent from <span className="font-bold">{serviceName}</span>
               </div>
-              <CopyAsCurlButton trace={trace} />
+              <CopyAsCurlButton data-test-id="copy-as-curl" trace={trace} />
             </div>
           </div>
         </div>

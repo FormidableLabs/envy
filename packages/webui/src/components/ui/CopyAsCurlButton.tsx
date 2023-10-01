@@ -10,10 +10,7 @@ type CopyAsCurlButtonProps = {
   trace: Trace;
 };
 
-export default function CopyAsCurlButton({ trace }: CopyAsCurlButtonProps) {
-  if (!trace?.http) return null;
-  if (trace.http.method === 'OPTIONS') return null;
-
+export default function CopyAsCurlButton({ trace, ...props }: CopyAsCurlButtonProps) {
   async function copyAsCurl() {
     const headers = flatMapHeaders(cloneHeaders(trace.http!.requestHeaders, true));
     const body = safeParseJson(trace.http!.requestBody) ?? null;
@@ -33,7 +30,7 @@ export default function CopyAsCurlButton({ trace }: CopyAsCurlButtonProps) {
   }
 
   return (
-    <IconButton type="standard" Icon={HiOutlineClipboardCopy} onClick={async () => await copyAsCurl()}>
+    <IconButton {...props} type="standard" Icon={HiOutlineClipboardCopy} onClick={async () => await copyAsCurl()}>
       Copy as cURL snippet
     </IconButton>
   );
