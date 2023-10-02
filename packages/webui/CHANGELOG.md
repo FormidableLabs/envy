@@ -14,7 +14,6 @@
 - 81f6e01: Support HAR timing data
 - Updated dependencies [81f6e01]
   - @envyjs/core@0.3.2
-  - @envyjs/client@0.2.2
 
 ## 0.3.0
 
@@ -36,7 +35,6 @@
 - 03863c3: Include readme in package dist
 - Updated dependencies [58df2e5]
 - Updated dependencies [03863c3]
-  - @envyjs/client@0.2.1
   - @envyjs/core@0.3.1
 
 ## 0.2.0
@@ -48,7 +46,6 @@
 ### Patch Changes
 
 - Updated dependencies [1b08520]
-  - @envyjs/client@0.2.0
   - @envyjs/core@0.3.0
 
 ## 0.1.1
@@ -59,4 +56,3 @@
 - Updated dependencies [111807a]
 - Updated dependencies [ba5e2b9]
   - @envyjs/core@0.2.0
-  - @envyjs/client@0.1.1
