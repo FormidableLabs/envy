@@ -3,7 +3,8 @@ import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
-type Headers = HttpRequest['requestHeaders'] | HttpRequest['responseHeaders'] | undefined;
+type Headers = HttpRequest['requestHeaders'];
+type HeadersOrUndefined = Headers | undefined;
 
 export function pathAndQuery(trace: Trace, decodeQs = false): [string, string] {
   const [path, qs] = (trace.http?.path ?? '').split('?');
@@ -14,21 +15,32 @@ export function numberFormat(num: number): string {
   return Intl.NumberFormat('en-US').format(num);
 }
 
-export function cloneHeaders(headers: Headers, lowercase = true): Record<string, string> {
+export function cloneHeaders(headers: HeadersOrUndefined, lowercase = true): Headers {
   if (!headers) return {};
 
-  return Object.entries(headers).reduce<Record<string, any>>((a, [k, v]) => {
+  return Object.entries(headers).reduce<Headers>((a, [k, v]) => {
     const newKey = lowercase ? k.toLowerCase() : k;
     a[newKey] = v;
     return a;
   }, {});
 }
 
-export function getHeader(headers: Headers, name: string): string | null {
+export function flatMapHeaders(headers: HeadersOrUndefined): Record<string, string> {
+  if (!headers) return {};
+
+  return Object.entries(headers).reduce<Record<string, string>>((a, [k, v]) => {
+    if (!!v) {
+      a[k] = Array.isArray(v) ? v.join(',') : v;
+    }
+    return a;
+  }, {});
+}
+
+export function getHeader(headers: HeadersOrUndefined, name: string): string | string[] | null {
   if (!headers) return null;
 
   const allLowercaseHeaders = cloneHeaders(headers, true);
-  return allLowercaseHeaders[name.toLowerCase()];
+  return allLowercaseHeaders[name.toLowerCase()] ?? null;
 }
 
 export function safeParseJson<T = any>(data: string | null | undefined): T | null {

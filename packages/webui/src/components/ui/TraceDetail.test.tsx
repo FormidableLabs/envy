@@ -42,6 +42,13 @@ jest.mock('@/components', () => ({
 }));
 
 jest.mock(
+  '@/components/ui/CopyAsCurlButton',
+  () =>
+    function CopyAsCurlButton({ trace, ...props }: any) {
+      return <div {...props}>Mock CopyAsCurlButton component: {trace.id}</div>;
+    },
+);
+jest.mock(
   '@/components/ui/QueryParams',
   () =>
     function MockQueryParams({ trace, ...props }: any) {
@@ -216,6 +223,30 @@ describe('TraceDetail', () => {
 
       expect(service).toBeVisible();
       expect(service).toHaveTextContent('Sent from my-service');
+    });
+
+    it('should display button to copy as cURL snippet', () => {
+      getSelectedTraceFn.mockReturnValue({
+        ...mockTrace,
+        serviceName: 'my-service',
+        http: {
+          ...mockTrace.http,
+          method: 'PATCH',
+          statusCode: 204,
+          statusMessage: 'No Content',
+          responseHeaders: {},
+          responseBody: '',
+          duration: 1234,
+        },
+      });
+
+      const { getByTestId } = render(<TraceDetail />);
+
+      const summary = getByTestId('summary');
+      const copyAsCurl = within(summary).getByTestId('copy-as-curl');
+
+      expect(copyAsCurl).toBeVisible();
+      expect(copyAsCurl).toHaveTextContent('Mock CopyAsCurlButton component: 1');
     });
 
     it.each([

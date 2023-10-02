@@ -11,13 +11,14 @@ import {
 } from '@/systems';
 import { getHeader, numberFormat, pathAndQuery } from '@/utils';
 
+import CopyAsCurlButton from './CopyAsCurlButton';
 import QueryParams from './QueryParams';
 import RequestHeaders from './RequestHeaders';
 import ResponseHeaders from './ResponseHeaders';
 import TimingsDiagram from './TimingsDiagram';
 
 type CodeDisplayProps = {
-  contentType: string | null;
+  contentType: string | string[] | null;
   children: any;
 };
 type DetailProps = React.HTMLAttributes<HTMLElement>;
@@ -25,8 +26,8 @@ type DetailProps = React.HTMLAttributes<HTMLElement>;
 function CodeDisplay({ contentType, children, ...props }: CodeDisplayProps) {
   if (!children) return null;
 
-  const isJson =
-    contentType?.includes('application/json') || contentType?.includes('application/graphql-response+json');
+  const type = Array.isArray(contentType) ? contentType[0] : contentType;
+  const isJson = type?.includes('application/json') || contentType?.includes('application/graphql-response+json');
   const isXml = contentType?.includes('application/xml');
 
   return (
@@ -122,8 +123,11 @@ export default function TraceDetail({ className }: DetailProps) {
                 {url}
               </span>
             </div>
-            <div data-test-id="service" className="mt-4">
-              Sent from <span className="font-bold">{serviceName}</span>
+            <div className="flex flex-row flex-wrap justify-between items-center mt-4">
+              <div data-test-id="service">
+                Sent from <span className="font-bold">{serviceName}</span>
+              </div>
+              <CopyAsCurlButton data-test-id="copy-as-curl" trace={trace} />
             </div>
           </div>
         </div>

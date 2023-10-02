@@ -4,6 +4,11 @@ import { setUseApplicationData } from '@/testing/mockUseApplication';
 
 import MainDisplay from './MainDisplay';
 
+jest.mock('react-hot-toast', () => ({
+  Toaster: function MockToaster() {
+    return <div data-test-id="mock-toaster">Mock Toaster component</div>;
+  },
+}));
 jest.mock(
   '@/components/ui/TraceDetail',
   () =>
@@ -51,5 +56,15 @@ describe('MainDisplay', () => {
 
     const connectionStatus = queryByTestId('mock-trace-detail');
     expect(connectionStatus).toBeVisible();
+  });
+
+  it('should render Toaster component ', () => {
+    setUseApplicationData({ selectedTraceId: '1' });
+
+    const { queryByTestId } = render(<MainDisplay />);
+
+    const toaster = queryByTestId('mock-toaster');
+    expect(toaster).toBeVisible();
+    expect(toaster).toHaveTextContent('Mock Toaster component');
   });
 });
