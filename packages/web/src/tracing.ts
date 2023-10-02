@@ -1,7 +1,7 @@
 import { DEFAULT_WEB_SOCKET_PORT, Exporter, Meta, Middleware, Plugin, Sanity } from '@envyjs/core';
 
 import { WebSocketClient } from './client';
-import { Http } from './http';
+import { Fetch } from './fetch';
 import log from './log';
 import { Options } from './options';
 
@@ -36,7 +36,7 @@ export async function enableTracing(options: TracingOptions): Promise<void> {
     };
 
     // initialize all plugins
-    [Http, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
+    [Fetch, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
 
     resolve();
   });

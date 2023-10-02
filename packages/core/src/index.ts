@@ -1,5 +1,6 @@
 export * from './consts';
 export * from './event';
+export * from './fetch';
 export * from './graphql';
 export * from './http';
 export * from './middleware';

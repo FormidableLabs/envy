@@ -31,5 +31,9 @@
     "@types/ws": "^8.5.5",
     "node-fetch": "^2.7.0",
     "ts-node": "^10.9.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "4.0.7",
+    "utf-8-validate": "6.0.3"
   }
 }

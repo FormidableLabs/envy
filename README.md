@@ -34,6 +34,7 @@ _Note: Envy is intended for development usage only, and is not a replacement for
 ## Contents
 
 - [Getting Started](#getting-started)
+- [Additional Options](#additional-options)
 - [Customizing](#customizing)
 - [Production Bundles](#production-bundles)
 - [Contributing](#contributing)
@@ -53,6 +54,7 @@ $ yarn add --dev @envyjs/webui
 
 - [Node.js Application](#nodejs-application)
 - [Web Client Application](#web-client-application)
+- [Next.js Application](#nextjs-application)
 
 ### 3. Run the Web UI and start collecting telemetry
 
@@ -122,9 +124,63 @@ enableTracing({ serviceName: 'your-website-name' }).then(() => {
 });
 ```
 
+### Next.js Application
+
+Install the `@envyjs/nextjs` sender package in your node application:
+
+```sh
+# npm
+$ npm i --save-dev @envyjs/nextjs
+# or yarn
+$ yarn add --dev @envyjs/nextjs
+```
+
+Import and invoke the `enableTracing` function in your `app/layout.tsx` file.
+
+```ts
+import { enableTracing } from '@envyjs/nextjs';
+enableTracing({ serviceName: 'your-node-app-name' });
+
+// ... your app code
+```
+
+By default, we trace the internal calls Nextjs uses for React Server Components. If you want to ignore those traces, use the following option.
+
+```ts
+enableTracing({ serviceName: 'your-node-app-name', ignoreRSC: true });
+```
+
 #### Timing Data
 
 _Browsers prevent full timing data from being accessed from cross-origin requests unless the server responds with the [Timing-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Timing-Allow-Origin) header_.
+
+## Additional Options
+
+Envy supports these additional options for senders
+
+#### Filtering
+
+You can filter the requests that are traced by setting a `filter` function that returns `true` for all traces you want to keep. (The same way javascript array.filter works)
+
+```ts
+enableTracing({ 
+  serviceName: 'example-nextjs',
+
+  // ignores requests to google.com
+  filter: request => request.host !== 'google.com'
+});
+```
+
+#### Debug
+
+You can see the information we send to the Web UI by setting the Debug option
+
+```ts
+enableTracing({ 
+  serviceName: 'example-nextjs',
+  debug: true
+});
+```
 
 ## Customizing
 
@@ -148,7 +204,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 ### Dynamic Require (Javascript)
 
-```ts
+```js
 if (process.env.NODE_ENV !== 'production') {
   const { enableTracing } = require('@envyjs/node');
   enableTracing({ serviceName: 'examples/apollo' });
