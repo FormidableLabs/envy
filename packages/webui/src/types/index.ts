@@ -19,7 +19,7 @@ export interface System<T = null> {
   getIconUri?(): string | null;
   getTraceRowData?(context: TraceContext<T>): TraceRowData | null;
   getRequestDetailComponent?(context: TraceContext<T>): React.ReactNode;
-  getRequestBody?(context: TraceContext<T>): any;
+  getRequestBody?(context: TraceContext<T>): string | undefined | null;
   getResponseDetailComponent?(context: TraceContext<T>): React.ReactNode;
-  getResponseBody?(context: TraceContext<T>): any;
+  getResponseBody?(context: TraceContext<T>): string | undefined | null;
 }

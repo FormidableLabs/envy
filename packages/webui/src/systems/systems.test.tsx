@@ -26,7 +26,7 @@ jest.mock(
           {iconPath} | {hostName} | {path} | {data}
         </>
       );
-    }
+    },
 );
 
 describe('Systems', () => {

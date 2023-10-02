@@ -17,7 +17,7 @@ function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'na
   if (typeof system?.[fnName] === 'function') {
     value = system[fnName]!({ trace, data });
   }
-  return value ?? defaultSystem[fnName]!({ trace, data: null });
+  return (value as T) ?? (defaultSystem[fnName]!({ trace, data: null }) as T);
 }
 
 type SystemDetailProps = {

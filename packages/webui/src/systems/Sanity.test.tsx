@@ -10,7 +10,7 @@ jest.mock(
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;
-    }
+    },
 );
 
 const mockTrace = {
