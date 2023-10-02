@@ -13,7 +13,7 @@ export type DropDownItem = {
   isSelected?: boolean;
 };
 
-type DropDownProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'onChange'> & {
+type DropDownProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> & {
   items: DropDownItem[];
   multiSelect?: boolean;
   label?: string;
@@ -23,7 +23,7 @@ type DropDownProps = Omit<React.HTMLAttributes<HTMLSpanElement>, 'onChange'> & {
 
 function DropDown(
   { items, multiSelect = false, label, placeholder, className, focusKey, onChange, ...props }: DropDownProps,
-  ref: Ref<HTMLSpanElement>,
+  ref: Ref<HTMLDivElement>,
 ) {
   const { isMac, specialKey } = usePlatform();
   const selectedItems = items.filter(x => x.isSelected);
@@ -42,7 +42,6 @@ function DropDown(
       },
     },
     {
-      condition: !!focusKey,
       predicate: e => e.key.toLowerCase() === 'escape',
       callback: () => {
         setIsOpen(false);
@@ -121,8 +120,8 @@ function DropDown(
                   <li data-test-id="list-items-item" key={x.value} onClick={() => handleSelection(x)}>
                     <span
                       className={tw(
-                        'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent',
-                        isSelected && 'bg-orange-100 border-orange-200',
+                        'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent hover:bg-slate-100',
+                        isSelected && 'bg-orange-100 border-orange-200 hover:bg-orange-50',
                       )}
                     >
                       {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
