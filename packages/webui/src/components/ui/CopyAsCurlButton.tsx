@@ -1,5 +1,5 @@
 import { CurlGenerator } from 'curl-generator';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
 
 import { IconButton } from '@/components';

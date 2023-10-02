@@ -1,6 +1,6 @@
 import { act, cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 import { Trace } from '@/types';
 

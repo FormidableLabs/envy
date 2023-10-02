@@ -14,14 +14,14 @@ jest.mock(
   () =>
     function MockTraceDetail() {
       return <div data-test-id="mock-trace-detail">Mock TraceDetail component</div>;
-    }
+    },
 );
 jest.mock(
   '@/components/ui/TraceList',
   () =>
     function MockTraceList() {
       return <div data-test-id="mock-trace-list">Mock TraceList component</div>;
-    }
+    },
 );
 
 describe('MainDisplay', () => {
