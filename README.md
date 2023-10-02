@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://formidable.com/open-source/" target="_blank">
-    <img alt="Envy — Formidable, We build the modern web" src="https://raw.githubusercontent.com/FormidableLabs/envy/main//envy-hero.png" />
+    <img alt="Envy — Formidable, We build the modern web" src="./docs/images/envy-hero.png" />
   </a>
 
   <strong>
@@ -28,7 +28,7 @@ Envy will trace the network calls from every application in your stack and allow
 _Note: Envy is intended for development usage only, and is not a replacement for optimized production telemetry_
 
 <div align="center">
-  <img alt="Envy" src="https://raw.githubusercontent.com/FormidableLabs/envy/main/envy-example.png" />
+  <img alt="Envy" src="./docs/images/envy-example.png" />
 </div>
 
 ## Contents

@@ -55,7 +55,7 @@ describe('Systems', () => {
 
     it('should return correct value for `getSystemIconPath`', () => {
       const result = getIconUri(trace);
-      expect(result).toEqual('foo_foo_id_base64');
+      expect(result).toEqual('foo_icon');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -71,7 +71,7 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('foo_foo_id_base64 | www.foo.com | /foo | Foo data: foo_id');
+      expect(container).toHaveTextContent('foo_icon | www.foo.com | /foo | Foo data: foo_id');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
@@ -103,7 +103,7 @@ describe('Systems', () => {
 
     it('should return correct value for `getIconUri`', () => {
       const result = getIconUri(trace);
-      expect(result).toEqual('bar_bar_id_base64');
+      expect(result).toEqual('bar_icon');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -119,7 +119,7 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('bar_bar_id_base64 | www.bar.com | /bar | Bar data: bar_id');
+      expect(container).toHaveTextContent('bar_icon | www.bar.com | /bar | Bar data: bar_id');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
@@ -151,7 +151,7 @@ describe('Systems', () => {
 
     it('should return correct value for `getSystemIconPath`', () => {
       const result = getIconUri(trace);
-      expect(result).toEqual('default_base64');
+      expect(result).toEqual('default_icon');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -167,7 +167,7 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('default_base64 | www.fallback.com | /fallback | query=fallback');
+      expect(container).toHaveTextContent('default_icon | www.fallback.com | /fallback | query=fallback');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {
@@ -197,7 +197,7 @@ describe('Systems', () => {
 
     it('should return correct value for `getSystemIconPath`', () => {
       const result = getIconUri(trace);
-      expect(result).toEqual('default_base64');
+      expect(result).toEqual('default_icon');
     });
 
     it('should return correct value for `getRequestBody`', () => {
@@ -213,7 +213,7 @@ describe('Systems', () => {
     it('should return correct data in the `ListDataComponent`', () => {
       const component = ListDataComponent({ trace });
       const { container } = render(component as ReactElement);
-      expect(container).toHaveTextContent('default_base64 | www.other.com | /other | query=other');
+      expect(container).toHaveTextContent('default_icon | www.other.com | /other | query=other');
     });
 
     it('should return correct `SystemRequestDetailsComponent`', () => {

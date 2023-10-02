@@ -6,13 +6,18 @@ import { pathAndQuery } from '@/utils';
 
 import { getDefaultSystem, getRegisteredSystems } from './registration';
 
-function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name'>): T {
+function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name' | 'isMatch' | 'getData'>): T {
   const systems = getRegisteredSystems();
   const defaultSystem = getDefaultSystem();
 
   const system = systems.find(x => x.isMatch(trace));
-  const value = system?.[fnName]?.(trace);
-  return value ?? defaultSystem[fnName]!(trace);
+  const data = system?.getData?.(trace) ?? null;
+
+  let value = null;
+  if (typeof system?.[fnName] === 'function') {
+    value = system[fnName]!({ trace, data });
+  }
+  return (value as T) ?? (defaultSystem[fnName]!({ trace, data: null }) as T);
 }
 
 type SystemDetailProps = {
@@ -24,11 +29,11 @@ export function getIconUri(trace: Trace | null): string {
 }
 
 export function getRequestBody(trace: Trace): any {
-  return callOrFallback(trace, 'transformRequestBody');
+  return callOrFallback(trace, 'getRequestBody');
 }
 
 export function getResponseBody(trace: Trace): any {
-  return callOrFallback(trace, 'transformResponseBody');
+  return callOrFallback(trace, 'getResponseBody');
 }
 
 export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode {
@@ -46,7 +51,7 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
 }
 
 export function RequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
-  const Component = callOrFallback<ReactNode | null>(trace, 'requestDetailComponent');
+  const Component = callOrFallback<ReactNode | null>(trace, 'getRequestDetailComponent');
   return Component ? (
     <>
       <hr />
@@ -56,7 +61,7 @@ export function RequestDetailsComponent({ trace }: SystemDetailProps): React.Rea
 }
 
 export function ResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
-  const Component = callOrFallback<ReactNode | null>(trace, 'responseDetailComponent');
+  const Component = callOrFallback<ReactNode | null>(trace, 'getResponseDetailComponent');
   return Component ? (
     <>
       <hr />

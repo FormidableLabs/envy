@@ -3,7 +3,7 @@
 // network traces
 
 import { Code, Field, Fields } from '@/components';
-import { System, Trace } from '@/types';
+import { System, Trace, TraceContext } from '@/types';
 import { safeParseJson } from '@/utils';
 
 type SanityData = {
@@ -36,16 +36,16 @@ export default class SanitySystem implements System<SanityData> {
     };
   }
 
-  getTraceRowData(trace: Trace) {
-    const { type } = this.getData(trace);
+  getTraceRowData({ data }: TraceContext<SanityData>) {
+    const { type } = data;
 
     return {
       data: `Type: ${type}`,
     };
   }
 
-  requestDetailComponent(trace: Trace) {
-    const { type, query } = this.getData(trace);
+  getRequestDetailComponent({ data }: TraceContext<SanityData>) {
+    const { type, query } = data;
 
     return (
       <>
@@ -61,16 +61,12 @@ export default class SanitySystem implements System<SanityData> {
     );
   }
 
-  transformResponseBody(trace: Trace) {
+  getResponseBody({ trace }: TraceContext<SanityData>) {
     if (!trace.http?.responseBody) return null;
 
     const json = safeParseJson(trace.http.responseBody);
     const transformed = { ...json };
     delete transformed.query;
     return transformed;
-  }
-
-  responseDetailComponent(_: Trace) {
-    return null;
   }
 }

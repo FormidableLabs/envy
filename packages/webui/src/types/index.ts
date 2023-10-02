@@ -7,14 +7,19 @@ export type TraceRowData = {
   data?: string;
 };
 
-export interface System<T> {
+export type TraceContext<T = null> = {
+  trace: Trace;
+  data: T;
+};
+
+export interface System<T = null> {
   name: string;
   isMatch(trace: Trace): boolean;
-  getIconUri?(trace: Trace | null): string | null;
   getData?(trace: Trace): T;
-  getTraceRowData?(trace: Trace): TraceRowData | null;
-  requestDetailComponent?(trace: Trace): React.ReactNode;
-  transformRequestBody?(trace: Trace): any;
-  responseDetailComponent?(trace: Trace): React.ReactNode;
-  transformResponseBody?(trace: Trace): any;
+  getIconUri?(): string | null;
+  getTraceRowData?(context: TraceContext<T>): TraceRowData | null;
+  getRequestDetailComponent?(context: TraceContext<T>): React.ReactNode;
+  getRequestBody?(context: TraceContext<T>): string | undefined | null;
+  getResponseDetailComponent?(context: TraceContext<T>): React.ReactNode;
+  getResponseBody?(context: TraceContext<T>): string | undefined | null;
 }
