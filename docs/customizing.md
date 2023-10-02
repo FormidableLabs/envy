@@ -267,7 +267,7 @@ Used to render a custom component after the main response details. This has acce
 ```tsx
 getResponseDetailComponent({ trace }: TraceContext<{ productIds: string[] }>) {
   // parse the response and get all of the product names to display
-  const data = JSON.prase(trace.http?.responseBody ?? '{}');
+  const data = JSON.parse(trace.http?.responseBody ?? '{}');
   const productNames = data.results?.map(x => x.name) ?? [];
   return (
     <Fields>
