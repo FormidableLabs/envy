@@ -3,7 +3,7 @@
 // network traces
 
 import { Code, Field, Fields } from '@/components';
-import { System, Trace } from '@/types';
+import { System, Trace, TraceContext } from '@/types';
 import { safeParseJson } from '@/utils';
 
 type OperationType = 'Query' | 'Mutation';
@@ -39,16 +39,16 @@ export default class GraphQLSystem implements System<GraphQLData> {
       response: trace.http?.responseBody ?? null,
     };
   }
-  getTraceRowData(trace: Trace) {
-    const { type, operationName } = this.getData(trace);
+  getTraceRowData({ data }: TraceContext<GraphQLData>) {
+    const { type, operationName } = data;
 
     return {
       data: `GQL ${type}: ${operationName}`,
     };
   }
 
-  requestDetailComponent(trace: Trace) {
-    const { type, operationName, query } = this.getData(trace);
+  getRequestDetailComponent({ data }: TraceContext<GraphQLData>) {
+    const { type, operationName, query } = data;
 
     return (
       <>
@@ -65,9 +65,5 @@ export default class GraphQLSystem implements System<GraphQLData> {
         </Fields>
       </>
     );
-  }
-
-  responseDetailComponent(_: Trace) {
-    return null;
   }
 }

@@ -10,7 +10,7 @@ jest.mock(
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;
-    },
+    }
 );
 
 const mockTrace = {
@@ -65,41 +65,55 @@ describe('SanitySystem', () => {
 
   it('should return Sanity type data for `getTraceRowData', () => {
     const instance = new SanitySystem();
+    const data = {
+      type: mockTrace.sanity!.queryType,
+      query: mockTrace.sanity!.query,
+    };
 
-    expect(instance.getTraceRowData(mockTrace)).toEqual({ data: 'Type: Foo' });
+    expect(instance.getTraceRowData({ trace: mockTrace, data })).toEqual({ data: 'Type: Foo' });
   });
 
-  it('should render expeced component for `requestDetailComponent`', () => {
+  it('should render expeced component for `getRequestDetailComponent`', () => {
     const instance = new SanitySystem();
-    const component = instance.requestDetailComponent(mockTrace);
+    const data = {
+      type: mockTrace.sanity!.queryType,
+      query: mockTrace.sanity!.query,
+    };
+
+    const component = instance.getRequestDetailComponent({ trace: mockTrace, data });
 
     const { getByTestId } = render(component as ReactElement);
     expect(getByTestId('type')).toHaveTextContent('Foo');
     expect(getByTestId('query')).toHaveTextContent(mockTrace.sanity!.query!);
   });
 
-  it('should return null from `transformResponseBody` if there is no response body', () => {
+  it('should return null from `getResponseBody` if there is no response body', () => {
     const instance = new SanitySystem();
+    const data = {
+      type: mockTrace.sanity!.queryType,
+      query: mockTrace.sanity!.query,
+    };
+
     const mockTraceWithoutResponse = {
       ...mockTrace,
       http: {
         responseBody: undefined,
       },
     } as Trace;
-    const result = instance.transformResponseBody(mockTraceWithoutResponse);
+    const result = instance.getResponseBody({ trace: mockTraceWithoutResponse, data });
 
     expect(result).toBe(null);
   });
 
-  it('should remove the `query` property from the response body in `transformResponseBody`', () => {
+  it('should remove the `query` property from the response body in `getResponseBody`', () => {
     const instance = new SanitySystem();
-    const result = instance.transformResponseBody(mockTrace);
+    const data = {
+      type: mockTrace.sanity!.queryType,
+      query: mockTrace.sanity!.query,
+    };
+
+    const result = instance.getResponseBody({ trace: mockTrace, data });
 
     expect(result).toEqual({ data: { bar: 'baz' } });
-  });
-
-  it('should return `null` for `responseDetailComponent`', () => {
-    const instance = new SanitySystem();
-    expect(instance.responseDetailComponent(mockTrace)).toBe(null);
   });
 });

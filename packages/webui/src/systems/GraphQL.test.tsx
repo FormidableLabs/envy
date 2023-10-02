@@ -10,7 +10,7 @@ jest.mock(
   () =>
     function MockCode({ children, ...props }: any) {
       return <div {...props}>{children}</div>;
-    },
+    }
 );
 
 const query = `
@@ -138,22 +138,34 @@ describe('GraphQLSystem', () => {
 
   it('should return GQL query data for `getTraceRowData', () => {
     const instance = new GraphQLSystem();
+    const data = {
+      type: 'Query' as any,
+      operationName: 'Foo',
+      query,
+      variables: {},
+      response: responseBody,
+    };
 
-    expect(instance.getTraceRowData(mockQueryTrace)).toEqual({ data: 'GQL Query: Foo' });
+    expect(instance.getTraceRowData({ trace: mockQueryTrace, data })).toEqual({
+      data: 'GQL Query: Foo',
+    });
   });
 
-  it('should render expeced component for `requestDetailComponent`', () => {
+  it('should render expeced component for `getRequestDetailComponent`', () => {
     const instance = new GraphQLSystem();
-    const component = instance.requestDetailComponent(mockQueryTrace);
+    const data = {
+      type: 'Query' as any,
+      operationName: 'Foo',
+      query,
+      variables: {},
+      response: responseBody,
+    };
+
+    const component = instance.getRequestDetailComponent({ trace: mockQueryTrace, data });
 
     const { getByTestId } = render(component as ReactElement);
     expect(getByTestId('name')).toHaveTextContent('Foo');
     expect(getByTestId('type')).toHaveTextContent('Query');
     expect(getByTestId('query')).toHaveTextContent('query Foo { foo { bar } }');
-  });
-
-  it('should return `null` for `responseDetailComponent`', () => {
-    const instance = new GraphQLSystem();
-    expect(instance.responseDetailComponent(mockQueryTrace)).toBe(null);
   });
 });

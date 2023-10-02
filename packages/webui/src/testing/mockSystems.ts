@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getDefaultSystem, getRegisteredSystems } from '@/systems/registration';
-import { System, Trace } from '@/types';
+import { System, Trace, TraceContext } from '@/types';
 
 jest.mock('@/systems/registration');
 
@@ -11,30 +11,30 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.foo.com';
     }
-    getIconUri(trace: Trace | null) {
-      return `foo_${trace?.id}_base64`;
-    }
     getData(trace: Trace) {
       return {
         id: trace.id,
         foo: 'foo',
       };
     }
-    getTraceRowData?(trace: Trace) {
+    getIconUri() {
+      return `foo_icon`;
+    }
+    getTraceRowData({ trace }: TraceContext<{ id: string; foo: string }>) {
       return {
         data: `Foo data: ${trace.id}`,
       };
     }
-    requestDetailComponent(trace: Trace) {
+    getRequestDetailComponent({ trace }: TraceContext<{ id: string; foo: string }>) {
       return React.createElement('div', null, `SystemRequestDetailsComponent: Foo ${trace.id}`);
     }
-    transformRequestBody?(trace: Trace) {
+    getRequestBody({ trace }: TraceContext<{ id: string; foo: string }>) {
       return `transformed_${trace.http?.requestBody}_${trace.id}`;
     }
-    responseDetailComponent(trace: Trace) {
+    getResponseDetailComponent({ trace }: TraceContext<{ id: string; foo: string }>) {
       return React.createElement('div', null, `SystemResponseDetailsComponent: Foo ${trace.id}`);
     }
-    transformResponseBody?(trace: Trace) {
+    getResponseBody({ trace }: TraceContext<{ id: string; foo: string }>) {
       return `transformed_${trace.http?.responseBody}_${trace.id}`;
     }
   })(),
@@ -43,30 +43,30 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.bar.com';
     }
-    getIconUri(trace: Trace | null) {
-      return `bar_${trace?.id}_base64`;
-    }
     getData(trace: Trace) {
       return {
         id: trace.id,
         bar: 'bar',
       };
     }
-    getTraceRowData?(trace: Trace) {
+    getIconUri() {
+      return `bar_icon`;
+    }
+    getTraceRowData({ trace }: TraceContext<{ bar: string }>) {
       return {
         data: `Bar data: ${trace.id}`,
       };
     }
-    requestDetailComponent(trace: Trace) {
+    getRequestDetailComponent({ trace }: TraceContext<{ bar: string }>) {
       return React.createElement('div', null, `SystemRequestDetailsComponent: Bar ${trace.id}`);
     }
-    transformRequestBody?(trace: Trace) {
+    getRequestBody({ trace }: TraceContext<{ bar: string }>) {
       return `transformed_${trace.http?.requestBody}_${trace.id}`;
     }
-    responseDetailComponent(trace: Trace) {
+    getResponseDetailComponent({ trace }: TraceContext<{ bar: string }>) {
       return React.createElement('div', null, `SystemResponseDetailsComponent: Bar ${trace.id}`);
     }
-    transformResponseBody?(trace: Trace) {
+    getResponseBody({ trace }: TraceContext<{ bar: string }>) {
       return `transformed_${trace.http?.responseBody}_${trace.id}`;
     }
   })(),
@@ -75,25 +75,25 @@ const mockSystems: System<unknown>[] = [
     isMatch(trace: Trace) {
       return trace.http?.host === 'www.fallback.com';
     }
-    getIconUri() {
-      return null;
-    }
     getData() {
       return null;
     }
-    getTraceRowData?() {
+    getIconUri() {
       return null;
     }
-    requestDetailComponent() {
+    getTraceRowData() {
       return null;
     }
-    transformRequestBody?() {
+    getRequestDetailComponent() {
       return null;
     }
-    responseDetailComponent() {
+    getRequestBody() {
       return null;
     }
-    transformResponseBody?() {
+    getResponseDetailComponent() {
+      return null;
+    }
+    getResponseBody() {
       return null;
     }
   })(),
@@ -110,25 +110,25 @@ const mockDefaultSystem = new (class implements System<null> {
   isMatch() {
     return true;
   }
-  getIconUri() {
-    return 'default_base64';
-  }
   getData() {
     return null;
+  }
+  getIconUri() {
+    return 'default_icon';
   }
   getTraceRowData() {
     return null;
   }
-  requestDetailComponent() {
+  getRequestDetailComponent() {
     return null;
   }
-  transformRequestBody(trace: Trace) {
+  getRequestBody({ trace }: TraceContext) {
     return `default_${trace.http?.requestBody}_${trace.id}`;
   }
-  responseDetailComponent() {
+  getResponseDetailComponent() {
     return null;
   }
-  transformResponseBody(trace: Trace) {
+  getResponseBody({ trace }: TraceContext) {
     return `default_${trace.http?.responseBody}_${trace.id}`;
   }
 })();

@@ -28,12 +28,12 @@ describe('DefaultSystem', () => {
     expect(instance.getTraceRowData()).toBe(null);
   });
 
-  it('should return `null` for `requestDetailComponent`', () => {
+  it('should return `null` for `getRequestDetailComponent`', () => {
     const instance = new DefaultSystem();
-    expect(instance.requestDetailComponent()).toBe(null);
+    expect(instance.getRequestDetailComponent()).toBe(null);
   });
 
-  it('should return request body from trace for `transformRequestBody`', () => {
+  it('should return request body from trace for `getRequestBody`', () => {
     const trace = {
       http: {
         requestBody: 'mock_request_body',
@@ -41,15 +41,15 @@ describe('DefaultSystem', () => {
     } as Trace;
 
     const instance = new DefaultSystem();
-    expect(instance.transformRequestBody(trace)).toBe('mock_request_body');
+    expect(instance.getRequestBody({ trace, data: null })).toBe('mock_request_body');
   });
 
-  it('should return `null` for `responseDetailComponent`', () => {
+  it('should return `null` for `getResponseDetailComponent`', () => {
     const instance = new DefaultSystem();
-    expect(instance.responseDetailComponent()).toBe(null);
+    expect(instance.getResponseDetailComponent()).toBe(null);
   });
 
-  it('should return response body from trace for `transformResponseBody`', () => {
+  it('should return response body from trace for `getResponseBody`', () => {
     const trace = {
       http: {
         responseBody: 'mock_response_body',
@@ -57,6 +57,6 @@ describe('DefaultSystem', () => {
     } as Trace;
 
     const instance = new DefaultSystem();
-    expect(instance.transformResponseBody(trace)).toBe('mock_response_body');
+    expect(instance.getResponseBody({ trace, data: null })).toBe('mock_response_body');
   });
 });
