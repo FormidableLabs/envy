@@ -147,10 +147,22 @@ describe('ApplicationContext', () => {
       });
     });
 
-    it('should expose selecedTraceId as undefined initially', async () => {
+    it('should expose selectedTraceId as undefined initially', async () => {
       function TestComponent() {
         const { selectedTraceId } = useContext(ApplicationContext);
         return <div data-test-id="value">{selectedTraceId ?? 'undefined'}</div>;
+      }
+
+      const { getByTestId } = renderComponentInProvider(<TestComponent />);
+      const value = getByTestId('value');
+
+      expect(value).toHaveTextContent('undefined');
+    });
+
+    it('should expose newestTraceId as undefined initially', async () => {
+      function TestComponent() {
+        const { newestTraceId } = useContext(ApplicationContext);
+        return <div data-test-id="value">{newestTraceId ?? 'undefined'}</div>;
       }
 
       const { getByTestId } = renderComponentInProvider(<TestComponent />);
@@ -701,6 +713,28 @@ describe('ApplicationContext', () => {
 
       const valueAfter = getByTestId('value');
       expect(valueAfter).toHaveTextContent('undefined');
+    });
+  });
+
+  describe('broadcasting updates', () => {
+    it('should update `newestTraceId` when the client collector triggers its change handler with a `newTraceId`', () => {
+      mockCollector.mockImplementation(({ changeHandler }) => {
+        return {
+          start() {
+            changeHandler('1');
+          },
+        } as unknown as CollectorClient;
+      });
+
+      function TestComponent() {
+        const { newestTraceId } = useContext(ApplicationContext);
+        return <div data-test-id="value">{newestTraceId ?? 'undefined'}</div>;
+      }
+
+      const { getByTestId } = renderComponentInProvider(<TestComponent />);
+      const value = getByTestId('value');
+
+      expect(value).toHaveTextContent('1');
     });
   });
 });

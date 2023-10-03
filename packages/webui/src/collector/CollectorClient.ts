@@ -14,7 +14,7 @@ export default class CollectorClient {
   private _connected: boolean = false;
   private _connecting: boolean = true;
   private _traces: Traces = new Map();
-  private _changeHandler?: () => void;
+  private _changeHandler?: (newTraceId?: string) => void;
 
   constructor({ port, changeHandler }: WebSocketClientOptions) {
     this._port = port ?? DEFAULT_WEB_SOCKET_PORT;
@@ -37,8 +37,8 @@ export default class CollectorClient {
     return this._connecting;
   }
 
-  private _signalChange() {
-    this._changeHandler?.();
+  private _signalChange(newTraceId?: string) {
+    this._changeHandler?.(newTraceId);
   }
 
   private _connect() {
@@ -65,8 +65,10 @@ export default class CollectorClient {
 
   addEvent(event: Event) {
     const trace = { ...event };
+    const isNewTrace = !this._traces.has(trace.id);
+
     this._traces.set(trace.id, trace);
-    this._signalChange();
+    this._signalChange(isNewTrace ? trace.id : undefined);
   }
 
   clearTraces() {

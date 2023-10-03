@@ -19,9 +19,11 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   // TODO: find a better way to force a redraw
   const [, forceUpdate] = useState<boolean>(false);
   const [selectedTraceId, setSelectedTraceId] = useState<string | undefined>();
+  const [newestTraceId, setNewestTraceId] = useState<string | undefined>();
   const [filter, setFilter] = useState<TraceFilter | undefined>();
 
-  const changeHandler = () => {
+  const changeHandler = (newTraceId?: string) => {
+    if (newTraceId) setNewestTraceId(newTraceId);
     forceUpdate(curr => !curr);
   };
 
@@ -99,7 +101,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
         return filteredTraces;
       }
     },
-    selectedTraceId: selectedTraceId,
+    selectedTraceId,
+    newestTraceId,
     setSelectedTrace(id: string) {
       setSelectedTraceId(() => id);
     },

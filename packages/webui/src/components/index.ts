@@ -15,4 +15,5 @@ export { default as Loading } from './Loading';
 export { default as Menu, MenuItem } from './Menu';
 export { default as SearchInput } from './SearchInput';
 export { default as Section } from './Section';
+export { default as ToggleSwitch } from './ToggleSwitch';
 export { default as XmlDisplay } from './XmlDisplay';
