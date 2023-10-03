@@ -1,4 +1,4 @@
-import './globals.css';
+import '../globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 if (process.env.NODE_ENV !== 'production') {
   import('@envyjs/nextjs').then(({ enableTracing }) => {
-    enableTracing({ serviceName: 'example-nextjs', ignoreRSC: true, debug: true });
+    enableTracing({ serviceName: 'nextjs-app-router', ignoreRSC: true });
   });
 }
 
