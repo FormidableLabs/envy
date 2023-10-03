@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/apollo",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",
@@ -17,6 +17,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@envyjs/node": "0.3.2"
+    "@envyjs/node": "0.4.0"
   }
 }
