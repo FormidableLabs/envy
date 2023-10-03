@@ -43,15 +43,6 @@ export function getHeader(headers: HeadersOrUndefined, name: string): string | s
   return allLowercaseHeaders[name.toLowerCase()] ?? null;
 }
 
-export function safeParseJson<T = any>(data: string | null | undefined): T | null {
-  if (!data) return null;
-  try {
-    return JSON.parse(data) as T;
-  } catch {
-    return null;
-  }
-}
-
 export function prettyFormat(code: string): string {
   if (!code) return code;
 

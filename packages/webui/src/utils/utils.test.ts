@@ -2,16 +2,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { Trace } from '@/types';
 
-import {
-  cloneHeaders,
-  flatMapHeaders,
-  getHeader,
-  numberFormat,
-  pathAndQuery,
-  prettyFormat,
-  safeParseJson,
-  tw,
-} from './utils';
+import { cloneHeaders, flatMapHeaders, getHeader, numberFormat, pathAndQuery, prettyFormat, tw } from './utils';
 
 jest.mock('tailwind-merge');
 
@@ -269,23 +260,6 @@ describe('utils', () => {
     it('should return null if header not found', () => {
       const result = getHeader(headers, 'banana');
 
-      expect(result).toBeNull();
-    });
-  });
-
-  describe('safeParseJson', () => {
-    it('should return parsed JSON if input is valid', () => {
-      const result = safeParseJson('{"foo":"bar"}');
-      expect(result).toEqual({ foo: 'bar' });
-    });
-
-    it('should return null if input is invalid', () => {
-      const result = safeParseJson('{"foo"');
-      expect(result).toBeNull();
-    });
-
-    it('should return null if input is undefined', () => {
-      const result = safeParseJson(undefined);
       expect(result).toBeNull();
     });
   });

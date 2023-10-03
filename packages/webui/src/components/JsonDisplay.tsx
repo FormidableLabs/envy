@@ -1,8 +1,9 @@
+import { safeParseJson } from '@envyjs/core';
 import { Suspense, lazy } from 'react';
 import { ReactJsonViewProps } from 'react-json-view';
 import colors from 'tailwindcss/colors';
 
-import { safeParseJson, tw } from '@/utils';
+import { tw } from '@/utils';
 
 const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('react-json-view'));
 
@@ -38,7 +39,7 @@ const customTheme = {
 
 export default function JsonDisplay({ className, children }: JsonDisplayProps) {
   const errorData = { error: 'Error parsing JSON data', data: children };
-  const src = typeof children === 'string' ? safeParseJson(children) ?? errorData : children;
+  const src = typeof children === 'string' ? safeParseJson(children).value ?? errorData : children;
 
   return (
     <Suspense fallback={<></>}>

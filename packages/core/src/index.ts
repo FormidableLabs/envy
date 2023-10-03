@@ -3,6 +3,7 @@ export * from './event';
 export * from './fetch';
 export * from './graphql';
 export * from './http';
+export * from './json';
 export * from './middleware';
 export * from './nanoid';
 export * from './options';

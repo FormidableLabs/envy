@@ -1,10 +1,11 @@
+import { safeParseJson } from '@envyjs/core';
 import { CurlGenerator } from 'curl-generator';
 import { toast } from 'react-hot-toast';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
 
 import { IconButton } from '@/components';
 import { Trace } from '@/types';
-import { cloneHeaders, flatMapHeaders, safeParseJson } from '@/utils';
+import { cloneHeaders, flatMapHeaders } from '@/utils';
 
 type CopyAsCurlButtonProps = {
   trace: Trace;
@@ -13,7 +14,7 @@ type CopyAsCurlButtonProps = {
 export default function CopyAsCurlButton({ trace, ...props }: CopyAsCurlButtonProps) {
   async function copyAsCurl() {
     const headers = flatMapHeaders(cloneHeaders(trace.http!.requestHeaders, true));
-    const body = safeParseJson(trace.http!.requestBody) ?? null;
+    const body = safeParseJson(trace.http!.requestBody).value ?? null;
 
     const curlSnippet = CurlGenerator({
       method: trace.http!.method as any,

@@ -1,8 +1,9 @@
+import { safeParseJson } from '@envyjs/core';
 import React, { useEffect, useState } from 'react';
 import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
 import { Code, IconButton, JsonDisplay } from '@/components';
-import { safeParseJson, tw } from '@/utils';
+import { tw } from '@/utils';
 
 enum TokenType {
   JWT = 0,
@@ -66,7 +67,7 @@ export default function Authorization({ value }: AuthorizationProps) {
           .join(''),
       );
 
-      decoded = safeParseJson(jsonPayload);
+      decoded = safeParseJson(jsonPayload).value;
     } else if (type === TokenType.BasicAuth) {
       const [un, pw] = atob(token).split(':');
       decoded = { username: un, password: pw };
