@@ -1,5 +1,20 @@
 # @envyjs/webui
 
+## 0.4.0
+
+### Minor Changes
+
+- 84bf34e: Changed API of the System<T> interface
+- d724eaf: Trace list now auto scrolls to bottom when new traces come in. Can be disabled.
+- 917d5c5: Show timing data for web requests
+- eac6083: Added ability to copy request details as a curl command
+- 1b441c9: Added support for self-hosting and customization of the Envy viewer
+
+### Patch Changes
+
+- Updated dependencies [4c29f92]
+  - @envyjs/core@0.4.0
+
 ## 0.3.2
 
 ### Patch Changes

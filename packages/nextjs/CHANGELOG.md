@@ -1,5 +1,16 @@
 # @envyjs/nextjs
 
+## 0.3.0
+
+### Minor Changes
+
+- 4c29f92: Instrument native fetch from node17+
+
+### Patch Changes
+
+- Updated dependencies [4c29f92]
+  - @envyjs/node@0.4.0
+
 ## 0.2.2
 
 ### Patch Changes

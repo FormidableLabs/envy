@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.4.0
+
+### Minor Changes
+
+- 4c29f92: Instrument native fetch from node17+
+
 ## 0.3.2
 
 ### Patch Changes

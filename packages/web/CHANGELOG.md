@@ -1,5 +1,17 @@
 # @envyjs/web
 
+## 0.3.0
+
+### Minor Changes
+
+- 917d5c5: Show timing data for web requests
+- 4c29f92: Instrument native fetch from node17+
+
+### Patch Changes
+
+- Updated dependencies [4c29f92]
+  - @envyjs/core@0.4.0
+
 ## 0.2.3
 
 ### Patch Changes
