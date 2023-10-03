@@ -1,3 +1,5 @@
+export type GraphqlOperationType = 'Query' | 'Mutation';
+
 /**
  * A Graphql Request
  */
@@ -11,6 +13,11 @@ export interface GraphqlRequest {
    * The parsed operation name
    */
   operationName?: string;
+
+  /**
+   * The operation type
+   */
+  operationType: GraphqlOperationType;
 
   /**
    * The query variables

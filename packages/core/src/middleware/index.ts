@@ -5,3 +5,4 @@ export type Middleware = (event: Event, options: Options) => Event;
 
 export { Sanity } from './sanity';
 export { Meta } from './meta';
+export { Graphql } from './graphql';
