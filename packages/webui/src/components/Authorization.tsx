@@ -67,13 +67,13 @@ export default function Authorization({ value }: AuthorizationProps) {
           .join(''),
       );
 
-      decoded = safeParseJson(jsonPayload);
+      decoded = safeParseJson(jsonPayload).value;
     } else if (type === TokenType.BasicAuth) {
       const [un, pw] = atob(token).split(':');
       decoded = { username: un, password: pw };
     }
 
-    setDecodedToken(<JsonDisplay>{decoded?.value}</JsonDisplay>);
+    setDecodedToken(<JsonDisplay>{decoded}</JsonDisplay>);
   }
 
   return (
