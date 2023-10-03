@@ -1,3 +1,5 @@
+import { safeParseJson } from '../json';
+
 import { Middleware } from '.';
 
 const HOST = '.sanity.io';
@@ -18,8 +20,8 @@ export const Sanity: Middleware = event => {
         }
         case 'POST': {
           if (httpRequest.requestBody && httpRequest.requestHeaders['content-type'] === 'application/json') {
-            const json = JSON.parse(httpRequest.requestBody);
-            query = json?.query;
+            const json = safeParseJson(httpRequest.requestBody);
+            query = json.value?.query;
           }
 
           break;

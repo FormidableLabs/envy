@@ -1,8 +1,9 @@
+import { safeParseJson } from '@envyjs/core';
 import React, { useEffect, useState } from 'react';
 import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
 import { Code, IconButton, JsonDisplay } from '@/components';
-import { safeParseJson, tw } from '@/utils';
+import { tw } from '@/utils';
 
 enum TokenType {
   JWT = 0,
@@ -72,7 +73,7 @@ export default function Authorization({ value }: AuthorizationProps) {
       decoded = { username: un, password: pw };
     }
 
-    setDecodedToken(<JsonDisplay>{decoded}</JsonDisplay>);
+    setDecodedToken(<JsonDisplay>{decoded?.value}</JsonDisplay>);
   }
 
   return (

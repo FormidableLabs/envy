@@ -1,10 +1,10 @@
 // The plan is for this system to not part of the codebase, and rather be something that
 // can be implemented and registered from the application using envt to send
 // network traces
+import { safeParseJson } from '@envyjs/core';
 
 import { Code, Field, Fields } from '@/components';
 import { System, Trace, TraceContext } from '@/types';
-import { safeParseJson } from '@/utils';
 
 type SanityData = {
   type?: string | null;
@@ -64,7 +64,7 @@ export default class SanitySystem implements System<SanityData> {
   getResponseBody({ trace }: TraceContext<SanityData>) {
     if (!trace.http?.responseBody) return null;
 
-    const json = safeParseJson(trace.http.responseBody);
+    const json = safeParseJson(trace.http.responseBody).value;
     const transformed = { ...json };
     delete transformed.query;
     return transformed;
