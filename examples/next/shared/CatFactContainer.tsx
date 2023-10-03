@@ -1,25 +1,30 @@
 'use client';
 
+import { CatFactWidget } from '@/shared';
 import { fetchCatFact } from '@/utils/query';
 import { CatFact } from '@/utils/types';
 import { useCallback, useEffect, useState } from 'react';
 
-export function ClientSideCatFact() {
-  const [catFact, setCatFact] = useState<CatFact>();
+type Props = {
+  initialCatFact?: CatFact;
+};
+
+export function CatFactContainer({ initialCatFact }: Props) {
+  const [catFact, setCatFact] = useState(initialCatFact);
 
   const onRefresh = useCallback(() => fetchCatFact().then(setCatFact), []);
 
   useEffect(() => {
-    onRefresh();
+    if (!initialCatFact) {
+      onRefresh();
+    }
   }, []);
 
   return (
-    <div className="thingy">
-      <h2>Random cat fact:</h2>
-      {catFact && <p>{catFact.text}</p>}
+    <CatFactWidget fact={catFact}>
       <div className="button-container">
         <button onClick={onRefresh}>Refresh</button>
       </div>
-    </div>
+    </CatFactWidget>
   );
 }

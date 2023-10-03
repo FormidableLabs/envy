@@ -1,12 +1,7 @@
+import { CatFactWidget } from '@/shared';
 import { fetchCatFact } from '@/utils/query';
 
 export async function CatFact() {
-  const { text } = await fetchCatFact();
-
-  return (
-    <div className="thingy">
-      <h2>Random cat fact:</h2>
-      <p>{text}</p>
-    </div>
-  );
+  const fact = await fetchCatFact();
+  return <CatFactWidget fact={fact} />;
 }

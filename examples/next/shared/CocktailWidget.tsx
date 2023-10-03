@@ -1,18 +1,11 @@
-'use client';
-
-import { fetchRandomCocktail } from '@/utils/query';
 import { Cocktail } from '@/utils/types';
-import { useCallback, useEffect, useState } from 'react';
 
-export function ClientSideCocktail() {
-  const [cocktail, setCocktail] = useState<Cocktail>();
+type Props = {
+  cocktail?: Cocktail;
+  children?: React.ReactNode;
+};
 
-  const onRefresh = useCallback(() => fetchRandomCocktail().then(setCocktail), []);
-
-  useEffect(() => {
-    onRefresh();
-  }, []);
-
+export function CocktailWidget({ cocktail, children }: Props) {
   return (
     <div className="thingy">
       <h2>Random cocktail:</h2>
@@ -36,9 +29,7 @@ export function ClientSideCocktail() {
           </div>
         </div>
       )}
-      <div className="button-container">
-        <button onClick={onRefresh}>Refresh</button>
-      </div>
+      {children}
     </div>
   );
 }
