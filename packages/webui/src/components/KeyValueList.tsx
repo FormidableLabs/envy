@@ -12,27 +12,29 @@ export default function KeyValueList({ label, keyValuePairs }: KeyValueListProps
 
   return (
     <Field label={label}>
-      {keyValuePairs.map(([k, v]) => {
-        let value: React.ReactNode = v;
-        switch (typeof v) {
-          case 'string': {
-            value = decodeURIComponent(v);
-            break;
+      <div className="table w-full">
+        {keyValuePairs.map(([k, v]) => {
+          let value: React.ReactNode = v;
+          switch (typeof v) {
+            case 'string': {
+              value = decodeURIComponent(v);
+              break;
+            }
+            case 'number':
+            case 'boolean': {
+              value = v.toString();
+              break;
+            }
           }
-          case 'number':
-          case 'boolean': {
-            value = v.toString();
-            break;
-          }
-        }
 
-        return (
-          <span data-test-id="key-value-item" key={k} className="w-full flex flex-row pt-2 first:pt-0">
-            <span className="flex-[1] font-semibold">{k}: </span>
-            <span className="group flex-[3] break-all overflow-x-visible">{value}</span>
-          </span>
-        );
-      })}
+          return (
+            <span data-test-id="key-value-item" key={k} className="w-full table-row pt-2 first:pt-0">
+              <span className="table-cell whitespace-nowrap font-semibold py-1 pr-4 min-w-[12rem]">{k}: </span>
+              <span className="group table-cell w-full break-all overflow-x-visible py-1">{value}</span>
+            </span>
+          );
+        })}
+      </div>
     </Field>
   );
 }
