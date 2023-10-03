@@ -10,6 +10,7 @@ export type ApplicationContextData = {
   connected: boolean;
   traces: Traces;
   selectedTraceId?: string;
+  newestTraceId?: string;
   getSelectedTrace: () => Trace | undefined;
   setSelectedTrace: (id: string) => void;
   clearSelectedTrace: () => void;

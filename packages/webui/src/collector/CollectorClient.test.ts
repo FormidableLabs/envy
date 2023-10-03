@@ -111,7 +111,7 @@ describe('CollectorClient', () => {
         socket.addEventListener('message', async () => {
           await new Promise(process.nextTick);
 
-          expect(changeHandler).toHaveBeenCalled();
+          expect(changeHandler).toHaveBeenCalledWith('1');
           done();
         });
 
@@ -122,17 +122,39 @@ describe('CollectorClient', () => {
       client.start();
     });
 
-    describe('clearTraces', () => {
-      const trace = mockTrace({});
+    it('should not include `newTraceId` in changeHandler if trace already exists', done => {
+      const changeHandler = jest.fn();
+      const client = new CollectorClient({ port, changeHandler });
 
-      it('should empty the traces collection', () => {
-        const client = new CollectorClient({ port: 1234 });
-        client.addEvent(trace);
-        expect(client.traces.size).toEqual(1);
+      mockServer.on('connection', socket => {
+        socket.addEventListener('message', async () => {
+          await new Promise(process.nextTick);
 
-        client.clearTraces();
-        expect(client.traces.size).toEqual(0);
+          expect(changeHandler).toHaveBeenCalledWith(undefined);
+          done();
+        });
+
+        const trace = mockTrace({});
+        // @ts-expect-error
+        client._traces.set(trace.id, trace);
+
+        mockServer.emit('message', JSON.stringify(trace));
       });
+
+      client.start();
+    });
+  });
+
+  describe('clearTraces', () => {
+    const trace = mockTrace({});
+
+    it('should empty the traces collection', () => {
+      const client = new CollectorClient({ port: 1234 });
+      client.addEvent(trace);
+      expect(client.traces.size).toEqual(1);
+
+      client.clearTraces();
+      expect(client.traces.size).toEqual(0);
     });
   });
 });

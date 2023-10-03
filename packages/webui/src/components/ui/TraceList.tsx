@@ -1,6 +1,7 @@
+import { UIEvent, useLayoutEffect, useRef, useState } from 'react';
 import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiStatusOnline } from 'react-icons/hi';
 
-import { Loading } from '@/components';
+import { Loading, ToggleSwitch } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
 import { Trace } from '@/types';
@@ -20,11 +21,44 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   );
 }
 
-type TraceListProps = React.HTMLAttributes<HTMLElement>;
+type TraceListProps = React.HTMLAttributes<HTMLElement> & {
+  autoScroll?: boolean;
+};
 
-export default function TraceList({ className }: TraceListProps) {
-  const { port, connected, connecting, traces, selectedTraceId, setSelectedTrace } = useApplication();
+export default function TraceList({ autoScroll: initialAutoScroll = true, className }: TraceListProps) {
+  const { port, connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } = useApplication();
+  const [autoScroll, setAutoScroll] = useState(initialAutoScroll);
+
   const data = [...traces.values()];
+
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+  // when a new trace is added to the list, auto scroll to the bottom of the list unless:
+  // - the user has unchcked the "auto scroll" toggleSwitch
+  // - the user has manually scrolled the list away from the bottom
+  useLayoutEffect(() => {
+    if (!autoScroll) return;
+    if (!newestTraceId) return;
+
+    scrollContainer.current?.scrollTo({
+      top: scrollContainer.current.scrollHeight,
+      behavior: 'instant',
+    });
+    // we don't want to include selectedTraceId here otherwise closing the trace details will automatically scroll the
+    // list to the bottom even if a new trace hasn't been added
+    // ---
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newestTraceId]);
+
+  function handleScroll(e: UIEvent<HTMLDivElement>) {
+    const target = e.currentTarget;
+    const totalHeight = target.scrollHeight;
+    const viewportHeight = target.clientHeight;
+    const maxScrollTop = totalHeight - viewportHeight;
+    const scrollTop = Math.round(target.scrollTop);
+
+    setAutoScroll(scrollTop >= maxScrollTop);
+  }
 
   function getMethodAndStatus(trace: Trace) {
     return trace.http ? <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} /> : null;
@@ -75,58 +109,84 @@ export default function TraceList({ className }: TraceListProps) {
     ? [HiOutlineLightningBolt, 'Connecting...']
     : [HiOutlineEmojiSad, 'Unable to connect'];
 
+  const hasTraces = data.length > 0;
+
   return (
-    <div className={`h-full flex flex-col overflow-y-scroll bg-slate-300 ${className}`}>
-      {data.length === 0 ? (
+    <div className={tw('h-full flex flex-col bg-slate-300', className)}>
+      <div
+        data-test-id="scroll-container"
+        ref={scrollContainer}
+        onScroll={handleScroll}
+        className={tw('flex-1', hasTraces && 'overflow-y-scroll')}
+      >
+        {!hasTraces ? (
+          <div
+            data-test-id="no-traces"
+            className="flex flex-none h-full justify-center items-center text-3xl text-slate-400"
+          >
+            <Icon className="translate-y-[0.05em] w-8 h-8 mr-2" /> <span>{message}</span>
+          </div>
+        ) : (
+          <div data-test-id="trace-list" className="table table-fixed w-full relative">
+            <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-slate-400 uppercase shadow-lg z-10">
+              {columns.map(([label, , baseStyle]) => (
+                <div
+                  key={label}
+                  data-test-id={`column-heading-${label.toLowerCase()}`}
+                  className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
+            <div className="flex-1 table-row-group">
+              {data.map((trace, idx) => (
+                <div
+                  data-test-id="trace"
+                  key={trace.id}
+                  onClick={() => setSelectedTrace(trace.id)}
+                  className={tw(
+                    'gap-4 table-row',
+                    trace.id === selectedTraceId
+                      ? 'bg-orange-300 shadow-lg'
+                      : rowStyle(trace) ||
+                          (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
+                    'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
+                  )}
+                >
+                  {columns.map(([label, prop, baseStyle, cellStyle]) => (
+                    <div
+                      key={`${trace.id}_${prop}`}
+                      data-test-id={`column-data-${label.toLowerCase()}`}
+                      className={tw(
+                        'table-cell p-cell align-middle overflow-hidden whitespace-nowrap text-ellipsis',
+                        baseStyle || '',
+                        cellStyle(trace) || '',
+                      )}
+                    >
+                      {typeof prop === 'function' && prop(trace)}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {hasTraces && (
         <div
-          data-test-id="no-traces"
-          className="flex flex-none h-full justify-center items-center text-3xl text-slate-400"
+          className={tw(
+            'flex-0 flex flex-row justify-between items-center bg-slate-400 border-t border-slate-600 p-2',
+            selectedTraceId && 'border-r border-slate-600',
+          )}
         >
-          <Icon className="translate-y-[0.05em] w-8 h-8 mr-2" /> <span>{message}</span>
-        </div>
-      ) : (
-        <div data-test-id="trace-list" className="table table-fixed w-full relative">
-          <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-slate-400 uppercase shadow-lg z-10">
-            {columns.map(([label, , baseStyle]) => (
-              <div
-                key={label}
-                data-test-id={`column-heading-${label.toLowerCase()}`}
-                className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-          <div className="flex-1 table-row-group">
-            {data.map((trace, idx) => (
-              <div
-                data-test-id="trace"
-                key={trace.id}
-                onClick={() => setSelectedTrace(trace.id)}
-                className={tw(
-                  'gap-4 table-row',
-                  trace.id === selectedTraceId
-                    ? 'bg-orange-300 shadow-lg'
-                    : rowStyle(trace) || (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
-                  'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
-                )}
-              >
-                {columns.map(([label, prop, baseStyle, cellStyle]) => (
-                  <div
-                    key={`${trace.id}_${prop}`}
-                    data-test-id={`column-data-${label.toLowerCase()}`}
-                    className={tw(
-                      'table-cell p-cell align-middle overflow-hidden whitespace-nowrap text-ellipsis',
-                      baseStyle || '',
-                      cellStyle(trace) || '',
-                    )}
-                  >
-                    {typeof prop === 'function' && prop(trace)}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          <div data-test-id="trace-count">Traces: {data.length}</div>
+          <ToggleSwitch
+            data-test-id="auto-scroll"
+            label="Auto scroll:"
+            checked={autoScroll}
+            onChange={value => setAutoScroll(value)}
+          />
         </div>
       )}
     </div>
