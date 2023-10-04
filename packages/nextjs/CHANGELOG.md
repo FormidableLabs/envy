@@ -1,5 +1,12 @@
 # @envyjs/nextjs
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [9683564]
+  - @envyjs/node@0.4.1
+
 ## 0.3.0
 
 ### Minor Changes
