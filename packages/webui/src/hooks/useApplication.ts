@@ -8,6 +8,7 @@ export type ApplicationContextData = {
   port: number;
   connecting: boolean;
   connected: boolean;
+  connections: string[];
   traces: Traces;
   selectedTraceId?: string;
   newestTraceId?: string;

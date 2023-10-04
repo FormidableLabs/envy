@@ -104,7 +104,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
   ];
 
   const [Icon, message] = connected
-    ? [HiStatusOnline, `Connected to ws://127.0.0.1:${port}/ ...`]
+    ? [HiStatusOnline, `Listening for traces...`]
     : connecting
     ? [HiOutlineLightningBolt, 'Connecting...']
     : [HiOutlineEmojiSad, 'Unable to connect'];

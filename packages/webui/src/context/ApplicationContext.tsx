@@ -79,6 +79,7 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     port: collectorRef.current?.port ?? 0,
     connecting: collectorRef.current?.connecting ?? true,
     connected: collectorRef.current?.connected ?? false,
+    connections: collectorRef.current?.connections ?? [],
     get traces() {
       if (!collectorRef.current) return new Map();
       if (!filter || !hasFilters()) return collectorRef.current?.traces;

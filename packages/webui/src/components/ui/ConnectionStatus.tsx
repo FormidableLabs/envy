@@ -7,7 +7,7 @@ export default function ConnectionStatus() {
   const { connecting, connected } = useApplication();
 
   return (
-    <>
+    <div className="w-6 h-6">
       {connecting ? (
         <Loading size={4} />
       ) : connected ? (
@@ -15,6 +15,6 @@ export default function ConnectionStatus() {
       ) : (
         <HiStatusOffline className="w-full h-full text-red-600" />
       )}
-    </>
+    </div>
   );
 }
