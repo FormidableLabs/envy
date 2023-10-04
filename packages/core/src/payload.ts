@@ -1,19 +1,17 @@
 import { Event } from './event';
 
-// TODO: add more payload types, such as connection status
-// e.g.,
-// export type ConnectionStatusPayload = {
-//   type: 'connections',
-//   data: [string, boolean][]
-// }
+// how the 'connections' data will arrive from the collector
+// [serviceName: string, isActive: boolean][]
+export type ConnectionStatusData = [string, boolean][];
+
+export type ConnectionStatusPayload = {
+  type: 'connections';
+  data: ConnectionStatusData;
+};
 
 export type TracePayload = {
   type: 'trace';
   data: Event;
 };
 
-// TODO: WebSocketPayload can represent the various payload types
-// e.g.,
-// export type WebSocketPayload = ConnectionStatusPayload | TracePayload | etc...
-
-export type WebSocketPayload = TracePayload;
+export type WebSocketPayload = ConnectionStatusPayload | TracePayload;

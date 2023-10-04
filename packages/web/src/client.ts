@@ -14,19 +14,9 @@ export function WebSocketClient(options: WebSocketClientOptions) {
   let ws: WebSocket;
   let retryDelay = DEFAULT_RETRY_DELAY;
   let retryAttempts = 0;
-  let pinger: NodeJS.Timeout | undefined = undefined;
 
   const identifier = `web/${options.serviceName}`;
   const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/${identifier}`;
-
-  function ping(ws: WebSocket) {
-    ws.send(
-      JSON.stringify({
-        type: 'ping',
-        data: identifier,
-      }),
-    );
-  }
 
   function connect() {
     ws = new WebSocket(socket);
@@ -34,10 +24,6 @@ export function WebSocketClient(options: WebSocketClientOptions) {
     ws.onopen = () => {
       log.info('client connected');
       retryDelay = DEFAULT_RETRY_DELAY;
-
-      // ping immediately and every 5 seconds to assert connection
-      ping(ws);
-      pinger = setInterval(() => ping(ws), 5_000);
 
       for (const data of Object.values(initialTraces)) {
         ws.send(
@@ -51,11 +37,6 @@ export function WebSocketClient(options: WebSocketClientOptions) {
 
     ws.onclose = () => {
       log.error('client disconnected');
-
-      // stop pinging; allow connection to expire
-      if (pinger) {
-        clearInterval(pinger);
-      }
 
       reconnect();
     };

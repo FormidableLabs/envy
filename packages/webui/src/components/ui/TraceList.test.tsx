@@ -62,8 +62,8 @@ describe('TraceList', () => {
       { status: 'connecting', useApplicationState: { connecting: true, connected: false }, message: 'Connecting...' },
       {
         status: 'connected',
-        useApplicationState: { connecting: false, connected: true, port: 1234 },
-        message: 'Connected to ws://127.0.0.1:1234',
+        useApplicationState: { connecting: false, connected: true },
+        message: 'Listening for traces...',
       },
       {
         status: 'failed to connect',

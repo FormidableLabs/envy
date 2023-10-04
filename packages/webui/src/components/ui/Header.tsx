@@ -6,9 +6,10 @@ import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 
 export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
-  const { connections } = useApplication();
+  const { activeConnections } = useApplication();
+
   const isDebugMode = process.env.NODE_ENV === 'development';
-  const connectionTypeLabel = connections.length === 1 ? 'source' : 'sources';
+  const connectionTypeLabel = activeConnections.length === 1 ? 'source' : 'sources';
 
   return (
     <header
@@ -27,8 +28,8 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
           </span>
           <h1 className="font-extrabold text-xl uppercase mr-4 select-none">Envy</h1>
           <div className="flex flex-row text-slate-400 text-sm font-bold">
-            <div title={connections.length > 0 ? connections.join(', ') : undefined}>
-              {connections.length} {connectionTypeLabel} connected
+            <div title={activeConnections.map(([serviceName]) => serviceName).join(', ')}>
+              {activeConnections.length} {connectionTypeLabel} connected
             </div>
           </div>
         </span>

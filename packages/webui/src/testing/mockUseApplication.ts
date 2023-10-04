@@ -2,12 +2,14 @@ import useApplication, { ApplicationContextData } from '@/hooks/useApplication';
 
 jest.mock('@/hooks/useApplication');
 
-const defaults = {
+const defaults: ApplicationContextData = {
   collector: undefined,
   port: 9999,
   connecting: true,
   connected: false,
   traces: new Map(),
+  allConnections: [],
+  activeConnections: [],
   getSelectedTrace: () => void 0,
   setSelectedTrace: () => void 0,
   clearSelectedTrace: () => void 0,

@@ -26,7 +26,7 @@ type TraceListProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 export default function TraceList({ autoScroll: initialAutoScroll = true, className }: TraceListProps) {
-  const { port, connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } = useApplication();
+  const { connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } = useApplication();
   const [autoScroll, setAutoScroll] = useState(initialAutoScroll);
 
   const data = [...traces.values()];

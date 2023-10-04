@@ -1,3 +1,4 @@
+import { ConnectionStatusData } from '@envyjs/core';
 import { createContext, useContext } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
@@ -8,7 +9,8 @@ export type ApplicationContextData = {
   port: number;
   connecting: boolean;
   connected: boolean;
-  connections: string[];
+  allConnections: ConnectionStatusData;
+  activeConnections: ConnectionStatusData;
   traces: Traces;
   selectedTraceId?: string;
   newestTraceId?: string;

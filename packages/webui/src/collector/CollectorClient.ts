@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
+import { ConnectionStatusData, DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
 
 import { Traces } from '@/types';
 
@@ -7,17 +7,12 @@ type WebSocketClientOptions = {
   changeHandler?: () => void;
 };
 
-type ConnectionStatus = {
-  lastPing: number;
-  timeout: NodeJS.Timeout;
-};
-
 export default class CollectorClient {
   private readonly _port: number;
 
   private _connected: boolean = false;
   private _connecting: boolean = true;
-  private _connections: Map<string, ConnectionStatus> = new Map();
+  private _connections: ConnectionStatusData = [];
   private _traces: Traces = new Map();
   private _changeHandler?: (newTraceId?: string) => void;
 
@@ -43,7 +38,7 @@ export default class CollectorClient {
   }
 
   get connections() {
-    return [...this._connections.keys()];
+    return this._connections;
   }
 
   private _signalChange(newTraceId?: string) {
@@ -65,41 +60,18 @@ export default class CollectorClient {
       if (!payload.value) return;
 
       switch (payload.value.type) {
-        case 'trace': {
-          this.addEvent(payload.value.data);
+        case 'connections':
+          this._updateConnections(payload.value.data);
           break;
-        }
-        case 'ping' as any:
-          this._registerConnection(payload.value.data as any);
+        case 'trace':
+          this.addEvent(payload.value.data);
           break;
       }
     });
   }
 
-  private _registerConnection(identifier: string) {
-    const thisPing = Date.now();
-
-    // if we already have a timeout for this connection, clear it
-    const status = this._connections.get(identifier);
-    if (status?.timeout) {
-      clearTimeout(status.timeout);
-    }
-
-    // set timer to assume this connection is closed after 6s if the most recent ping hasn't updated
-    const timeout = setTimeout(() => {
-      const status = this._connections.get(identifier);
-      if (status?.lastPing === thisPing) {
-        this._connections.delete(identifier);
-        this._signalChange();
-      }
-    }, 6_000);
-
-    // set time of most recent ping
-    this._connections.set(identifier, {
-      lastPing: thisPing,
-      timeout,
-    });
-
+  private _updateConnections(connections: ConnectionStatusData) {
+    this._connections = connections;
     this._signalChange();
   }
 
