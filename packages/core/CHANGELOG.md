@@ -1,5 +1,12 @@
 # @envyjs/core
 
+## 0.4.1
+
+### Patch Changes
+
+- 049b715: Add json safe parse for all usages
+- 9683564: Add graphql middleware
+
 ## 0.4.0
 
 ### Minor Changes

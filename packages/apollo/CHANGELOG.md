@@ -1,5 +1,12 @@
 # @envyjs/apollo
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [9683564]
+  - @envyjs/node@0.4.1
+
 ## 0.2.3
 
 ### Patch Changes
