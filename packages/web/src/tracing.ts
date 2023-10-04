@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Exporter, Meta, Middleware, Plugin, Sanity } from '@envyjs/core';
+import { DEFAULT_WEB_SOCKET_PORT, Exporter, Graphql, Meta, Middleware, Plugin, Sanity } from '@envyjs/core';
 
 import { WebSocketClient } from './client';
 import { Fetch } from './fetch';
@@ -25,7 +25,7 @@ export async function enableTracing(options: TracingOptions): Promise<void> {
     const ws = WebSocketClient({ ...options, port });
 
     // middleware transforms event data
-    const middleware: Middleware[] = [Meta, Sanity];
+    const middleware: Middleware[] = [Meta, Sanity, Graphql];
 
     // apply the middleware and send with the websocket
     const exporter: Exporter = {
