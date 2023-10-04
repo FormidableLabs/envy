@@ -151,6 +151,8 @@ const envyConfig = {
 module.exports = withEnvy(nextConfig, envyConfig);
 ```
 
+*By default, `@envyjs/nextjs` will only inject itself into your `development` bundle.*
+
 #### Timing Data
 
 _Browsers prevent full timing data from being accessed from cross-origin requests unless the server responds with the [Timing-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Timing-Allow-Origin) header_.
