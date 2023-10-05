@@ -1,29 +1,15 @@
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { DropDownItem } from '@/components/DropDown';
+import { Filters } from '@/hooks/useApplication';
 import { setupMockSystems } from '@/testing/mockSystems';
 import { setUseApplicationData } from '@/testing/mockUseApplication';
 
 import FiltersAndActions from './FiltersAndActions';
 
 jest.mock('@/components', () => ({
-  DropDown: function ({ items, onChange }: any) {
-    return (
-      <select
-        data-test-id="mock-drop-down"
-        onChange={e => {
-          // simulate returning array of selected systems
-          onChange([e.target.value]);
-        }}
-      >
-        {items.map((item: DropDownItem) => (
-          <option key={item.value} value={item.value}>
-            {item.value}
-          </option>
-        ))}
-      </select>
-    );
+  SourceAndSystemFilter: function (props: any) {
+    return <div {...props}>Mock SourceAndSystemFilter component</div>;
   },
   IconButton: function ({ onClick }: any) {
     return <button data-test-id="mock-icon-button" onClick={onClick} />;
@@ -33,18 +19,33 @@ jest.mock('@/components', () => ({
   },
 }));
 
+jest.mock(
+  './SourceAndSystemFilter',
+  () =>
+    function MockSourceAndSystem(props: any) {
+      return <div {...props}>Mock SourceAndSystemFilter component</div>;
+    },
+);
+
 describe('FiltersAndActions', () => {
-  let filterTracesFn: jest.Mock;
+  let setFiltersFn: jest.Mock;
   let clearTracesFn: jest.Mock;
 
+  function assertSetFilterUpdate(currentFilters: Filters, expectedValue: Filters) {
+    const updateFn = setFiltersFn.mock.lastCall?.[0];
+    const updateFnResult = updateFn(currentFilters);
+
+    expect(updateFnResult).toEqual(expectedValue);
+  }
+
   beforeEach(() => {
-    filterTracesFn = jest.fn();
+    setFiltersFn = jest.fn();
     clearTracesFn = jest.fn();
 
     setupMockSystems();
 
     setUseApplicationData({
-      filterTraces: filterTracesFn,
+      setFilters: setFiltersFn,
       clearTraces: clearTracesFn,
     });
   });
@@ -58,38 +59,13 @@ describe('FiltersAndActions', () => {
     render(<FiltersAndActions />);
   });
 
-  describe('systems', () => {
-    it('should render DropDown component', () => {
+  describe('sources and systems', () => {
+    it('should render SourceAndSystemFilter component', () => {
       const { getByTestId } = render(<FiltersAndActions />);
 
-      const dropDown = getByTestId('mock-drop-down');
-      expect(dropDown).toBeVisible();
-    });
-
-    it('should list all registered systems', () => {
-      const { getByTestId } = render(<FiltersAndActions />);
-
-      const dropDown = getByTestId('mock-drop-down');
-      const options = dropDown.querySelectorAll('option');
-
-      // see /src/testing/mockSystems.ts for where these test systems are registered
-      expect(options).toHaveLength(4);
-      expect(options.item(0)!).toHaveTextContent('Foo');
-      expect(options.item(1)!).toHaveTextContent('Bar');
-      expect(options.item(2)!).toHaveTextContent('Fallback');
-      expect(options.item(3)!).toHaveTextContent('OddNumbers');
-    });
-
-    it('should call `filterTraces` with selected systems when value changes', async () => {
-      const { getByTestId } = render(<FiltersAndActions />);
-
-      const dropDown = getByTestId('mock-drop-down');
-
-      await act(async () => {
-        await userEvent.selectOptions(dropDown, 'Foo');
-      });
-
-      expect(filterTracesFn).toHaveBeenCalledWith(['Foo'], '');
+      const sourcesAndSystems = getByTestId('sources-and-systems');
+      expect(sourcesAndSystems).toBeVisible();
+      expect(sourcesAndSystems).toHaveTextContent('Mock SourceAndSystemFilter component');
     });
   });
 
@@ -102,6 +78,17 @@ describe('FiltersAndActions', () => {
     });
 
     it('should call `filterTraces` with search term when value changes', () => {
+      const filters: Filters = {
+        sources: ['source1'],
+        systems: ['system1'],
+        searchTerm: '',
+      };
+
+      setUseApplicationData({
+        filters,
+        setFilters: setFiltersFn,
+      });
+
       const { getByTestId } = render(<FiltersAndActions />);
 
       const searchInput = getByTestId('mock-search-input');
@@ -110,7 +97,11 @@ describe('FiltersAndActions', () => {
         target: { value: '/foo' },
       });
 
-      expect(filterTracesFn).toHaveBeenCalledWith([], '/foo');
+      assertSetFilterUpdate(filters, {
+        sources: ['source1'],
+        systems: ['system1'],
+        searchTerm: '/foo',
+      });
     });
   });
 

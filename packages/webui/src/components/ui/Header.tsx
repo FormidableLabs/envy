@@ -1,4 +1,3 @@
-import useApplication from '@/hooks/useApplication';
 import { tw } from '@/utils';
 
 import ConnectionStatus from './ConnectionStatus';
@@ -6,10 +5,7 @@ import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 
 export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
-  const { activeConnections } = useApplication();
-
   const isDebugMode = process.env.NODE_ENV === 'development';
-  const connectionTypeLabel = activeConnections.length === 1 ? 'source' : 'sources';
 
   return (
     <header
@@ -27,11 +23,6 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
             <ConnectionStatus />
           </span>
           <h1 className="font-extrabold text-xl uppercase mr-4 select-none">Envy</h1>
-          <div className="flex flex-row text-slate-400 text-sm font-bold">
-            <div title={activeConnections.map(([serviceName]) => serviceName).join(', ')}>
-              {activeConnections.length} {connectionTypeLabel} connected
-            </div>
-          </div>
         </span>
       </span>
       <span className="flex-0 flex items-center ml-auto gap-2">

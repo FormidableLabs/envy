@@ -8,12 +8,16 @@ const defaults: ApplicationContextData = {
   connecting: true,
   connected: false,
   traces: new Map(),
-  allConnections: [],
-  activeConnections: [],
+  connections: [],
   getSelectedTrace: () => void 0,
   setSelectedTrace: () => void 0,
   clearSelectedTrace: () => void 0,
-  filterTraces: () => void 0,
+  filters: {
+    sources: [],
+    systems: [],
+    searchTerm: '',
+  },
+  setFilters: () => void 0,
   clearTraces: () => void 0,
 };
 

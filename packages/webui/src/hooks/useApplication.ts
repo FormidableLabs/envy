@@ -1,23 +1,29 @@
 import { ConnectionStatusData } from '@envyjs/core';
-import { createContext, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
 import { Trace, Traces } from '@/types';
+
+export type Filters = {
+  sources: string[];
+  systems: string[];
+  searchTerm: string;
+};
 
 export type ApplicationContextData = {
   collector: CollectorClient | undefined;
   port: number;
   connecting: boolean;
   connected: boolean;
-  allConnections: ConnectionStatusData;
-  activeConnections: ConnectionStatusData;
+  connections: ConnectionStatusData;
   traces: Traces;
   selectedTraceId?: string;
   newestTraceId?: string;
   getSelectedTrace: () => Trace | undefined;
   setSelectedTrace: (id: string) => void;
   clearSelectedTrace: () => void;
-  filterTraces: (systems: string[], value: string) => void;
+  filters: Filters;
+  setFilters: Dispatch<SetStateAction<Filters>>;
   clearTraces: () => void;
 };
 

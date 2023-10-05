@@ -2,15 +2,10 @@ import { DEFAULT_WEB_SOCKET_PORT } from '@envyjs/core';
 import React, { useEffect, useRef, useState } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
-import { ApplicationContext, ApplicationContextData } from '@/hooks/useApplication';
+import { ApplicationContext, ApplicationContextData, Filters } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
 import { getRegisteredSystems } from '@/systems/registration';
 import { Trace } from '@/types';
-
-type TraceFilter = {
-  systems: string[];
-  value: string;
-};
 
 // TODO: allow configuration
 const port = DEFAULT_WEB_SOCKET_PORT;
@@ -20,7 +15,11 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   const [, forceUpdate] = useState<boolean>(false);
   const [selectedTraceId, setSelectedTraceId] = useState<string | undefined>();
   const [newestTraceId, setNewestTraceId] = useState<string | undefined>();
-  const [filter, setFilter] = useState<TraceFilter | undefined>();
+  const [filters, setFilters] = useState<Filters>({
+    sources: [],
+    systems: [],
+    searchTerm: '',
+  });
 
   const changeHandler = (newTraceId?: string) => {
     if (newTraceId) setNewestTraceId(newTraceId);
@@ -69,8 +68,9 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
   }, []);
 
   const hasFilters = () => {
-    if (!!filter?.systems?.length) return true;
-    if (!!filter?.value) return true;
+    if (!!filters?.sources?.length) return true;
+    if (!!filters?.systems?.length) return true;
+    if (!!filters?.searchTerm) return true;
     return false;
   };
 
@@ -79,23 +79,24 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     port: collectorRef.current?.port ?? 0,
     connecting: collectorRef.current?.connecting ?? true,
     connected: collectorRef.current?.connected ?? false,
-    allConnections: collectorRef.current?.connections ?? [],
-    get activeConnections() {
-      return (collectorRef.current?.connections ?? []).filter(([_, isActive]) => isActive === true);
-    },
+    connections: collectorRef.current?.connections ?? [],
     get traces() {
       if (!collectorRef.current) return new Map();
-      if (!filter || !hasFilters()) return collectorRef.current?.traces;
+      if (!hasFilters()) return collectorRef.current?.traces;
       else {
         const filteredTraces = new Map<string, Trace>();
         for (const [traceId, trace] of collectorRef.current.traces.entries()) {
           let includeInTraces = true;
 
-          if (!!filter.value && !trace?.http?.url.includes(filter.value)) includeInTraces = false;
+          if (!!filters.searchTerm && !trace?.http?.url.includes(filters.searchTerm)) includeInTraces = false;
 
-          if (includeInTraces && filter.systems.length > 0) {
+          if (includeInTraces && filters.sources.length > 0) {
+            includeInTraces = !!trace.serviceName && filters.sources.includes(trace.serviceName);
+          }
+
+          if (includeInTraces && filters.systems.length > 0) {
             const systems = getRegisteredSystems();
-            const validSystems = systems.filter(x => filter.systems.includes(x.name));
+            const validSystems = systems.filter(x => filters.systems.includes(x.name));
             includeInTraces = validSystems.some(x => x.isMatch(trace));
           }
 
@@ -116,9 +117,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     clearSelectedTrace() {
       setSelectedTraceId(undefined);
     },
-    filterTraces(systems, value) {
-      setFilter({ systems, value });
-    },
+    filters,
+    setFilters,
     clearTraces() {
       setSelectedTraceId(undefined);
       collectorRef.current?.clearTraces();
