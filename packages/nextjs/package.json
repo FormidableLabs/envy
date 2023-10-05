@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "@envyjs/node": "0.4.1",
-    "@envyjs/web": "0.3.0"
+    "@envyjs/web": "0.3.1"
   }
 }
