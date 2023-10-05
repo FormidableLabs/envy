@@ -55,7 +55,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
     const totalHeight = target.scrollHeight;
     const viewportHeight = target.clientHeight;
     const maxScrollTop = totalHeight - viewportHeight;
-    const scrollTop = Math.round(target.scrollTop);
+    const scrollTop = Math.ceil(target.scrollTop);
 
     setAutoScroll(scrollTop >= maxScrollTop);
   }

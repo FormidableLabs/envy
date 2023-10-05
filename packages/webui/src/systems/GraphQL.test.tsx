@@ -1,3 +1,4 @@
+import { GraphqlRequest } from '@envyjs/core';
 import { render } from '@testing-library/react';
 import { ReactElement } from 'react';
 
@@ -33,23 +34,25 @@ const responseBody = JSON.stringify({ data: { foo: { bar: 'baz' } } });
 
 const mockQueryTrace = {
   http: {
-    requestBody: JSON.stringify({
-      operationName: 'Foo',
-      query,
-      variables: {},
-    }),
     responseBody,
+  },
+  graphql: {
+    operationName: 'Foo',
+    operationType: 'Query',
+    query,
+    variables: {},
   },
 } as Trace;
 
 const mockMutationTrace = {
   http: {
-    requestBody: JSON.stringify({
-      operationName: 'AddFoo',
-      query: mutation,
-      variables: {},
-    }),
     responseBody,
+  },
+  graphql: {
+    operationName: 'AddFoo',
+    operationType: 'Mutation',
+    query: mutation,
+    variables: {},
   },
 } as Trace;
 
@@ -59,18 +62,22 @@ describe('GraphQLSystem', () => {
     expect(instance.name).toEqual('GraphQL');
   });
 
-  it('should match when path ends with `/graphql`', () => {
+  it('should match when event has `http` and `graphql` data', () => {
     const instance = new GraphQLSystem();
     const trace = {
       http: {
-        path: '/api/graphql',
+        path: '/foo/bar',
+      },
+      graphql: {
+        operationType: 'Mutation',
+        query: 'mutation Login {}',
       },
     } as Trace;
 
     expect(instance.isMatch(trace)).toBe(true);
   });
 
-  it('should not match when path ends does not end with `/graphql`', () => {
+  it('should not match when event has no `graphql` data', () => {
     const instance = new GraphQLSystem();
     const trace = {
       http: {
@@ -97,7 +104,7 @@ describe('GraphQLSystem', () => {
     const instance = new GraphQLSystem();
 
     expect(instance.getData(mockQueryTrace)).toEqual({
-      type: 'Query',
+      operationType: 'Query',
       operationName: 'Foo',
       query,
       variables: {},
@@ -109,7 +116,7 @@ describe('GraphQLSystem', () => {
     const instance = new GraphQLSystem();
 
     expect(instance.getData(mockMutationTrace)).toEqual({
-      type: 'Mutation',
+      operationType: 'Mutation',
       operationName: 'AddFoo',
       query: mutation,
       variables: {},
@@ -128,7 +135,7 @@ describe('GraphQLSystem', () => {
     } as Trace;
 
     expect(instance.getData(traceWithoutResponse)).toEqual({
-      type: 'Query',
+      operationType: 'Query',
       operationName: 'Foo',
       query,
       variables: {},
@@ -139,7 +146,7 @@ describe('GraphQLSystem', () => {
   it('should return GQL query data for `getTraceRowData', () => {
     const instance = new GraphQLSystem();
     const data = {
-      type: 'Query' as any,
+      operationType: 'Query' as GraphqlRequest['operationType'],
       operationName: 'Foo',
       query,
       variables: {},
@@ -154,7 +161,7 @@ describe('GraphQLSystem', () => {
   it('should render expeced component for `getRequestDetailComponent`', () => {
     const instance = new GraphQLSystem();
     const data = {
-      type: 'Query' as any,
+      operationType: 'Query' as GraphqlRequest['operationType'],
       operationName: 'Foo',
       query,
       variables: {},

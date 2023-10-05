@@ -1,5 +1,14 @@
 # @envyjs/node
 
+## 0.4.1
+
+### Patch Changes
+
+- 9683564: Add graphql middleware
+- Updated dependencies [049b715]
+- Updated dependencies [9683564]
+  - @envyjs/core@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

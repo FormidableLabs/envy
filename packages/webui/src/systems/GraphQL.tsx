@@ -1,18 +1,12 @@
 // The plan is for this system to not part of the codebase, and rather be something that
 // can be implemented and registered from the application using envt to send
 // network traces
-import { safeParseJson } from '@envyjs/core';
+import { GraphqlRequest } from '@envyjs/core';
 
 import { Code, Field, Fields } from '@/components';
 import { System, Trace, TraceContext } from '@/types';
 
-type OperationType = 'Query' | 'Mutation';
-
-type GraphQLData = {
-  type: OperationType;
-  operationName: string;
-  query: string;
-  variables?: Record<string, any>;
+type GraphQLData = GraphqlRequest & {
   response: string | null;
 };
 
@@ -20,7 +14,7 @@ export default class GraphQLSystem implements System<GraphQLData> {
   name = 'GraphQL';
 
   isMatch(trace: Trace) {
-    return trace.http?.path?.endsWith('/graphql') ?? false;
+    return !!(trace.http && trace.graphql);
   }
 
   getIconUri() {
@@ -28,27 +22,21 @@ export default class GraphQLSystem implements System<GraphQLData> {
   }
 
   getData(trace: Trace) {
-    const reqBody = safeParseJson(trace.http?.requestBody).value;
-    const type = (reqBody?.query?.trim().startsWith('mutation') ? 'Mutation' : 'Query') as OperationType;
-
     return {
-      type,
-      operationName: reqBody?.operationName,
-      query: reqBody?.query,
-      variables: reqBody?.variables,
+      ...trace.graphql!,
       response: trace.http?.responseBody ?? null,
     };
   }
   getTraceRowData({ data }: TraceContext<GraphQLData>) {
-    const { type, operationName } = data;
+    const { operationType, operationName } = data;
 
     return {
-      data: `GQL ${type}: ${operationName}`,
+      data: `GQL ${operationType}: ${operationName}`,
     };
   }
 
   getRequestDetailComponent({ data }: TraceContext<GraphQLData>) {
-    const { type, operationName, query } = data;
+    const { operationType, operationName, query } = data;
 
     return (
       <>
@@ -57,7 +45,7 @@ export default class GraphQLSystem implements System<GraphQLData> {
             {operationName}
           </Field>
           <Field data-test-id="type" label="Type">
-            {type}
+            {operationType}
           </Field>
           <Field label="Query">
             <Code data-test-id="query">{query}</Code>
