@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event, safeParseJson } from '@envyjs/core';
+import { DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
 
 import { Traces } from '@/types';
 
@@ -51,9 +51,14 @@ export default class CollectorClient {
     });
 
     socket.addEventListener('message', ({ data }) => {
-      const payload = safeParseJson<Event>(data.toString());
-      if (payload.value) {
-        this.addEvent(payload.value);
+      const payload = safeParseJson<WebSocketPayload>(data.toString());
+      if (!payload.value) return;
+
+      switch (payload.value.type) {
+        case 'trace': {
+          this.addEvent(payload.value.data);
+          break;
+        }
       }
     });
   }

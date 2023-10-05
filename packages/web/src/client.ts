@@ -24,8 +24,13 @@ export function WebSocketClient(options: WebSocketClientOptions) {
       log.info('client connected');
       retryDelay = DEFAULT_RETRY_DELAY;
 
-      for (const trace of Object.values(initialTraces)) {
-        ws.send(JSON.stringify(trace));
+      for (const data of Object.values(initialTraces)) {
+        ws.send(
+          JSON.stringify({
+            type: 'trace',
+            data,
+          }),
+        );
       }
     };
 
@@ -66,7 +71,12 @@ export function WebSocketClient(options: WebSocketClientOptions) {
 
       try {
         if (ws.readyState === ws.OPEN) {
-          ws.send(JSON.stringify(data));
+          ws.send(
+            JSON.stringify({
+              type: 'trace',
+              data,
+            }),
+          );
         } else {
           initialTraces[data.id] = data;
         }

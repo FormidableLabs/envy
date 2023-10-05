@@ -42,6 +42,7 @@ wss.on('connection', (ws, request) => {
     }
 
     try {
+      // the collector just relays incoming messages to the viewer; if one is available
       viewer.send(data.toString());
     } catch (e) {
       handleError(`Unable to parse message: ${e}`);
