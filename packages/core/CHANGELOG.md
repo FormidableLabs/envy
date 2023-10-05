@@ -1,5 +1,12 @@
 # @envyjs/core
 
+## 0.5.0
+
+### Minor Changes
+
+- df3d275: Updated web socket message payloads to scope by type
+- 429695a: Support nextjs config injection
+
 ## 0.4.1
 
 ### Patch Changes
