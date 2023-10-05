@@ -97,7 +97,13 @@ describe('CollectorClient', () => {
           done();
         });
 
-        mockServer.emit('message', JSON.stringify(trace));
+        mockServer.emit(
+          'message',
+          JSON.stringify({
+            type: 'trace',
+            data: trace,
+          }),
+        );
       });
 
       client.start();
@@ -116,7 +122,13 @@ describe('CollectorClient', () => {
         });
 
         const trace = mockTrace({});
-        mockServer.emit('message', JSON.stringify(trace));
+        mockServer.emit(
+          'message',
+          JSON.stringify({
+            type: 'trace',
+            data: trace,
+          }),
+        );
       });
 
       client.start();
@@ -138,7 +150,50 @@ describe('CollectorClient', () => {
         // @ts-expect-error
         client._traces.set(trace.id, trace);
 
-        mockServer.emit('message', JSON.stringify(trace));
+        mockServer.emit(
+          'message',
+          JSON.stringify({
+            type: 'trace',
+            data: trace,
+          }),
+        );
+      });
+
+      client.start();
+    });
+
+    it('should not add to the traces if incoming message is invalid JSON', done => {
+      const client = new CollectorClient({ port });
+
+      mockServer.on('connection', socket => {
+        socket.addEventListener('message', () => {
+          expect(client.traces.size).toEqual(0);
+          done();
+        });
+
+        mockServer.emit('message', '{"foo":');
+      });
+
+      client.start();
+    });
+
+    it('should not fire changeHandler if incoming messages is invalid JSON', done => {
+      const changeHandler = jest.fn();
+      const client = new CollectorClient({ port, changeHandler });
+
+      mockServer.on('connection', socket => {
+        // dismiss the call to `changeHandler` which happens on socket.open
+        changeHandler.mockReset();
+
+        socket.addEventListener('message', async () => {
+          await new Promise(process.nextTick);
+
+          // assert that the `changeHandler` has not been called again
+          expect(changeHandler).not.toHaveBeenCalled();
+          done();
+        });
+
+        mockServer.emit('message', '{"foo":');
       });
 
       client.start();
