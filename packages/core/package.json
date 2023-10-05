@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/core",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
   "repository": "https://github.com/FormidableLabs/envy.git",

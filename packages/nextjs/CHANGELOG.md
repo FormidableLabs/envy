@@ -1,5 +1,17 @@
 # @envyjs/nextjs
 
+## 0.4.0
+
+### Minor Changes
+
+- 429695a: Support nextjs config injection
+
+### Patch Changes
+
+- Updated dependencies [df3d275]
+  - @envyjs/node@0.5.0
+  - @envyjs/web@0.4.0
+
 ## 0.3.1
 
 ### Patch Changes
