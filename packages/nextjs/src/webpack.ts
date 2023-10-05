@@ -46,10 +46,22 @@ export function withEnvy(userNextConfig: NextConfig, envyConfig: NextjsTracingOp
       customConfig.module.rules = customConfig.module.rules || [];
 
       // inject the envy global config
-      customConfig.module.rules.push({
+      customConfig.module.rules.unshift({
         test: /(web|server)\.loader\.js$/,
         use: {
           loader: path.resolve(__dirname, 'loaders', 'config.loader.js'),
+          options: {
+            ...envyConfig,
+            serviceName: `${envyConfig.serviceName}:${webpackConfig.name}`,
+          },
+        },
+      });
+
+      // wrap react server components
+      customConfig.module.rules.unshift({
+        test: /[\\/]page\.(js|jsx|tsx)$/,
+        use: {
+          loader: path.resolve(__dirname, 'loaders', 'page.loader.js'),
           options: {
             ...envyConfig,
             serviceName: `${envyConfig.serviceName}:${webpackConfig.name}`,
@@ -69,16 +81,18 @@ export function withEnvy(userNextConfig: NextConfig, envyConfig: NextjsTracingOp
         if (webpackConfig.name === 'client') {
           const shim = path.join(modulePath, 'loaders', 'web.loader.js');
 
-          // entry point for "pages" router
-          shimEntryPoint(customEntryProperty, 'main', shim);
+          // entry point for "pages" router "static/chunks/pages/_app.js" file
+          shimEntryPoint(customEntryProperty, 'pages/_app', shim);
 
-          // entry point for "app" router
+          // entry point for "app" router "static/chunks/main-app.js"
           shimEntryPoint(customEntryProperty, 'main-app', shim);
         }
 
         // inject the node.js server sender
         if (webpackConfig.name === 'server') {
           const shim = path.join(modulePath, 'loaders', 'server.loader.js');
+
+          // entry point for pages router "server/pages/_app.js" file
           shimEntryPoint(customEntryProperty, 'pages/_app', shim);
         }
 
@@ -92,12 +106,14 @@ export function withEnvy(userNextConfig: NextConfig, envyConfig: NextjsTracingOp
 
 function shimEntryPoint(entry: WebpackEntry, name: string, shim: string) {
   let entryPoint = entry[name];
-  if (typeof entryPoint === 'string') {
-    entryPoint = [shim, entryPoint];
-  } else if (entryPoint?.length) {
-    if (!entryPoint.find(x => x.indexOf(shim) > -1)) {
-      entryPoint = [shim, ...entryPoint];
+  if (entryPoint) {
+    if (typeof entryPoint === 'string') {
+      entryPoint = [shim, entryPoint];
+    } else if (Array.isArray(entryPoint)) {
+      if (!entryPoint.find(x => x.indexOf(shim) > -1)) {
+        entryPoint = [shim, ...entryPoint];
+      }
     }
+    entry[name] = entryPoint;
   }
-  entry[name] = entryPoint;
 }
