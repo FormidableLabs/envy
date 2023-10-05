@@ -7,5 +7,6 @@ export * from './json';
 export * from './middleware';
 export * from './nanoid';
 export * from './options';
+export * from './payload';
 export * from './plugin';
 export * from './sanity';

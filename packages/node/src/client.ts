@@ -67,17 +67,23 @@ export function WebSocketClient(options: WebSocketClientOptions) {
       }
 
       try {
-        ws.send(JSON.stringify(data), error => {
-          if (options.debug) {
-            if (ws.readyState === ws.CLOSED || ws.readyState === ws.CLOSING) {
-              log.debug('event not sent, websocket closed');
-            } else if (ws.readyState === ws.CONNECTING) {
-              log.debug('event not sent, websocket still connecting');
-            } else {
-              if (error) log.debug('websocket send', { error });
+        ws.send(
+          JSON.stringify({
+            type: 'trace',
+            data,
+          }),
+          error => {
+            if (options.debug) {
+              if (ws.readyState === ws.CLOSED || ws.readyState === ws.CLOSING) {
+                log.debug('event not sent, websocket closed');
+              } else if (ws.readyState === ws.CONNECTING) {
+                log.debug('event not sent, websocket still connecting');
+              } else {
+                if (error) log.debug('websocket send', { error });
+              }
             }
-          }
-        });
+          },
+        );
       } catch (error) {
         if (options.debug) {
           log.debug('websocket error');
