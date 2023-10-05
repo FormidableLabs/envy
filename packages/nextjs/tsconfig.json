@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
+  "include": ["globals.d.ts", "src/**/*"],
   "exclude": ["**/*.spec.ts"],
   "compilerOptions": {
     "outDir": "dist"

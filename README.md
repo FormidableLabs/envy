@@ -135,20 +135,23 @@ $ npm i --save-dev @envyjs/nextjs
 $ yarn add --dev @envyjs/nextjs
 ```
 
-Import and invoke the `enableTracing` function in your `app/layout.tsx` file.
+Import and wrap your Next config `next.config.js` file with Envy
 
 ```ts
-import { enableTracing } from '@envyjs/nextjs';
-enableTracing({ serviceName: 'your-node-app-name' });
+// next.config.js
+const { withEnvy } = require('@envyjs/nextjs');
 
-// ... your app code
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
+
+const envyConfig = {
+  serviceName: 'next-app',
+};
+
+module.exports = withEnvy(nextConfig, envyConfig);
 ```
 
-By default, we trace the internal calls Nextjs uses for React Server Components. If you want to ignore those traces, use the following option.
-
-```ts
-enableTracing({ serviceName: 'your-node-app-name', ignoreRSC: true });
-```
+*By default, `@envyjs/nextjs` will only inject itself into your `development` bundle.*
 
 #### Timing Data
 

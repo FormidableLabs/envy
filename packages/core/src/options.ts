@@ -1,6 +1,6 @@
 import { HttpRequest } from '.';
 
-export type FilterableHttpRequest = Pick<HttpRequest, 'host' | 'method'>;
+export type FilterableHttpRequest = Pick<HttpRequest, 'host' | 'method' | 'url'>;
 
 export interface Options {
   /**

@@ -1,4 +1,10 @@
+const { withEnvy } = require('@envyjs/nextjs');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-module.exports = nextConfig;
+const envyConfig = {
+  serviceName: 'next-app',
+};
+
+module.exports = withEnvy(nextConfig, envyConfig);
