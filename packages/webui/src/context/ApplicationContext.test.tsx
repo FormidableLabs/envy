@@ -4,7 +4,7 @@ import { ReactElement, useContext, useEffect } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
 import { ApplicationContext, Filters } from '@/hooks/useApplication';
-import { mockSystems, setupMockSystems } from '@/testing/mockSystems';
+import { setupMockSystems } from '@/testing/mockSystems';
 import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
 import { Trace } from '@/types';
 
