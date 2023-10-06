@@ -85,118 +85,151 @@ describe('CollectorClient', () => {
 
       client.start();
     });
+  });
 
-    it('should add incoming messages to the traces', done => {
-      const client = new CollectorClient({ port });
-      const trace = mockTrace({});
+  describe('incoming messages', () => {
+    describe('type: connections', () => {
+      it('should updated connections with incoming data', done => {
+        const client = new CollectorClient({ port });
 
-      mockServer.on('connection', socket => {
-        socket.addEventListener('message', () => {
-          expect(client.traces.size).toEqual(1);
-          expect(client.traces.get(trace.id)).toEqual(trace);
-          done();
+        mockServer.on('connection', socket => {
+          socket.addEventListener('message', () => {
+            expect(client.connections).toEqual([
+              ['source1', true],
+              ['source2', false],
+            ]);
+            done();
+          });
+
+          mockServer.emit(
+            'message',
+            JSON.stringify({
+              type: 'connections',
+              data: [
+                ['source1', true],
+                ['source2', false],
+              ],
+            }),
+          );
         });
 
-        mockServer.emit(
-          'message',
-          JSON.stringify({
-            type: 'trace',
-            data: trace,
-          }),
-        );
+        client.start();
       });
-
-      client.start();
     });
 
-    it('should fire changeHandler when new traces come in', done => {
-      const changeHandler = jest.fn();
-      const client = new CollectorClient({ port, changeHandler });
-
-      mockServer.on('connection', socket => {
-        socket.addEventListener('message', async () => {
-          await new Promise(process.nextTick);
-
-          expect(changeHandler).toHaveBeenCalledWith('1');
-          done();
-        });
-
+    describe('type: trace', () => {
+      it('should add incoming messages to the traces', done => {
+        const client = new CollectorClient({ port });
         const trace = mockTrace({});
-        mockServer.emit(
-          'message',
-          JSON.stringify({
-            type: 'trace',
-            data: trace,
-          }),
-        );
-      });
 
-      client.start();
-    });
+        mockServer.on('connection', socket => {
+          socket.addEventListener('message', () => {
+            expect(client.traces.size).toEqual(1);
+            expect(client.traces.get(trace.id)).toEqual(trace);
+            done();
+          });
 
-    it('should not include `newTraceId` in changeHandler if trace already exists', done => {
-      const changeHandler = jest.fn();
-      const client = new CollectorClient({ port, changeHandler });
-
-      mockServer.on('connection', socket => {
-        socket.addEventListener('message', async () => {
-          await new Promise(process.nextTick);
-
-          expect(changeHandler).toHaveBeenCalledWith(undefined);
-          done();
+          mockServer.emit(
+            'message',
+            JSON.stringify({
+              type: 'trace',
+              data: trace,
+            }),
+          );
         });
 
-        const trace = mockTrace({});
-        // @ts-expect-error
-        client._traces.set(trace.id, trace);
-
-        mockServer.emit(
-          'message',
-          JSON.stringify({
-            type: 'trace',
-            data: trace,
-          }),
-        );
+        client.start();
       });
 
-      client.start();
-    });
+      it('should fire changeHandler when new traces come in', done => {
+        const changeHandler = jest.fn();
+        const client = new CollectorClient({ port, changeHandler });
 
-    it('should not add to the traces if incoming message is invalid JSON', done => {
-      const client = new CollectorClient({ port });
+        mockServer.on('connection', socket => {
+          socket.addEventListener('message', async () => {
+            await new Promise(process.nextTick);
 
-      mockServer.on('connection', socket => {
-        socket.addEventListener('message', () => {
-          expect(client.traces.size).toEqual(0);
-          done();
+            expect(changeHandler).toHaveBeenCalledWith('1');
+            done();
+          });
+
+          const trace = mockTrace({});
+          mockServer.emit(
+            'message',
+            JSON.stringify({
+              type: 'trace',
+              data: trace,
+            }),
+          );
         });
 
-        mockServer.emit('message', '{"foo":');
+        client.start();
       });
 
-      client.start();
-    });
+      it('should not include `newTraceId` in changeHandler if trace already exists', done => {
+        const changeHandler = jest.fn();
+        const client = new CollectorClient({ port, changeHandler });
 
-    it('should not fire changeHandler if incoming messages is invalid JSON', done => {
-      const changeHandler = jest.fn();
-      const client = new CollectorClient({ port, changeHandler });
+        mockServer.on('connection', socket => {
+          socket.addEventListener('message', async () => {
+            await new Promise(process.nextTick);
 
-      mockServer.on('connection', socket => {
-        // dismiss the call to `changeHandler` which happens on socket.open
-        changeHandler.mockReset();
+            expect(changeHandler).toHaveBeenCalledWith(undefined);
+            done();
+          });
 
-        socket.addEventListener('message', async () => {
-          await new Promise(process.nextTick);
+          const trace = mockTrace({});
+          // @ts-expect-error
+          client._traces.set(trace.id, trace);
 
-          // assert that the `changeHandler` has not been called again
-          expect(changeHandler).not.toHaveBeenCalled();
-          done();
+          mockServer.emit(
+            'message',
+            JSON.stringify({
+              type: 'trace',
+              data: trace,
+            }),
+          );
         });
 
-        mockServer.emit('message', '{"foo":');
+        client.start();
       });
 
-      client.start();
+      it('should not add to the traces if incoming message is invalid JSON', done => {
+        const client = new CollectorClient({ port });
+
+        mockServer.on('connection', socket => {
+          socket.addEventListener('message', () => {
+            expect(client.traces.size).toEqual(0);
+            done();
+          });
+
+          mockServer.emit('message', '{"foo":');
+        });
+
+        client.start();
+      });
+
+      it('should not fire changeHandler if incoming messages is invalid JSON', done => {
+        const changeHandler = jest.fn();
+        const client = new CollectorClient({ port, changeHandler });
+
+        mockServer.on('connection', socket => {
+          // dismiss the call to `changeHandler` which happens on socket.open
+          changeHandler.mockReset();
+
+          socket.addEventListener('message', async () => {
+            await new Promise(process.nextTick);
+
+            // assert that the `changeHandler` has not been called again
+            expect(changeHandler).not.toHaveBeenCalled();
+            done();
+          });
+
+          mockServer.emit('message', '{"foo":');
+        });
+
+        client.start();
+      });
     });
   });
 

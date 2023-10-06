@@ -79,11 +79,11 @@ function DropDown(
 
   return (
     <div ref={finalRef} className={tw('flex input-container self-stretch', className)} {...props}>
-      <span className="group absolute top-0 left-0 cursor-pointer w-full z-50">
+      <span className="group absolute top-0 left-0 w-full z-50">
         <span
           role="listbox"
           data-test-item="list-selection"
-          className={tw('relative flex input', isOpen && 'bg-white rounded-b-none hover:shadow-none')}
+          className={tw('relative flex input cursor-pointer', isOpen && 'bg-white rounded-b-none hover:shadow-none')}
           onClick={() => setIsOpen(curr => !curr)}
         >
           {selection.length === 0 ? (
@@ -117,7 +117,12 @@ function DropDown(
               {items.map(x => {
                 const isSelected = selection.some(y => y.value === x.value);
                 return (
-                  <li data-test-id="list-items-item" key={x.value} onClick={() => handleSelection(x)}>
+                  <li
+                    key={x.value}
+                    data-test-id="list-items-item"
+                    className="cursor-pointer"
+                    onClick={() => handleSelection(x)}
+                  >
                     <span
                       className={tw(
                         'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent hover:bg-slate-100',

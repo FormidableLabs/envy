@@ -15,7 +15,8 @@ export function WebSocketClient(options: WebSocketClientOptions) {
   let retryDelay = DEFAULT_RETRY_DELAY;
   let retryAttempts = 0;
 
-  const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/web/${options.serviceName}`;
+  const identifier = `web/${options.serviceName}`;
+  const socket = `ws://127.0.0.1:${options.port ?? DEFAULT_WEB_SOCKET_PORT}/${identifier}`;
 
   function connect() {
     ws = new WebSocket(socket);
@@ -36,6 +37,7 @@ export function WebSocketClient(options: WebSocketClientOptions) {
 
     ws.onclose = () => {
       log.error('client disconnected');
+
       reconnect();
     };
 

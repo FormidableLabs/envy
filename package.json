@@ -14,7 +14,8 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"cd examples/apollo-client && yarn start:custom-viewer\"",
+    "example:apollo": "concurrently \"cd examples/apollo && yarn start\" \"cd examples/apollo-client && yarn start\"",
+    "example:apollo:custom-viewer": "concurrently \"cd examples/apollo && yarn start\" \"cd examples/apollo-client && yarn start\"",
     "example:express": "concurrently \"cd examples/express && yarn start\" \"cd examples/express-client && yarn dev\"",
     "example:next": "cd examples/next && yarn && yarn dev",
     "changeset": "changeset"

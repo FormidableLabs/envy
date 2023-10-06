@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { ReactElement, useContext, useEffect } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
-import { ApplicationContext } from '@/hooks/useApplication';
+import { ApplicationContext, Filters } from '@/hooks/useApplication';
 import { setupMockSystems } from '@/testing/mockSystems';
 import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
 import { Trace } from '@/types';
@@ -320,12 +320,15 @@ describe('ApplicationContext', () => {
     });
 
     describe('filterTraces', () => {
-      it('should filter traces by system', async () => {
-        const systems = ['OddNumbers'];
-        const value = '';
+      it('should filter traces by source', async () => {
+        const filters: Filters = {
+          sources: ['web'],
+          systems: [],
+          searchTerm: '',
+        };
 
         function TestComponent() {
-          const { traces, filterTraces } = useContext(ApplicationContext);
+          const { traces, setFilters } = useContext(ApplicationContext);
 
           return (
             <>
@@ -336,7 +339,50 @@ describe('ApplicationContext', () => {
                   </li>
                 ))}
               </ul>
-              <button data-test-id="button" onClick={() => filterTraces(systems, value)}>
+              <button data-test-id="button" onClick={() => setFilters(filters)}>
+                Button
+              </button>
+            </>
+          );
+        }
+
+        const { getByTestId, getAllByTestId } = renderComponentInProvider(<TestComponent />);
+
+        await act(async () => {
+          const button = getByTestId('button');
+          await userEvent.click(button);
+        });
+
+        const traces = getAllByTestId('trace');
+
+        const expectedTraces = mockTraces.filter(x => x.serviceName === 'web');
+
+        expect(traces).toHaveLength(expectedTraces.length);
+        expectedTraces.forEach((trace, idx) => {
+          expect(traces.at(idx)).toHaveTextContent(traceString(trace));
+        });
+      });
+
+      it('should filter traces by system', async () => {
+        const filters: Filters = {
+          sources: [],
+          systems: ['OddNumbers'],
+          searchTerm: '',
+        };
+
+        function TestComponent() {
+          const { traces, setFilters } = useContext(ApplicationContext);
+
+          return (
+            <>
+              <ul>
+                {[...traces.entries()].map(([id, trace]) => (
+                  <li data-test-id="trace" key={id}>
+                    {traceString(trace)}
+                  </li>
+                ))}
+              </ul>
+              <button data-test-id="button" onClick={() => setFilters(filters)}>
                 Button
               </button>
             </>
@@ -361,11 +407,14 @@ describe('ApplicationContext', () => {
       });
 
       it('should filter traces by value', async () => {
-        const systems: string[] = [];
-        const value = 'data.restserver';
+        const filters: Filters = {
+          sources: [],
+          systems: [],
+          searchTerm: 'data.restserver',
+        };
 
         function TestComponent() {
-          const { traces, filterTraces } = useContext(ApplicationContext);
+          const { traces, setFilters } = useContext(ApplicationContext);
 
           return (
             <>
@@ -376,7 +425,7 @@ describe('ApplicationContext', () => {
                   </li>
                 ))}
               </ul>
-              <button data-test-id="button" onClick={() => filterTraces(systems, value)}>
+              <button data-test-id="button" onClick={() => setFilters(filters)}>
                 Button
               </button>
             </>
@@ -392,7 +441,7 @@ describe('ApplicationContext', () => {
 
         const traces = getAllByTestId('trace');
 
-        const expectedTraces = mockTraces.filter(x => x.http?.host.includes(value));
+        const expectedTraces = mockTraces.filter(x => x.http?.host.includes('data.restserver'));
 
         expect(traces).toHaveLength(expectedTraces.length);
         expectedTraces.forEach((trace, idx) => {
@@ -401,11 +450,14 @@ describe('ApplicationContext', () => {
       });
 
       it('should show all traces if no systems or value have been set', async () => {
-        const systems: string[] = [];
-        const value = '';
+        const filters: Filters = {
+          sources: [],
+          systems: [],
+          searchTerm: '',
+        };
 
         function TestComponent() {
-          const { traces, filterTraces } = useContext(ApplicationContext);
+          const { traces, setFilters } = useContext(ApplicationContext);
 
           return (
             <>
@@ -416,7 +468,7 @@ describe('ApplicationContext', () => {
                   </li>
                 ))}
               </ul>
-              <button data-test-id="button" onClick={() => filterTraces(systems, value)}>
+              <button data-test-id="button" onClick={() => setFilters(filters)}>
                 Button
               </button>
             </>

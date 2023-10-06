@@ -1,3 +1,5 @@
+import { HiOutlinePuzzle } from 'react-icons/hi';
+
 import { Menu, MenuItem } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import mockData from '@/testing/mockTraces';
@@ -25,5 +27,13 @@ export default function DebugToolbar() {
     },
   ];
 
-  return <Menu data-test-id="debug-menu" className="w-52" label="Debug menu" items={debugOptions} />;
+  return (
+    <Menu
+      data-test-id="debug-menu"
+      menuClassName="w-52"
+      label="Debug menu"
+      Icon={HiOutlinePuzzle}
+      items={debugOptions}
+    />
+  );
 }

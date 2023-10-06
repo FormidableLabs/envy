@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
+import { ConnectionStatusData, DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
 
 import { Traces } from '@/types';
 
@@ -12,6 +12,7 @@ export default class CollectorClient {
 
   private _connected: boolean = false;
   private _connecting: boolean = true;
+  private _connections: ConnectionStatusData = [];
   private _traces: Traces = new Map();
   private _changeHandler?: (newTraceId?: string) => void;
 
@@ -36,6 +37,10 @@ export default class CollectorClient {
     return this._connecting;
   }
 
+  get connections() {
+    return this._connections;
+  }
+
   private _signalChange(newTraceId?: string) {
     this._changeHandler?.(newTraceId);
   }
@@ -55,12 +60,19 @@ export default class CollectorClient {
       if (!payload.value) return;
 
       switch (payload.value.type) {
-        case 'trace': {
+        case 'connections':
+          this._updateConnections(payload.value.data);
+          break;
+        case 'trace':
           this.addEvent(payload.value.data);
           break;
-        }
       }
     });
+  }
+
+  private _updateConnections(connections: ConnectionStatusData) {
+    this._connections = connections;
+    this._signalChange();
   }
 
   start() {

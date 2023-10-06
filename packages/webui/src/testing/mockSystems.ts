@@ -5,7 +5,7 @@ import { System, Trace, TraceContext } from '@/types';
 
 jest.mock('@/systems/registration');
 
-const mockSystems: System<unknown>[] = [
+export const mockSystems: System<unknown>[] = [
   new (class implements System<{ id: string; foo: string }> {
     name = 'Foo';
     isMatch(trace: Trace) {
@@ -133,7 +133,7 @@ const mockDefaultSystem = new (class implements System<null> {
   }
 })();
 
-export function setupMockSystems() {
-  jest.mocked(getRegisteredSystems).mockReturnValue(mockSystems);
+export function setupMockSystems(registeredSystems = mockSystems) {
+  jest.mocked(getRegisteredSystems).mockReturnValue(registeredSystems);
   jest.mocked(getDefaultSystem).mockReturnValue(mockDefaultSystem);
 }

@@ -15,11 +15,13 @@ describe('useApplication', () => {
       'connecting',
       'connected',
       'traces',
+      'connections',
       'selectedTraceId',
       'setSelectedTrace',
       'getSelectedTrace',
       'clearSelectedTrace',
-      'filterTraces',
+      'filters',
+      'setFilters',
       'clearTraces',
     ].forEach(propName => expect(context).toHaveProperty(propName));
   });

@@ -18,10 +18,14 @@ type MenuProps = React.HTMLAttributes<HTMLDivElement> & {
   Icon?: IconType;
   label: string;
   items: MenuItem[];
+  menuClassName?: string;
   focusKey?: string;
 };
 
-function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, ref: Ref<HTMLDivElement>) {
+function Menu(
+  { Icon, label, items, className, menuClassName, focusKey, ...props }: MenuProps,
+  ref: Ref<HTMLDivElement>,
+) {
   const { isMac, specialKey } = usePlatform();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,22 +57,33 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
 
   return (
     <div ref={finalRef} className={tw('flex input-container', className)} {...props}>
-      <span className="w-full relative group cursor-pointer z-50">
+      <span className="w-full relative group z-50">
         <IconButton
           role="menu"
           type="ghost"
-          className={tw('w-full h-10 relative flex', isOpen && 'bg-white rounded-b-none hover:shadow-none')}
+          className={tw(
+            'w-full h-10 relative flex cursor-pointer',
+            isOpen && 'bg-white rounded-b-none hover:shadow-none hover:bg-white',
+          )}
           Icon={Icon}
           onClick={() => setIsOpen(curr => !curr)}
         >
           {label}
         </IconButton>
         {isOpen && (
-          <span data-test-id="menu-items" className="input w-full absolute top-full left-0 bg-white rounded-t-none">
+          <span
+            data-test-id="menu-items"
+            className={tw('input w-full absolute top-full left-0 bg-white rounded-t-none', menuClassName)}
+          >
             <ul className="flex flex-col gap-1">
               {items.map((x: MenuItem) => {
                 return (
-                  <li data-test-id="menu-items-item" key={x.label} onClick={() => handleSelection(x)}>
+                  <li
+                    key={x.label}
+                    data-test-id="menu-items-item"
+                    className="cursor-pointer"
+                    onClick={() => handleSelection(x)}
+                  >
                     <span className="transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent hover:bg-slate-100">
                       <span className="flex-1">
                         <span data-test-id="label" className="block">
