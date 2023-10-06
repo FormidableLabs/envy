@@ -39,11 +39,11 @@ function mapGraphqlData({
   query?: string | null;
   variables?: Record<any, any>;
 }): GraphqlRequest | undefined {
-  const matcher = /^(mutation|query)/g;
+  const matcher = /^(mutation|query)?\s*([a-zA-Z]*)?\s*{?\(?/g;
   const match = query && matcher.exec(query.trim());
   if (match) {
     return {
-      operationType: match[1] as GraphqlRequest['operationType'],
+      operationType: (match[1] || 'query') as GraphqlRequest['operationType'],
       operationName: operationName || undefined,
       query,
       variables: variables || undefined,

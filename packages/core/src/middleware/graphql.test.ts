@@ -76,6 +76,27 @@ describe('graphql', () => {
     });
   });
 
+  it('should parse an anonymous query from a GET request', () => {
+    const event: Event = {
+      id: '2',
+      timestamp: 123333,
+      http: {
+        method: 'GET',
+        host: 'bobo.io',
+        url: 'http://bobo.io/?query={%20hello%20{%20value%20}%20}',
+        path: '',
+        port: 80,
+        requestHeaders: {},
+      },
+    };
+
+    const output = Graphql(event, { serviceName: 'test-name' });
+    expect(output.graphql).toEqual({
+      operationType: 'query',
+      query: '{ hello { value } }',
+    });
+  });
+
   it('should parse the operation name and variables from a GET request', () => {
     const event: Event = {
       id: '2',
@@ -98,6 +119,32 @@ describe('graphql', () => {
       variables: {
         test: 'value',
       },
+    });
+  });
+
+  it('should parse the query from an anonymous POST request', () => {
+    const event: Event = {
+      id: '2',
+      timestamp: 123333,
+      http: {
+        method: 'POST',
+        host: 'bobo.io',
+        url: 'http://bobo.io/',
+        path: '',
+        port: 80,
+        requestHeaders: {
+          'content-type': 'application/json',
+        },
+        requestBody: JSON.stringify({
+          query: '{ hello { value } }',
+        }),
+      },
+    };
+
+    const output = Graphql(event, { serviceName: 'test-name' });
+    expect(output.graphql).toEqual({
+      operationType: 'query',
+      query: '{ hello { value } }',
     });
   });
 

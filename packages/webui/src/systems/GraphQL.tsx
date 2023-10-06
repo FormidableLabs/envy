@@ -30,8 +30,13 @@ export default class GraphQLSystem implements System<GraphQLData> {
   getTraceRowData({ data }: TraceContext<GraphQLData>) {
     const { operationType, operationName } = data;
 
+    let rowData = `GQL ${operationType}`;
+    if (operationName) {
+      rowData += `: ${operationName}`;
+    }
+
     return {
-      data: `GQL ${operationType}: ${operationName}`,
+      data: rowData,
     };
   }
 
