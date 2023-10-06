@@ -1,5 +1,19 @@
 # @envyjs/nextjs
 
+## 0.6.0
+
+### Minor Changes
+
+- 38b8c39: Link package versions
+- 4ea1e09: Fix RSC tracing
+
+### Patch Changes
+
+- Updated dependencies [4dfd580]
+- Updated dependencies [38b8c39]
+  - @envyjs/node@0.6.0
+  - @envyjs/web@0.6.0
+
 ## 0.4.0
 
 ### Minor Changes

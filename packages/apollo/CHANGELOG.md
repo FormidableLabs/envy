@@ -1,5 +1,17 @@
 # @envyjs/apollo
 
+## 0.6.0
+
+### Minor Changes
+
+- 38b8c39: Link package versions
+
+### Patch Changes
+
+- Updated dependencies [4dfd580]
+- Updated dependencies [38b8c39]
+  - @envyjs/node@0.6.0
+
 ## 0.2.5
 
 ### Patch Changes

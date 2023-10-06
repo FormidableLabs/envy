@@ -1,5 +1,18 @@
 # @envyjs/web
 
+## 0.6.0
+
+### Minor Changes
+
+- 4dfd580: Connection status of senders (sources) exposed in @envyjs/webui viewer
+- 38b8c39: Link package versions
+
+### Patch Changes
+
+- Updated dependencies [4dfd580]
+- Updated dependencies [38b8c39]
+  - @envyjs/core@0.6.0
+
 ## 0.4.0
 
 ### Minor Changes
