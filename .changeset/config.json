@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
+  "fixed": [["@envyjs/apollo", "@envyjs/core", "@envyjs/nextjs", "@envyjs/node", "@envyjs/web", "@envyjs/webui"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
