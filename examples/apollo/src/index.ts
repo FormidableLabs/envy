@@ -7,7 +7,7 @@ import http from 'http';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { mergeDeep } from 'apollo-utilities';
+import { mergeDeep } from '@graphql-tools/utils';
 import { json } from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -27,7 +27,7 @@ const baseSchema = `#graphql
 `;
 
 const typeDefs = [baseSchema, catFactsSchema, cocktailsSchema, sanitySchema, xkcdSchema];
-const resolvers = mergeDeep(catFactsResolvers, cocktailsResolvers, sanityResolvers, xkcdResolvers);
+const resolvers = mergeDeep([catFactsResolvers, cocktailsResolvers, sanityResolvers, xkcdResolvers]);
 
 const app = express();
 
