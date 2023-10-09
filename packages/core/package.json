@@ -16,5 +16,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "test": "jest"
+  },
+  "dependencies": {
+    "isomorphic-ws": "^5.0.0"
   }
 }

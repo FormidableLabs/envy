@@ -1,43 +1,41 @@
-import { DEFAULT_WEB_SOCKET_PORT, Exporter, Graphql, Meta, Middleware, Plugin, Sanity } from '@envyjs/core';
+import { Exporter, Graphql, Meta, Middleware, Options, Plugin, Sanity, WebSocketClient } from '@envyjs/core';
 
-import { WebSocketClient } from './client';
 import { Fetch } from './fetch';
 import log from './log';
-import { Options } from './options';
 
 export interface TracingOptions extends Options {
   plugins?: Plugin[];
   port?: number;
 }
 
-export async function enableTracing(options: TracingOptions): Promise<void> {
+export function enableTracing(options: TracingOptions): void {
   if (typeof window === 'undefined') {
     log.error('Attempted to use @envyjs/web in a non-browser environment');
-    return Promise.resolve();
   }
 
-  return new Promise(resolve => {
-    if (options.debug) log.info('Starting in debug mode');
+  if (options.debug) log.info('Starting in debug mode');
 
-    const port = options.port ?? DEFAULT_WEB_SOCKET_PORT;
-
-    // custom websocket client
-    const ws = WebSocketClient({ ...options, port });
-
-    // middleware transforms event data
-    const middleware: Middleware[] = [Meta, Sanity, Graphql];
-
-    // apply the middleware and send with the websocket
-    const exporter: Exporter = {
-      send(message) {
-        const result = middleware.reduce((prev, t) => t(prev, options), message);
-        ws.send(result);
-      },
-    };
-
-    // initialize all plugins
-    [Fetch, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
-
-    resolve();
+  // custom websocket client
+  const ws = WebSocketClient({
+    ...options,
+    clientName: 'web',
+    log,
   });
+
+  // middleware transforms event data
+  const middleware: Middleware[] = [Meta, Sanity, Graphql];
+
+  // apply the middleware and send with the websocket
+  const exporter: Exporter = {
+    send(message) {
+      const result = middleware.reduce((prev, t) => t(prev, options), message);
+      if (result.http && options.filter && options.filter(result.http) === false) {
+        return;
+      }
+      ws.send(result);
+    },
+  };
+
+  // initialize all plugins
+  [Fetch, ...(options.plugins || [])].forEach(fn => fn(options, exporter));
 }
