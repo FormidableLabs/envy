@@ -1,11 +1,11 @@
 import { safeParseJson } from '@envyjs/core';
+import { ReactJsonViewProps } from '@microlink/react-json-view';
 import { Suspense, lazy } from 'react';
-import { ReactJsonViewProps } from 'react-json-view';
 import colors from 'tailwindcss/colors';
 
 import { tw } from '@/utils';
 
-const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('react-json-view'));
+const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('@microlink/react-json-view'));
 
 type JsonDisplayProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
   className?: string;
