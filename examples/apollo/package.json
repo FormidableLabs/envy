@@ -22,8 +22,5 @@
     "@types/cors": "2.8.14",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
-  },
-  "peerDependencies": {
-    "graphql": "^16.8.1"
   }
 }
