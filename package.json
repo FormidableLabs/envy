@@ -24,6 +24,9 @@
     "packages/*",
     "examples/*"
   ],
+  "dependencies": {
+    "@types/node": "^20.8.4"
+  },
   "devDependencies": {
     "@changesets/cli": "2.26.2",
     "@tsconfig/node16": "^16.1.1",
@@ -48,6 +51,10 @@
     "turbo": "^1.10.13",
     "typescript": "^5.2.2",
     "wait-on": "^7.0.1"
+  },
+  "resolutions": {
+    "react-hot-toast/csstype": "^3.0.10",
+    "@microlink/react-json-view/react": "^17.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix --quiet"
