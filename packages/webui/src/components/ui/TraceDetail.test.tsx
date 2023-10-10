@@ -1,3 +1,4 @@
+import { HttpRequestState } from '@envyjs/core';
 import { act, cleanup, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -615,6 +616,7 @@ describe('TraceDetail', () => {
           ...mockTrace,
           http: {
             ...mockTrace.http,
+            state: HttpRequestState.Sent,
             statusCode: undefined,
             statusMessage: undefined,
             responseHeaders: undefined,
@@ -768,6 +770,7 @@ describe('TraceDetail', () => {
         timestamp: Date.now(),
         http: {
           ...mockTrace.http,
+          state: HttpRequestState.Sent,
           statusCode: undefined,
           statusMessage: undefined,
           responseHeaders: undefined,

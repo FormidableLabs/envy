@@ -1,4 +1,4 @@
-import { HttpRequest } from '@envyjs/core';
+import { HttpRequest, HttpRequestState } from '@envyjs/core';
 
 import { Trace } from '@/types';
 
@@ -14,11 +14,12 @@ function requestData(
   host: HttpRequest['host'],
   port: HttpRequest['port'],
   path: HttpRequest['path'],
-): Pick<HttpRequest, 'method' | 'host' | 'port' | 'path' | 'url'> {
+): Pick<HttpRequest, 'method' | 'host' | 'port' | 'path' | 'url' | 'state'> {
   const protocol = port === 433 ? 'https://' : 'http://';
   const hostString = port === 80 || port === 443 ? `${host}` : `${host}:${port.toString()}`;
 
   return {
+    state: HttpRequestState.Sent,
     method,
     host,
     port,
@@ -36,6 +37,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(0),
     http: {
       ...requestData('GET', 'auth.restserver.com', 443, '/auth?client=mock_client'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'Authorization': ['Basic dXNlcm5hbWU6cGFzc3dvcmQ='],
         'Content-Type': ['application/x-www-form-urlencoded'],
@@ -85,6 +87,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(0.1),
     http: {
       ...requestData('POST', 'localhost', 3000, '/api/graphql'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'authorization':
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
@@ -135,6 +138,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(1.2),
     http: {
       ...requestData('GET', 'data.restserver.com', 443, '/features'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'accept': 'application/json',
         'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
@@ -177,6 +181,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(3.1),
     http: {
       ...requestData('GET', 'data.restserver.com', 443, '/countries?start=0&count=20'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'accept': 'application/json',
         'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
@@ -216,6 +221,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(16.3),
     http: {
       ...requestData('POST', 'data.restserver.com', 443, '/people'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'authorization':
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
@@ -268,6 +274,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(0.1),
     http: {
       ...requestData('POST', 'localhost', 3000, '/api/graphql'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'authorization':
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.vqb33-7FqzFWPNlr0ElW1v2RjJRZBel3CdDHBWD7y_o',
@@ -319,6 +326,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(3.14),
     http: {
       ...requestData('GET', 'data.restserver.com', 433, '/movies?start=0&count=20'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'accept': 'application/json',
         'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
@@ -358,6 +366,7 @@ const mockTraces: Trace[] = [
     timestamp: elapseTime(3.14),
     http: {
       ...requestData('GET', 'hits.webstats.com', 433, '/?apikey=c82e66bd-4d5b-4bb7-b439-896936c94eb2'),
+      state: HttpRequestState.Received,
       requestHeaders: {
         'accept': 'application/json',
         'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],

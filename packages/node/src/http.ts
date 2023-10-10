@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import process from 'process';
 
-import { Event, HttpRequest, Plugin } from '@envyjs/core';
+import { Event, HttpRequest, HttpRequestState, Plugin } from '@envyjs/core';
 
 // eslint thinks zlib is node20:builtin, but this is a node module
 // eslint-disable-next-line import/order
@@ -39,6 +39,7 @@ export const Http: Plugin = (_options, exporter) => {
           id,
           timestamp: startTs,
           http: {
+            state: HttpRequestState.Sent,
             requestHeaders,
             host: request.host,
             path: request.path,
@@ -130,6 +131,7 @@ export const Http: Plugin = (_options, exporter) => {
 
               http: {
                 ...httpRequest.http!,
+                state: HttpRequestState.Received,
                 httpVersion: response.httpVersion,
                 responseBody: undefined,
                 responseHeaders: response.headers,
