@@ -148,6 +148,29 @@ describe('graphql', () => {
     });
   });
 
+  it('should not parse mismatch on sanity requests', () => {
+    const event: Event = {
+      id: '2',
+      timestamp: 123333,
+      http: {
+        method: 'POST',
+        host: 'bobo.io',
+        url: 'http://bobo.io/',
+        path: '',
+        port: 80,
+        requestHeaders: {
+          'content-type': 'application/json',
+        },
+        requestBody: JSON.stringify({
+          query: '[] { hello { value } }',
+        }),
+      },
+    };
+
+    const output = Graphql(event, { serviceName: 'test-name' });
+    expect(output.graphql).toEqual(undefined);
+  });
+
   it('should parse the operation name and variables from a POST request', () => {
     const event: Event = {
       id: '2',
