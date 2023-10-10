@@ -112,16 +112,15 @@ For example, in a simple React application:
 
 ```ts
 import { enableTracing } from '@envyjs/web';
+enableTracing({ serviceName: 'your-website-name' });
+
 import { createRoot } from 'react-dom/client';
 
 import { App } from './App';
 
 const container = document.getElementById('app');
 const root = createRoot(container);
-
-enableTracing({ serviceName: 'your-website-name' }).then(() => {
-  root.render(<App />);
-});
+root.render(<App />);
 ```
 
 ### Next.js Application

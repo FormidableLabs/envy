@@ -1,6 +1,5 @@
-import { Exporter, Graphql, Meta, Middleware, Options, Plugin, Sanity } from '@envyjs/core';
+import { Exporter, Graphql, Meta, Middleware, Options, Plugin, Sanity, WebSocketClient } from '@envyjs/core';
 
-import { WebSocketClient } from './client';
 import { Fetch } from './fetch';
 import { Http } from './http';
 import log from './log';
@@ -16,7 +15,11 @@ export function enableTracing(options: TracingOptions) {
   }
 
   // custom websocket client
-  const wsClient = WebSocketClient(options);
+  const wsClient = WebSocketClient({
+    ...options,
+    clientName: 'node',
+    log,
+  });
 
   // middleware transforms event data
   const middleware: Middleware[] = [Meta, Sanity, Graphql];
