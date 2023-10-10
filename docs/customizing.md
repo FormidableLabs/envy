@@ -14,7 +14,7 @@
 
 Whilst you can run envy as a standalone viewer using the command `npx @envyjs/webui`, it is also possible to self-host the Envy viewer in order to unlock a number of customization capabilities.
 
-This guide will walk you through how to self-host and customise your Envy viewer.
+This guide will walk you through how to self-host and customize your Envy viewer.
 
 ## Self hosting
 
