@@ -1,3 +1,4 @@
+import { HttpRequestState } from '@envyjs/core';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { Code, DateTime, Field, Fields, JsonDisplay, Loading, Section, XmlDisplay } from '@/components';
@@ -48,9 +49,9 @@ export default function TraceDetail({ className }: DetailProps) {
   const trace = getSelectedTrace();
 
   const { http, serviceName, timestamp } = trace || {};
-  const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration } = http || {};
+  const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration, state } = http || {};
 
-  const responseComplete = duration !== undefined && statusCode !== undefined;
+  const responseComplete = state !== HttpRequestState.Sent;
 
   const updateTimer = useCallback(() => {
     if (counterElRef.current) {
@@ -112,7 +113,7 @@ export default function TraceDetail({ className }: DetailProps) {
                 <span data-test-id="method" className="font-bold">
                   {method}
                 </span>
-                {responseComplete && (
+                {responseComplete && statusCode && (
                   <span data-test-id="status" className="flex items-center gap-2">
                     <span className={statusCodeStyle(statusCode)}></span>
                     {`${statusCode} ${statusMessage}`}
@@ -154,7 +155,7 @@ export default function TraceDetail({ className }: DetailProps) {
       </Section>
 
       <Section data-test-id="response-details" title="Response details">
-        {responseComplete ? (
+        {responseComplete && duration ? (
           <>
             <Fields data-test-id="response-fields">
               <Field data-test-id="received" label="Received">

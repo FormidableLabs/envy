@@ -39,7 +39,7 @@ function mapGraphqlData({
   query?: string | null;
   variables?: Record<any, any>;
 }): GraphqlRequest | undefined {
-  const matcher = /^(mutation|query)?\s*([a-zA-Z]*)?\s*{?\(?/g;
+  const matcher = /^(mutation|query)?(\s*)?([a-zA-Z]*)?(\s*)?(\(.*\))?(\s*)?{/g;
   const match = query && matcher.exec(query.trim());
   if (match) {
     return {

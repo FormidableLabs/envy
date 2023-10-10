@@ -1,5 +1,5 @@
 import { Event } from './event';
-import { HttpRequest } from './http';
+import { HttpRequest, HttpRequestState } from './http';
 
 // TODO: the types in this file are from lib/dom
 // we need to replace them with a platform agnostic version
@@ -36,6 +36,7 @@ export function fetchRequestToEvent(id: string, input: RequestInfo | URL, init?:
     parentId: undefined,
     timestamp: Date.now(),
     http: {
+      state: HttpRequestState.Sent,
       method: (init?.method ?? 'GET') as HttpRequest['method'],
       host: url.host,
       port: parseInt(url.port, 10),
@@ -53,6 +54,7 @@ export async function fetchResponseToEvent(req: Event, response: Response): Prom
 
     http: {
       ...req.http!,
+      state: HttpRequestState.Received,
       httpVersion: response.type,
       statusCode: response.status,
       statusMessage: response.statusText,

@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT } from '@envyjs/core';
+import { DEFAULT_WEB_SOCKET_PORT, HttpRequestState } from '@envyjs/core';
 import { Server } from 'mock-socket';
 
 import { Trace } from '@/types';
@@ -15,6 +15,7 @@ describe('CollectorClient', () => {
       parentId: undefined,
       timestamp: 0,
       http: {
+        state: HttpRequestState.Sent,
         httpVersion: '1.1',
         method: 'GET',
         host: 'www.example.com',
