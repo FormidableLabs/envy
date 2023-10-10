@@ -1,4 +1,5 @@
 import { Event } from '../event';
+import { HttpRequestState } from '../http';
 
 import { Sanity } from './sanity';
 
@@ -55,6 +56,7 @@ describe('sanity', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         host: 'test.sanity.io',
         method: 'POST',
         requestHeaders: {

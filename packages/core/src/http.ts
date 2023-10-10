@@ -1,3 +1,37 @@
+export enum HttpRequestState {
+  /**
+   * Request has been sent to the endpoint
+   */
+  Sent = 'sent',
+
+  /**
+   * A response has been received from the endpoint
+   */
+  Received = 'received',
+
+  /**
+   * The request was aborted by the caller, regardless
+   * of whether a response was received or not
+   */
+  Aborted = 'aborted',
+
+  /**
+   * The request was blocked by the client due to CORS
+   */
+  Blocked = 'blocked',
+
+  /**
+   * The request timed out
+   */
+  Timeout = 'timeout',
+
+  /**
+   * There was a network error sending the request.
+   * Note, this is not the same as a 4|5XX response.
+   */
+  Error = 'error',
+}
+
 export interface HttpRequest {
   /**
    * Request duration in milliseconds
@@ -48,6 +82,11 @@ export interface HttpRequest {
    * The normalized http request headers (lowercase)
    */
   requestHeaders: Record<string, undefined | string | string[]>;
+
+  /**
+   * The state of the request
+   */
+  state: HttpRequestState;
 
   /**
    * The HTTP status code

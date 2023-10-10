@@ -1,4 +1,5 @@
 import { Event } from '../event';
+import { HttpRequestState } from '../http';
 
 import { Graphql } from './graphql';
 
@@ -17,6 +18,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'GET',
         host: 'bobo.io',
         url: 'http://bobo.io?query=mushmush',
@@ -35,6 +37,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'POST',
         host: 'bobo.io',
         url: 'http://bobo.io/',
@@ -60,6 +63,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'GET',
         host: 'bobo.io',
         url: 'http://bobo.io/?query=query%20{%20hello%20{%20value%20}%20}',
@@ -81,6 +85,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'GET',
         host: 'bobo.io',
         url: 'http://bobo.io/?query={%20hello%20{%20value%20}%20}',
@@ -102,6 +107,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'GET',
         host: 'bobo.io',
         url: 'http://bobo.io/?query=query%20GreetingQuery%20{%20hello%20{%20value%20}%20}&operationName=GreetingQuery&variables=%7B%20%22test%22%3A%20%22value%22%20%7D',
@@ -127,6 +133,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'POST',
         host: 'bobo.io',
         url: 'http://bobo.io/',
@@ -153,6 +160,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'POST',
         host: 'bobo.io',
         url: 'http://bobo.io/',
@@ -176,6 +184,7 @@ describe('graphql', () => {
       id: '2',
       timestamp: 123333,
       http: {
+        state: HttpRequestState.Sent,
         method: 'POST',
         host: 'bobo.io',
         url: 'http://bobo.io/',
