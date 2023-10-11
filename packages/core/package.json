@@ -18,6 +18,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "isomorphic-ws": "^5.0.0"
+    "@types/ws": "^8.5.7",
+    "isomorphic-ws": "^5.0.0",
+    "ws": "^8.14.2"
   }
 }
