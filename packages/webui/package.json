@@ -63,7 +63,6 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@types/ws": "^8.5.5",
     "autoprefixer": "^10.4.15",
     "buffer": "^5.5.0||^6.0.0",
     "copyfiles": "^2.4.1",
