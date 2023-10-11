@@ -60,5 +60,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "@types/node": "^20.8.4"
   }
 }

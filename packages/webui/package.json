@@ -42,7 +42,6 @@
   "dependencies": {
     "@envyjs/core": "0.6.0",
     "@microlink/react-json-view": "^1.22.2",
-    "@types/ws": "^8.5.7",
     "chalk": "^4.1.2",
     "curl-generator": "^0.3.1",
     "dayjs": "^1.11.10",
