@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import JsonDisplay from './JsonDisplay';
 
 jest.mock(
-  'react-json-view',
+  '@microlink/react-json-view',
   () =>
     function MockReactJson({ src }: any) {
       return <div data-test-id="mock-react-json">{JSON.stringify(src)}</div>;
