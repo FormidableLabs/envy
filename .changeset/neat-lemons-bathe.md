@@ -1,4 +1,5 @@
 ---
+'@envyjs/node': patch
 '@envyjs/webui': patch
 ---
 
