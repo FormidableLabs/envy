@@ -21,6 +21,7 @@
     "@envyjs/core": "0.6.0",
     "chalk": "^4.1.2",
     "shimmer": "^1.2.1",
+    "ws": "8.14.2",
     "zlib": "1.0.5"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
   },
   "optionalDependencies": {
     "bufferutil": "4.0.7",
-    "utf-8-validate": "6.0.3",
-    "ws": "8.14.2"
+    "utf-8-validate": "6.0.3"
   }
 }
