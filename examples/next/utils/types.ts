@@ -1,4 +1,4 @@
-export type CatFact = { _id: string; text: string };
+export type CatFact = { text: string };
 export type Cocktail = {
   id: string;
   name: string;

@@ -53,7 +53,7 @@ export function WebSocketClient(options: WebSocketClientOptions) {
     ws.onerror = function error(error) {
       // only log this on the first error
       if (retry.attempts === 0) {
-        if (error.message.includes('ECONNREFUSED')) {
+        if (error?.message?.includes('ECONNREFUSED')) {
           if (debug) {
             log.error('websocket server not found', socket);
           }
