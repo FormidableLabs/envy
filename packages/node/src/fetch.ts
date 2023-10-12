@@ -1,4 +1,4 @@
-import { Plugin, fetchRequestToEvent, fetchResponseToEvent } from '@envyjs/core';
+import { Plugin, getEventFromFetchRequest, getEventFromFetchResponse } from '@envyjs/core';
 
 import { generateId } from './id';
 
@@ -9,13 +9,13 @@ export const Fetch: Plugin = (_options, exporter) => {
     const startTs = performance.now();
 
     // export the initial request data
-    const reqEvent = fetchRequestToEvent(id, ...args);
+    const reqEvent = getEventFromFetchRequest(id, ...args);
     exporter.send(reqEvent);
 
     // execute the actual request
     const response = await originalFetch(...args);
     const responseClone = response.clone();
-    const resEvent = await fetchResponseToEvent(reqEvent, responseClone);
+    const resEvent = await getEventFromFetchResponse(reqEvent, responseClone);
 
     resEvent.http!.duration = performance.now() - startTs;
 
