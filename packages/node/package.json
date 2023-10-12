@@ -24,7 +24,6 @@
     "zlib": "1.0.5"
   },
   "devDependencies": {
-    "@types/node": "^20.6.0",
     "@types/node-fetch": "^2.6.4",
     "@types/shimmer": "^1.0.2",
     "node-fetch": "^2.7.0",
@@ -32,6 +31,7 @@
   },
   "optionalDependencies": {
     "bufferutil": "4.0.7",
-    "utf-8-validate": "6.0.3"
+    "utf-8-validate": "6.0.3",
+    "ws": "8.14.2"
   }
 }
