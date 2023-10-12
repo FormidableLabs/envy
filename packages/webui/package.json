@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@envyjs/core": "0.6.0",
+    "@microlink/react-json-view": "^1.22.2",
     "chalk": "^4.1.2",
     "curl-generator": "^0.3.1",
     "dayjs": "^1.11.10",
@@ -48,9 +49,8 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
-    "react-json-view": "^1.21.3",
     "serve-handler": "^6.1.5",
-    "ws": "^8.14.1",
+    "ws": "^8.14.2",
     "xml-formatter": "^3.5.0",
     "yargs-parser": "^21.1.1"
   },
@@ -63,7 +63,6 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@types/ws": "^8.5.5",
     "autoprefixer": "^10.4.15",
     "buffer": "^5.5.0||^6.0.0",
     "copyfiles": "^2.4.1",

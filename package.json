@@ -28,6 +28,7 @@
     "@changesets/cli": "2.26.2",
     "@tsconfig/node16": "^16.1.1",
     "@types/jest": "^29.5.4",
+    "@types/node": "^16.1.1",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "concurrently": "^8.2.1",
@@ -48,6 +49,10 @@
     "turbo": "^1.10.13",
     "typescript": "^5.2.2",
     "wait-on": "^7.0.1"
+  },
+  "resolutions": {
+    "@microlink/react-json-view/react": "^17.0.0",
+    "react-hot-toast/csstype": "^3.0.10"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix --quiet"
