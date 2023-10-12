@@ -1,9 +1,7 @@
 import { Event } from './event';
+import { HeadersInit, RequestInfo, RequestInit, Response } from './fetchTypes';
 import { HttpRequest, HttpRequestState } from './http';
 import { tryParseURL } from './url';
-
-// TODO: the types in this file are from lib/dom
-// we need to replace them with a platform agnostic version
 
 /**
  * Returns an {@link Event} from fetch request arguments
@@ -56,7 +54,7 @@ export function getUrlFromFetchRequest(input: RequestInfo | URL): URL {
     return input;
   }
 
-  const url = input instanceof Request ? input.url : input;
+  const url = (input as any).url ? (input as any).url : input;
 
   // parse absolute and relative urls
   const parsedUrl = tryParseURL(url) || tryParseURL(url, globalThis?.location?.origin);
@@ -76,10 +74,10 @@ export function parseFetchHeaders(headers?: HeadersInit): HttpRequest['requestHe
         acc[key] = value;
         return acc;
       }, {});
-    } else if (headers instanceof Headers) {
+    } else if (typeof headers.entries === 'function') {
       return Object.fromEntries(headers.entries());
     } else {
-      return headers;
+      return headers as Record<string, string>;
     }
   }
 

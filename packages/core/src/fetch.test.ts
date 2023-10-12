@@ -100,15 +100,12 @@ describe('fetch', () => {
     it('should map a fetch response', async () => {
       const request = getEventFromFetchRequest('1', 'http://localhost/api/path');
       const response = await getEventFromFetchResponse(request, {
-        headers: new Headers({ key: 'value' }),
-        ok: true,
-        redirected: false,
+        headers: new MockHeaders({ key: 'value' }),
         status: 200,
         statusText: 'OK',
         type: 'default',
-        url: 'http://localhost/api/path',
         text: () => Promise.resolve('test'),
-      } as Response);
+      });
 
       expect(response).toEqual({
         http: {
@@ -137,7 +134,7 @@ describe('fetch', () => {
 
   describe('getUrlFromFetchRequest', () => {
     it('should parse a Request type', () => {
-      const info = new Request('http://localhost/api/path');
+      const info = new MockRequest('http://localhost/api/path');
       expect(getUrlFromFetchRequest(info)?.href).toEqual('http://localhost/api/path');
     });
 
@@ -201,7 +198,7 @@ describe('fetch', () => {
 
     it('should map header object', () => {
       const headers = parseFetchHeaders(
-        new Headers({
+        new MockHeaders({
           key: 'value',
           name: 'test',
         }),
@@ -214,3 +211,28 @@ describe('fetch', () => {
     });
   });
 });
+
+// mock the libdom Headers class
+class MockHeaders {
+  constructor(private values?: Record<string, string>) {}
+
+  *entries(): IterableIterator<[string, string]> {
+    for (const k in this.values) {
+      yield [k, this.values[k]];
+    }
+  }
+}
+
+// mock the libdom Request class
+class MockRequest {
+  constructor(private _url: string) {}
+  get headers(): MockHeaders {
+    return new MockHeaders();
+  }
+  get method(): string {
+    return 'get';
+  }
+  get url(): string {
+    return this._url;
+  }
+}
