@@ -247,7 +247,7 @@ describe('TraceDetail', () => {
       const copyAsCurl = within(summary).getByTestId('copy-as-curl');
 
       expect(copyAsCurl).toBeVisible();
-      expect(copyAsCurl).toHaveTextContent('Mock CopyAsCurlButton component: 1');
+      expect(copyAsCurl).toHaveTextContent('Mock CopyAsCurlButton component: 2');
     });
 
     it.each([

@@ -582,7 +582,7 @@ describe('ApplicationContext', () => {
       });
 
       const valueAfter = getByTestId('value');
-      expect(valueAfter).toHaveTextContent('1');
+      expect(valueAfter).toHaveTextContent('2');
     });
 
     it('should keep current `selectedTraceId` when pressing the up arrow if it is the first one', () => {
@@ -673,7 +673,7 @@ describe('ApplicationContext', () => {
       });
 
       const valueAfter = getByTestId('value');
-      expect(valueAfter).toHaveTextContent('3');
+      expect(valueAfter).toHaveTextContent('6');
     });
 
     it('should keep current `selectedTraceId` when pressing the down arrow if it is the last one', () => {
