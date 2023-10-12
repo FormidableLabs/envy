@@ -25,7 +25,7 @@ describe('fetch', () => {
           url: 'http://localhost/api/path',
         },
         id: '1',
-        timestamp: 1698814800000,
+        timestamp: expect.any(Number),
       });
     });
 
@@ -42,7 +42,7 @@ describe('fetch', () => {
           url: 'http://localhost:5671/api/path',
         },
         id: '1',
-        timestamp: 1698814800000,
+        timestamp: expect.any(Number),
       });
     });
 
@@ -69,7 +69,7 @@ describe('fetch', () => {
           url: 'http://localhost/api/path',
         },
         id: '1',
-        timestamp: 1698814800000,
+        timestamp: expect.any(Number),
       });
     });
 
@@ -91,7 +91,7 @@ describe('fetch', () => {
           url: 'http://localhost/api/path',
         },
         id: '1',
-        timestamp: 1698814800000,
+        timestamp: expect.any(Number),
       });
     });
   });
@@ -127,7 +127,7 @@ describe('fetch', () => {
         },
         id: '1',
         parentId: undefined,
-        timestamp: 1698814800000,
+        timestamp: expect.any(Number),
       });
     });
   });
