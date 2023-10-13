@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/webui",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Envy Web UI",
   "targets": {
     "main": false,
@@ -40,7 +40,7 @@
     "lint": "tsc --noEmit && eslint ./src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@envyjs/core": "0.6.0",
+    "@envyjs/core": "0.7.0",
     "@microlink/react-json-view": "^1.22.2",
     "chalk": "^4.1.2",
     "curl-generator": "^0.3.1",

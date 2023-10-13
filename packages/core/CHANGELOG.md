@@ -1,5 +1,19 @@
 # @envyjs/core
 
+## 0.7.0
+
+### Minor Changes
+
+- 340d1e8: Use consolidate websocket client for all packages
+
+### Patch Changes
+
+- 3950d87: Fix peer dependency warnings
+- ac4b953: Improve anonymous graphql query display
+- 4fdf849: Add http request state for tracking
+- 82dbfaf: Improve url parsing when using relative URLs
+- 065023c: Do not incorrectly max sanity queries
+
 ## 0.6.0
 
 ### Minor Changes
