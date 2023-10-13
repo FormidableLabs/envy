@@ -1,5 +1,20 @@
 # @envyjs/webui
 
+## 0.7.0
+
+### Patch Changes
+
+- 3950d87: Fix peer dependency warnings
+- ac4b953: Improve anonymous graphql query display
+- 4fdf849: Add http request state for tracking
+- Updated dependencies [3950d87]
+- Updated dependencies [340d1e8]
+- Updated dependencies [ac4b953]
+- Updated dependencies [4fdf849]
+- Updated dependencies [82dbfaf]
+- Updated dependencies [065023c]
+  - @envyjs/core@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes

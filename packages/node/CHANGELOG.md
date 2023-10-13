@@ -1,5 +1,24 @@
 # @envyjs/node
 
+## 0.7.0
+
+### Minor Changes
+
+- 340d1e8: Use consolidate websocket client for all packages
+
+### Patch Changes
+
+- 3950d87: Fix peer dependency warnings
+- 4fdf849: Add http request state for tracking
+- 82dbfaf: Improve url parsing when using relative URLs
+- Updated dependencies [3950d87]
+- Updated dependencies [340d1e8]
+- Updated dependencies [ac4b953]
+- Updated dependencies [4fdf849]
+- Updated dependencies [82dbfaf]
+- Updated dependencies [065023c]
+  - @envyjs/core@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes
