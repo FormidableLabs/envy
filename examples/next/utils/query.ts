@@ -1,15 +1,11 @@
 import { CatFact, Cocktail, Dog } from './types';
 
 export async function fetchCatFact(): Promise<CatFact> {
-  const res = await fetch('https://cat-fact.herokuapp.com/facts');
+  const res = await fetch('https://catfact.ninja/fact');
   const data = await res.json();
-  const allFacts = data.map((fact: CatFact) => ({
-    id: fact._id,
-    text: fact.text,
-  }));
-
-  const randomIdx = Math.floor(Math.random() * allFacts.length);
-  return allFacts[randomIdx];
+  return {
+    text: data.fact,
+  };
 }
 
 export async function fetchRandomCocktail(): Promise<Cocktail> {
