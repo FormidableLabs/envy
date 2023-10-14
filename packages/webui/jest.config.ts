@@ -8,6 +8,9 @@ export default {
   globalSetup: '<rootDir>/src/testing/setupJestGlobal.ts',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+
+    // support css imports in react components
+    '.+\\.(css|styl|less|sass|scss)$': 'identity-obj-proxy',
   },
   collectCoverageFrom: [
     './src/**/*.{ts,tsx}',
