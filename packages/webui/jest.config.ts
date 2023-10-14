@@ -1,7 +1,5 @@
-import rootConfig from '../../jest.config';
-
 export default {
-  ...rootConfig,
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/src/**/?(*.)+(spec|test).[jt]s?(x)'],
   testEnvironment: 'jsdom',
   setupFiles: ['<rootDir>/src/testing/setupJest.ts'],
   setupFilesAfterEnv: ['<rootDir>/src/testing/setupJestAfterEnv.ts'],
@@ -21,4 +19,20 @@ export default {
     '!**/bin/**',
     '!**/coverage/**',
   ],
+  transform: {
+    // default ts-jest preset
+    '^.+\\.tsx?$': 'ts-jest',
+
+    // support for mjs files
+    '^.+\\.mjs?$': [
+      'babel-jest',
+      {
+        presets: ['@babel/preset-env'],
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
+  },
+  transformIgnorePatterns: ['/node_modules/(?!allotment).+\\.mjs$'],
 };
