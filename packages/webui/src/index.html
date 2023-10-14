@@ -6,6 +6,19 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="styles/base.css" />
     <script type="module" src="index.js"></script>
+    <script>
+      // inline theme switcher to prevent FOUC
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      }
+    </script>
     <title>Envy</title>
   </head>
   <body>

@@ -1,10 +1,14 @@
+import useFeatureFlags from '@/hooks/useFeatureFlags';
 import { tw } from '@/utils';
+
+import DarkModeToggle from '../DarkModeToggle';
 
 import ConnectionStatus from './ConnectionStatus';
 import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 
 export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
+  const { enableThemeSwitcher } = useFeatureFlags();
   const isDebugMode = process.env.NODE_ENV === 'development';
 
   return (
@@ -27,6 +31,7 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
       </span>
       <span className="flex-0 flex items-center ml-auto gap-2">
         {isDebugMode && <DebugToolbar />}
+        {enableThemeSwitcher && <DarkModeToggle />}
         <FiltersAndActions />
       </span>
     </header>
