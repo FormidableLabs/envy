@@ -42,6 +42,7 @@
   "dependencies": {
     "@envyjs/core": "0.7.0",
     "@microlink/react-json-view": "^1.22.2",
+    "allotment": "1.19.3",
     "chalk": "^4.1.2",
     "curl-generator": "^0.3.1",
     "dayjs": "^1.11.10",
@@ -50,6 +51,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "serve-handler": "^6.1.5",
+    "use-resize-observer": "^9.1.0",
     "ws": "^8.14.2",
     "xml-formatter": "^3.5.0",
     "yargs-parser": "^21.1.1"
@@ -64,6 +66,7 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
+    "babel-jest": "^29.6.4",
     "buffer": "^5.5.0||^6.0.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
@@ -73,6 +76,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "events": "^3.1.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "mock-socket": "^9.3.1",
     "parcel": "^2.9.3",
