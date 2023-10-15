@@ -1,4 +1,11 @@
-import { ConnectionStatusData, DEFAULT_WEB_SOCKET_PORT, Event, HttpRequestState, WebSocketPayload, safeParseJson } from '@envyjs/core';
+import {
+  ConnectionStatusData,
+  DEFAULT_WEB_SOCKET_PORT,
+  Event,
+  HttpRequestState,
+  WebSocketPayload,
+  safeParseJson,
+} from '@envyjs/core';
 
 import { Traces } from '@/types';
 
