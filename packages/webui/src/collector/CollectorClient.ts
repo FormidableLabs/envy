@@ -7,6 +7,12 @@ type WebSocketClientOptions = {
   changeHandler?: () => void;
 };
 
+// set a timeout for http events if we don't receive
+// a response. Since each client has different timeouts,
+// we arbitrarily choose a timeout here and if a response
+// still comes in after, the ui will update appropriately
+const INTERNAL_HTTP_TIMEOUT = 120 * 1000;
+
 export default class CollectorClient {
   private readonly _port: number;
 
@@ -70,6 +76,23 @@ export default class CollectorClient {
     });
   }
 
+  // set a timeout on http trace status to cleanup any traces
+  // where we don't receive a response in a timely manner
+  private _setHttpTimeout(id: string) {
+    setTimeout(() => {
+      const trace = this._traces.get(id);
+      if (trace.http.state === 'sent') {
+        trace.http.state = 'timeout';
+        trace.http.statusMessage = 'NO RESPONSE';
+        trace.http.statusCode = 418;
+        trace.http.duration = INTERNAL_HTTP_TIMEOUT;
+        trace.http.responseBody =
+          'Envy did not receive a response in a timely manner. This does not neccessarily indicate there was a problem with the request.';
+        this.addEvent(trace);
+      }
+    }, INTERNAL_HTTP_TIMEOUT);
+  }
+
   private _updateConnections(connections: ConnectionStatusData) {
     this._connections = connections;
     this._signalChange();
@@ -82,6 +105,8 @@ export default class CollectorClient {
   addEvent(event: Event) {
     const trace = { ...event };
     const isNewTrace = !this._traces.has(trace.id);
+
+    if (isNewTrace && !!trace.http) this._setHttpTimeout(trace.id);
 
     this._traces.set(trace.id, trace);
     this._signalChange(isNewTrace ? trace.id : undefined);
