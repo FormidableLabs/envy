@@ -90,11 +90,10 @@ export default class CollectorClient {
       const trace = this._traces.get(id);
       if (trace?.http?.state === 'sent') {
         trace.http.state = HttpRequestState.Timeout;
-        trace.http.statusMessage = 'NO RESPONSE';
-        trace.http.statusCode = 418;
+        trace.http.statusMessage = 'TIMEOUT';
+        trace.http.statusCode = -1;
         trace.http.duration = INTERNAL_HTTP_TIMEOUT;
-        trace.http.responseBody =
-          'Envy did not receive a response in a timely manner. This does not neccessarily indicate there was a problem with the request.';
+        trace.http.responseBody = 'TIMEOUT WAITING FOR RESPONSE';
         this.addEvent(trace);
       }
     }, INTERNAL_HTTP_TIMEOUT);
