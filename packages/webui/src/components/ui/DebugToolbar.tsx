@@ -1,8 +1,10 @@
 import { HiOutlinePuzzle } from 'react-icons/hi';
 
-import { Menu, MenuItem } from '@/components';
+import { Menu } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import mockData from '@/testing/mockTraces';
+
+import { MenuItem } from '../Menu';
 
 export default function DebugToolbar() {
   const { collector, traces } = useApplication();

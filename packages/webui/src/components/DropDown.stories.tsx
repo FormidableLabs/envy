@@ -16,7 +16,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   args: {
-    label: 'Choose Something',
+    className: 'w-64',
+    label: 'Selected',
+    placeholder: 'Choose Something',
     items: [
       {
         label: 'Item 1',
