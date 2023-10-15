@@ -23,7 +23,7 @@ export default function TraceRequestData({ iconPath, hostName, path, data }: Tra
         <span data-test-id="item-path">{pathValue}</span>
       </span>
       {data && (
-        <span data-test-id="item-data" className="block font text-opacity-70 text-black text-xs font-mono">
+        <span data-test-id="item-data" className="block text-xs font-mono text-secondary">
           {data}
         </span>
       )}

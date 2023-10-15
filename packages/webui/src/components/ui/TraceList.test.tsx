@@ -157,9 +157,9 @@ describe('TraceList', () => {
 
       if (bgColor) {
         expect(traceRow).toHaveClass(`bg-${bgColor}`);
-        expect(traceRow).not.toHaveClass(`bg-slate-200`);
+        expect(traceRow).not.toHaveClass('bg-slate-100');
       } else {
-        expect(traceRow).toHaveClass('bg-slate-200');
+        expect(traceRow).toHaveClass('bg-slate-100');
       }
     });
 
@@ -183,9 +183,9 @@ describe('TraceList', () => {
 
         if (borderColor) {
           expect(methodData).toHaveClass(`border-${borderColor}`);
-          expect(methodData).not.toHaveClass(`border-slate-200`);
+          expect(methodData).not.toHaveClass(`border-neutral`);
         } else {
-          expect(methodData).toHaveClass('bg-slate-200');
+          expect(methodData).toHaveClass('bg-slate-100');
         }
       },
     );

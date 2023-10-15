@@ -66,7 +66,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
   }
 
   return (
-    <div ref={finalRef} className={tw('flex input-container self-stretch', className)} {...props}>
+    <div ref={finalRef} className={tw('flex input-container self-stretch w-96', className)} {...props}>
       <div className="group w-full z-50">
         <div
           role="listbox"
@@ -119,7 +119,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                         <span
                           className={tw(
                             'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent hover:bg-slate-100',
-                            isSelected && 'bg-slate-100 border-slate-200 hover:bg-slate-50',
+                            isSelected && 'bg-slate-100 border-neutral hover:bg-slate-50',
                           )}
                         >
                           <span data-test-id="status" className={tw('w-3 h-3 mr-2 rounded-full', statusColor)}></span>
@@ -156,7 +156,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                         <span
                           className={tw(
                             'transition-all p-2 flex flex-row items-center rounded bg-white border border-transparent hover:bg-slate-100',
-                            isSelected && 'bg-slate-100 border-slate-200 hover:bg-slate-50',
+                            isSelected && 'bg-neutral border-secondary hover:bg-slate-50',
                           )}
                         >
                           {icon && <img src={icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}

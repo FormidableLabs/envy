@@ -16,7 +16,7 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   return (
     <>
       <span className="block">{method.toUpperCase()}</span>
-      <span className="block text-opacity-70 text-black text-xs font-semibold">{statusCode ?? '-'}</span>
+      <span className="block text-xs">{statusCode ?? '-'}</span>
     </>
   );
 }
@@ -112,7 +112,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
   const hasTraces = data.length > 0;
 
   return (
-    <div className={tw('h-full flex flex-col bg-slate-300', className)}>
+    <div className={tw('h-full flex flex-col', className)}>
       <div
         data-test-id="scroll-container"
         ref={scrollContainer}
@@ -122,18 +122,18 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
         {!hasTraces ? (
           <div
             data-test-id="no-traces"
-            className="flex flex-none h-full justify-center items-center text-3xl text-slate-400"
+            className="flex flex-none h-full justify-center items-center text-3xl text-neutral"
           >
             <Icon className="translate-y-[0.05em] w-8 h-8 mr-2" /> <span>{message}</span>
           </div>
         ) : (
           <div data-test-id="trace-list" className="table table-fixed w-full relative">
-            <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-slate-400 uppercase shadow-lg z-10">
+            <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-secondary uppercase shadow-lg z-10">
               {columns.map(([label, , baseStyle]) => (
                 <div
                   key={label}
                   data-test-id={`column-heading-${label.toLowerCase()}`}
-                  className={`table-cell p-cell border-b border-slate-600 overflow-hidden ${baseStyle}`}
+                  className={`table-cell p-cell border-b border-primary overflow-hidden ${baseStyle}`}
                 >
                   {label}
                 </div>
@@ -149,8 +149,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
                     'gap-4 table-row',
                     trace.id === selectedTraceId
                       ? 'bg-orange-300 shadow-lg'
-                      : rowStyle(trace) ||
-                          (idx % 2 === 0 ? 'bg-opacity-70 bg-slate-200' : 'bg-opacity-100 bg-slate-200'),
+                      : rowStyle(trace) || (idx % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50'),
                     'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
                   )}
                 >
@@ -176,8 +175,8 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
       {hasTraces && (
         <div
           className={tw(
-            'flex-0 flex flex-row justify-between items-center bg-slate-400 border-t border-slate-600 p-2',
-            selectedTraceId && 'border-r border-slate-600',
+            'flex-0 flex flex-row justify-between items-center border-t border-primary p-2',
+            selectedTraceId && 'border-r border-primary',
           )}
         >
           <div data-test-id="trace-count">Traces: {data.length}</div>

@@ -22,7 +22,6 @@ type CodeDisplayProps = {
   contentType: string | string[] | null;
   children: any;
 };
-type DetailProps = React.HTMLAttributes<HTMLElement>;
 
 function CodeDisplay({ contentType, children, ...props }: CodeDisplayProps) {
   if (!children) return null;
@@ -44,7 +43,7 @@ function CodeDisplay({ contentType, children, ...props }: CodeDisplayProps) {
   );
 }
 
-export default function TraceDetail({ className }: DetailProps) {
+export default function TraceDetail() {
   const { getSelectedTrace, clearSelectedTrace } = useApplication();
   const trace = getSelectedTrace();
 
@@ -90,14 +89,10 @@ export default function TraceDetail({ className }: DetailProps) {
   }
 
   return (
-    <div className={`relative h-full overflow-y-scroll bg-slate-200 ${className}`}>
+    <div className={`relative h-full overflow-y-scroll`}>
       <div className="sticky top-0 z-10">
         <Section collapsible={false} title="Request" />
-        <button
-          data-test-id="close-trace"
-          className="absolute top-1 md:top-2 right-6 text-xl text-black"
-          onClick={() => clearSelectedTrace()}
-        >
+        <button data-test-id="close-trace" className="absolute md:top-2 right-6" onClick={() => clearSelectedTrace()}>
           &#10006;
         </button>
       </div>
@@ -120,7 +115,7 @@ export default function TraceDetail({ className }: DetailProps) {
                   </span>
                 )}
               </span>
-              <span data-test-id="url" className="block text-opacity-70 text-black">
+              <span data-test-id="url" className="block text-secondary">
                 {url}
               </span>
             </div>

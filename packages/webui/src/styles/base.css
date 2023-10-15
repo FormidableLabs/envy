@@ -1,3 +1,7 @@
+@import './buttons.css';
+@import './input.css';
+@import './react-json-view.css';
+
 html {
   @apply text-[12px] xl:text-[14px];
 }
@@ -6,8 +10,58 @@ html,
 body,
 main#root {
   @apply h-full;
+  @apply bg-slate-200 text-gray-800;
+  @apply dark:bg-slate-800 dark:text-gray-200;
 }
 
+/**
+ * Text colors
+ */
+.text-primary {
+  @apply text-gray-900 dark:text-gray-200;
+}
+
+.text-secondary {
+  @apply text-gray-600 dark:text-gray-900;
+}
+
+.text-neutral {
+  @apply text-gray-400 dark:text-gray-400;
+}
+
+/**
+ * Background colors
+ */
+.bg-primary {
+  @apply bg-slate-200 dark:bg-slate-800;
+}
+
+.bg-secondary {
+  @apply bg-slate-400 dark:bg-slate-600;
+}
+
+.bg-neutral {
+  @apply bg-slate-100 dark:bg-slate-900;
+}
+
+/**
+ * Border colors
+ */
+.border-primary {
+  @apply border-slate-600;
+}
+
+.border-secondary {
+  @apply border-slate-300;
+}
+
+.border-neutral {
+  @apply border-slate-200;
+}
+
+/**
+ * Override native elements
+ */
 hr {
   @apply block border-0 border-b border-b-slate-300 h-0 pt-4 !mb-4;
 }
@@ -19,6 +73,10 @@ hr {
 ::-webkit-scrollbar-thumb {
   @apply bg-orange-500;
 }
+
+/**
+ * Custom classes
+ */
 
 .p-default {
   @apply py-4 px-6;
@@ -36,211 +94,6 @@ hr {
   @apply py-2 px-3;
   @apply first:pl-6;
   @apply last:pr-6;
-}
-
-.absolute-v-center {
-  @apply absolute inline-block top-1/2 -translate-y-1/2;
-}
-
-.code {
-  @apply !font-mono !tracking-normal !break-all;
-  @apply text-slate-900;
-}
-
-.code-inline {
-  @apply code;
-  @apply inline-block;
-}
-
-.code-block {
-  @apply code;
-  @apply w-full py-4;
-  @apply block overflow-auto;
-  @apply bg-slate-100;
-  @apply rounded;
-}
-
-.code-block > ul > li {
-  @apply px-4;
-  @apply whitespace-pre-wrap;
-  @apply hover:bg-opacity-50 hover:bg-white;
-  @apply hover:cursor-default;
-}
-
-.hover-effect {
-  @apply bg-opacity-70 hover:bg-opacity-100 focus:bg-opacity-100;
-  @apply shadow-none hover:shadow focus:shadow;
-  @apply transition-opacity duration-75;
-}
-
-.btn-bg {
-  @apply hover:bg-slate-100 focus:bg-slate-100;
-  @apply hover-effect;
-  @apply rounded;
-  @apply cursor-pointer;
-}
-
-.btn {
-  @apply m-0 py-2 px-3;
-  @apply font-bold text-xs uppercase tracking-tighter;
-  @apply flex items-center justify-center;
-  @apply btn-bg;
-}
-
-.btn:active {
-  @apply translate-x-px translate-y-px;
-  @apply shadow-none;
-}
-
-.btn-inline {
-  @apply btn-bg;
-  @apply flex items-center;
-  @apply -mx-2 px-2;
-}
-
-.btn-icon {
-  @apply btn;
-}
-
-.btn-short {
-  @apply py-0;
-  @apply min-h-[20px];
-  @apply tracking-normal;
-}
-
-.btn-icon > span {
-  @apply ml-1 hidden md:block;
-}
-
-.btn-alt {
-  @apply text-slate-500;
-  @apply border border-slate-500;
-  @apply hover:bg-opacity-20 hover:bg-slate-500 focus:bg-slate-500;
-}
-
-.btn-standard {
-  @apply bg-slate-100 hover:bg-slate-100 focus:bg-slate-100;
-}
-
-.btn-action {
-  @apply bg-orange-300 hover:bg-orange-300 focus:bg-orange-300;
-}
-
-.btn-ghost {
-  @apply bg-transparent hover:bg-slate-100 focus:bg-slate-100;
-}
-
-.btn-selected {
-  @apply bg-orange-300 hover:bg-orange-300 focus:bg-orange-300 hover:cursor-default;
-}
-
-.input-container {
-  @apply relative inline-block;
-}
-
-.input-container .focus-key {
-  @apply absolute-v-center right-2 opacity-50 z-50;
-  @apply pointer-events-none;
-}
-
-.input-container:hover .focus-key,
-.input-container:focus-within .focus-key {
-  @apply hidden;
-}
-
-.input-container > svg {
-  @apply absolute-v-center left-2 w-6 h-6;
-  @apply opacity-50;
-  @apply pointer-events-none;
-}
-
-.input-container:hover > svg,
-.input-container:focus-within > svg {
-  @apply opacity-80;
-}
-
-.input {
-  @apply m-0 p-2;
-  @apply inline-block;
-  @apply bg-white;
-  @apply hover-effect;
-  @apply rounded;
-}
-
-.input-container .input-clear {
-  @apply hidden;
-}
-
-.input-container:hover .input-clear {
-  @apply p-1;
-  @apply absolute-v-center right-2;
-  @apply flex justify-center items-center;
-  @apply text-red-700;
-  @apply hover:bg-red-700 hover:text-white;
-  @apply rounded-lg;
-  @apply cursor-pointer;
-}
-
-.input-container:hover .input-clear > svg {
-  @apply w-4 h-4;
-}
-
-.input::-webkit-search-cancel-button {
-  display: none;
-}
-
-.react-json-view {
-  @apply code-block;
-  @apply h-full;
-  @apply px-4;
-}
-
-.react-json-view * {
-  @apply !text-base;
-  @apply !tracking-normal;
-}
-
-.react-json-view .node-ellipsis {
-  @apply !text-slate-400;
-}
-
-.react-json-view .array-key,
-.react-json-view .object-key {
-  @apply !font-bold;
-}
-
-.react-json-view .object-meta-data {
-  @apply !text-xs !font-sans;
-}
-
-.react-json-view .object-meta-data * {
-  @apply !not-italic !text-sm;
-}
-
-.react-json-view .array-key + span,
-.react-json-view .object-key + span,
-.react-json-view .variable-row > span > div {
-  @apply !ml-0;
-  @apply opacity-50;
-}
-
-.react-json-view .icon-container {
-  @apply absolute;
-  @apply -translate-x-[1.35em] xl:-translate-x-[1.2em] translate-y-[0.3em];
-  @apply bg-slate-100;
-}
-
-.react-json-view .variable-row > span {
-  @apply !font-bold;
-}
-
-.react-json-view .variable-value > div {
-  @apply !text-slate-700;
-}
-
-/* Hide the root expand/collapse icon */
-.react-json-view > .pretty-json-container > .object-content > .object-key-val > span > span > .icon-container {
-  @apply !hidden;
 }
 
 @tailwind base;

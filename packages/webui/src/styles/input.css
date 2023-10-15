@@ -1,0 +1,64 @@
+.absolute-v-center {
+  @apply absolute inline-block top-1/2 -translate-y-1/2;
+}
+
+.hover-effect {
+  @apply bg-opacity-70 hover:bg-opacity-100 focus:bg-opacity-100;
+  @apply shadow-none hover:shadow focus:shadow;
+  @apply transition-opacity duration-75;
+}
+
+.input-container {
+  @apply relative inline-block;
+}
+
+.input-container .focus-key {
+  @apply absolute-v-center right-2 opacity-50 z-50;
+  @apply pointer-events-none;
+}
+
+.input-container:hover .focus-key,
+.input-container:focus-within .focus-key {
+  @apply hidden;
+}
+
+.input-container > svg {
+  @apply absolute-v-center left-2 w-6 h-6;
+  @apply opacity-50;
+  @apply pointer-events-none;
+}
+
+.input-container:hover > svg,
+.input-container:focus-within > svg {
+  @apply opacity-80;
+}
+
+.input {
+  @apply m-0 p-2;
+  @apply inline-block;
+  @apply bg-white;
+  @apply hover-effect;
+  @apply rounded;
+}
+
+.input-container .input-clear {
+  @apply hidden;
+}
+
+.input-container:hover .input-clear {
+  @apply p-1;
+  @apply absolute-v-center right-2;
+  @apply flex justify-center items-center;
+  @apply text-red-700;
+  @apply hover:bg-red-700 hover:text-white;
+  @apply rounded-lg;
+  @apply cursor-pointer;
+}
+
+.input-container:hover .input-clear > svg {
+  @apply w-4 h-4;
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
+}

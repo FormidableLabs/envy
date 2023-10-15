@@ -13,12 +13,7 @@ export default function Header({ className, children, ...props }: React.HTMLAttr
 
   return (
     <header
-      className={tw(
-        'text-slate-600',
-        'p-default bg-slate-200 flex flex-row items-center',
-        'border-b border-slate-600 shadow-lg',
-        className,
-      )}
+      className={tw('p-default flex flex-row items-center', 'border-b border-primary shadow-lg', className)}
       {...props}
     >
       <span className="flex-0 mr-2">

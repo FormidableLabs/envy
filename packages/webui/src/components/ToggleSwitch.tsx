@@ -31,7 +31,7 @@ export default function ToggleSwitch({
   return (
     <label
       className={tw(
-        'flex flex-row items-center bg-slate-100 py-1 px-2 rounded text-black/70',
+        'flex flex-row items-center py-1 px-2 rounded',
         !disabled && !readOnly && 'cursor-pointer hover:bg-white',
         className,
       )}
@@ -44,7 +44,7 @@ export default function ToggleSwitch({
       )}
       <div
         data-test-id="checkbox"
-        className={tw('w-6 h-6 rounded', isChecked ? 'bg-green-400' : 'border border-slate-300')}
+        className={tw('w-6 h-6 rounded', isChecked ? 'bg-green-400' : 'border border-secondary')}
       >
         {isChecked && <HiCheck data-test-id="checkmark" className="w-full h-full text-white" />}
         <input
