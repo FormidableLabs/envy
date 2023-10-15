@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Toggle from './ToggleSwitch';
 
 const meta = {
-  title: 'Example/Toggle Switch',
+  title: 'Components/Toggle Switch',
   component: Toggle,
   parameters: {
     layout: 'centered',

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import KeyValueList from './KeyValueList';
 
 const meta = {
-  title: 'Example/KeyValueList',
+  title: 'Components/KeyValueList',
   component: KeyValueList,
   parameters: {
     layout: 'centered',

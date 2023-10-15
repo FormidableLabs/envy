@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Authorization from './Authorization';
 
 const meta = {
-  title: 'Example/Authorization',
+  title: 'Components/Authorization',
   component: Authorization,
   parameters: {
     layout: 'centered',

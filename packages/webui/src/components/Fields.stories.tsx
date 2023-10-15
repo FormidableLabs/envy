@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Fields, { Field } from './Fields';
 
 const meta = {
-  title: 'Example/Fields',
+  title: 'Components/Fields',
   component: Fields,
   parameters: {
     layout: 'centered',

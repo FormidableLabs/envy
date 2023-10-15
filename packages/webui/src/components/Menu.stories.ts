@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Menu from './Menu';
 
 const meta = {
-  title: 'Example/Menu',
+  title: 'Components/Menu',
   component: Menu,
   parameters: {
     layout: 'centered',

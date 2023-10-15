@@ -4,7 +4,7 @@ import { HiTrash } from 'react-icons/hi';
 import Button from './IconButton';
 
 const meta = {
-  title: 'Example/Icon Button',
+  title: 'Components/Icon Button',
   component: Button,
   parameters: {
     layout: 'centered',
