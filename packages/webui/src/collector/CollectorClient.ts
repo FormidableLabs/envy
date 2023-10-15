@@ -1,4 +1,4 @@
-import { ConnectionStatusData, DEFAULT_WEB_SOCKET_PORT, Event, WebSocketPayload, safeParseJson } from '@envyjs/core';
+import { ConnectionStatusData, DEFAULT_WEB_SOCKET_PORT, Event, HttpRequestState, WebSocketPayload, safeParseJson } from '@envyjs/core';
 
 import { Traces } from '@/types';
 
@@ -81,8 +81,8 @@ export default class CollectorClient {
   private _setHttpTimeout(id: string) {
     setTimeout(() => {
       const trace = this._traces.get(id);
-      if (trace.http.state === 'sent') {
-        trace.http.state = 'timeout';
+      if (trace?.http?.state === 'sent') {
+        trace.http.state = HttpRequestState.Timeout;
         trace.http.statusMessage = 'NO RESPONSE';
         trace.http.statusCode = 418;
         trace.http.duration = INTERNAL_HTTP_TIMEOUT;
