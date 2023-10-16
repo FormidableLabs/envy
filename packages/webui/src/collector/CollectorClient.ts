@@ -23,6 +23,7 @@ const INTERNAL_HTTP_TIMEOUT = 120 * 1000;
 export default class CollectorClient {
   private readonly _port: number;
 
+  private _cleanup = new Map<string, any>();
   private _connected: boolean = false;
   private _connecting: boolean = true;
   private _connections: ConnectionStatusData = [];
@@ -86,7 +87,7 @@ export default class CollectorClient {
   // set a timeout on http trace status to cleanup any traces
   // where we don't receive a response in a timely manner
   private _setHttpTimeout(id: string) {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       const trace = this._traces.get(id);
       if (trace?.http?.state === 'sent') {
         trace.http.state = HttpRequestState.Timeout;
@@ -97,6 +98,8 @@ export default class CollectorClient {
         this.addEvent(trace);
       }
     }, INTERNAL_HTTP_TIMEOUT);
+
+    this._cleanup.set(id, timeoutId);
   }
 
   private _updateConnections(connections: ConnectionStatusData) {
@@ -112,7 +115,11 @@ export default class CollectorClient {
     const trace = { ...event };
     const isNewTrace = !this._traces.has(trace.id);
 
-    if (isNewTrace && !!trace.http) this._setHttpTimeout(trace.id);
+    if (isNewTrace && !!trace.http) {
+      this._setHttpTimeout(trace.id);
+    } else if (this._cleanup.has(trace.id)) {
+      clearTimeout(trace.id);
+    }
 
     this._traces.set(trace.id, trace);
     this._signalChange(isNewTrace ? trace.id : undefined);
