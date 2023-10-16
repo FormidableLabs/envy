@@ -16,7 +16,7 @@ function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   return (
     <>
       <span className="block">{method.toUpperCase()}</span>
-      <span className="block text-xs">{statusCode ?? '-'}</span>
+      <span className="block text-xs">{statusCode && statusCode > -1 ? statusCode : '-'}</span>
     </>
   );
 }

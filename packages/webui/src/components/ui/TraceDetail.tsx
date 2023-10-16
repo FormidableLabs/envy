@@ -85,6 +85,7 @@ export default function TraceDetail() {
     else if (code >= 400) style = 'bg-red-500';
     else if (code >= 300) style = 'bg-yellow-500';
     else if (code >= 200) style = 'bg-green-500';
+    else if (code === -1) style = 'bg-gray-500';
     return `inline-block rounded-full h-3 w-3 ${style}`;
   }
 
@@ -111,7 +112,7 @@ export default function TraceDetail() {
                 {responseComplete && statusCode && (
                   <span data-test-id="status" className="flex items-center gap-2">
                     <span className={statusCodeStyle(statusCode)}></span>
-                    {`${statusCode} ${statusMessage}`}
+                    {`${statusCode > -1 ? statusCode : ''} ${statusMessage}`}
                   </span>
                 )}
               </span>
@@ -157,7 +158,7 @@ export default function TraceDetail() {
                 <DateTime time={timestamp! + duration} />
               </Field>
               <Field data-test-id="status" label="Status">
-                {statusCode} {statusMessage}
+                {statusCode && statusCode > -1 ? statusCode : ''} {statusMessage}
               </Field>
               <ResponseHeaders data-test-id="headers" trace={trace} />
               <Field data-test-id="duration" label="Duration">
