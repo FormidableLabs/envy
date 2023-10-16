@@ -8,13 +8,19 @@ import useApplication from '@/hooks/useApplication';
 import 'allotment/dist/style.css';
 
 export default function MainDisplay() {
-  const { selectedTraceId: traceId } = useApplication();
+  const { selectedTraceId } = useApplication();
 
   return (
     <div className="h-full">
       <Allotment>
-        <TraceList />
-        {traceId && <TraceDetail />}
+        <Allotment.Pane>
+          <TraceList />
+        </Allotment.Pane>
+        {selectedTraceId && (
+          <Allotment.Pane preferredSize="66%">
+            <TraceDetail />
+          </Allotment.Pane>
+        )}
       </Allotment>
       <Toaster />
     </div>
