@@ -118,7 +118,7 @@ export default class CollectorClient {
     if (isNewTrace && !!trace.http) {
       this._setHttpTimeout(trace.id);
     } else if (this._cleanup.has(trace.id)) {
-      clearTimeout(trace.id);
+      clearTimeout(this._cleanup.get(trace.id));
     }
 
     this._traces.set(trace.id, trace);
