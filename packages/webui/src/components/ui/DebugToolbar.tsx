@@ -29,13 +29,5 @@ export default function DebugToolbar() {
     },
   ];
 
-  return (
-    <Menu
-      data-test-id="debug-menu"
-      menuClassName="w-52"
-      label="Debug menu"
-      Icon={HiOutlinePuzzle}
-      items={debugOptions}
-    />
-  );
+  return <Menu data-test-id="debug-menu" label="Debug menu" Icon={HiOutlinePuzzle} items={debugOptions} />;
 }

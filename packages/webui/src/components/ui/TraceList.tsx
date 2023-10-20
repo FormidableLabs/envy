@@ -1,7 +1,7 @@
 import { UIEvent, useLayoutEffect, useRef, useState } from 'react';
-import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiStatusOnline } from 'react-icons/hi';
+import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiStatusOnline, HiOutlineTrash } from 'react-icons/hi';
 
-import { Loading, ToggleSwitch } from '@/components';
+import { IconButton, Loading, ToggleSwitch } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
 import { Trace } from '@/types';
@@ -26,7 +26,8 @@ type TraceListProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 export default function TraceList({ autoScroll: initialAutoScroll = true, className }: TraceListProps) {
-  const { connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } = useApplication();
+  const { clearTraces, connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } =
+    useApplication();
   const [autoScroll, setAutoScroll] = useState(initialAutoScroll);
 
   const data = [...traces.values()];
@@ -175,17 +176,22 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
       {hasTraces && (
         <div
           className={tw(
-            'flex-0 flex flex-row justify-between items-center border-t border-primary p-2',
+            'flex flex-row items-center border-t border-primary p-2',
             selectedTraceId && 'border-r border-primary',
           )}
         >
-          <div data-test-id="trace-count">Traces: {data.length}</div>
+          <div data-test-id="trace-count" className="flex-1">
+            Traces: {data.length}
+          </div>
           <ToggleSwitch
             data-test-id="auto-scroll"
             label="Auto scroll:"
             checked={autoScroll}
             onChange={value => setAutoScroll(value)}
           />
+          <IconButton Icon={HiOutlineTrash} onClick={clearTraces} className="flex-0">
+            Clear
+          </IconButton>
         </div>
       )}
     </div>

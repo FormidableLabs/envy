@@ -6,9 +6,7 @@ export default function App() {
   return (
     <ApplicationContextProvider>
       <div className="h-full flex flex-col overflow-hidden">
-        <header className="flex-0">
-          <Header />
-        </header>
+        <Header />
         <main className="flex-auto overflow-hidden">
           <MainDisplay />
         </main>

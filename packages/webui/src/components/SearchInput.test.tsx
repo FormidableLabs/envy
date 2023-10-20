@@ -5,8 +5,8 @@ import { setUsePlatformData } from '@/testing/mockUsePlatform';
 import SearchInput from './SearchInput';
 
 jest.mock('react-icons/hi', () => ({
-  HiOutlineSearchCircle: function MockHiOutlineSearchCircle() {
-    return <>Mock HiOutlineSearchCircle component</>;
+  HiOutlineSearch: function MockHiOutlineSearch() {
+    return <>Mock HiOutlineSearch component</>;
   },
 }));
 
@@ -36,13 +36,13 @@ describe('SearchInput', () => {
     const { getByRole } = render(<SearchInput />);
 
     const input = getByRole('searchbox');
-    expect(input.nextSibling).toHaveTextContent('Mock HiOutlineSearchCircle component');
+    expect(input.previousSibling).toHaveTextContent('Mock HiOutlineSearch component');
   });
 
   it('should display focus key if suppied', () => {
     const { getByRole } = render(<SearchInput focusKey="K" />);
 
     const input = getByRole('searchbox');
-    expect(input.nextSibling!.nextSibling).toHaveTextContent('⌘K');
+    expect(input.nextSibling).toHaveTextContent('⌘K');
   });
 });

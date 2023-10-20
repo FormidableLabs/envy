@@ -49,7 +49,7 @@ export default function ToggleSwitch({
         {isChecked && <HiCheck data-test-id="checkmark" className="w-full h-full text-white" />}
         <input
           type="checkbox"
-          className="appearance-none"
+          className="sr-only"
           checked={isChecked}
           disabled={disabled ?? false}
           readOnly={readOnly ?? false}

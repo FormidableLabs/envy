@@ -77,43 +77,38 @@ export default function Authorization({ value }: AuthorizationProps) {
   }
 
   return (
-    <span className="flex flex-col-reverse">
-      <span className="flex self-start w-full">
-        {(() => {
-          switch (tokenState) {
-            case TokenState.Minimal:
-              return (
-                <span
-                  data-test-id="token-minimal-view"
-                  className="btn-inline"
-                  onClick={() => setTokenState(TokenState.Expanded)}
-                >
-                  <span className="flex-1 self-start h-6 overflow-y-hidden">
-                    {type} {token}
-                  </span>
-                  <HiChevronDown className="flex-0 w-6 h-6" />
-                </span>
-              );
-            case TokenState.Expanded:
-              return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
-            case TokenState.Decoded:
-              return (
-                <div data-test-id="token-decoded-view" className="flex-1">
-                  {decodedToken}
+    <div className="flex flex-col-reverse">
+      {(() => {
+        switch (tokenState) {
+          case TokenState.Minimal:
+            return (
+              <div
+                data-test-id="token-minimal-view"
+                className="flex"
+                onClick={() => setTokenState(TokenState.Expanded)}
+              >
+                <div className="overflow-y-hidden whitespace-nowrap">
+                  {type} {token}
                 </div>
-              );
-          }
-        })()}
-      </span>
+                <div className="flex items-center justify-end ml-auto">
+                  <HiChevronDown className="w-6 h-6" />
+                </div>
+              </div>
+            );
+          case TokenState.Expanded:
+            return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
+          case TokenState.Decoded:
+            return <div data-test-id="token-decoded-view">{decodedToken}</div>;
+        }
+      })()}
       {tokenState !== TokenState.Minimal && (
-        <span className={tw('flex flex-row gap-2 bg-slate-100 px-4 pt-4')}>
+        <div className={tw('flex flex-row gap-2 bg-slate-100 px-4 pt-4')}>
           <>
             <IconButton
               data-test-id="token-expanded-button"
-              short
               Icon={HiDotsHorizontal}
               title="View full token"
-              className={tw(tokenState === TokenState.Expanded && 'btn-selected')}
+              className={tw(tokenState === TokenState.Expanded && 'bg-neutral')}
               disabled={tokenState === TokenState.Expanded}
               onClick={() => setTokenState(TokenState.Expanded)}
             >
@@ -122,10 +117,9 @@ export default function Authorization({ value }: AuthorizationProps) {
             {decodedToken && (
               <IconButton
                 data-test-id="token-decoded-button"
-                short
                 Icon={HiCode}
                 title="Decode token"
-                className={tw(tokenState === TokenState.Decoded && 'btn-selected')}
+                className={tw(tokenState === TokenState.Decoded && 'bg-neutral')}
                 onClick={() => setTokenState(TokenState.Decoded)}
               >
                 Decoded token
@@ -133,15 +127,14 @@ export default function Authorization({ value }: AuthorizationProps) {
             )}
             <IconButton
               data-test-id="token-minimal-button"
-              short
               Icon={HiChevronUp}
               title="Collapse"
               className="ml-auto px-0"
               onClick={() => setTokenState(TokenState.Minimal)}
             />
           </>
-        </span>
+        </div>
       )}
-    </span>
+    </div>
   );
 }

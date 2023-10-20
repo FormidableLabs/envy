@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ['class', '[data-mode="dark"]'],
+  darkMode: ['class'],
   content: ['./src/index.html', './src/**/*.tsx'],
   theme: {
     extend: {
@@ -14,5 +14,5 @@ export default {
       display: ['group-hover'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

@@ -7,7 +7,7 @@ import { setUseApplicationData } from '@/testing/mockUseApplication';
 import DebugToolbar from './DebugToolbar';
 
 jest.mock('@/components', () => ({
-  Menu: function ({ label, items, menuClassName, Icon, ...props }: any) {
+  Menu: function ({ label, items, Icon, ...props }: any) {
     return (
       <div {...props}>
         <div>{label}</div>

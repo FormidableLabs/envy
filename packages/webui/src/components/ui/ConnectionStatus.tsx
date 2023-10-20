@@ -4,17 +4,27 @@ import { Loading } from '@/components';
 import useApplication from '@/hooks/useApplication';
 
 export default function ConnectionStatus() {
-  const { connecting, connected } = useApplication();
+  const { connecting, connected, connections } = useApplication();
+
+  if (connecting) {
+    return <Loading size={4} className="flex items-center" />;
+  }
+
+  const containerClasses = 'flex items-center mt-1 text-gray-600 text-xs uppercase';
+
+  if (connected) {
+    return (
+      <div className={containerClasses}>
+        <HiStatusOnline className="text-green-600" />
+        <div className="ml-2">{`${connections.length} Source${connections.length === 1 ? '' : 's'} Connected`}</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-6 h-6">
-      {connecting ? (
-        <Loading size={4} />
-      ) : connected ? (
-        <HiStatusOnline className="w-full h-full text-green-600" />
-      ) : (
-        <HiStatusOffline className="w-full h-full text-red-600" />
-      )}
+    <div className={containerClasses}>
+      <HiStatusOffline className="text-red-600" />
+      <div className="ml-2">Not connected</div>
     </div>
   );
 }
