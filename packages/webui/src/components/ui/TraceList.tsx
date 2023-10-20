@@ -1,5 +1,5 @@
 import { UIEvent, useLayoutEffect, useRef, useState } from 'react';
-import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiStatusOnline, HiOutlineTrash } from 'react-icons/hi';
+import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiOutlineTrash, HiStatusOnline } from 'react-icons/hi';
 
 import { IconButton, Loading, ToggleSwitch } from '@/components';
 import useApplication from '@/hooks/useApplication';
