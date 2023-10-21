@@ -95,7 +95,7 @@ describe('SourceAndSystemFilter', () => {
       const { getByRole } = render(<SourceAndSystemFilter />);
 
       const component = getByRole('listbox');
-      expect(component).toHaveTextContent('Sources and systems...');
+      expect(component).toHaveTextContent('Sources & Systems');
     });
   });
 
@@ -181,7 +181,7 @@ describe('SourceAndSystemFilter', () => {
       const { getByRole } = render(<SourceAndSystemFilter />);
 
       const component = getByRole('listbox');
-      expect(component).toHaveTextContent('Sources and systems...');
+      expect(component).toHaveTextContent('Sources & Systems');
     });
   });
 

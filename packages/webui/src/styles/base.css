@@ -1,28 +1,21 @@
-@import './buttons.css';
-@import './input.css';
 @import './react-json-view.css';
-
-html {
-  @apply text-[12px] xl:text-[14px];
-}
 
 html,
 body,
 main#root {
   @apply h-full;
-  @apply bg-slate-200 text-gray-800;
-  @apply dark:bg-slate-800 dark:text-gray-200;
+  @apply bg-gray-200 text-gray-800;
 }
 
 /**
  * Text colors
  */
 .text-primary {
-  @apply text-gray-900 dark:text-gray-200;
+  @apply text-gray-800 dark:text-gray-800;
 }
 
 .text-secondary {
-  @apply text-gray-600 dark:text-gray-900;
+  @apply text-gray-500 dark:text-gray-500;
 }
 
 .text-neutral {
@@ -33,30 +26,34 @@ main#root {
  * Background colors
  */
 .bg-primary {
-  @apply bg-slate-200 dark:bg-slate-800;
+  @apply bg-gray-200;
 }
 
 .bg-secondary {
-  @apply bg-slate-400 dark:bg-slate-600;
+  @apply bg-gray-400;
 }
 
 .bg-neutral {
-  @apply bg-slate-100 dark:bg-slate-900;
+  @apply bg-white;
 }
 
 /**
  * Border colors
  */
 .border-primary {
-  @apply border-slate-600;
+  @apply border-gray-400;
 }
 
 .border-secondary {
-  @apply border-slate-300;
+  @apply border-gray-400;
 }
 
 .border-neutral {
-  @apply border-slate-200;
+  @apply border-gray-400;
+}
+
+.ring-primary {
+  @apply ring-gray-400;
 }
 
 /**
@@ -72,6 +69,13 @@ hr {
 
 ::-webkit-scrollbar-thumb {
   @apply bg-orange-500;
+}
+
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  display: none;
 }
 
 /**
@@ -94,6 +98,10 @@ hr {
   @apply py-2 px-3;
   @apply first:pl-6;
   @apply last:pr-6;
+}
+
+.absolute-v-center {
+  @apply absolute inline-block top-1/2 -translate-y-1/2;
 }
 
 @tailwind base;

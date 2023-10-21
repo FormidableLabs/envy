@@ -1,34 +1,34 @@
 import useFeatureFlags from '@/hooks/useFeatureFlags';
-import { tw } from '@/utils';
 
 import DarkModeToggle from '../DarkModeToggle';
 
 import ConnectionStatus from './ConnectionStatus';
 import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
+import Logo from './Logo';
 
-export default function Header({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) {
+export default function Header() {
   const { enableThemeSwitcher } = useFeatureFlags();
   const isDebugMode = process.env.NODE_ENV === 'development';
 
   return (
-    <header
-      className={tw('p-default flex flex-row items-center', 'border-b border-primary shadow-lg', className)}
-      {...props}
-    >
-      <span className="flex-0 mr-2">
-        <span className="flex items-center py-2">
-          <span className="mr-2">
+    <header className="shadow p-3">
+      <div className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <div>
+            <Logo />
+          </div>
+          <div className="text-xl font-extrabold mr-4">ENVY</div>
+          <div className="hidden lg:block">
             <ConnectionStatus />
-          </span>
-          <h1 className="font-extrabold text-xl uppercase mr-4 select-none">Envy</h1>
-        </span>
-      </span>
-      <span className="flex-0 flex items-center ml-auto gap-2">
-        {isDebugMode && <DebugToolbar />}
-        {enableThemeSwitcher && <DarkModeToggle />}
-        <FiltersAndActions />
-      </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {isDebugMode && <DebugToolbar />}
+          <FiltersAndActions />
+          {enableThemeSwitcher && <DarkModeToggle />}
+        </div>
+      </div>
     </header>
   );
 }

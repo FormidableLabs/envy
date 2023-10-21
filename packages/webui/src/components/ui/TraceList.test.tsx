@@ -27,6 +27,9 @@ jest.mock('@/components', () => ({
       </div>
     );
   },
+  IconButton: function MockIconButton() {
+    return <>Mock Loading component</>;
+  },
 }));
 
 describe('TraceList', () => {

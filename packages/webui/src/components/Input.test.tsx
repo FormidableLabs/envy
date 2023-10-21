@@ -37,7 +37,7 @@ describe('Input', () => {
       const { getByRole } = render(<Input Icon={Icon} />);
 
       const input = getByRole('textbox');
-      expect(input.nextSibling).toHaveTextContent('Mock Icon');
+      expect(input.previousSibling).toHaveTextContent('Mock Icon');
     });
   });
 

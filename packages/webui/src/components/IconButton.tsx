@@ -10,8 +10,8 @@ type IconButtonProps = ButtonProps & {
 function IconButton({ Icon, children, ...props }: IconButtonProps, ref: Ref<HTMLButtonElement>) {
   return (
     <Button ref={ref} {...props}>
-      {Icon && <Icon className="text-2xl" />}
-      {children && <span>{children}</span>}
+      {Icon && <Icon />}
+      {children}
     </Button>
   );
 }

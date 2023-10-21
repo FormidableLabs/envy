@@ -4,7 +4,6 @@ import { HiX } from 'react-icons/hi';
 
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
 import usePlatform from '@/hooks/usePlatform';
-import { tw } from '@/utils';
 
 const DEBOUNCE_TIMEOUT = 300;
 
@@ -14,10 +13,11 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
   onChange?: (value: string) => void;
 };
 
-function Input({ className, onChange, Icon, focusKey, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
+function Input({ className, onChange, Icon, focusKey, type, ...props }: InputProps, ref: Ref<HTMLInputElement>) {
   const { isMac, specialKey } = usePlatform();
   const timeout = useRef<NodeJS.Timeout>();
   const [value, setValue] = useState('');
+  const inputType = type || 'text';
 
   useEffect(() => {
     return () => {
@@ -62,28 +62,41 @@ function Input({ className, onChange, Icon, focusKey, ...props }: InputProps, re
   }
 
   return (
-    <span className="group input-container">
-      <input
-        ref={finalRef}
-        type="text"
-        className={tw('input w-full', Icon && 'pl-9', className)}
-        value={value}
-        onChange={handleChange}
-        {...props}
-      />
-      {Icon && <Icon />}
-      {focusKey && specialKey && (
-        <span data-test-id="focus-key" className="focus-key">
-          {specialKey}
-          {focusKey}
-        </span>
-      )}
-      {!!value && (
-        <span data-test-id="input-clear" className="input-clear" onClick={clearValue}>
-          <HiX />
-        </span>
-      )}
-    </span>
+    <div className={className}>
+      <label htmlFor="search" className="sr-only">
+        Search
+      </label>
+      <div className="relative">
+        {Icon && (
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <Icon className="h-5 w-5 text-neutral" aria-hidden="true" />
+          </div>
+        )}
+        <input
+          className="block w-full rounded-md border-0 bg-neutral py-1.5 pl-10 pr-3 ring-1 ring-primary placeholder:text-gray-500 focus:ring-lime-600"
+          ref={finalRef}
+          type={inputType}
+          onChange={handleChange}
+          value={value}
+          {...props}
+        />
+        {!value && focusKey && specialKey && (
+          <span data-test-id="focus-key" className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral">
+            {specialKey}
+            {focusKey}
+          </span>
+        )}
+        {!!value && (
+          <span
+            data-test-id="input-clear"
+            className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral cursor-pointer"
+            onClick={clearValue}
+          >
+            <HiX />
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
 

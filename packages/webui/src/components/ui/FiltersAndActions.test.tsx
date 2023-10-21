@@ -1,5 +1,4 @@
-import { act, cleanup, fireEvent, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 
 import { Filters } from '@/hooks/useApplication';
 import { setupMockSystems } from '@/testing/mockSystems';
@@ -10,9 +9,6 @@ import FiltersAndActions from './FiltersAndActions';
 jest.mock('@/components', () => ({
   SourceAndSystemFilter: function (props: any) {
     return <div {...props}>Mock SourceAndSystemFilter component</div>;
-  },
-  IconButton: function ({ onClick }: any) {
-    return <button data-test-id="mock-icon-button" onClick={onClick} />;
   },
   SearchInput: function ({ onChange }: any) {
     return <input data-test-id="mock-search-input" onChange={e => onChange(e.target.value)} />;
@@ -102,26 +98,6 @@ describe('FiltersAndActions', () => {
         systems: ['system1'],
         searchTerm: '/foo',
       });
-    });
-  });
-
-  describe('clear button', () => {
-    it('should render IconButton component', () => {
-      const { getByTestId } = render(<FiltersAndActions />);
-
-      const clearButton = getByTestId('mock-icon-button');
-      expect(clearButton).toBeVisible();
-    });
-
-    it('should call `clearTraces` when clicked', async () => {
-      const { getByTestId } = render(<FiltersAndActions />);
-
-      await act(async () => {
-        const clearButton = getByTestId('mock-icon-button');
-        await userEvent.click(clearButton);
-      });
-
-      expect(clearTracesFn).toHaveBeenCalled();
     });
   });
 });

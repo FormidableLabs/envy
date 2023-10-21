@@ -23,5 +23,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
-  args: {},
+  args: {
+    className: 'w-72',
+  },
 };
