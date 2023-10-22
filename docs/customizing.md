@@ -38,7 +38,7 @@ root.render(<EnvyViewer />);
 
 Any self-hosted Envy viewer will need to connect to the Envy collector which is automatically started by the standalone Envy viewer.  In order to start the collector without starting the standalone viewer, you can use the following command:
 
-`npx @envyjs/webui --noUi`
+`npx @envyjs/webui --no-ui`
 
 You can then start your custom viewer and it will connect to this collector via web sockets on port `9999`.
 
@@ -300,4 +300,3 @@ getResponseBody({ trace }: TraceContext<{ productIds: string[] }>) {
   return JSON.stringify(body);
 }
 ```
-

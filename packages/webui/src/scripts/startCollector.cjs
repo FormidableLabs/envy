@@ -58,10 +58,6 @@ const interval = setInterval(() => {
 
 wss.on('listening', () => {
   log(chalk.magenta(`🚀 Envy collector started on ws://127.0.0.1:${port}`));
-
-  if (typeof global?.collectorStarted === 'function') {
-    global.collectorStarted();
-  }
 });
 
 wss.on('connection', (ws, request) => {

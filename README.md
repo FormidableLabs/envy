@@ -73,6 +73,8 @@ or optionally, add it to your NPM scripts using a tool like [concurrently](https
 },
 ```
 
+[Additional Options](#additional-options) are also available for running the web viewer
+
 ## Available Telemetry Packages
 
 ### Node.js Application
@@ -158,7 +160,7 @@ _Browsers prevent full timing data from being accessed from cross-origin request
 
 ## Additional Options
 
-Envy supports these additional options for senders
+Envy supports these additional options
 
 #### Filtering
 
@@ -182,6 +184,26 @@ enableTracing({
   serviceName: 'example-nextjs',
   debug: true
 });
+```
+
+#### Viewer Port
+
+You can customize the HTTP port the viewer runs on using the cli flag
+
+```sh
+npx @envyjs/webui --viewerPort=65789
+```
+
+#### Disabling Parts
+
+The webui and its collector can be individually disabled using cli flags. This is an advanced option and typically not used.
+
+```sh
+# disable ui
+npx @envyjs/webui --no-ui
+
+# disable websocket collector
+npx @envyjs/webui --no-collector
 ```
 
 ## Customizing
