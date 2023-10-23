@@ -31,6 +31,8 @@ _Note: Envy is intended for development usage only, and is not a replacement for
   <img alt="Envy" src="./docs/images/envy-example.png" />
 </div>
 
+Check out our [live demo](https://envy-webui.vercel.app/) app to explore the Web UI
+
 ## Contents
 
 - [Getting Started](#getting-started)
