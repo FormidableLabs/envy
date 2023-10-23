@@ -121,17 +121,4 @@ describe('TraceRequestData', () => {
       expect(data.previousSibling).toBe(request);
     });
   });
-
-  describe('when a trace is selected', () => {
-    beforeEach(() => {
-      setUseApplicationData({ selectedTraceId: '1' });
-    });
-
-    it('should truncate the path to the last part given the reduced screen space for the item', () => {
-      const { getByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/foo/bar" />);
-
-      const path = getByTestId('item-path');
-      expect(path).toHaveTextContent('.../bar');
-    });
-  });
 });

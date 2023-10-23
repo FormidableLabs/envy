@@ -146,7 +146,9 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
                         baseStyle || '',
                       )}
                     >
-                      <div className={cellStyle(trace) || ''}>{typeof prop === 'function' && prop(trace)}</div>
+                      <div className={cellStyle(trace) || ''} data-test-id={`column-data-${label.toLowerCase()}-cell`}>
+                        {typeof prop === 'function' && prop(trace)}
+                      </div>
                     </div>
                   ))}
                 </div>
