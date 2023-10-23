@@ -12,36 +12,11 @@ describe('ToggleSwitch', () => {
     render(<ToggleSwitch />);
   });
 
-  describe('with label', () => {
-    it('should render label to the left by default', () => {
-      const { getByTestId } = render(<ToggleSwitch label="Foo" />);
+  it('should render a custom label', () => {
+    const { getByTestId } = render(<ToggleSwitch label="Foo" />);
 
-      const checkbox = getByTestId('checkbox');
-      const label = getByTestId('label');
-
-      expect(label).toHaveTextContent('Foo');
-      expect(checkbox.previousSibling).toBe(label);
-    });
-
-    it('should render label to the left when specified', () => {
-      const { getByTestId } = render(<ToggleSwitch label="Foo" labelPosition="left" />);
-
-      const checkbox = getByTestId('checkbox');
-      const label = getByTestId('label');
-
-      expect(label).toHaveTextContent('Foo');
-      expect(checkbox.previousSibling).toBe(label);
-    });
-
-    it('should render label to the right when specified', () => {
-      const { getByTestId } = render(<ToggleSwitch label="Foo" labelPosition="right" />);
-
-      const checkbox = getByTestId('checkbox');
-      const label = getByTestId('label');
-
-      expect(label).toHaveTextContent('Foo');
-      expect(checkbox.nextSibling).toBe(label);
-    });
+    const label = getByTestId('label');
+    expect(label).toHaveTextContent('Foo');
   });
 
   describe('initial checked state', () => {

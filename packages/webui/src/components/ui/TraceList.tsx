@@ -25,7 +25,7 @@ type TraceListProps = React.HTMLAttributes<HTMLElement> & {
   autoScroll?: boolean;
 };
 
-export default function TraceList({ autoScroll: initialAutoScroll = true, className }: TraceListProps) {
+export default function TraceList({ autoScroll: initialAutoScroll = true }: TraceListProps) {
   const { clearTraces, connected, connecting, traces, selectedTraceId, newestTraceId, setSelectedTrace } =
     useApplication();
   const [autoScroll, setAutoScroll] = useState(initialAutoScroll);
@@ -45,11 +45,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
       top: scrollContainer.current.scrollHeight,
       behavior: 'instant',
     });
-    // we don't want to include selectedTraceId here otherwise closing the trace details will automatically scroll the
-    // list to the bottom even if a new trace hasn't been added
-    // ---
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newestTraceId]);
+  }, [autoScroll, newestTraceId]);
 
   function handleScroll(e: UIEvent<HTMLDivElement>) {
     const target = e.currentTarget;
@@ -113,12 +109,12 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
   const hasTraces = data.length > 0;
 
   return (
-    <div className={tw('h-full flex flex-col', className)}>
+    <div className="h-full flex flex-col">
       <div
         data-test-id="scroll-container"
         ref={scrollContainer}
         onScroll={handleScroll}
-        className={tw('flex-1', hasTraces && 'overflow-y-scroll')}
+        className="flex-1 overflow-y-auto"
       >
         {!hasTraces ? (
           <div
@@ -180,18 +176,20 @@ export default function TraceList({ autoScroll: initialAutoScroll = true, classN
             selectedTraceId && 'border-r border-primary',
           )}
         >
-          <div data-test-id="trace-count" className="flex-1">
+          <div data-test-id="trace-count" className="flex-1 font-semibold uppercase">
             Traces: {data.length}
           </div>
-          <ToggleSwitch
-            data-test-id="auto-scroll"
-            label="Auto scroll:"
-            checked={autoScroll}
-            onChange={value => setAutoScroll(value)}
-          />
-          <IconButton Icon={HiOutlineTrash} onClick={clearTraces} className="flex-0">
-            Clear
-          </IconButton>
+          <div className="flex flex-row gap-2">
+            <ToggleSwitch
+              data-test-id="auto-scroll"
+              label="Auto scroll"
+              checked={autoScroll}
+              onChange={value => setAutoScroll(value)}
+            />
+            <IconButton Icon={HiOutlineTrash} onClick={clearTraces} className="uppercase">
+              Clear
+            </IconButton>
+          </div>
         </div>
       )}
     </div>
