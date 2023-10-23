@@ -45,7 +45,7 @@ $ yarn install
 To typecheck and build all applications, execute this from root
 
 ```
-yarn build
+NODE_ENV=production yarn build
 ```
 
 ### Running examples

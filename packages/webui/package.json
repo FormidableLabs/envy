@@ -27,15 +27,15 @@
     "README.md"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=development yarn run dev",
-    "start:demo": "cross-env NODE_ENV=development DEMO=true yarn run dev",
+    "start": "yarn run dev",
+    "start:demo": "cross-env DEMO=true yarn run dev",
     "dev": "node ./src/scripts/start.cjs --dev",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
     "prebuild": "rimraf dist && rimraf bin",
     "build": "yarn build:app && yarn build:integration && yarn build:typedefs && yarn build:bin",
-    "build:app": "cross-env NODE_ENV=production parcel build --no-cache",
+    "build:app": "parcel build --no-cache",
     "build:integration": "tailwindcss -i ./src/styles/base.css -o ./dist/viewer.css && node ./src/scripts/buildIntegration.cjs",
     "build:typedefs": "tsc --project ./tsconfig.types.json",
     "build:bin": "copyfiles --flat ./src/scripts/start.cjs ./src/scripts/startCollector.cjs ./src/scripts/startViewer.cjs ./bin",

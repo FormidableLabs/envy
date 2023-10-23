@@ -9,7 +9,7 @@ import Logo from './Logo';
 
 export default function Header() {
   const { enableThemeSwitcher } = useFeatureFlags();
-  const isDebugMode = process.env.NODE_ENV === 'development';
+  const isDebugMode = process.env.NODE_ENV !== 'production';
 
   return (
     <header className="shadow p-3">
