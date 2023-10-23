@@ -7,6 +7,7 @@ import {
   safeParseJson,
 } from '@envyjs/core';
 
+import { mockTraceCollection } from '@/testing/mockTraces';
 import { Traces } from '@/types';
 
 type WebSocketClientOptions = {
@@ -20,6 +21,8 @@ type WebSocketClientOptions = {
 // still comes in after, the ui will update appropriately
 const INTERNAL_HTTP_TIMEOUT = 120 * 1000;
 
+const initialTraceMap = process.env.DEMO === 'true' ? mockTraceCollection() : new Map();
+
 export default class CollectorClient {
   private readonly _port: number;
 
@@ -27,7 +30,7 @@ export default class CollectorClient {
   private _connected: boolean = false;
   private _connecting: boolean = true;
   private _connections: ConnectionStatusData = [];
-  private _traces: Traces = new Map();
+  private _traces: Traces = initialTraceMap;
   private _changeHandler?: (newTraceId?: string) => void;
 
   constructor({ port, changeHandler }: WebSocketClientOptions) {

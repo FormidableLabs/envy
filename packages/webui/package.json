@@ -27,7 +27,9 @@
     "README.md"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=development node ./src/scripts/start.cjs --dev",
+    "start": "cross-env NODE_ENV=development yarn run dev",
+    "start:demo": "cross-env NODE_ENV=development DEMO=true yarn run dev",
+    "dev": "node ./src/scripts/start.cjs --dev",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage && open ./coverage/lcov-report/index.html",
