@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 
 import Button, { ButtonProps } from './Button';
 
-type IconButtonProps = ButtonProps & {
+export type IconButtonProps = ButtonProps & {
   Icon?: IconType;
 };
 

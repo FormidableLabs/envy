@@ -17,6 +17,5 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     label: 'Autoscroll',
-    labelPosition: 'left',
   },
 };
