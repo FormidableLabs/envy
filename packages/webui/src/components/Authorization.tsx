@@ -87,7 +87,7 @@ export default function Authorization({ value }: AuthorizationProps) {
                 className="flex"
                 onClick={() => setTokenState(TokenState.Expanded)}
               >
-                <div className="overflow-y-hidden whitespace-nowrap">
+                <div className="overflow-y-hidden">
                   {type} {token}
                 </div>
                 <div className="flex items-center justify-end ml-auto">
