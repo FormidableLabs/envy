@@ -1,5 +1,5 @@
+import { Check, Filter, X } from 'lucide-react';
 import { Ref, RefObject, forwardRef, useRef, useState } from 'react';
-import { HiCheck, HiOutlineFilter, HiX } from 'react-icons/hi';
 
 import useApplication from '@/hooks/useApplication';
 import useClickAway from '@/hooks/useClickAway';
@@ -74,13 +74,13 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
       <IconButton
         role="listbox"
         className={tw('w-full', isOpen && 'bg-neutral hover:shadow-none')}
-        Icon={HiOutlineFilter}
+        Icon={Filter}
         onClick={() => setIsOpen(curr => !curr)}
       >
         <div data-test-id="selection-summary">{placeholder}</div>
         {hasFilters && (
           <div data-test-id="input-clear" className="ml-auto" onClick={clearSelection}>
-            <HiX />
+            <X />
           </div>
         )}
       </IconButton>
@@ -114,7 +114,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                           >
                             <span data-test-id="status" className={tw('w-3 h-3 mr-2 rounded-full', statusColor)}></span>
                             <span className="flex-1">{name}</span>
-                            {isSelected && <HiCheck className="flex-0 w-6 h-6" />}
+                            {isSelected && <Check className="flex-0 w-6 h-6" />}
                           </span>
                         </li>
                       );
@@ -151,7 +151,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                           >
                             {icon && <img src={icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
                             <span className="flex-1">{system.name}</span>
-                            {isSelected && <HiCheck className="flex-0  w-6 h-6" />}
+                            {isSelected && <Check className="flex-0  w-6 h-6" />}
                           </span>
                         </li>
                       );

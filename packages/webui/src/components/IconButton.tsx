@@ -1,16 +1,15 @@
 import { Ref, forwardRef } from 'react';
-import { IconType } from 'react-icons';
 
 import Button, { ButtonProps } from './Button';
 
 export type IconButtonProps = ButtonProps & {
-  Icon?: IconType;
+  Icon?: React.FC<any>;
 };
 
 function IconButton({ Icon, children, ...props }: IconButtonProps, ref: Ref<HTMLButtonElement>) {
   return (
     <Button ref={ref} {...props}>
-      {Icon && <Icon />}
+      {Icon && <Icon className="h-6 w-6" />}
       {children}
     </Button>
   );

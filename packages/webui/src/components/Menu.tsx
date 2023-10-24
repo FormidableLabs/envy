@@ -1,5 +1,4 @@
 import { Ref, RefObject, forwardRef, useRef, useState } from 'react';
-import { IconType } from 'react-icons';
 
 import useClickAway from '@/hooks/useClickAway';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
@@ -15,8 +14,8 @@ export type MenuItem = {
 };
 
 type MenuProps = React.HTMLAttributes<HTMLDivElement> & {
-  Icon?: IconType;
-  label: string;
+  Icon?: React.FC<any>;
+  label?: string;
   items: MenuItem[];
   focusKey?: string;
 };

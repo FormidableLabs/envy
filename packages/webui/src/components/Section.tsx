@@ -1,5 +1,5 @@
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 
 import { tw } from '@/utils';
 
@@ -10,7 +10,7 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
 
 export default function Section({ title, collapsible = true, className, children, ...props }: SectionProps) {
   const [expanded, setExpanded] = useState(true);
-  const Icon = expanded ? HiOutlineChevronUp : HiOutlineChevronDown;
+  const Icon = expanded ? ChevronUp : ChevronDown;
   return (
     <>
       {title && (

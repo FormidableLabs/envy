@@ -5,12 +5,12 @@ import { setUsePlatformData } from '@/testing/mockUsePlatform';
 
 import DropDown, { DropDownItem } from './DropDown';
 
-jest.mock('react-icons/hi', () => ({
-  HiX: function MockHiX() {
-    return <>Mock HiX component</>;
+jest.mock('lucide-react', () => ({
+  X: function MockX() {
+    return <>Mock X component</>;
   },
-  HiCheck: function MockHiCheck() {
-    return <>Mock HiCheck component</>;
+  Check: function MockCheck() {
+    return <>Mock Check component</>;
   },
 }));
 
@@ -532,7 +532,7 @@ describe('DropDown', () => {
       });
 
       const clearButton = getByTestId('input-clear');
-      expect(clearButton).toHaveTextContent('Mock HiX component');
+      expect(clearButton).toHaveTextContent('Mock X component');
     });
 
     it('should clear list when clicked', async () => {

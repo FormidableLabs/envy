@@ -1,5 +1,5 @@
+import { Check, X } from 'lucide-react';
 import { Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
-import { HiCheck, HiX } from 'react-icons/hi';
 
 import useClickAway from '@/hooks/useClickAway';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
@@ -106,7 +106,7 @@ function DropDown(
                 })}
               </span>
               <span data-test-id="input-clear" className={tw('input-clear', isOpen && 'flex')} onClick={clearSelection}>
-                <HiX />
+                <X />
               </span>
             </>
           )}
@@ -131,7 +131,7 @@ function DropDown(
                     >
                       {x.icon && <img src={x.icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
                       <span className="flex-1">{x.label ?? x.value}</span>
-                      {isSelected && <HiCheck className="flex-0  w-6 h-6" />}
+                      {isSelected && <Check className="flex-0  w-6 h-6" />}
                     </span>
                   </li>
                 );

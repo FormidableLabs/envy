@@ -4,9 +4,9 @@ import { setUsePlatformData } from '@/testing/mockUsePlatform';
 
 import SearchInput from './SearchInput';
 
-jest.mock('react-icons/hi', () => ({
-  HiOutlineSearch: function MockHiOutlineSearch() {
-    return <>Mock HiOutlineSearch component</>;
+jest.mock('lucide-react', () => ({
+  Search: function MockSearch() {
+    return <>Mock Search component</>;
   },
 }));
 
@@ -36,7 +36,7 @@ describe('SearchInput', () => {
     const { getByRole } = render(<SearchInput />);
 
     const input = getByRole('searchbox');
-    expect(input.previousSibling).toHaveTextContent('Mock HiOutlineSearch component');
+    expect(input.previousSibling).toHaveTextContent('Mock Search component');
   });
 
   it('should display focus key if suppied', () => {

@@ -1,5 +1,5 @@
+import { Search } from 'lucide-react';
 import { Ref, forwardRef } from 'react';
-import { HiOutlineSearch } from 'react-icons/hi';
 
 import Input, { InputProps } from './Input';
 
@@ -10,7 +10,7 @@ function SearchInput(props: SearchInputProps, ref: Ref<HTMLInputElement>) {
     <Input
       ref={ref}
       type="search"
-      Icon={HiOutlineSearch}
+      Icon={Search}
       id="search"
       name="search"
       focusKey="K"

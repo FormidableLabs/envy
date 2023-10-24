@@ -1,5 +1,5 @@
+import { CheckSquare, Square } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { HiCheck } from 'react-icons/hi';
 
 import IconButton from './IconButton';
 
@@ -21,13 +21,11 @@ export default function ToggleSwitch({ label, checked, onChange, ...props }: Tog
     if (onChange) onChange(!isChecked);
   };
 
-  const Icon = isChecked
-    ? () => <HiCheck className="h-4 w-4 rounded-sm bg-green-500 text-white" data-test-id="checkmark" />
-    : () => <div className="border border-primary h-4 w-4 rounded-sm" />;
+  const Icon = isChecked ? () => <CheckSquare data-test-id="checkmark" /> : Square;
 
   return (
     <>
-      <IconButton Icon={Icon} onClick={onToggleChanged} {...props}>
+      <IconButton Icon={Icon} onClick={onToggleChanged} className={isChecked ? 'bg-green-100' : ''} {...props}>
         <span data-test-id="label" className="uppercase">
           {label}
         </span>

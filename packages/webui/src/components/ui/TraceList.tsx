@@ -1,5 +1,5 @@
+import { Trash, Wifi, Zap, ZapOff } from 'lucide-react';
 import { UIEvent, useLayoutEffect, useRef, useState } from 'react';
-import { HiOutlineEmojiSad, HiOutlineLightningBolt, HiOutlineTrash, HiStatusOnline } from 'react-icons/hi';
 
 import { IconButton, Loading, ToggleSwitch } from '@/components';
 import useApplication from '@/hooks/useApplication';
@@ -90,10 +90,10 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
   }
 
   const [Icon, message] = connected
-    ? [HiStatusOnline, `Listening for traces...`]
+    ? [Wifi, `Listening for traces...`]
     : connecting
-    ? [HiOutlineLightningBolt, 'Connecting...']
-    : [HiOutlineEmojiSad, 'Unable to connect'];
+    ? [Zap, 'Connecting...']
+    : [ZapOff, 'Unable to connect'];
 
   const hasTraces = data.length > 0;
 
@@ -158,7 +158,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
         )}
       </div>
       {hasTraces && (
-        <div className="flex flex-row items-center border-t border-primary p-2">
+        <div className="flex flex-row items-center border-t border-primary p-3">
           <div data-test-id="trace-count" className="flex-1 font-semibold uppercase">
             Traces: {data.length}
           </div>
@@ -169,7 +169,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
               checked={autoScroll}
               onChange={value => setAutoScroll(value)}
             />
-            <IconButton Icon={HiOutlineTrash} onClick={clearTraces} className="uppercase">
+            <IconButton Icon={Trash} onClick={clearTraces} className="uppercase">
               Clear
             </IconButton>
           </div>
