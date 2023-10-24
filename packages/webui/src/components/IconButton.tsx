@@ -3,7 +3,7 @@ import { Ref, forwardRef } from 'react';
 import Button, { ButtonProps } from './Button';
 
 export type IconButtonProps = ButtonProps & {
-  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
+  Icon?: React.FC<any>;
 };
 
 function IconButton({ Icon, children, ...props }: IconButtonProps, ref: Ref<HTMLButtonElement>) {

@@ -7,7 +7,7 @@ import usePlatform from '@/hooks/usePlatform';
 const DEBOUNCE_TIMEOUT = 300;
 
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
-  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
+  Icon?: React.FC<any>;
   focusKey?: string;
   onChange?: (value: string) => void;
 };

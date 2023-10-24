@@ -14,7 +14,7 @@ export type MenuItem = {
 };
 
 type MenuProps = React.HTMLAttributes<HTMLDivElement> & {
-  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
+  Icon?: React.FC<any>;
   label?: string;
   items: MenuItem[];
   focusKey?: string;
