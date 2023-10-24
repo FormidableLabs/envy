@@ -1,10 +1,9 @@
-import { LucideIcon } from 'lucide-react';
 import { Ref, forwardRef } from 'react';
 
 import Button, { ButtonProps } from './Button';
 
 export type IconButtonProps = ButtonProps & {
-  Icon?: LucideIcon | React.FC;
+  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
 };
 
 function IconButton({ Icon, children, ...props }: IconButtonProps, ref: Ref<HTMLButtonElement>) {

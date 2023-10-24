@@ -1,4 +1,3 @@
-import { LucideIcon } from 'lucide-react';
 import { Ref, RefObject, forwardRef, useRef, useState } from 'react';
 
 import useClickAway from '@/hooks/useClickAway';
@@ -15,7 +14,7 @@ export type MenuItem = {
 };
 
 type MenuProps = React.HTMLAttributes<HTMLDivElement> & {
-  Icon?: LucideIcon | React.FC;
+  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
   label?: string;
   items: MenuItem[];
   focusKey?: string;

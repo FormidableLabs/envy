@@ -1,4 +1,4 @@
-import { LucideIcon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { ChangeEvent, Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
@@ -7,7 +7,7 @@ import usePlatform from '@/hooks/usePlatform';
 const DEBOUNCE_TIMEOUT = 300;
 
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
-  Icon?: LucideIcon | React.FC;
+  Icon?: React.FC<Partial<React.SVGProps<SVGSVGElement>>>;
   focusKey?: string;
   onChange?: (value: string) => void;
 };
