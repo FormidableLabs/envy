@@ -137,13 +137,13 @@ describe('TraceList', () => {
 
   describe('trace row colours', () => {
     const scenarios = [
-      { statusCode: 500, bgColor: 'purple-500', borderColor: 'purple-500' },
-      { statusCode: 404, bgColor: 'red-500', borderColor: 'red-500' },
-      { statusCode: 300, bgColor: 'yellow-500', borderColor: 'yellow-500' },
-      { statusCode: 200, bgColor: null, borderColor: 'green-500' },
+      { statusCode: 500, bgColor: 'purple-500' },
+      { statusCode: 404, bgColor: 'red-500' },
+      { statusCode: 300, bgColor: 'yellow-500' },
+      { statusCode: 200, bgColor: 'green-500' },
     ];
 
-    it.each(scenarios)('should have $bgColor background for HTTP $statusCode responses', ({ statusCode, bgColor }) => {
+    it.each(scenarios)('should have $bgColor left border for HTTP $statusCode responses', ({ statusCode, bgColor }) => {
       setUpTraces([
         {
           id: '1',
@@ -157,41 +157,15 @@ describe('TraceList', () => {
 
       const { getByTestId } = render(<TraceList />);
       const traceRow = getByTestId('trace');
+      const methodData = within(traceRow).getByTestId('column-data-method-cell');
 
       if (bgColor) {
-        expect(traceRow).toHaveClass(`bg-${bgColor}`);
-        expect(traceRow).not.toHaveClass('bg-slate-100');
+        expect(methodData).toHaveClass(`bg-${bgColor}`);
+        expect(methodData).not.toHaveClass(`border-neutral`);
       } else {
-        expect(traceRow).toHaveClass('bg-slate-100');
+        expect(methodData).toHaveClass('bg-gray-100');
       }
     });
-
-    it.each(scenarios)(
-      'should have $borderColor left border for HTTP $statusCode responses',
-      ({ statusCode, borderColor }) => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              statusCode,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-method');
-
-        if (borderColor) {
-          expect(methodData).toHaveClass(`border-${borderColor}`);
-          expect(methodData).not.toHaveClass(`border-neutral`);
-        } else {
-          expect(methodData).toHaveClass('bg-slate-100');
-        }
-      },
-    );
 
     it('should render selected trace row correctly', () => {
       const trace = {
@@ -209,7 +183,7 @@ describe('TraceList', () => {
       const { getByTestId } = render(<TraceList />);
       const traceRow = getByTestId('trace');
 
-      expect(traceRow).toHaveClass('bg-orange-300');
+      expect(traceRow).toHaveClass('bg-green-100');
     });
   });
 
@@ -308,7 +282,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
+        const methodData = within(traceRow).getByTestId('column-data-duration');
 
         expect(methodData).toHaveTextContent('Mock Loading component');
       });
@@ -327,7 +301,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
+        const methodData = within(traceRow).getByTestId('column-data-duration');
 
         expect(methodData).toHaveTextContent('1.23s');
       });
@@ -346,7 +320,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
+        const methodData = within(traceRow).getByTestId('column-data-duration');
 
         expect(methodData).toHaveTextContent('1.24s');
       });
@@ -403,7 +377,7 @@ describe('TraceList', () => {
 
       const { getByTestId } = render(<TraceList />);
       const traceRow = getByTestId('trace');
-      const methodData = within(traceRow).getByTestId('column-data-method');
+      const methodData = within(traceRow).getByTestId('column-data-method-cell');
 
       expect(methodData).toBeEmptyDOMElement();
     });

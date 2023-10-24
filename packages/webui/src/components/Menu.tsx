@@ -55,7 +55,7 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
     <div ref={finalRef} className={tw('relative', className)} {...props}>
       <IconButton
         role="menu"
-        className={tw('w-32', isOpen && 'bg-neutral hover:shadow-none')}
+        className={tw('', isOpen && 'bg-neutral hover:shadow-none')}
         Icon={Icon}
         onClick={() => setIsOpen(curr => !curr)}
       >

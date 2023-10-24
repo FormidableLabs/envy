@@ -10,7 +10,7 @@ export default function ConnectionStatus() {
     return <Loading size={4} className="flex items-center" />;
   }
 
-  const containerClasses = 'flex items-center mt-1 text-gray-600 text-xs uppercase';
+  const containerClasses = 'flex items-center text-gray-600 text-sm uppercase font-semibold';
 
   if (connected) {
     return (

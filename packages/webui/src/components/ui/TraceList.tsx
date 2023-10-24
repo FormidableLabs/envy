@@ -15,11 +15,43 @@ type MethodAndStatusProps = {
 function MethodAndStatus({ method, statusCode }: MethodAndStatusProps) {
   return (
     <>
-      <span className="block">{method.toUpperCase()}</span>
-      <span className="block text-xs">{statusCode && statusCode > -1 ? statusCode : '-'}</span>
+      <span className="hidden md:inline-block">
+        {method}&nbsp;
+        {statusCode && statusCode > -1 ? statusCode : ''}
+      </span>
     </>
   );
 }
+
+function getMethodAndStatus(trace: Trace) {
+  return trace.http ? <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} /> : null;
+}
+
+function pillStyle(trace: Trace) {
+  const statusCode = trace.http?.statusCode;
+
+  let color = '';
+  if (!statusCode) color = 'ring-1 ring-gray-400';
+  else if (statusCode >= 500) color = 'bg-purple-500';
+  else if (statusCode >= 400) color = 'bg-red-500';
+  else if (statusCode >= 300) color = 'bg-yellow-500';
+  else if (statusCode >= 200) color = 'bg-green-500';
+  return `w-full text-sm rounded-full px-2 py-1.5 font-semibold ${color}`;
+}
+
+function getRequestURI(trace: Trace) {
+  return <ListDataComponent trace={trace} />;
+}
+
+function getRequestDuration(trace: Trace) {
+  return trace.http?.duration ? `${(trace.http.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
+}
+
+const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [
+  ['Method', getMethodAndStatus, 'w-[40px] md:w-[125px] overflow-hidden text-center', pillStyle],
+  ['Request', getRequestURI, '', () => 'whitespace-nowrap overflow-hidden overflow-ellipsis'],
+  ['Duration', getRequestDuration, 'w-[100px] text-right', () => 'text-sm'],
+];
 
 type TraceListProps = React.HTMLAttributes<HTMLElement> & {
   autoScroll?: boolean;
@@ -57,49 +89,6 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
     setAutoScroll(scrollTop >= maxScrollTop);
   }
 
-  function getMethodAndStatus(trace: Trace) {
-    return trace.http ? <MethodAndStatus method={trace.http.method} statusCode={trace.http.statusCode} /> : null;
-  }
-
-  function rowStyle(trace: Trace) {
-    const statusCode = trace.http?.statusCode;
-
-    let color = '';
-    if (!statusCode) color = '';
-    else if (statusCode >= 500) color = 'bg-purple-500';
-    else if (statusCode >= 400) color = 'bg-red-500';
-    else if (statusCode >= 300) color = 'bg-yellow-500';
-    else if (statusCode >= 200) color = '';
-
-    return color ? `bg-opacity-20 ${color}` : '';
-  }
-
-  function cellStyle(trace: Trace) {
-    const statusCode = trace.http?.statusCode;
-
-    let color = 'border-transparent';
-    if (!statusCode) color = 'border-transparent';
-    else if (statusCode >= 500) color = 'border-purple-500';
-    else if (statusCode >= 400) color = 'border-red-500';
-    else if (statusCode >= 300) color = 'border-yellow-500';
-    else if (statusCode >= 200) color = 'border-green-500';
-    return `border-0 border-l-8 ${color}`;
-  }
-
-  function getRequestURI(trace: Trace) {
-    return <ListDataComponent trace={trace} />;
-  }
-
-  function getRequestDuration(trace: Trace) {
-    return trace.http?.duration ? `${(trace.http.duration / 1000).toFixed(2)}s` : <Loading size={2} />;
-  }
-
-  const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [
-    ['Method', getMethodAndStatus, 'w-[50px] md:w-[100px]', cellStyle],
-    ['Request', getRequestURI, '', () => ''],
-    ['Time', getRequestDuration, 'w-[50px] md:w-[100px] text-center', () => ''],
-  ];
-
   const [Icon, message] = connected
     ? [HiStatusOnline, `Listening for traces...`]
     : connecting
@@ -125,12 +114,12 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
           </div>
         ) : (
           <div data-test-id="trace-list" className="table table-fixed w-full relative">
-            <div className="flex-0 table-header-group gap-4 font-semibold sticky top-0 bg-secondary uppercase shadow-lg z-10">
+            <div className="table-header-group font-bold bg-primary sticky top-0 uppercase">
               {columns.map(([label, , baseStyle]) => (
                 <div
                   key={label}
                   data-test-id={`column-heading-${label.toLowerCase()}`}
-                  className={`table-cell p-cell border-b border-primary overflow-hidden ${baseStyle}`}
+                  className={`table-cell p-cell border-b border-primary ${baseStyle}`}
                 >
                   {label}
                 </div>
@@ -143,11 +132,9 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
                   key={trace.id}
                   onClick={() => setSelectedTrace(trace.id)}
                   className={tw(
-                    'gap-4 table-row',
-                    trace.id === selectedTraceId
-                      ? 'bg-orange-300 shadow-lg'
-                      : rowStyle(trace) || (idx % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50'),
-                    'hover:bg-orange-200 hover:cursor-pointer hover:shadow',
+                    'table-row h-16',
+                    trace.id === selectedTraceId ? 'bg-green-100' : idx % 2 === 0 ? 'bg-gray-200' : 'bg-gray-200',
+                    'hover:bg-green-100 hover:cursor-pointer hover:shadow',
                   )}
                 >
                   {columns.map(([label, prop, baseStyle, cellStyle]) => (
@@ -155,12 +142,13 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
                       key={`${trace.id}_${prop}`}
                       data-test-id={`column-data-${label.toLowerCase()}`}
                       className={tw(
-                        'table-cell p-cell align-middle overflow-hidden whitespace-nowrap text-ellipsis',
+                        'table-cell p-cell align-middle border-b border-solid border-gray-300',
                         baseStyle || '',
-                        cellStyle(trace) || '',
                       )}
                     >
-                      {typeof prop === 'function' && prop(trace)}
+                      <div className={cellStyle(trace) || ''} data-test-id={`column-data-${label.toLowerCase()}-cell`}>
+                        {typeof prop === 'function' && prop(trace)}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -170,12 +158,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
         )}
       </div>
       {hasTraces && (
-        <div
-          className={tw(
-            'flex flex-row items-center border-t border-primary p-2',
-            selectedTraceId && 'border-r border-primary',
-          )}
-        >
+        <div className="flex flex-row items-center border-t border-primary p-2">
           <div data-test-id="trace-count" className="flex-1 font-semibold uppercase">
             Traces: {data.length}
           </div>

@@ -12,14 +12,14 @@ export default function Header() {
   const isDebugMode = process.env.NODE_ENV !== 'production';
 
   return (
-    <header className="shadow p-3">
+    <header className="shadow p-3 bg-secondary">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <div>
             <Logo />
           </div>
           <div className="text-xl font-extrabold mr-4">ENVY</div>
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             <ConnectionStatus />
           </div>
         </div>

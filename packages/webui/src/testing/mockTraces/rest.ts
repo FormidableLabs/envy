@@ -188,6 +188,50 @@ const postEvent: Event = {
   },
 };
 
+// OPTIONS request
+const optionsEvent: Event = {
+  id: '59',
+  parentId: undefined,
+  serviceName: 'web',
+  timestamp: elapseTime(16.3),
+  http: {
+    ...requestData('OPTIONS', 'data.restserver.com', 443, ''),
+    state: HttpRequestState.Received,
+    requestHeaders: {
+      'content-type': ['application/json'],
+      'Accept': ['*/*'],
+      'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
+      'Accept-Encoding': ['gzip,deflate'],
+    },
+    // ---------
+    httpVersion: '1.1',
+    statusCode: 200,
+    statusMessage: 'OK',
+    responseHeaders: {
+      'cache-control': 'private, no-store',
+      'surrogate-key': 'all',
+      'access-control-allow-origin': '*',
+      'access-control-allow-credentials': 'true',
+      'content-type': 'application/json',
+      'content-length': '11',
+      'vary': 'Accept-Encoding',
+      'date': 'Thu, 17 Mar 2022 19:51:02 GMT',
+      'connection': 'keep-alive',
+      'keep-alive': 'timeout=5',
+    },
+    duration: 1300,
+    timings: {
+      blocked: 40,
+      dns: 60,
+      connect: 1000,
+      ssl: 800,
+      send: 50,
+      wait: 120,
+      receive: 30,
+    },
+  },
+};
+
 // REST request (500)
 const errorEvent: Event = {
   id: '7',
@@ -252,4 +296,4 @@ const inFlightEvent: Event = {
   },
 };
 
-export default [authRequest, dataEvent, postEvent, notFoundEvent, errorEvent, inFlightEvent];
+export default [authRequest, dataEvent, postEvent, optionsEvent, notFoundEvent, errorEvent, inFlightEvent];

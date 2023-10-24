@@ -1,5 +1,9 @@
 @import './react-json-view.css';
 
+html {
+  font-size: 14px;
+}
+
 html,
 body,
 main#root {
@@ -30,7 +34,7 @@ main#root {
 }
 
 .bg-secondary {
-  @apply bg-gray-400;
+  @apply bg-gray-300;
 }
 
 .bg-neutral {
@@ -45,11 +49,11 @@ main#root {
 }
 
 .border-secondary {
-  @apply border-gray-400;
+  @apply border-gray-300;
 }
 
 .border-neutral {
-  @apply border-gray-400;
+  @apply border-gray-200;
 }
 
 .ring-primary {
@@ -64,11 +68,11 @@ hr {
 }
 
 ::-webkit-scrollbar {
-  @apply bg-slate-500 w-3 h-3;
+  @apply bg-gray-300 w-2 h-3;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-orange-500;
+  @apply bg-gray-400;
 }
 
 input[type='search']::-webkit-search-decoration,

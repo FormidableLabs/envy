@@ -21,15 +21,8 @@ export default function DarkModeToggle() {
 
   return (
     <div className="flex flex-col justify-center">
-      <input
-        type="checkbox"
-        name="light-switch"
-        className="light-switch sr-only"
-        checked={useDarkMode}
-        onChange={handleCheckboxChange}
-      />
       <label
-        className="relative cursor-pointer p-2.5 ring-1 ring-inset ring-primary text-secondary rounded-md shadow-sm"
+        className="relative cursor-pointer p-2.5 ring-1 ring-inset ring-primary text-secondary rounded-md shadow-sm bg-primary"
         htmlFor="light-switch"
         onClick={handleCheckboxChange}
         role="toggle"
