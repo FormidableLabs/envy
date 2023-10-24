@@ -12,10 +12,10 @@ type JsonDisplayProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
   children: object | string;
 };
 
-const bg = colors.slate['100'];
+const bg = colors.gray['200'];
 const fg = colors.black;
-const lines = colors.slate['200'];
-const meta = colors.slate['400'];
+const lines = colors.gray['200'];
+const meta = colors.gray['400'];
 const accent = colors.orange['300'];
 
 const customTheme = {
@@ -43,7 +43,7 @@ export default function JsonDisplay({ className, children }: JsonDisplayProps) {
 
   return (
     <Suspense fallback={<></>}>
-      <div className={tw('w-full overflow-auto', className)}>
+      <div className={tw('w-full h-full', className)}>
         <ReactJson
           src={src}
           theme={customTheme}

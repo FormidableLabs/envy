@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HiMinus, HiPlus } from 'react-icons/hi';
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi';
 
 import { tw } from '@/utils';
 
@@ -10,15 +10,15 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
 
 export default function Section({ title, collapsible = true, className, children, ...props }: SectionProps) {
   const [expanded, setExpanded] = useState(true);
-  const Icon = expanded ? HiMinus : HiPlus;
+  const Icon = expanded ? HiOutlineChevronUp : HiOutlineChevronDown;
   return (
     <>
       {title && (
         <div
           data-test-id="section-title"
           className={tw(
-            `relative p-short`,
-            `bg-secondary border-b border-primary shadow-lg`,
+            `relative p-short mt-4`,
+            `bg-secondary border-b border-primary`,
             `font-semibold uppercase`,
             collapsible ? 'cursor-pointer' : '',
             className || '',
