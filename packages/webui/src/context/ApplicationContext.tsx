@@ -21,6 +21,9 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
     searchTerm: '',
   });
 
+  const initialTab = window.location.hash?.replace('#', '') || 'default';
+  const [selectedTab, setSelectedTab] = useState(initialTab);
+
   const changeHandler = (newTraceId?: string) => {
     if (newTraceId) setNewestTraceId(newTraceId);
     forceUpdate(curr => !curr);
@@ -123,6 +126,8 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       setSelectedTraceId(undefined);
       collectorRef.current?.clearTraces();
     },
+    selectedTab,
+    setSelectedTab,
   };
 
   return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>;

@@ -19,6 +19,8 @@ const defaults: ApplicationContextData = {
   },
   setFilters: () => void 0,
   clearTraces: () => void 0,
+  selectedTab: 'default',
+  setSelectedTab: () => void 0,
 };
 
 beforeEach(() => {

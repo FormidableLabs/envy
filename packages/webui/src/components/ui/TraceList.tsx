@@ -50,7 +50,7 @@ function getRequestDuration(trace: Trace) {
 const columns: [string, (x: Trace) => string | number | React.ReactNode, string, (x: Trace) => string][] = [
   ['Method', getMethodAndStatus, 'w-[40px] md:w-[125px] overflow-hidden text-center', pillStyle],
   ['Request', getRequestURI, '', () => 'whitespace-nowrap overflow-hidden overflow-ellipsis'],
-  ['Duration', getRequestDuration, 'w-[100px] text-right', () => 'text-sm'],
+  ['Duration', getRequestDuration, 'text-right', () => 'text-sm'],
 ];
 
 type TraceListProps = React.HTMLAttributes<HTMLElement> & {

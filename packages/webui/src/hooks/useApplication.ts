@@ -25,6 +25,8 @@ export type ApplicationContextData = {
   filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
   clearTraces: () => void;
+  selectedTab: string;
+  setSelectedTab: Dispatch<SetStateAction<string>>;
 };
 
 export const ApplicationContext = createContext<ApplicationContextData>({} as ApplicationContextData);

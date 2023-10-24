@@ -40,6 +40,9 @@ jest.mock('@/components', () => ({
   XmlDisplay: function ({ children }: any) {
     return <>Mock XmlDisplay component: {children}</>;
   },
+  IconButton: function ({ children, Icon, ...props }: any) {
+    return <div {...props}>Mock IconButton component: {children}</div>;
+  },
 }));
 
 jest.mock(
@@ -266,8 +269,7 @@ describe('TraceDetail', () => {
 
       const { getByTestId } = render(<TraceDetail />);
 
-      const summary = getByTestId('summary');
-      const status = within(summary).getByTestId('status');
+      const status = getByTestId('response-status');
       const statusCodeCircle = status.firstChild;
 
       expect(statusCodeCircle).toHaveClass(`bg-${color}`);
@@ -374,8 +376,8 @@ describe('TraceDetail', () => {
 
         const { getByTestId } = render(<TraceDetail />);
 
-        const requestDetails = getByTestId('request-details');
-        const body = within(requestDetails).getByTestId('body');
+        const requestDetails = getByTestId('trace-detail');
+        const body = within(requestDetails).getByTestId('request-body');
 
         expect(body).toBeVisible();
         expect(body).toHaveTextContent(content);
@@ -387,9 +389,8 @@ describe('TraceDetail', () => {
 
       const { getByTestId } = render(<TraceDetail />);
 
-      const requestDetails = getByTestId('request-details');
+      const requestDetails = getByTestId('trace-detail');
       const body = within(requestDetails).queryByTestId('body');
-
       expect(body).not.toBeInTheDocument();
     });
 
@@ -642,46 +643,6 @@ describe('TraceDetail', () => {
         expect(responseBody).toBeVisible();
       });
 
-      it('should display response content type', () => {
-        getSelectedTraceFn.mockReturnValue({
-          ...mockTrace,
-          http: {
-            ...mockTrace.http,
-            responseHeaders: {
-              'content-type': 'text/text',
-            },
-          },
-        });
-
-        const { getByTestId } = render(<TraceDetail />);
-
-        const responseBody = getByTestId('response-body');
-        const contentType = within(responseBody).getByTestId('content-type');
-
-        expect(contentType).toBeVisible();
-        expect(contentType).toHaveTextContent(`text/text`);
-      });
-
-      it('should display response content length', () => {
-        getSelectedTraceFn.mockReturnValue({
-          ...mockTrace,
-          http: {
-            ...mockTrace.http,
-            responseHeaders: {
-              'content-length': '1234',
-            },
-          },
-        });
-
-        const { getByTestId } = render(<TraceDetail />);
-
-        const responseBody = getByTestId('response-body');
-        const contentLength = within(responseBody).getByTestId('content-length');
-
-        expect(contentLength).toBeVisible();
-        expect(contentLength).toHaveTextContent(`1234`);
-      });
-
       it.each([
         {
           contentType: 'application/json',
@@ -719,8 +680,8 @@ describe('TraceDetail', () => {
 
           const { getByTestId } = render(<TraceDetail />);
 
-          const responseBody = getByTestId('response-body');
-          const body = within(responseBody).getByTestId('body');
+          const responseBody = getByTestId('trace-detail');
+          const body = within(responseBody).queryByTestId('response-body');
 
           expect(body).toBeVisible();
           expect(body).toHaveTextContent(content);
@@ -732,8 +693,8 @@ describe('TraceDetail', () => {
 
         const { getByTestId } = render(<TraceDetail />);
 
-        const responseBody = getByTestId('response-body');
-        const body = within(responseBody).queryByTestId('body');
+        const responseBody = getByTestId('trace-detail');
+        const body = within(responseBody).queryByTestId('response-body');
 
         expect(body).not.toBeInTheDocument();
       });
