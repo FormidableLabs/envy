@@ -7,15 +7,15 @@ import { setUseApplicationData as callSetUseApplicationData } from '@/testing/mo
 
 import SourceAndSystemFilter from './SourceAndSystemFilter';
 
-jest.mock('react-icons/hi', () => ({
-  HiOutlineFilter: function MockHiOutlineFilter() {
-    return <>Mock HiOutlineFilter component</>;
+jest.mock('lucide-react', () => ({
+  Filter: function MockHiOutlineFilter() {
+    return <>Mock Filter component</>;
   },
-  HiX: function MockHiX() {
-    return <>Mock HiX component</>;
+  X: function MockX() {
+    return <>Mock X component</>;
   },
-  HiCheck: function MockHiCheck() {
-    return <>Mock HiCheck component</>;
+  Check: function MockCheck() {
+    return <>Mock Check component</>;
   },
 }));
 
@@ -579,7 +579,7 @@ describe('SourceAndSystemFilter', () => {
       const { getByTestId } = render(<SourceAndSystemFilter />);
 
       const clearButton = getByTestId('input-clear');
-      expect(clearButton).toHaveTextContent('Mock HiX component');
+      expect(clearButton).toHaveTextContent('Mock X component');
     });
 
     it('should call `setFilters` with empty source and systems when clicking the clear button', async () => {

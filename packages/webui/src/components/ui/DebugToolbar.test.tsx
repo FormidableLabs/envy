@@ -31,13 +31,6 @@ describe('DebugToolbar', () => {
     render(<DebugToolbar />);
   });
 
-  it('should render a Menu component', () => {
-    const { getByTestId } = render(<DebugToolbar />);
-
-    const menu = getByTestId('debug-menu');
-    expect(menu).toHaveTextContent('Debug menu');
-  });
-
   it('should add all mock traces when the "Mock data" option is clicked', async () => {
     const addEvent = jest.fn();
 

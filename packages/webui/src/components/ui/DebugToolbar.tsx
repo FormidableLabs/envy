@@ -1,4 +1,4 @@
-import { HiOutlinePuzzle } from 'react-icons/hi';
+import { Bug } from 'lucide-react';
 
 import { Menu } from '@/components';
 import useApplication from '@/hooks/useApplication';
@@ -29,5 +29,5 @@ export default function DebugToolbar() {
     },
   ];
 
-  return <Menu data-test-id="debug-menu" label="Debug menu" Icon={HiOutlinePuzzle} items={debugOptions} />;
+  return <Menu data-test-id="debug-menu" Icon={Bug} items={debugOptions} />;
 }

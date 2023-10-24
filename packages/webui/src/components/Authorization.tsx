@@ -1,6 +1,6 @@
 import { safeParseJson } from '@envyjs/core';
+import { ChevronDown, ChevronUp, Code2, MoreHorizontal } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { HiChevronDown, HiChevronUp, HiCode, HiDotsHorizontal } from 'react-icons/hi';
 
 import { Code, IconButton, JsonDisplay } from '@/components';
 import { tw } from '@/utils';
@@ -91,7 +91,7 @@ export default function Authorization({ value }: AuthorizationProps) {
                   {type} {token}
                 </div>
                 <div className="flex items-center justify-end ml-auto">
-                  <HiChevronDown className="w-6 h-6" />
+                  <ChevronDown className="w-6 h-6" />
                 </div>
               </div>
             );
@@ -106,7 +106,7 @@ export default function Authorization({ value }: AuthorizationProps) {
           <>
             <IconButton
               data-test-id="token-expanded-button"
-              Icon={HiDotsHorizontal}
+              Icon={MoreHorizontal}
               title="View full token"
               className={tw(tokenState === TokenState.Expanded && 'bg-neutral')}
               disabled={tokenState === TokenState.Expanded}
@@ -117,7 +117,7 @@ export default function Authorization({ value }: AuthorizationProps) {
             {decodedToken && (
               <IconButton
                 data-test-id="token-decoded-button"
-                Icon={HiCode}
+                Icon={Code2}
                 title="Decode token"
                 className={tw(tokenState === TokenState.Decoded && 'bg-neutral')}
                 onClick={() => setTokenState(TokenState.Decoded)}
@@ -127,7 +127,7 @@ export default function Authorization({ value }: AuthorizationProps) {
             )}
             <IconButton
               data-test-id="token-minimal-button"
-              Icon={HiChevronUp}
+              Icon={ChevronUp}
               title="Collapse"
               className="ml-auto px-0"
               onClick={() => setTokenState(TokenState.Minimal)}

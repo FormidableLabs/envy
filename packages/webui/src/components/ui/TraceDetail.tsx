@@ -1,6 +1,6 @@
 import { HttpRequestState } from '@envyjs/core';
+import { X } from 'lucide-react';
 import { useCallback, useEffect, useRef } from 'react';
-import { HiX } from 'react-icons/hi';
 
 import { Code, DateTime, Field, Fields, IconButton, JsonDisplay, Loading, Section, XmlDisplay } from '@/components';
 import useApplication from '@/hooks/useApplication';
@@ -107,12 +107,7 @@ export default function TraceDetail() {
                   </span>
                   <span className="flex items-center gap-2">
                     <CopyAsCurlButton data-test-id="copy-as-curl" trace={trace} />
-                    <IconButton
-                      Icon={HiX}
-                      onClick={() => clearSelectedTrace()}
-                      className="py-2.5"
-                      data-test-id="close-trace"
-                    />
+                    <IconButton Icon={X} onClick={() => clearSelectedTrace()} data-test-id="close-trace" />
                   </span>
                 </span>
                 <span data-test-id="url" className="block">

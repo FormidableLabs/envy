@@ -1,5 +1,7 @@
+import { MoonStar, SunMedium } from 'lucide-react';
 import { useState } from 'react';
-import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi';
+
+import IconButton from './IconButton';
 
 export default function DarkModeToggle() {
   const initialTheme = localStorage.theme === 'dark';
@@ -19,19 +21,7 @@ export default function DarkModeToggle() {
     setUseDarkMode(shouldSetDarkMode);
   };
 
-  return (
-    <div className="flex flex-col justify-center">
-      <label
-        className="relative cursor-pointer p-2.5 ring-1 ring-inset ring-primary text-secondary rounded-md shadow-sm bg-primary"
-        htmlFor="light-switch"
-        onClick={handleCheckboxChange}
-        role="toggle"
-      >
-        <HiOutlineSun className="dark:hidden" />
-        <HiOutlineMoon className="hidden dark:block" />
+  const Icon = useDarkMode ? MoonStar : SunMedium;
 
-        <span className="sr-only">Switch to light / dark version</span>
-      </label>
-    </div>
-  );
+  return <IconButton Icon={Icon} onClick={handleCheckboxChange} role="toggle" />;
 }

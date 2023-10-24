@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { HiTrash } from 'react-icons/hi';
+import { Trash } from 'lucide-react';
 
 import Button from './IconButton';
 
@@ -23,6 +23,6 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     children: 'Trash Can',
-    Icon: HiTrash,
+    Icon: Trash,
   },
 };

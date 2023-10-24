@@ -3,13 +3,6 @@ import { cleanup, render } from '@testing-library/react';
 import Header from './Header';
 
 jest.mock(
-  '@/components/ui/ConnectionStatus',
-  () =>
-    function MockConnectionStatus() {
-      return <div data-test-id="mock-connection-status">Mock ConnectionStatus component</div>;
-    },
-);
-jest.mock(
   '@/components/ui/DebugToolbar',
   () =>
     function MockDebugToolbar() {
@@ -34,13 +27,6 @@ describe('Header', () => {
 
   it('should render without error', () => {
     render(<Header />);
-  });
-
-  it('should render the connection status component', () => {
-    const { getByTestId } = render(<Header />);
-
-    const connectionStatus = getByTestId('mock-connection-status');
-    expect(connectionStatus).toBeVisible();
   });
 
   it('should render the filters and actions component', () => {

@@ -17,7 +17,7 @@ function Button({ onClick, className, children, ...props }: ButtonProps, ref: Re
     <button
       ref={finalRef}
       className={tw(
-        'flex gap-2 items-center py-1.5 px-3 text-secondary bg-primary border border-solid border-primary rounded-md shadow-sm hover:bg-gray-50',
+        'flex gap-2 items-center p-2 text-secondary bg-primary border border-solid border-primary rounded-md shadow-sm hover:bg-gray-50',
         className,
       )}
       onClick={handleClick}

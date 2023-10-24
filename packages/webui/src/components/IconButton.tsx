@@ -1,16 +1,16 @@
+import { LucideIcon } from 'lucide-react';
 import { Ref, forwardRef } from 'react';
-import { IconType } from 'react-icons';
 
 import Button, { ButtonProps } from './Button';
 
 export type IconButtonProps = ButtonProps & {
-  Icon?: IconType;
+  Icon?: LucideIcon | React.FC;
 };
 
 function IconButton({ Icon, children, ...props }: IconButtonProps, ref: Ref<HTMLButtonElement>) {
   return (
     <Button ref={ref} {...props}>
-      {Icon && <Icon />}
+      {Icon && <Icon className="h-6 w-6" />}
       {children}
     </Button>
   );

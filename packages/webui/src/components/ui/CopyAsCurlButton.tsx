@@ -1,7 +1,7 @@
 import { safeParseJson } from '@envyjs/core';
 import { CurlGenerator } from 'curl-generator';
+import { ClipboardCopy } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { HiOutlineClipboardCopy } from 'react-icons/hi';
 
 import { IconButton } from '@/components';
 import { Trace } from '@/types';
@@ -31,7 +31,7 @@ export default function CopyAsCurlButton({ trace, ...props }: CopyAsCurlButtonPr
   }
 
   return (
-    <IconButton {...props} Icon={HiOutlineClipboardCopy} onClick={async () => await copyAsCurl()}>
+    <IconButton {...props} Icon={ClipboardCopy} onClick={async () => await copyAsCurl()}>
       Copy as cURL snippet
     </IconButton>
   );

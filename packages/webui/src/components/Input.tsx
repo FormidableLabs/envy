@@ -1,6 +1,5 @@
+import { LucideIcon, X } from 'lucide-react';
 import { ChangeEvent, Ref, RefObject, forwardRef, useEffect, useRef, useState } from 'react';
-import { IconType } from 'react-icons';
-import { HiX } from 'react-icons/hi';
 
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
 import usePlatform from '@/hooks/usePlatform';
@@ -8,7 +7,7 @@ import usePlatform from '@/hooks/usePlatform';
 const DEBOUNCE_TIMEOUT = 300;
 
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
-  Icon?: IconType;
+  Icon?: LucideIcon | React.FC;
   focusKey?: string;
   onChange?: (value: string) => void;
 };
@@ -73,7 +72,7 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
           </div>
         )}
         <input
-          className="block w-full rounded-md border-0 bg-neutral py-1.5 pl-10 pr-3 ring-1 ring-primary placeholder:text-gray-500 focus:ring-lime-600"
+          className="block w-full rounded-md border-0 bg-neutral py-2 pl-10 pr-3 ring-1 ring-primary placeholder:text-gray-500 focus:ring-lime-600"
           ref={finalRef}
           type={inputType}
           onChange={handleChange}
@@ -92,7 +91,7 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
             className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral cursor-pointer"
             onClick={clearValue}
           >
-            <HiX />
+            <X />
           </span>
         )}
       </div>

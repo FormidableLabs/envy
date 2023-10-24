@@ -5,9 +5,9 @@ import { setUsePlatformData } from '@/testing/mockUsePlatform';
 
 import Input from './Input';
 
-jest.mock('react-icons/hi', () => ({
-  HiX: function MockHiX() {
-    return <>Mock HiX component</>;
+jest.mock('lucide-react', () => ({
+  X: function MockX() {
+    return <>Mock X component</>;
   },
 }));
 
@@ -153,7 +153,7 @@ describe('Input', () => {
       expect(input).toHaveValue('Something');
 
       const clearButton = getByTestId('input-clear');
-      expect(clearButton).toHaveTextContent('Mock HiX component');
+      expect(clearButton).toHaveTextContent('Mock X component');
     });
 
     it('should clear textbox when clicked', async () => {
