@@ -91,7 +91,7 @@ export default function Authorization({ value }: AuthorizationProps) {
                   {type} {token}
                 </div>
                 <div className="flex items-center justify-end ml-auto">
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown className="w-6 h-6" />
                 </div>
               </div>
             );

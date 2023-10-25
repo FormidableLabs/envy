@@ -16,9 +16,6 @@ import { Trace } from '@/types';
 import TraceDetail from './TraceDetail';
 
 jest.mock('@/components', () => ({
-  Badge: function ({ children }: any) {
-    return <>Mock Badge component: {children}</>;
-  },
   Code: function ({ children }: any) {
     return <>Mock Code component: {children}</>;
   },
@@ -122,7 +119,7 @@ describe('TraceDetail', () => {
     cleanup();
   });
 
-  fit('should render without error', () => {
+  it('should render without error', () => {
     render(<TraceDetail />);
   });
 

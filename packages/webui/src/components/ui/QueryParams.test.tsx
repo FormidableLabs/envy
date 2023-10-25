@@ -28,7 +28,21 @@ describe('QueryParams', () => {
     render(<QueryParams trace={trace} />);
   });
 
-  it('should pass trace query params as `values`', () => {
+  it('should pass `label` "Query params" to KeyValueList component', () => {
+    const trace = {} as Trace;
+    render(<QueryParams trace={trace} />);
+
+    expect(mockKeyValueListComponent).lastCalledWith(expect.objectContaining({ label: 'Query params' }));
+  });
+
+  it('should pass empty `keyValuePairs` if trace has no query params', () => {
+    const trace = {} as Trace;
+    render(<QueryParams trace={trace} />);
+
+    expect(mockKeyValueListComponent).lastCalledWith(expect.objectContaining({ keyValuePairs: [] }));
+  });
+
+  it('should pass trace query params as `keyValuePairs`', () => {
     const trace = {
       http: {
         path: '/page?foo=bar&baz=qux',
@@ -38,7 +52,7 @@ describe('QueryParams', () => {
 
     expect(mockKeyValueListComponent).lastCalledWith(
       expect.objectContaining({
-        values: [
+        keyValuePairs: [
           ['foo', 'bar'],
           ['baz', 'qux'],
         ],

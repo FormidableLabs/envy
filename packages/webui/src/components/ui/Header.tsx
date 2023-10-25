@@ -12,7 +12,7 @@ export default function Header() {
   const isDebugMode = process.env.NODE_ENV !== 'production';
 
   return (
-    <header className="p-3 bg-secondary border-b border-primary shadow">
+    <header className="shadow p-3 bg-secondary">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <div>

@@ -87,7 +87,7 @@ input[type='search']::-webkit-search-results-decoration {
  */
 
 .p-default {
-  @apply py-4 px-3;
+  @apply py-4 px-6;
 }
 
 .m-default {

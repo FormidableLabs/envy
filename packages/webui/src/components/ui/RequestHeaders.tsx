@@ -10,5 +10,5 @@ export default function RequestHeaders({ trace }: { trace: Trace }) {
   const headers = cloneHeaders(requestHeaders) as Record<string, any>;
   if (headers.authorization) headers.authorization = <Authorization value={headers.authorization} />;
 
-  return <KeyValueList values={Object.entries(headers)} />;
+  return <KeyValueList label="Headers" keyValuePairs={Object.entries(headers)} />;
 }
