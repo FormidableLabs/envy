@@ -1,23 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import KeyValueList from './KeyValueList';
+import Badge from './Badge';
 
 const meta = {
-  title: 'Components/KeyValueList',
-  component: KeyValueList,
+  title: 'Components/Badge',
+  component: Badge,
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof KeyValueList>;
+} satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   args: {
-    values: [
-      ['Key 1', 'Value 1'],
-      ['Key 2', 'Value 2'],
-    ],
+    children: 'Label',
+    className: 'bg-gray-100',
   },
 };

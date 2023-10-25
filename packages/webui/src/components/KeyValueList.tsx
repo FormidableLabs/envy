@@ -1,19 +1,16 @@
-import { Field } from './Fields';
+export type KeyValuePair = [string, React.ReactNode];
 
-export type KeyValuePair = [string, any];
-
-type KeyValueListProps = {
-  label: string;
-  keyValuePairs: [string, any][];
+type KeyValueList = {
+  values: KeyValuePair[];
 };
 
-export default function KeyValueList({ label, keyValuePairs }: KeyValueListProps) {
-  if (!keyValuePairs.length) return null;
+export default function KeyValueList({ values }: KeyValueList) {
+  if (!values.length) return null;
 
   return (
-    <Field label={label}>
-      <div className="table w-full">
-        {keyValuePairs.map(([k, v]) => {
+    <table className="table-fixed min-w-full font-mono text-sm">
+      <tbody>
+        {values.map(([k, v]) => {
           let value: React.ReactNode = v;
           switch (typeof v) {
             case 'string': {
@@ -26,15 +23,14 @@ export default function KeyValueList({ label, keyValuePairs }: KeyValueListProps
               break;
             }
           }
-
           return (
-            <span data-test-id="key-value-item" key={k} className="w-full table-row pt-2 first:pt-0">
-              <span className="table-cell whitespace-nowrap font-semibold py-1 pr-4 min-w-[12rem]">{k}: </span>
-              <span className="group table-cell w-full break-all overflow-x-visible py-1">{value}</span>
-            </span>
+            <tr key={k} data-test-id="key-value-item">
+              <td className="whitespace-nowrap pl-3 pr-2 py-1 font-semibold align-top w-40">{k}</td>
+              <td className="break-all px-2 py-1">{value}</td>
+            </tr>
           );
         })}
-      </div>
-    </Field>
+      </tbody>
+    </table>
   );
 }
