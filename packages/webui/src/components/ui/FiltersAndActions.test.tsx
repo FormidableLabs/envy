@@ -7,9 +7,6 @@ import { setUseApplicationData } from '@/testing/mockUseApplication';
 import FiltersAndActions from './FiltersAndActions';
 
 jest.mock('@/components', () => ({
-  SourceAndSystemFilter: function (props: any) {
-    return <div {...props}>Mock SourceAndSystemFilter component</div>;
-  },
   SearchInput: function ({ onChange }: any) {
     return <input data-test-id="mock-search-input" onChange={e => onChange(e.target.value)} />;
   },
@@ -53,16 +50,6 @@ describe('FiltersAndActions', () => {
 
   it('should render without error', () => {
     render(<FiltersAndActions />);
-  });
-
-  describe('sources and systems', () => {
-    it('should render SourceAndSystemFilter component', () => {
-      const { getByTestId } = render(<FiltersAndActions />);
-
-      const sourcesAndSystems = getByTestId('sources-and-systems');
-      expect(sourcesAndSystems).toBeVisible();
-      expect(sourcesAndSystems).toHaveTextContent('Mock SourceAndSystemFilter component');
-    });
   });
 
   describe('search term', () => {

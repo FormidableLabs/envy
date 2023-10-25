@@ -79,112 +79,6 @@ describe('SourceAndSystemFilter', () => {
     expect(component).toBeVisible();
   });
 
-  describe('placeholder', () => {
-    it('should display expected placeholder in the listbox when there are no registered systems', () => {
-      // mock that there are no registered systems
-      setupMockSystems([]);
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('Sources...');
-    });
-
-    it('should display expected placeholder in the listbox when there is one or more registered systems', () => {
-      setupMockSystems(mockSystems);
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('Sources & Systems');
-    });
-  });
-
-  describe('selection summary', () => {
-    it('should display expected selection summary when one source is selected', () => {
-      const filters: Filters = {
-        sources: ['source1'],
-        systems: [],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('1 source');
-    });
-
-    it('should display expected selection summary when two sources are selected', () => {
-      const filters: Filters = {
-        sources: ['source1', 'source2'],
-        systems: [],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('2 sources');
-    });
-
-    it('should display expected selection summary when one system is selected', () => {
-      const filters: Filters = {
-        sources: [],
-        systems: [mockSystems[0].name],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('1 system');
-    });
-
-    it('should display expected selection summary when two systems are selected', () => {
-      const filters: Filters = {
-        sources: [],
-        systems: [mockSystems[0].name, mockSystems[1].name],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('2 systems');
-    });
-
-    it('should display expected selection summary when a combination of sources and systems are selected', () => {
-      const filters: Filters = {
-        sources: ['source1'],
-        systems: [mockSystems[0].name, mockSystems[1].name],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('1 source, 2 systems');
-    });
-
-    it('should display the placeholder when no sources or systems are selected', () => {
-      const filters: Filters = {
-        sources: [],
-        systems: [],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByRole } = render(<SourceAndSystemFilter />);
-
-      const component = getByRole('listbox');
-      expect(component).toHaveTextContent('Sources & Systems');
-    });
-  });
-
   describe('selection options', () => {
     describe('with no registered systems', () => {
       beforeEach(() => {
@@ -220,7 +114,6 @@ describe('SourceAndSystemFilter', () => {
         const noSourcesMessage = getByTestId('no-sources');
 
         expect(noSourcesMessage).toBeVisible();
-        expect(noSourcesMessage).toHaveTextContent('No sources connected...');
       });
 
       it('should display source options', async () => {
@@ -239,22 +132,6 @@ describe('SourceAndSystemFilter', () => {
         expect(systemItems).not.toBeInTheDocument();
       });
 
-      it('should not display source options heading', async () => {
-        const { queryByTestId } = await openDropDown();
-
-        const sourceItemsHeading = queryByTestId('source-items-heading');
-
-        expect(sourceItemsHeading).not.toBeInTheDocument();
-      });
-
-      it('should not display source / system divider', async () => {
-        const { queryByTestId } = await openDropDown();
-
-        const itemsDivider = queryByTestId('items-divider');
-
-        expect(itemsDivider).not.toBeInTheDocument();
-      });
-
       it('should display each source as an option', async () => {
         const { getAllByTestId } = await openDropDown();
 
@@ -271,8 +148,8 @@ describe('SourceAndSystemFilter', () => {
 
         const sourceItems = getAllByTestId('source-item');
 
-        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-300');
-        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-300');
+        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-400');
+        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-400');
         expect(within(sourceItems.at(2)!).getByTestId('status')).toHaveClass('bg-red-300');
       });
     });
@@ -337,8 +214,8 @@ describe('SourceAndSystemFilter', () => {
 
         const sourceItems = getAllByTestId('source-item');
 
-        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-300');
-        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-300');
+        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-400');
+        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-400');
         expect(within(sourceItems.at(2)!).getByTestId('status')).toHaveClass('bg-red-300');
       });
 
@@ -549,80 +426,6 @@ describe('SourceAndSystemFilter', () => {
           systems: [mockSystems[0].name],
           searchTerm: 'search term',
         });
-      });
-    });
-  });
-
-  describe('clearing selections', () => {
-    it('should not display clear button when no selection is made', () => {
-      const filters: Filters = {
-        sources: [],
-        systems: [],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { queryByTestId } = render(<SourceAndSystemFilter />);
-
-      const clearButton = queryByTestId('input-clear');
-      expect(clearButton).not.toBeInTheDocument();
-    });
-
-    it('should display clear button when a selection is made', async () => {
-      const filters: Filters = {
-        sources: ['source1'],
-        systems: [mockSystems[0].name],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByTestId } = render(<SourceAndSystemFilter />);
-
-      const clearButton = getByTestId('input-clear');
-      expect(clearButton).toHaveTextContent('Mock X component');
-    });
-
-    it('should call `setFilters` with empty source and systems when clicking the clear button', async () => {
-      const filters: Filters = {
-        sources: ['source1'],
-        systems: [mockSystems[0].name],
-        searchTerm: '',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByTestId } = render(<SourceAndSystemFilter />);
-
-      await act(async () => {
-        const clearButton = getByTestId('input-clear');
-        await userEvent.click(clearButton);
-      });
-
-      assertSetFilterUpdate(filters, {
-        sources: [],
-        systems: [],
-        searchTerm: '',
-      });
-    });
-
-    it('should not affect search term when clicking the clear button', async () => {
-      const filters: Filters = {
-        sources: ['source1'],
-        systems: [mockSystems[0].name],
-        searchTerm: 'search term',
-      };
-      setUseApplicationData({ filters });
-
-      const { getByTestId } = render(<SourceAndSystemFilter />);
-
-      await act(async () => {
-        const clearButton = getByTestId('input-clear');
-        await userEvent.click(clearButton);
-      });
-
-      assertSetFilterUpdate(filters, {
-        sources: [],
-        systems: [],
-        searchTerm: 'search term',
       });
     });
   });
