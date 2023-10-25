@@ -5,6 +5,7 @@ import DarkModeToggle from '../DarkModeToggle';
 import DebugToolbar from './DebugToolbar';
 import FiltersAndActions from './FiltersAndActions';
 import Logo from './Logo';
+import SourceAndSystemFilter from './SourceAndSystemFilter';
 
 export default function Header() {
   const { enableThemeSwitcher } = useFeatureFlags();
@@ -21,6 +22,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-2">
           <FiltersAndActions />
+          <SourceAndSystemFilter />
           {enableThemeSwitcher && <DarkModeToggle />}
           {isDebugMode && <DebugToolbar />}
         </div>

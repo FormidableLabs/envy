@@ -16,6 +16,13 @@ jest.mock(
       return <div data-test-id="mock-filters-and-actions">Mock FiltersAndActions component</div>;
     },
 );
+jest.mock(
+  '@/components/ui/SourceAndSystemFilter',
+  () =>
+    function SourceAndSystemFilter() {
+      return <div data-test-id="mock-source-and-systems">Mock Source and Systems component</div>;
+    },
+);
 
 describe('Header', () => {
   const originalProcessEnv = process.env;
