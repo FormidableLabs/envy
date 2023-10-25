@@ -9,8 +9,12 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
-    type: {
-      options: ['standard', 'action', 'ghost', 'danger'],
+    size: {
+      options: ['small', 'standard', 'large'],
+      control: { type: 'select' },
+    },
+    border: {
+      options: ['standard', 'ghost'],
       control: { type: 'select' },
     },
   },
@@ -22,5 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const Standard: Story = {
   args: {
     children: 'Standard Button',
+    size: 'standard',
+    border: 'standard',
   },
 };

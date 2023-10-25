@@ -3,8 +3,8 @@ import { tw } from '@/utils';
 
 export function TabList({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-4 bg-secondary border-b border-primary">
-      <ul className="flex flex-wrap text-sm gap-2">{children}</ul>
+    <div className="bg-secondary border-b border-primary">
+      <ul className="flex flex-wrap text-sm gap-1">{children}</ul>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Trash } from 'lucide-react';
 
+import { default as ButtonMeta } from './Button.stories';
 import Button from './IconButton';
 
 const meta = {
@@ -9,12 +10,7 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    type: {
-      options: ['standard', 'action', 'ghost', 'danger'],
-      control: { type: 'select' },
-    },
-  },
+  argTypes: ButtonMeta.argTypes,
 } satisfies Meta<typeof Button>;
 
 export default meta;

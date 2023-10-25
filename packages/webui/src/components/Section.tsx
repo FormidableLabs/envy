@@ -10,30 +10,30 @@ type SectionProps = React.HTMLAttributes<HTMLElement> & {
 
 export default function Section({ title, collapsible = true, className, children, ...props }: SectionProps) {
   const [expanded, setExpanded] = useState(true);
-  const Icon = expanded ? ChevronUp : ChevronDown;
+  const Icon = expanded ? ChevronDown : ChevronUp;
   return (
     <>
       {title && (
         <div
           data-test-id="section-title"
           className={tw(
-            `relative p-short mt-4`,
-            `bg-secondary border-b border-primary`,
-            `font-semibold uppercase`,
+            `flex flex-row items-center px-3 py-2`,
+            `bg-gray-300 border-b border-t border-primary`,
+            `font-bold uppercase`,
             collapsible ? 'cursor-pointer' : '',
-            className || '',
+            className,
           )}
           onClick={() => {
             if (collapsible) setExpanded(x => !x);
           }}
           {...props}
         >
-          {title}
-          {collapsible && <Icon className="absolute-v-center right-6" />}
+          <div className="flex-1">{title}</div>
+          {collapsible && <Icon className="h-4 w-4" />}
         </div>
       )}
       {children && expanded && (
-        <div data-test-id="section-content" className="p-6">
+        <div data-test-id="section-content" className="mb-2">
           {children}
         </div>
       )}

@@ -36,20 +36,6 @@ describe('ResponseHeaders', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('should pass `label` "Headers" to KeyValueList component', () => {
-    const trace = {
-      http: {
-        responseHeaders: {
-          foo: 'bar',
-          baz: 'qux',
-        } as Record<string, string>,
-      },
-    } as Trace;
-    render(<ResponseHeaders trace={trace} />);
-
-    expect(mockKeyValueListComponent).lastCalledWith(expect.objectContaining({ label: 'Headers' }));
-  });
-
   it('should pass trace request headers as `keyValuePairs`', () => {
     const trace = {
       http: {
@@ -63,7 +49,7 @@ describe('ResponseHeaders', () => {
 
     expect(mockKeyValueListComponent).lastCalledWith(
       expect.objectContaining({
-        keyValuePairs: [
+        values: [
           ['foo', 'bar'],
           ['baz', 'qux'],
         ],
@@ -71,7 +57,7 @@ describe('ResponseHeaders', () => {
     );
   });
 
-  it('should pass Authorizatin component for "authorization" header`', () => {
+  it('should pass Authorization component for "authorization" header`', () => {
     const trace = {
       http: {
         responseHeaders: {
@@ -81,7 +67,7 @@ describe('ResponseHeaders', () => {
     } as Trace;
     render(<ResponseHeaders trace={trace} />);
 
-    const [key, value] = mockKeyValueListComponent.mock.lastCall[0].keyValuePairs[0];
+    const [key, value] = mockKeyValueListComponent.mock.lastCall[0].values[0];
     expect(key).toEqual('authorization');
     expect(value.type).toEqual(Authorization);
     expect(value.props).toEqual({ value: 'some_auth_token' });

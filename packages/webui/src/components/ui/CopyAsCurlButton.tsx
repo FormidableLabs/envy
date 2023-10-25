@@ -31,8 +31,6 @@ export default function CopyAsCurlButton({ trace, ...props }: CopyAsCurlButtonPr
   }
 
   return (
-    <IconButton {...props} Icon={ClipboardCopy} onClick={async () => await copyAsCurl()}>
-      Copy as cURL snippet
-    </IconButton>
+    <IconButton {...props} Icon={ClipboardCopy} size="small" border="ghost" onClick={async () => await copyAsCurl()} />
   );
 }
