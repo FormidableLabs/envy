@@ -95,9 +95,10 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
               data-test-id="auto-scroll"
               label="Auto scroll"
               checked={autoScroll}
+              size="small"
               onChange={value => setAutoScroll(value)}
             />
-            <IconButton Icon={Trash} onClick={clearTraces} className="uppercase">
+            <IconButton Icon={Trash} size="small" onClick={clearTraces} className="uppercase">
               Clear
             </IconButton>
           </div>
