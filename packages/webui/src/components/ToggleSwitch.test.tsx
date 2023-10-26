@@ -3,6 +3,15 @@ import userEvent from '@testing-library/user-event';
 
 import ToggleSwitch from './ToggleSwitch';
 
+jest.mock('lucide-react', () => ({
+  CheckSquare: function CheckSquare() {
+    return <div data-test-id="checkmark">Mock Loading component</div>;
+  },
+  Square: function Square() {
+    return <>Mock Loading component</>;
+  },
+}));
+
 describe('ToggleSwitch', () => {
   afterEach(() => {
     cleanup();

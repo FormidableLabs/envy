@@ -99,9 +99,9 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .p-cell {
-  @apply py-2 px-3;
-  @apply first:pl-6;
-  @apply last:pr-6;
+  @apply py-1 px-2;
+  @apply first:pl-4;
+  @apply last:pr-4;
 }
 
 .absolute-v-center {
