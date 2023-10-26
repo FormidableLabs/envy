@@ -282,7 +282,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-duration');
+        const methodData = within(traceRow).getByTestId('column-data-time');
 
         expect(methodData).toHaveTextContent('Mock Loading component');
       });
@@ -301,7 +301,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-duration');
+        const methodData = within(traceRow).getByTestId('column-data-time');
 
         expect(methodData).toHaveTextContent('1.23s');
       });
@@ -320,7 +320,7 @@ describe('TraceList', () => {
 
         const { getByTestId } = render(<TraceList />);
         const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-duration');
+        const methodData = within(traceRow).getByTestId('column-data-time');
 
         expect(methodData).toHaveTextContent('1.24s');
       });

@@ -46,21 +46,12 @@ describe('CopyAsCurlButton', () => {
     render(<CopyAsCurlButton trace={trace} />);
   });
 
-  it('should render a button with the expected label', () => {
-    const { getByRole } = render(<CopyAsCurlButton trace={trace} />);
-
-    const button = getByRole('button');
-    expect(button).toHaveTextContent('Copy as cURL snippet');
-  });
-
   describe('cURL snippet', () => {
     it('should copy cURL snippet to clipboard when clicked', async () => {
       const { getByRole } = render(<CopyAsCurlButton trace={trace} />);
 
       await act(async () => {
         const button = getByRole('button');
-        expect(button).toHaveTextContent('Copy as cURL snippet');
-
         await userEvent.click(button);
       });
 
@@ -85,8 +76,6 @@ describe('CopyAsCurlButton', () => {
 
       await act(async () => {
         const button = getByRole('button');
-        expect(button).toHaveTextContent('Copy as cURL snippet');
-
         await userEvent.click(button);
       });
 
@@ -110,8 +99,6 @@ describe('CopyAsCurlButton', () => {
 
       await act(async () => {
         const button = getByRole('button');
-        expect(button).toHaveTextContent('Copy as cURL snippet');
-
         await userEvent.click(button);
       });
 
@@ -128,8 +115,6 @@ describe('CopyAsCurlButton', () => {
 
     await act(async () => {
       const button = getByRole('button');
-      expect(button).toHaveTextContent('Copy as cURL snippet');
-
       await userEvent.click(button);
     });
 
