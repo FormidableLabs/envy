@@ -58,24 +58,9 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
         ) : (
           <div data-test-id="trace-list" className="table table-fixed w-full relative">
             <div className="table-header-group font-bold bg-primary sticky top-0 uppercase">
-              <TraceListHeader className="w-[50px]" data-test-id="column-heading-badge" />
-              <TraceListHeader data-test-id="column-heading-request">Request</TraceListHeader>
-              {!selectedTraceId && (
-                <>
-                  <TraceListHeader className="w-[85px]" data-test-id="column-heading-method">
-                    Method
-                  </TraceListHeader>
-                  <TraceListHeader className="w-[85px]" data-test-id="column-heading-status">
-                    Status
-                  </TraceListHeader>
-                  <TraceListHeader className="text-right w-[85px]" data-test-id="column-heading-code">
-                    Code
-                  </TraceListHeader>
-                </>
-              )}
-              <TraceListHeader className="text-right w-[85px]" data-test-id="column-heading-time">
-                Time
-              </TraceListHeader>
+              <TraceListHeader className="w-[85px]">Method</TraceListHeader>
+              <TraceListHeader>Request</TraceListHeader>
+              <TraceListHeader className="text-right w-[85px]">Time</TraceListHeader>
             </div>
             <div className="flex-1 table-row-group">
               {data.map(trace => (

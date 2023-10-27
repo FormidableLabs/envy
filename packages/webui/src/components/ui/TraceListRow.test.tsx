@@ -166,13 +166,12 @@ describe('trace row data', () => {
       };
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
-      const badge = getByTestId('column-data-badge-cell').firstChild;
+      const badge = getByTestId('column-data-status-cell');
 
       if (bgColor) {
-        expect(badge).toHaveClass(`bg-${bgColor}`);
-        expect(badge).not.toHaveClass(`border-neutral`);
+        expect(badge).toHaveClass(`border-l-${bgColor}`);
       } else {
-        expect(badge).toHaveClass('bg-gray-100');
+        expect(badge).toHaveClass('border-gray-300');
       }
     });
 
