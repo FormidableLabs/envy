@@ -24,8 +24,12 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
         className={tw('border-0 p-0 border-l-8', badgeStyle(trace))}
         data-test-id="column-data-status-cell"
       >
-        <div data-test-id="column-data-method-cell">{trace.http?.method}</div>
-        <div data-test-id="column-data-code-cell">{trace.http?.statusCode}</div>
+        <div className="font-semibold" data-test-id="column-data-method-cell">
+          {trace.http?.method.toUpperCase()}
+        </div>
+        <div className="font-semibold text-xs text-opacity-70" data-test-id="column-data-code-cell">
+          {trace.http?.statusCode}
+        </div>
       </TraceListRowCell>
       <TraceListRowCell data-test-id="column-data-request-cell">
         <ListDataComponent trace={trace} />
