@@ -13,6 +13,8 @@ export default {
   collectCoverageFrom: [
     './src/**/*.{ts,tsx}',
     '!./src/testing/**/*.{ts,tsx}',
+    '!./src/**/*.stories.{ts,tsx}',
+    '!./src/**/__storybook__mocks__/*.ts',
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!**/dist/**',
