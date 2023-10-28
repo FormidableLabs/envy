@@ -126,7 +126,7 @@ export default function TraceDetail() {
         </div>
 
         <TabList>
-          <TabListItem title="Headers" id="default" />
+          <TabListItem title="Details" id="default" />
           {requestBody && <TabListItem title="Payload" id="payload" />}
           {responseBody && <TabListItem title="Response" id="response" />}
         </TabList>
@@ -146,6 +146,7 @@ export default function TraceDetail() {
                 <span className="break-all">{path}</span>
               </Field>
             </Fields>
+            <RequestDetailsComponent data-test-id="system-specific" trace={trace} />
           </Section>
 
           <QueryParams data-test-id="query-params" trace={trace} />
@@ -153,8 +154,6 @@ export default function TraceDetail() {
           <Section data-test-id="request-details" title="Request Headers">
             <RequestHeaders data-test-id="headers" trace={trace} />
           </Section>
-
-          <RequestDetailsComponent data-test-id="system-specific" trace={trace} />
 
           <Section data-test-id="response-details" title="Response details">
             {responseComplete && duration ? (
