@@ -1,14 +1,14 @@
 import { cleanup, render } from '@testing-library/react';
 
-import TraceListHeader from './TraceListHeader';
+import TraceListRowCell from './TraceListRowCell';
 
-describe('TraceListHeader', () => {
+describe('TraceListRowCell', () => {
   afterEach(() => {
     cleanup();
   });
 
   it('should not overwrite base css classes', () => {
-    const { container } = render(<TraceListHeader className="lkj" />);
+    const { container } = render(<TraceListRowCell className="lkj" />);
     expect(container.firstChild).toHaveClass('table-cell');
     expect(container.firstChild).toHaveClass('lkj');
   });

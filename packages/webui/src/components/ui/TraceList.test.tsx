@@ -25,28 +25,28 @@ jest.mock('@/components', () => ({
     );
   },
   IconButton: function MockIconButton() {
-    return <>Mock Icon Button</>;
+    return <>Mock IconButton component</>;
   },
 }));
 
 jest.mock('./TraceListHeader', () => ({
   __esModule: true,
   default: function TraceListHeader() {
-    return <>Mock Loading component</>;
+    return <>Mock TraceListHeader component</>;
   },
 }));
 
 jest.mock('./TraceListPlaceholder', () => ({
   __esModule: true,
   default: function TraceListPlaceholder() {
-    return <>Mock Loading component</>;
+    return <>Mock TraceListPlaceholder component</>;
   },
 }));
 
 jest.mock('./TraceListRow', () => ({
   __esModule: true,
   default: function TraceListRow() {
-    return <div data-test-id="trace">Mock Loading component</div>;
+    return <div data-test-id="trace">Mock TraceListRow component</div>;
   },
 }));
 

@@ -21,7 +21,7 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
       )}
     >
       <TraceListRowCell
-        className={tw('border-0 p-0 border-l-8', badgeStyle(trace))}
+        className={tw('border-0 p-0 border-l-8', indicatorStyle(trace))}
         data-test-id="column-data-status-cell"
       >
         <div className="font-semibold" data-test-id="column-data-method-cell">
@@ -41,7 +41,7 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
   );
 }
 
-function badgeStyle(trace: Trace) {
+function indicatorStyle(trace: Trace) {
   const statusCode = trace.http?.statusCode;
 
   if (statusCode) {

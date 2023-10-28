@@ -21,27 +21,9 @@ jest.mock('@/systems', () => ({
   },
 }));
 
-describe('trace row data', () => {
+describe('TraceListRow', () => {
   afterEach(() => {
     cleanup();
-  });
-
-  describe('request column', () => {
-    it('should render ListDataComponent', () => {
-      const trace = {
-        id: '1',
-        timestamp: 0,
-        http: {
-          method: 'GET',
-          statusCode: undefined,
-        } as Trace['http'],
-      };
-
-      const { getByTestId } = render(<TraceListRow trace={trace} />);
-      const methodData = getByTestId('column-data-request-cell');
-
-      expect(methodData).toHaveTextContent('Mock ListDataComponent component');
-    });
   });
 
   describe('method column', () => {
@@ -59,7 +41,10 @@ describe('trace row data', () => {
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const methodData = getByTestId('column-data-method-cell');
+      const statusCodeData = getByTestId('column-data-code-cell');
+
       expect(methodData).toHaveTextContent('GET');
+      expect(statusCodeData).toBeEmptyDOMElement();
     });
 
     it('should display HTTP method and status code if response exists', () => {
@@ -74,26 +59,43 @@ describe('trace row data', () => {
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const methodData = getByTestId('column-data-method-cell');
+      const statusCodeData = getByTestId('column-data-code-cell');
 
       expect(methodData).toHaveTextContent('POST');
+      expect(statusCodeData).toHaveTextContent('204');
+    });
+
+    it('should render nothing for method and status if `http` property of trace is not defined', () => {
+      const trace = {
+        id: '1',
+        timestamp: 0,
+        http: undefined,
+      };
+
+      const { getByTestId } = render(<TraceListRow trace={trace} />);
+      const methodData = getByTestId('column-data-method-cell');
+      const statusCodeData = getByTestId('column-data-code-cell');
+
+      expect(methodData).toBeEmptyDOMElement();
+      expect(statusCodeData).toBeEmptyDOMElement();
     });
   });
 
-  describe('code column', () => {
-    it('should display HTTP code if response exists', () => {
+  describe('request column', () => {
+    it('should render ListDataComponent', () => {
       const trace = {
         id: '1',
         timestamp: 0,
         http: {
-          method: 'POST',
-          statusCode: 204,
+          method: 'GET',
+          statusCode: undefined,
         } as Trace['http'],
       };
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
-      const methodData = getByTestId('column-data-code-cell');
+      const methodData = getByTestId('column-data-request-cell');
 
-      expect(methodData).toHaveTextContent('204');
+      expect(methodData).toHaveTextContent('Mock ListDataComponent component');
     });
   });
 
@@ -195,24 +197,26 @@ describe('trace row data', () => {
     });
   });
 
-  it('should call `setSelectedTrace` passing ID of trace when clicked', async () => {
-    const setSelectedTraceFn = jest.fn();
-    setUseApplicationData({ setSelectedTrace: setSelectedTraceFn });
+  describe('row interaction', () => {
+    it('should call `setSelectedTrace` passing ID of trace when clicked', async () => {
+      const setSelectedTraceFn = jest.fn();
+      setUseApplicationData({ setSelectedTrace: setSelectedTraceFn });
 
-    const trace = {
-      id: '1234',
-      timestamp: 0,
-      http: {
-        method: 'GET',
-      } as Trace['http'],
-    };
-    const { getByTestId } = render(<TraceListRow trace={trace} />);
-    const traceRow = getByTestId('trace');
+      const trace = {
+        id: '1234',
+        timestamp: 0,
+        http: {
+          method: 'GET',
+        } as Trace['http'],
+      };
+      const { getByTestId } = render(<TraceListRow trace={trace} />);
+      const traceRow = getByTestId('trace');
 
-    await act(async () => {
-      await userEvent.click(traceRow);
+      await act(async () => {
+        await userEvent.click(traceRow);
+      });
+
+      expect(setSelectedTraceFn).toHaveBeenCalledWith('1234');
     });
-
-    expect(setSelectedTraceFn).toHaveBeenCalledWith('1234');
   });
 });

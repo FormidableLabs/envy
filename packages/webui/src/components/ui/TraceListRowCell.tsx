@@ -1,8 +1,6 @@
 import { tw } from '@/utils';
 
-type TraceListRowCellProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
-  className?: string;
-};
+type TraceListRowCellProps = React.HtmlHTMLAttributes<HTMLDivElement>;
 
 export default function TraceListRowCell({ className, children, ...props }: TraceListRowCellProps) {
   return (

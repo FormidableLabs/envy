@@ -1,8 +1,6 @@
 import { tw } from '@/utils';
 
-type TraceListHeaderProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
-  className?: string;
-};
+type TraceListHeaderProps = React.HtmlHTMLAttributes<HTMLDivElement>;
 
 export default function TraceListHeader({ className, children, ...props }: TraceListHeaderProps) {
   return (

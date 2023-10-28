@@ -5,10 +5,10 @@ import ToggleSwitch from './ToggleSwitch';
 
 jest.mock('lucide-react', () => ({
   CheckSquare: function CheckSquare() {
-    return <div data-test-id="checkmark">Mock Loading component</div>;
+    return <div data-test-id="checkmark">Mock CheckSqaure component</div>;
   },
   Square: function Square() {
-    return <>Mock Loading component</>;
+    return <>Mock Square component</>;
   },
 }));
 
