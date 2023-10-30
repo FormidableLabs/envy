@@ -8,7 +8,6 @@ import { tw } from '@/utils';
 const ReactJson = lazy<React.ComponentType<ReactJsonViewProps>>(async () => await import('@microlink/react-json-view'));
 
 type JsonDisplayProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
-  className?: string;
   children: object | string;
 };
 

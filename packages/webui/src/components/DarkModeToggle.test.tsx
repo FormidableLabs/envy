@@ -22,11 +22,18 @@ describe('DarkModeToggle', () => {
     const { getByRole } = render(<DarkModeToggle />);
     const toggle = getByRole('toggle');
 
+    // toggle once
     await act(async () => {
       await userEvent.click(toggle);
     });
 
-    const expectedDarkMode = isDarkModeOnRoot();
-    expect(expectedDarkMode).toEqual(!isDarkMode);
+    expect(isDarkModeOnRoot()).toEqual(!isDarkMode);
+
+    // toggle again
+    await act(async () => {
+      await userEvent.click(toggle);
+    });
+
+    expect(isDarkModeOnRoot()).toEqual(isDarkMode);
   });
 });

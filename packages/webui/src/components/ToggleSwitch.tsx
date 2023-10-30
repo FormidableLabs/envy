@@ -1,9 +1,9 @@
 import { CheckSquare, Square } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import IconButton from './IconButton';
+import IconButton, { IconButtonProps } from './IconButton';
 
-type ToggleSwitchProps = Omit<React.HTMLAttributes<HTMLButtonElement>, 'onChange'> & {
+type ToggleSwitchProps = Omit<IconButtonProps, 'onChange'> & {
   label?: string;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -21,7 +21,7 @@ export default function ToggleSwitch({ label, checked, onChange, ...props }: Tog
     if (onChange) onChange(!isChecked);
   };
 
-  const Icon = isChecked ? () => <CheckSquare data-test-id="checkmark" /> : Square;
+  const Icon = isChecked ? CheckSquare : Square;
 
   return (
     <>

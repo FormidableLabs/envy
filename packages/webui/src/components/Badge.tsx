@@ -1,6 +1,10 @@
+import { HTMLAttributes } from 'react';
+
 import { tw } from '@/utils';
 
-export default function Badge({ className, children }: { className?: string; children: React.ReactNode }) {
+type BadgeProps = HTMLAttributes<HTMLSpanElement>;
+
+export default function Badge({ className, children }: BadgeProps) {
   return (
     <span
       className={tw(

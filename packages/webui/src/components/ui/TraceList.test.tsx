@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
@@ -17,9 +17,6 @@ jest.mock('@/systems', () => ({
 }));
 
 jest.mock('@/components', () => ({
-  Loading: function MockLoading() {
-    return <>Mock Loading component</>;
-  },
   ToggleSwitch: function MockToggleSwitch({ checked, onChange, ...props }: any) {
     return (
       <div {...props} onClick={() => onChange(!checked)}>
@@ -28,7 +25,28 @@ jest.mock('@/components', () => ({
     );
   },
   IconButton: function MockIconButton() {
-    return <>Mock Loading component</>;
+    return <>Mock IconButton component</>;
+  },
+}));
+
+jest.mock('./TraceListHeader', () => ({
+  __esModule: true,
+  default: function TraceListHeader() {
+    return <>Mock TraceListHeader component</>;
+  },
+}));
+
+jest.mock('./TraceListPlaceholder', () => ({
+  __esModule: true,
+  default: function TraceListPlaceholder() {
+    return <>Mock TraceListPlaceholder component</>;
+  },
+}));
+
+jest.mock('./TraceListRow', () => ({
+  __esModule: true,
+  default: function TraceListRow() {
+    return <div data-test-id="trace">Mock TraceListRow component</div>;
   },
 }));
 
@@ -60,37 +78,6 @@ describe('TraceList', () => {
     render(<TraceList />);
   });
 
-  describe('when there are no traces', () => {
-    const scenarios = [
-      { status: 'connecting', useApplicationState: { connecting: true, connected: false }, message: 'Connecting...' },
-      {
-        status: 'connected',
-        useApplicationState: { connecting: false, connected: true },
-        message: 'Listening for traces...',
-      },
-      {
-        status: 'failed to connect',
-        useApplicationState: { connecting: false, connected: false },
-        message: 'Unable to connect',
-      },
-    ];
-
-    it.each(scenarios)('shoud rennder $status message when in $status state', ({ useApplicationState, message }) => {
-      setUseApplicationData({
-        ...useApplicationState,
-      });
-
-      const { getByTestId, queryByTestId } = render(<TraceList />);
-      const noTracesMessage = getByTestId('no-traces');
-      const traceList = queryByTestId('trace-list');
-
-      expect(noTracesMessage).toBeVisible();
-      expect(noTracesMessage).toHaveTextContent(message);
-
-      expect(traceList).not.toBeInTheDocument();
-    });
-  });
-
   describe('where there are traces', () => {
     let setSelectedTraceFn: jest.Mock;
 
@@ -118,212 +105,6 @@ describe('TraceList', () => {
 
       const traces = getAllByTestId('trace');
       expect(traces).toHaveLength(mockTraces.length);
-    });
-
-    it('should call `setSelectedTrace` passing ID of trace when clicked', async () => {
-      const { getAllByTestId } = render(<TraceList />);
-
-      const traces = getAllByTestId('trace');
-      const thirdTraceRow = traces.at(2)!;
-
-      await act(async () => {
-        await userEvent.click(thirdTraceRow);
-      });
-
-      const thirdTrace = mockTraces[2];
-      expect(setSelectedTraceFn).toHaveBeenCalledWith(thirdTrace.id);
-    });
-  });
-
-  describe('trace row colours', () => {
-    const scenarios = [
-      { statusCode: 500, bgColor: 'purple-500' },
-      { statusCode: 404, bgColor: 'red-500' },
-      { statusCode: 300, bgColor: 'yellow-500' },
-      { statusCode: 200, bgColor: 'green-500' },
-    ];
-
-    it.each(scenarios)('should have $bgColor left border for HTTP $statusCode responses', ({ statusCode, bgColor }) => {
-      setUpTraces([
-        {
-          id: '1',
-          timestamp: 0,
-          http: {
-            method: 'GET',
-            statusCode,
-          } as Trace['http'],
-        },
-      ]);
-
-      const { getByTestId } = render(<TraceList />);
-      const traceRow = getByTestId('trace');
-      const methodData = within(traceRow).getByTestId('column-data-method-cell');
-
-      if (bgColor) {
-        expect(methodData).toHaveClass(`bg-${bgColor}`);
-        expect(methodData).not.toHaveClass(`border-neutral`);
-      } else {
-        expect(methodData).toHaveClass('bg-gray-100');
-      }
-    });
-
-    it('should render selected trace row correctly', () => {
-      const trace = {
-        id: '1',
-        timestamp: 0,
-        http: {
-          method: 'GET',
-        } as Trace['http'],
-      };
-      setUseApplicationData({
-        selectedTraceId: trace.id,
-        traces: new Map([[trace.id, trace]]),
-      });
-
-      const { getByTestId } = render(<TraceList />);
-      const traceRow = getByTestId('trace');
-
-      expect(traceRow).toHaveClass('bg-green-100');
-    });
-  });
-
-  describe('trace row data', () => {
-    describe('method column', () => {
-      it('should display HTTP method only if no response status code exists', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              statusCode: undefined,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-method');
-
-        expect(methodData).toHaveTextContent('GET');
-      });
-
-      it('should display HTTP method and status code if response exists', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'POST',
-              statusCode: 204,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-method');
-
-        expect(methodData).toHaveTextContent('POST');
-        expect(methodData).toHaveTextContent('204');
-      });
-    });
-
-    describe('request column', () => {
-      it('should render ListDataComponent', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              statusCode: undefined,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-request');
-
-        expect(methodData).toHaveTextContent('Mock ListDataComponent component');
-      });
-
-      it('should pass trace data to ListDataComponent', () => {
-        const trace = {
-          id: '1',
-          timestamp: 0,
-          http: {
-            method: 'GET',
-            statusCode: undefined,
-          } as Trace['http'],
-        };
-
-        setUpTraces([trace]);
-
-        render(<TraceList />);
-
-        expect(mockListDataComponent).toHaveBeenCalledWith({ trace });
-      });
-    });
-
-    describe('time column', () => {
-      it('should render Loading component when duration is not defined', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              duration: undefined,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
-
-        expect(methodData).toHaveTextContent('Mock Loading component');
-      });
-
-      it('should render duration when specified', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              duration: 1234,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
-
-        expect(methodData).toHaveTextContent('1.23s');
-      });
-
-      it('should round up duration', () => {
-        setUpTraces([
-          {
-            id: '1',
-            timestamp: 0,
-            http: {
-              method: 'GET',
-              duration: 1239,
-            } as Trace['http'],
-          },
-        ]);
-
-        const { getByTestId } = render(<TraceList />);
-        const traceRow = getByTestId('trace');
-        const methodData = within(traceRow).getByTestId('column-data-time');
-
-        expect(methodData).toHaveTextContent('1.24s');
-      });
     });
   });
 
@@ -362,24 +143,6 @@ describe('TraceList', () => {
 
       const autoScrollAfter = getByTestId('auto-scroll');
       expect(autoScrollAfter).toHaveTextContent('Mock ToggleSwitch component: unchecked');
-    });
-  });
-
-  describe('missing data', () => {
-    it('should render nothing for method and status if `http` property of trace is not defined', () => {
-      setUpTraces([
-        {
-          id: '1',
-          timestamp: 0,
-          http: undefined,
-        },
-      ]);
-
-      const { getByTestId } = render(<TraceList />);
-      const traceRow = getByTestId('trace');
-      const methodData = within(traceRow).getByTestId('column-data-method-cell');
-
-      expect(methodData).toBeEmptyDOMElement();
     });
   });
 

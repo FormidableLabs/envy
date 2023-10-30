@@ -1,5 +1,10 @@
 @import './react-json-view.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
 html {
   font-size: 14px;
 }
@@ -64,7 +69,7 @@ main#root {
  * Override native elements
  */
 hr {
-  @apply block border-0 border-b border-b-slate-300 h-0 pt-4 !mb-4;
+  @apply block border-0 border-b border-b-gray-400/50 h-0 my-1;
 }
 
 ::-webkit-scrollbar {
@@ -99,16 +104,11 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .p-cell {
-  @apply py-2 px-3;
-  @apply first:pl-6;
-  @apply last:pr-6;
+  @apply py-1 px-2;
+  @apply first:pl-4;
+  @apply last:pr-4;
 }
 
 .absolute-v-center {
   @apply absolute inline-block top-1/2 -translate-y-1/2;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
