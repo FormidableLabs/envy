@@ -26,6 +26,7 @@ type Story = StoryObj<typeof meta>;
 
 export const RestRequest: Story = {
   args: {
+    systemName: new DefaultSystem().name,
     iconPath: new DefaultSystem().getIconUri(),
     path: '/api/v1/trace/1234?name=test&options=br|hk|desc',
     data: 'name=test&options=br|hk|desc',
@@ -35,6 +36,7 @@ export const RestRequest: Story = {
 
 export const GraphqlRequest: Story = {
   args: {
+    systemName: new GraphqlSystem().name,
     iconPath: new GraphqlSystem().getIconUri(),
     path: '/graphql',
     data: 'Query',
@@ -44,6 +46,7 @@ export const GraphqlRequest: Story = {
 
 export const SanityRequest: Story = {
   args: {
+    systemName: new SanitySystem().name,
     iconPath: new SanitySystem().getIconUri(),
     path: '/api/v1/trace/1234',
     data: 'type: Product',
