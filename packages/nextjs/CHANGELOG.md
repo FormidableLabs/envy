@@ -1,5 +1,12 @@
 # @envyjs/nextjs
 
+## 0.7.1
+
+### Patch Changes
+
+- @envyjs/node@0.7.1
+- @envyjs/web@0.7.1
+
 ## 0.7.0
 
 ### Patch Changes
