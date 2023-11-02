@@ -1,5 +1,22 @@
 # @envyjs/webui
 
+## 0.7.1
+
+### Patch Changes
+
+- 899e7a5: Update to Lucid Icons
+- f120476: Update style of trace detail
+- 7eaf46b: Update header styling and theme
+- 8ca3e39: Set default detail pane size to 66%
+- a880840: Update styling of trace list footer
+- 804172c: Implement tabs for payload and response
+- 8c1aefb: Condense trace list and improve display when collapsed
+- ee7dbd4: Cleanup requests that did not receive a response
+- cf0aa79: Allow detail pane size to be adjustable
+- 6067975: Collapse source and systems filter into button
+- f224ee6: Add dark mode theme switcher behind feature flag
+  - @envyjs/core@0.7.1
+
 ## 0.7.0
 
 ### Patch Changes

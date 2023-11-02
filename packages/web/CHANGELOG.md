@@ -1,5 +1,11 @@
 # @envyjs/web
 
+## 0.7.1
+
+### Patch Changes
+
+- @envyjs/core@0.7.1
+
 ## 0.7.0
 
 ### Minor Changes
