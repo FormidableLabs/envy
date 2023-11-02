@@ -103,7 +103,7 @@ export default function TraceDetail() {
             </div>
             <Badge>{method}</Badge>
             {requestAborted && (
-              <Badge className="bg-red-500 uppercase" data-test-id="aborted-indicator">
+              <Badge className="bg-gray-500 uppercase" data-test-id="aborted-indicator">
                 Aborted
               </Badge>
             )}

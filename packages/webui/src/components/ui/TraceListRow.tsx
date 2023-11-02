@@ -46,7 +46,7 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
 function indicatorStyle(trace: Trace) {
   const { statusCode, state } = trace.http || {};
 
-  if (state === HttpRequestState.Aborted) return 'border-l-red-500';
+  if (state === HttpRequestState.Aborted) return 'border-l-gray-500';
 
   if (statusCode) {
     if (statusCode >= 500) return 'border-l-purple-500';
@@ -59,7 +59,7 @@ function indicatorStyle(trace: Trace) {
 function rowStyle(trace: Trace) {
   const { statusCode, state } = trace.http || {};
 
-  if (state === HttpRequestState.Aborted) return 'bg-red-200';
+  if (state === HttpRequestState.Aborted) return 'bg-gray-300';
 
   if (statusCode) {
     if (statusCode >= 500) return 'bg-purple-200';
