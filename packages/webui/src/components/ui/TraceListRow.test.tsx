@@ -65,6 +65,25 @@ describe('TraceListRow', () => {
       expect(statusCodeData).toHaveTextContent('204');
     });
 
+    it('should display HTTP method and abandoned status if response exists and state is aborted', () => {
+      const trace = {
+        id: '1',
+        timestamp: 0,
+        http: {
+          method: 'POST',
+          statusCode: 204,
+          state: 'aborted',
+        } as Trace['http'],
+      };
+
+      const { getByTestId } = render(<TraceListRow trace={trace} />);
+      const methodData = getByTestId('column-data-method-cell');
+      const statusCodeData = getByTestId('column-data-code-cell');
+
+      expect(methodData).toHaveTextContent('POST');
+      expect(statusCodeData).toHaveTextContent('Aborted');
+    });
+
     it('should render nothing for method and status if `http` property of trace is not defined', () => {
       const trace = {
         id: '1',

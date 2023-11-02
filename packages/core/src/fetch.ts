@@ -27,12 +27,25 @@ export function getEventFromFetchRequest(id: string, input: RequestInfo | URL, i
 }
 
 /**
+ * Returns an {@link Event} from an aborted fetch request
+ */
+export function getEventFromAbortedFetchRequest(req: Event, duration: number): Event {
+  return {
+    ...req,
+    http: {
+      ...req.http!,
+      state: HttpRequestState.Aborted,
+      duration,
+    },
+  };
+}
+
+/**
  * Returns an {@link Event} from a fetch response
  */
 export async function getEventFromFetchResponse(req: Event, response: Response): Promise<Event> {
   return {
     ...req,
-
     http: {
       ...req.http!,
       state: HttpRequestState.Received,

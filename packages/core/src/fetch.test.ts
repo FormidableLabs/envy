@@ -1,4 +1,5 @@
 import {
+  getEventFromAbortedFetchRequest,
   getEventFromFetchRequest,
   getEventFromFetchResponse,
   getUrlFromFetchRequest,
@@ -96,7 +97,7 @@ describe('fetch', () => {
     });
   });
 
-  describe('getEventFromFetchRequest', () => {
+  describe('getEventFromFetchResponse', () => {
     it('should map a fetch response', async () => {
       const request = getEventFromFetchRequest('1', 'http://localhost/api/path');
       const response = await getEventFromFetchResponse(request, {
@@ -124,6 +125,29 @@ describe('fetch', () => {
           statusCode: 200,
           statusMessage: 'OK',
           url: 'http://localhost/api/path',
+        },
+        id: '1',
+        parentId: undefined,
+        timestamp: expect.any(Number),
+      });
+    });
+  });
+
+  describe('getEventFromAbortedFetchRequest', () => {
+    it('should map an aborted fetch request', () => {
+      const request = getEventFromFetchRequest('1', 'http://localhost/api/path');
+      const response = getEventFromAbortedFetchRequest(request, 100);
+
+      expect(response).toEqual({
+        http: {
+          host: 'localhost',
+          method: 'GET',
+          path: '/api/path',
+          port: NaN,
+          requestHeaders: {},
+          state: 'aborted',
+          url: 'http://localhost/api/path',
+          duration: 100,
         },
         id: '1',
         parentId: undefined,

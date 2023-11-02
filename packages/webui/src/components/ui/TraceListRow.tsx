@@ -1,3 +1,5 @@
+import { HttpRequestState } from '@envyjs/core';
+
 import { Loading } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
@@ -27,8 +29,8 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
         <div className="font-semibold" data-test-id="column-data-method-cell">
           {trace.http?.method.toUpperCase()}
         </div>
-        <div className="font-semibold text-xs text-opacity-70" data-test-id="column-data-code-cell">
-          {trace.http?.statusCode}
+        <div className="font-semibold text-xs text-opacity-70 uppercase" data-test-id="column-data-code-cell">
+          {trace.http?.state === HttpRequestState.Aborted ? 'Aborted' : trace.http?.statusCode}
         </div>
       </TraceListRowCell>
       <TraceListRowCell data-test-id="column-data-request-cell">
@@ -42,7 +44,9 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
 }
 
 function indicatorStyle(trace: Trace) {
-  const statusCode = trace.http?.statusCode;
+  const { statusCode, state } = trace.http || {};
+
+  if (state === HttpRequestState.Aborted) return 'border-l-red-500';
 
   if (statusCode) {
     if (statusCode >= 500) return 'border-l-purple-500';
@@ -53,7 +57,9 @@ function indicatorStyle(trace: Trace) {
 }
 
 function rowStyle(trace: Trace) {
-  const statusCode = trace.http?.statusCode;
+  const { statusCode, state } = trace.http || {};
+
+  if (state === HttpRequestState.Aborted) return 'bg-red-200';
 
   if (statusCode) {
     if (statusCode >= 500) return 'bg-purple-200';
