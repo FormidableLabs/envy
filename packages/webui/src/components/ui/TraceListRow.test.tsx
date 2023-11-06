@@ -65,7 +65,7 @@ describe('TraceListRow', () => {
       expect(statusCodeData).toHaveTextContent('204');
     });
 
-    it('should display HTTP method and abandoned status if response exists and state is aborted', () => {
+    it('should display HTTP method and aborted status if response exists and state is aborted', () => {
       const trace = {
         id: '1',
         timestamp: 0,
