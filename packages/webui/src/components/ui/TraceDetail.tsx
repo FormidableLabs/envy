@@ -62,7 +62,7 @@ export default function TraceDetail() {
 
   const { http, serviceName, timestamp } = trace || {};
   const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration, state } = http || {};
-
+  const requestAborted = state === HttpRequestState.Aborted;
   const responseComplete = state !== HttpRequestState.Sent;
 
   const updateTimer = useCallback(() => {
@@ -102,6 +102,11 @@ export default function TraceDetail() {
               <img src={getIconUri(trace)} alt="" className="w-7 h-7" />
             </div>
             <Badge>{method}</Badge>
+            {requestAborted && (
+              <Badge className="bg-gray-500 uppercase" data-test-id="aborted-indicator">
+                Aborted
+              </Badge>
+            )}
             {statusCode && (
               <Badge className={statusCodeStyle(statusCode)} data-test-id="method">
                 {httpStatusLabel}

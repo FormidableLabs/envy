@@ -191,6 +191,30 @@ describe('TraceDetail', () => {
       expect(status).not.toBeInTheDocument();
     });
 
+    it('should display aborted indicator when request is aborted', () => {
+      const mockAbortedTrace = mockTraces.find(trace => trace.http?.state === HttpRequestState.Aborted);
+      getSelectedTraceFn.mockReturnValue(mockAbortedTrace);
+
+      const { getByTestId } = render(<TraceDetail />);
+
+      const summary = getByTestId('summary');
+      const abortedIndicator = within(summary).queryByTestId('aborted-indicator');
+
+      expect(abortedIndicator).toBeInTheDocument();
+    });
+
+    it('should not display aborted indicator when response is received', () => {
+      const mockAbortedTrace = mockTraces.find(trace => trace.http?.state === HttpRequestState.Received);
+      getSelectedTraceFn.mockReturnValue(mockAbortedTrace);
+
+      const { getByTestId } = render(<TraceDetail />);
+
+      const summary = getByTestId('summary');
+      const abortedIndicator = within(summary).queryByTestId('aborted-indicator');
+
+      expect(abortedIndicator).not.toBeInTheDocument();
+    });
+
     it('should display full URL', () => {
       getSelectedTraceFn.mockReturnValue({
         ...mockTrace,
