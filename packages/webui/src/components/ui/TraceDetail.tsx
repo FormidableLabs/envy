@@ -127,8 +127,8 @@ export default function TraceDetail() {
 
         <TabList>
           <TabListItem title="Details" id="default" />
-          {requestBody && <TabListItem title="Payload" id="payload" />}
-          {responseBody && <TabListItem title="Response" id="response" />}
+          <TabListItem title="Payload" id="payload" disabled={!requestBody} />
+          <TabListItem title="Response" id="response" disabled={!responseBody} />
         </TabList>
       </div>
 
