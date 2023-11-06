@@ -30,7 +30,7 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
           {trace.http?.method.toUpperCase()}
         </div>
         <div className="font-semibold text-xs text-opacity-70 uppercase" data-test-id="column-data-code-cell">
-          {trace.http?.state === HttpRequestState.Aborted ? 'Aborted' : trace.http?.statusCode}
+          {getResponseStatus(trace)}
         </div>
       </TraceListRowCell>
       <TraceListRowCell data-test-id="column-data-request-cell">
@@ -41,6 +41,14 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
       </TraceListRowCell>
     </div>
   );
+}
+
+function getResponseStatus(trace: Trace) {
+  const { statusCode, state } = trace.http || {};
+
+  if (state === HttpRequestState.Aborted) return 'Aborted';
+
+  return statusCode;
 }
 
 function indicatorStyle(trace: Trace) {
