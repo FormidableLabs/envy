@@ -14,23 +14,32 @@ describe('TraceRequestData', () => {
   });
 
   it('should render without error', () => {
-    render(<TraceRequestData iconPath="icon.jpg" path="/" />);
+    render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/" />);
   });
 
   describe('iconPath', () => {
     it('should render icon as image', () => {
-      const { getByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/" />);
+      const { getByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/" />);
 
       const image = getByTestId('item-image');
 
       expect(image).toBeVisible();
       expect(image).toHaveAttribute('src', 'icon.jpg');
     });
+
+    it('should render system name as image alt text', () => {
+      const { getByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/" />);
+
+      const image = getByTestId('item-image');
+
+      expect(image).toBeVisible();
+      expect(image).toHaveAttribute('alt', 'Default');
+    });
   });
 
   describe('hostName', () => {
     it('should not render host if `hostName` is not supplied', () => {
-      const { queryByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/foo/bar" />);
+      const { queryByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/foo/bar" />);
 
       const host = queryByTestId('item-hostname');
 
@@ -39,7 +48,7 @@ describe('TraceRequestData', () => {
 
     it('should render host if `hostName` is supplied', () => {
       const { getByTestId } = render(
-        <TraceRequestData iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
+        <TraceRequestData systemName="Default" iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
       );
 
       const host = getByTestId('item-hostname');
@@ -50,7 +59,7 @@ describe('TraceRequestData', () => {
 
     it('should render host next to image', () => {
       const { getByTestId } = render(
-        <TraceRequestData iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
+        <TraceRequestData systemName="Default" iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
       );
 
       const host = getByTestId('item-hostname');
@@ -62,7 +71,7 @@ describe('TraceRequestData', () => {
 
   describe('path', () => {
     it('should render path', () => {
-      const { getByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/foo/bar" />);
+      const { getByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/foo/bar" />);
 
       const path = getByTestId('item-path');
 
@@ -71,7 +80,7 @@ describe('TraceRequestData', () => {
     });
 
     it('should render path next to image if `hostName` is not supplied', () => {
-      const { getByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/foo/bar" />);
+      const { getByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/foo/bar" />);
 
       const path = getByTestId('item-path');
       const image = getByTestId('item-image');
@@ -81,7 +90,7 @@ describe('TraceRequestData', () => {
 
     it('should render path next to host if `hostName` is supplied', () => {
       const { getByTestId } = render(
-        <TraceRequestData iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
+        <TraceRequestData systemName="Default" iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" />,
       );
 
       const path = getByTestId('item-path');
@@ -93,7 +102,7 @@ describe('TraceRequestData', () => {
 
   describe('data', () => {
     it('should not render data if `data` is not supplied', () => {
-      const { queryByTestId } = render(<TraceRequestData iconPath="icon.jpg" path="/foo/bar" />);
+      const { queryByTestId } = render(<TraceRequestData systemName="Default" iconPath="icon.jpg" path="/foo/bar" />);
 
       const data = queryByTestId('item-data');
 
@@ -102,7 +111,13 @@ describe('TraceRequestData', () => {
 
     it('should render data if `data` is supplied', () => {
       const { getByTestId } = render(
-        <TraceRequestData iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" data="This is some data" />,
+        <TraceRequestData
+          systemName="Default"
+          iconPath="icon.jpg"
+          hostName="www.example.com"
+          path="/foo/bar"
+          data="This is some data"
+        />,
       );
 
       const data = getByTestId('item-data');
@@ -112,7 +127,13 @@ describe('TraceRequestData', () => {
 
     it('should render data after request detail', () => {
       const { getByTestId } = render(
-        <TraceRequestData iconPath="icon.jpg" hostName="www.example.com" path="/foo/bar" data="This is some data" />,
+        <TraceRequestData
+          systemName="Default"
+          iconPath="icon.jpg"
+          hostName="www.example.com"
+          path="/foo/bar"
+          data="This is some data"
+        />,
       );
 
       const data = getByTestId('item-data');

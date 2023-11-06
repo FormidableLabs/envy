@@ -6,11 +6,14 @@ import { pathAndQuery } from '@/utils';
 
 import { getDefaultSystem, getRegisteredSystems } from './registration';
 
-function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name' | 'isMatch' | 'getData'>): T {
+function getSystemByTrace(trace: Trace): System<unknown> | null {
   const systems = getRegisteredSystems();
-  const defaultSystem = getDefaultSystem();
+  return systems.find(x => x.isMatch(trace)) ?? null;
+}
 
-  const system = systems.find(x => x.isMatch(trace));
+function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'name' | 'isMatch' | 'getData'>): T {
+  const system = getSystemByTrace(trace);
+  const defaultSystem = getDefaultSystem();
   const data = system?.getData?.(trace) ?? null;
 
   let value = null;
@@ -23,6 +26,10 @@ function callOrFallback<T>(trace: Trace, fnName: keyof Omit<System<unknown>, 'na
 type SystemDetailProps = {
   trace: Trace;
 };
+
+export function getSystemName(trace: Trace): string {
+  return getSystemByTrace(trace)?.name ?? getDefaultSystem().name;
+}
 
 export function getIconUri(trace: Trace | null): string {
   return callOrFallback(trace as Trace, 'getIconUri');
@@ -42,6 +49,7 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
   const [path, qs] = pathAndQuery(trace);
   return (
     <TraceRequestData
+      systemName={getSystemName(trace)}
       iconPath={getIconUri(trace)}
       hostName={trace.http?.host}
       path={path}
