@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.8.2
+
+### Patch Changes
+
+- ceb95b0: Use repository directory fields for npm
+
 ## 0.8.1
 
 ### Patch Changes

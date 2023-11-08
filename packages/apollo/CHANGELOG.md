@@ -1,5 +1,13 @@
 # @envyjs/apollo
 
+## 0.8.2
+
+### Patch Changes
+
+- ceb95b0: Use repository directory fields for npm
+- Updated dependencies [ceb95b0]
+  - @envyjs/node@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes
