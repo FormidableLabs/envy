@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/webui",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Envy Web UI",
   "targets": {
     "main": false,
@@ -61,7 +61,7 @@
     "storybook": "yarn run sb dev --port 9009 --no-open"
   },
   "dependencies": {
-    "@envyjs/core": "0.8.2",
+    "@envyjs/core": "0.8.3",
     "@microlink/react-json-view": "^1.22.2",
     "chalk": "^4.1.2",
     "react": "^18.2.0",

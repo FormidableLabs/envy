@@ -1,5 +1,13 @@
 # @envyjs/webui
 
+## 0.8.3
+
+### Patch Changes
+
+- 57c4ec8: Add npm metadata to all packages
+- Updated dependencies [57c4ec8]
+  - @envyjs/core@0.8.3
+
 ## 0.8.2
 
 ### Patch Changes
