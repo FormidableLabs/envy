@@ -1,5 +1,13 @@
 # @envyjs/webui
 
+## 0.8.1
+
+### Patch Changes
+
+- cbabdf4: Publish package provenance
+- Updated dependencies [cbabdf4]
+  - @envyjs/core@0.8.1
+
 ## 0.8.0
 
 ### Minor Changes

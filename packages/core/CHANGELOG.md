@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.8.1
+
+### Patch Changes
+
+- cbabdf4: Publish package provenance
+
 ## 0.8.0
 
 ### Minor Changes
