@@ -10,7 +10,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Turbo Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .turbo
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
