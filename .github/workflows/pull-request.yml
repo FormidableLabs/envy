@@ -25,7 +25,7 @@ jobs:
           NODE_ENV: production
       
       - name: Lint
-        run: yarn lint
+        run: yarn lint --cache-dir=".turbo"
 
       - name: Test
-        run: yarn test
+        run: yarn test --cache-dir=".turbo"
