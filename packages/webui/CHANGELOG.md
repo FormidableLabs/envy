@@ -1,5 +1,18 @@
 # @envyjs/webui
 
+## 0.8.0
+
+### Minor Changes
+
+- 9b61037: Handle aborted requests
+
+### Patch Changes
+
+- aa050d2: Add system name as system icon alt text
+- 1da5680: Fix custom viewer integration deps
+- Updated dependencies [9b61037]
+  - @envyjs/core@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes

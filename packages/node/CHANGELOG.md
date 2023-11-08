@@ -1,5 +1,17 @@
 # @envyjs/node
 
+## 0.8.0
+
+### Minor Changes
+
+- 9b61037: Handle aborted requests
+
+### Patch Changes
+
+- 6023c81: Use zlib node builtin
+- Updated dependencies [9b61037]
+  - @envyjs/core@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes

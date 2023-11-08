@@ -1,5 +1,16 @@
 # @envyjs/web
 
+## 0.8.0
+
+### Minor Changes
+
+- 9b61037: Handle aborted requests
+
+### Patch Changes
+
+- Updated dependencies [9b61037]
+  - @envyjs/core@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes
