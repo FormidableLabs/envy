@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.8.3
+
+### Patch Changes
+
+- 57c4ec8: Add npm metadata to all packages
+
 ## 0.8.2
 
 ### Patch Changes
