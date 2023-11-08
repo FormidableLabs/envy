@@ -1,0 +1,18 @@
+name: Build Lint Test
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build
+      run: yarn build --cache-dir=".turbo"
+      shell: bash
+      env:
+        NODE_ENV: production
+    
+    - name: Lint
+      run: yarn lint --cache-dir=".turbo"
+      shell: bash
+
+    - name: Test
+      run: yarn test --cache-dir=".turbo"
+      shell: bash

@@ -8,24 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-
-      - name: Turbo Cache
-        uses: actions/cache@v3
-        with:
-          path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
-            turbo-${{ github.job }}-${{ github.ref_name }}-
-            turbo-${{ github.job }}-
-
-      - name: Build
-        run: yarn build --cache-dir=".turbo"
-        env:
-          NODE_ENV: production
-      
-      - name: Lint
-        run: yarn lint --cache-dir=".turbo"
-
-      - name: Test
-        run: yarn test --cache-dir=".turbo"
+      - uses: ./.github/actions/build-test
