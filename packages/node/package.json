@@ -3,9 +3,23 @@
   "version": "0.8.2",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
+  "author": {
+    "name": "Formidable",
+    "url": "https://formidable.com"
+  },
+  "homepage": "https://github.com/formidablelabs/envy",
+  "keywords": [
+    "react",
+    "nextjs",
+    "graphql",
+    "typescript",
+    "nodejs",
+    "telemetry",
+    "tracing"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/FormidableLabs/envy.git",
+    "url": "https://github.com/FormidableLabs/envy",
     "directory": "packages/node"
   },
   "license": "MIT",
