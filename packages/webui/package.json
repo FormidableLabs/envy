@@ -16,7 +16,11 @@
     "envy": "bin/start.cjs"
   },
   "type": "module",
-  "repository": "https://github.com/FormidableLabs/envy.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FormidableLabs/envy.git",
+    "directory": "packages/webui"
+  },
   "license": "MIT",
   "publishConfig": {
     "provenance": true

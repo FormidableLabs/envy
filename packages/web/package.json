@@ -3,7 +3,11 @@
   "version": "0.8.1",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
-  "repository": "https://github.com/FormidableLabs/envy.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FormidableLabs/envy.git",
+    "directory": "packages/web"
+  },
   "license": "MIT",
   "publishConfig": {
     "provenance": true
