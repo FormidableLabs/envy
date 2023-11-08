@@ -16,7 +16,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    needs: [build]
     permissions:
       contents: write
       id-token: write
