@@ -1,5 +1,14 @@
 # @envyjs/webui
 
+## 0.8.4
+
+### Patch Changes
+
+- 2c194a2: Fix npm publish warnings about git syntax
+- 4b1788b: Move react-json-view to peer dependency to avoid infinite loop in npm installs
+- Updated dependencies [2c194a2]
+  - @envyjs/core@0.8.4
+
 ## 0.8.3
 
 ### Patch Changes

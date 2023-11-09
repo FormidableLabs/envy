@@ -1,5 +1,11 @@
 # @envyjs/core
 
+## 0.8.4
+
+### Patch Changes
+
+- 2c194a2: Fix npm publish warnings about git syntax
+
 ## 0.8.3
 
 ### Patch Changes
