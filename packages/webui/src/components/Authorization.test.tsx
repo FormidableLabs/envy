@@ -10,9 +10,8 @@ jest.mock('@/components', () => ({
   IconButton: function ({ short, Icon, ...safeProps }: any) {
     return <button {...safeProps} />;
   },
-  JsonDisplay: function ({ children, ...props }: any) {
-    const value = typeof children === 'object' ? JSON.stringify(children) : children;
-    return <div {...props}>{value}</div>;
+  CodeDisplay: function ({ data, contentType, ...props }: any) {
+    return <div {...props}>{data}</div>;
   },
 }));
 

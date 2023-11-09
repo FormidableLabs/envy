@@ -1,8 +1,7 @@
-import { safeParseJson } from '@envyjs/core';
 import { ChevronDown, ChevronUp, Code2, MoreHorizontal } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { Code, IconButton, JsonDisplay } from '@/components';
+import { Code, CodeDisplay, IconButton } from '@/components';
 import { tw } from '@/utils';
 
 enum TokenType {
@@ -53,7 +52,7 @@ export default function Authorization({ value }: AuthorizationProps) {
   if (!value) return null;
 
   function decodeToken(type: TokenType, token: string) {
-    let decoded;
+    let decoded = '';
 
     if (type === TokenType.JWT) {
       const base64Url = token.split('.')[1];
@@ -67,13 +66,13 @@ export default function Authorization({ value }: AuthorizationProps) {
           .join(''),
       );
 
-      decoded = safeParseJson(jsonPayload).value;
+      decoded = jsonPayload;
     } else if (type === TokenType.BasicAuth) {
       const [un, pw] = atob(token).split(':');
-      decoded = { username: un, password: pw };
+      decoded = JSON.stringify({ username: un, password: pw });
     }
 
-    setDecodedToken(<JsonDisplay>{decoded}</JsonDisplay>);
+    setDecodedToken(<CodeDisplay contentType="application/json" data={decoded} />);
   }
 
   return (
@@ -87,10 +86,10 @@ export default function Authorization({ value }: AuthorizationProps) {
                 className="flex"
                 onClick={() => setTokenState(TokenState.Expanded)}
               >
-                <div className="overflow-y-hidden">
+                <div className="clamp">
                   {type} {token}
                 </div>
-                <div className="flex items-center justify-end ml-auto">
+                <div className="flex items-center justify-end ml-auto cursor-pointer">
                   <ChevronDown className="w-4 h-4" />
                 </div>
               </div>
@@ -98,7 +97,11 @@ export default function Authorization({ value }: AuthorizationProps) {
           case TokenState.Expanded:
             return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
           case TokenState.Decoded:
-            return <div data-test-id="token-decoded-view">{decodedToken}</div>;
+            return (
+              <div data-test-id="token-decoded-view" className="h-[300px]">
+                {decodedToken}
+              </div>
+            );
         }
       })()}
       {tokenState !== TokenState.Minimal && (
