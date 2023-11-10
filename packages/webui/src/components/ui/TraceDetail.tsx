@@ -20,8 +20,14 @@ import ResponseHeaders from './ResponseHeaders';
 import { TabContent, TabList, TabListItem } from './Tabs';
 import TimingsDiagram from './TimingsDiagram';
 
+const TabMap = {
+  default: 'default',
+  payload: 'payload',
+  response: 'response',
+};
+
 export default function TraceDetail() {
-  const { getSelectedTrace, clearSelectedTrace } = useApplication();
+  const { getSelectedTrace, clearSelectedTrace, selectedTab, setSelectedTab } = useApplication();
   const trace = getSelectedTrace();
 
   const { http, serviceName, timestamp } = trace || {};
@@ -56,6 +62,19 @@ export default function TraceDetail() {
   const requestBody = getRequestBody(trace);
   const responseBody = getResponseBody(trace);
   const httpStatusLabel = `${statusCode && statusCode > -1 ? statusCode : ''} ${statusMessage}`;
+
+  // handle persistent tabs
+  const availableTabs = [TabMap.default];
+  if (requestBody) {
+    availableTabs.push(TabMap.payload);
+  }
+  if (responseBody) {
+    availableTabs.push(TabMap.response);
+  }
+  if (!availableTabs.includes(selectedTab)) {
+    setSelectedTab(TabMap.default);
+    window.history.replaceState('', '', `#${TabMap.default}`);
+  }
 
   return (
     <div className="h-full flex flex-col p-default bg-secondary">
@@ -96,8 +115,8 @@ export default function TraceDetail() {
 
         <TabList>
           <TabListItem title="Details" id="default" />
-          {requestBody && <TabListItem title="Payload" id="payload" />}
-          {responseBody && <TabListItem title="Response" id="response" />}
+          {availableTabs.includes(TabMap.payload) && <TabListItem title="Payload" id={TabMap.payload} />}
+          {availableTabs.includes(TabMap.response) && <TabListItem title="Response" id={TabMap.response} />}
         </TabList>
       </div>
 
