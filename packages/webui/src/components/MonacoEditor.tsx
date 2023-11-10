@@ -8,6 +8,7 @@ const editorOptions: EditorProps['options'] = {
     enabled: false,
   },
   readOnly: true,
+  scrollBeyondLastLine: false,
   showFoldingControls: 'always',
   lineNumbers: 'off',
 };
