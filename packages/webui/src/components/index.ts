@@ -16,4 +16,3 @@ export { default as Menu } from './Menu';
 export { default as SearchInput } from './SearchInput';
 export { default as Section } from './Section';
 export { default as ToggleSwitch } from './ToggleSwitch';
-export { default as XmlDisplay } from './XmlDisplay';
