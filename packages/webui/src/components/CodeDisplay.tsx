@@ -7,7 +7,7 @@ const Editor = lazy<React.ComponentType<MonacoEditorProps>>(async () => await im
 
 type CodeDisplayProps = {
   contentType?: string | string[] | null;
-  data: string;
+  data: string | null | undefined;
 };
 
 const languageMap: Record<string, MonacoEditorProps['language']> = {
@@ -17,6 +17,10 @@ const languageMap: Record<string, MonacoEditorProps['language']> = {
 };
 
 export default function CodeDisplay({ data, contentType }: CodeDisplayProps) {
+  if (!data) {
+    return;
+  }
+
   // content types can be an array or a string value
   // each value in the array or string can be a content type with a charset
   // example: [content-type: application/json; charset=utf-8]

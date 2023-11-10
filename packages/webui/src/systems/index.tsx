@@ -35,11 +35,11 @@ export function getIconUri(trace: Trace | null): string {
   return callOrFallback(trace as Trace, 'getIconUri');
 }
 
-export function getRequestBody(trace: Trace): any {
+export function getRequestBody(trace: Trace): string | undefined | null {
   return callOrFallback(trace, 'getRequestBody');
 }
 
-export function getResponseBody(trace: Trace): any {
+export function getResponseBody(trace: Trace): string | undefined | null {
   return callOrFallback(trace, 'getResponseBody');
 }
 
