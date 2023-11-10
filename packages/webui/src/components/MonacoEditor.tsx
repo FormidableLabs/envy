@@ -1,4 +1,4 @@
-import { Editor, EditorProps, Monaco } from '@monaco-editor/react';
+import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import colors from 'tailwindcss/colors';
 
 export type MonacoEditorProps = Pick<EditorProps, 'value' | 'language'>;
@@ -13,11 +13,7 @@ const editorOptions: EditorProps['options'] = {
   lineNumbers: 'off',
 };
 
-export default function MonacoEditor({ value, language }: MonacoEditorProps) {
-  return <Editor value={value} language={language} options={editorOptions} onMount={setEditorTheme} />;
-}
-
-function setEditorTheme(_: any, monaco: Monaco) {
+const setEditorTheme: OnMount = (editor, monaco) => {
   monaco.editor.defineTheme('envy', {
     base: 'vs',
     inherit: true,
@@ -28,4 +24,9 @@ function setEditorTheme(_: any, monaco: Monaco) {
     rules: [],
   });
   monaco.editor.setTheme('envy');
+  editor.trigger('fold', 'editor.foldLevel4', {});
+};
+
+export default function MonacoEditor({ value, language }: MonacoEditorProps) {
+  return <Editor value={value} language={language} options={editorOptions} onMount={setEditorTheme} />;
 }
