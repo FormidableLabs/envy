@@ -22,7 +22,8 @@ function setEditorTheme(_: any, monaco: Monaco) {
     base: 'vs',
     inherit: true,
     colors: {
-      'editor.background': colors.slate['100'],
+      'editor.background': colors.gray['200'],
+      'editor.lineHighlightBackground': colors.gray['200'],
     },
     rules: [],
   });

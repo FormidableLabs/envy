@@ -139,7 +139,7 @@ input[type='search']::-webkit-search-results-decoration {
   @apply code;
   @apply w-full py-4;
   @apply block overflow-auto;
-  @apply bg-slate-100;
+  @apply bg-gray-200;
   @apply rounded;
 }
 

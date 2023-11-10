@@ -105,7 +105,7 @@ export default function Authorization({ value }: AuthorizationProps) {
         }
       })()}
       {tokenState !== TokenState.Minimal && (
-        <div className={tw('flex flex-row gap-2 bg-slate-100 px-4 pt-4')}>
+        <div className={tw('flex flex-row gap-2 bg-gray-200 px-4 pt-4')}>
           <>
             <IconButton
               data-test-id="token-expanded-button"
