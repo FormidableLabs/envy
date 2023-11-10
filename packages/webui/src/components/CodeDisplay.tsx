@@ -1,5 +1,6 @@
 import { safeParseJson } from '@envyjs/core';
 import { Suspense, lazy } from 'react';
+import formatXml from 'xml-formatter';
 
 import { MonacoEditorProps } from './MonacoEditor';
 
@@ -28,13 +29,19 @@ export default function CodeDisplay({ data, contentType }: CodeDisplayProps) {
   resolvedContentType = resolvedContentType && resolvedContentType.split(';')[0];
   const lang = resolvedContentType ? languageMap[resolvedContentType as string] : 'txt';
 
-  // TODO: Add support for XML formatting
   let value = data;
   if (lang === 'json') {
     const parseResult = safeParseJson(data);
     if (parseResult.value) {
       value = JSON.stringify(parseResult.value, null, 2);
     }
+  } else if (lang === 'xml') {
+    value = formatXml(data, {
+      indentation: '  ',
+      lineSeparator: '\n',
+      collapseContent: true,
+      whiteSpaceAtEndOfSelfclosingTag: true,
+    });
   }
 
   return (
