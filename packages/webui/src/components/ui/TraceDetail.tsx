@@ -34,6 +34,7 @@ export default function TraceDetail() {
   const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration, state } = http || {};
   const requestAborted = state === HttpRequestState.Aborted;
   const responseComplete = state !== HttpRequestState.Sent;
+  const showResponseHeaders = state === HttpRequestState.Received;
 
   const updateTimer = useCallback(() => {
     if (counterElRef.current) {
@@ -168,7 +169,7 @@ export default function TraceDetail() {
             )}
           </Section>
 
-          {responseComplete && duration && (
+          {showResponseHeaders && (
             <>
               <Section data-test-id="request-headers" title="Response Headers">
                 <ResponseHeaders data-test-id="headers" trace={trace} />
