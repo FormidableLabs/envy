@@ -62,7 +62,9 @@
   },
   "dependencies": {
     "@envyjs/core": "0.8.4",
+    "@monaco-editor/react": "4.6.0",
     "chalk": "^4.1.2",
+    "monaco-editor": "0.44.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "serve-handler": "^6.1.5",
@@ -71,7 +73,6 @@
     "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
-    "@microlink/react-json-view": "^1.22.2",
     "@parcel/config-default": "^2.9.3",
     "@parcel/core": "^2.9.3",
     "@storybook/cli": "^7.4.6",
@@ -114,9 +115,6 @@
     "ts-jest": "^29.1.1",
     "ts-jest-mock-import-meta": "^1.1.0",
     "vite": "^4.4.9"
-  },
-  "peerDependencies": {
-    "@microlink/react-json-view": "^1.22.2"
   },
   "browserslist": [
     ">0.2%",
