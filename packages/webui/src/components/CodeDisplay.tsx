@@ -1,10 +1,7 @@
 import { safeParseJson } from '@envyjs/core';
-import { Suspense, lazy } from 'react';
 import formatXml from 'xml-formatter';
 
-import { MonacoEditorProps } from './MonacoEditor';
-
-const Editor = lazy<React.ComponentType<MonacoEditorProps>>(async () => await import('./MonacoEditor'));
+import Editor, { MonacoEditorProps } from './MonacoEditor';
 
 type CodeDisplayProps = {
   contentType?: string | string[] | null;
@@ -45,10 +42,8 @@ export default function CodeDisplay({ data, contentType }: CodeDisplayProps) {
   }
 
   return (
-    <Suspense fallback={<></>}>
-      <div className="w-full h-full">
-        <Editor value={value} language={lang} />
-      </div>
-    </Suspense>
+    <div className="w-full h-full">
+      <Editor value={value} language={lang} />
+    </div>
   );
 }
