@@ -83,13 +83,13 @@ export default function Authorization({ value }: AuthorizationProps) {
             return (
               <div
                 data-test-id="token-minimal-view"
-                className="flex"
+                className="flex hover:bg-gray-100 rounded-sm cursor-pointer"
                 onClick={() => setTokenState(TokenState.Expanded)}
               >
                 <div className="clamp">
                   {type} {token}
                 </div>
-                <div className="flex items-center justify-end ml-auto cursor-pointer">
+                <div className="flex items-center justify-end ml-auto">
                   <ChevronDown className="w-4 h-4" />
                 </div>
               </div>
