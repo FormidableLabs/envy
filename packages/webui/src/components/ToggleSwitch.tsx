@@ -1,9 +1,9 @@
 import { CheckSquare, Square } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import IconButton, { IconButtonProps } from './IconButton';
+import Button, { ButtonProps } from './Button';
 
-type ToggleSwitchProps = Omit<IconButtonProps, 'onChange'> & {
+type ToggleSwitchProps = Omit<ButtonProps, 'onChange'> & {
   label?: string;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -25,11 +25,11 @@ export default function ToggleSwitch({ label, checked, onChange, ...props }: Tog
 
   return (
     <>
-      <IconButton Icon={Icon} onClick={onToggleChanged} className={isChecked ? 'bg-green-100' : ''} {...props}>
+      <Button Icon={Icon} onClick={onToggleChanged} selected={isChecked} {...props}>
         <span data-test-id="label" className="uppercase">
           {label}
         </span>
-      </IconButton>
+      </Button>
     </>
   );
 }

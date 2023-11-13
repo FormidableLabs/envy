@@ -6,7 +6,7 @@ import useClickAway from '@/hooks/useClickAway';
 import { getDefaultSystem, getRegisteredSystems } from '@/systems/registration';
 import { tw } from '@/utils';
 
-import IconButton from '../IconButton';
+import Button from '../Button';
 
 type SourceAndSystemFilterProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -47,12 +47,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
 
   return (
     <div ref={finalRef} data-test-id="sources-and-systems" className={tw('relative', className)} {...props}>
-      <IconButton
-        role="listbox"
-        className={tw((isOpen || hasFilters) && 'bg-green-200 hover:shadow-none')}
-        Icon={Filter}
-        onClick={() => setIsOpen(curr => !curr)}
-      />
+      <Button role="listbox" selected={isOpen || hasFilters} Icon={Filter} onClick={() => setIsOpen(curr => !curr)} />
       {isOpen && (
         <div
           data-test-id="filter-options"

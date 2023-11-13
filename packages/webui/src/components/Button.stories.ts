@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Trash } from 'lucide-react';
 
 import Button from './Button';
 
@@ -9,12 +10,15 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
+    selected: {
+      control: { type: 'boolean' },
+    },
     size: {
-      options: ['small', 'standard', 'large'],
+      options: ['small', 'standard'],
       control: { type: 'select' },
     },
     border: {
-      options: ['standard', 'ghost'],
+      options: ['standard', 'none'],
       control: { type: 'select' },
     },
   },
@@ -23,10 +27,23 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Standard: Story = {
+export const TextOnly: Story = {
   args: {
     children: 'Standard Button',
     size: 'standard',
     border: 'standard',
+  },
+};
+
+export const IconOnly: Story = {
+  args: {
+    Icon: Trash,
+  },
+};
+
+export const IconButton: Story = {
+  args: {
+    children: 'Trash Can',
+    Icon: Trash,
   },
 };

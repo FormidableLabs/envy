@@ -1,7 +1,7 @@
 import { MoonStar, SunMedium } from 'lucide-react';
 import { useState } from 'react';
 
-import IconButton from './IconButton';
+import Button from './Button';
 
 export default function DarkModeToggle() {
   const initialTheme = localStorage.theme === 'dark';
@@ -23,5 +23,5 @@ export default function DarkModeToggle() {
 
   const Icon = useDarkMode ? MoonStar : SunMedium;
 
-  return <IconButton Icon={Icon} onClick={handleCheckboxChange} role="toggle" />;
+  return <Button Icon={Icon} onClick={handleCheckboxChange} role="toggle" />;
 }

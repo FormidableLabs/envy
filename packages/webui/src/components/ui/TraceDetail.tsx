@@ -2,7 +2,7 @@ import { HttpRequestState } from '@envyjs/core';
 import { X } from 'lucide-react';
 import { useCallback, useEffect, useRef } from 'react';
 
-import { Badge, CodeDisplay, DateTime, Field, Fields, IconButton, Loading, Section } from '@/components';
+import { Badge, Button, CodeDisplay, DateTime, Field, Fields, Loading, Section } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import {
   RequestDetailsComponent,
@@ -100,13 +100,7 @@ export default function TraceDetail() {
           </div>
           <div className="flex flex-row gap-1">
             <CopyAsCurlButton data-test-id="copy-as-curl" trace={trace} />
-            <IconButton
-              Icon={X}
-              onClick={() => clearSelectedTrace()}
-              size="small"
-              border="ghost"
-              data-test-id="close-trace"
-            />
+            <Button Icon={X} onClick={() => clearSelectedTrace()} border="none" data-test-id="close-trace" />
           </div>
         </div>
 

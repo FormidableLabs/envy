@@ -24,8 +24,8 @@ jest.mock('@/components', () => ({
       </div>
     );
   },
-  IconButton: function MockIconButton() {
-    return <>Mock IconButton component</>;
+  Button: function MockIconButton() {
+    return <>Mock Button component</>;
   },
 }));
 

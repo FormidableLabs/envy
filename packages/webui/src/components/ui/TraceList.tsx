@@ -1,7 +1,7 @@
 import { Trash } from 'lucide-react';
 import { UIEvent, useLayoutEffect, useRef, useState } from 'react';
 
-import { IconButton, ToggleSwitch } from '@/components';
+import { Button, ToggleSwitch } from '@/components';
 import useApplication from '@/hooks/useApplication';
 
 import TraceListHeader from './TraceListHeader';
@@ -83,9 +83,9 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
               size="small"
               onChange={value => setAutoScroll(value)}
             />
-            <IconButton Icon={Trash} size="small" onClick={clearTraces} className="uppercase">
+            <Button Icon={Trash} size="small" onClick={clearTraces}>
               Clear
-            </IconButton>
+            </Button>
           </div>
         </div>
       )}
