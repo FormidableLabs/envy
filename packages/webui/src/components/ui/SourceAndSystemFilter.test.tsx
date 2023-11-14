@@ -148,8 +148,8 @@ describe('SourceAndSystemFilter', () => {
 
         const sourceItems = getAllByTestId('source-item');
 
-        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-400');
-        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-400');
+        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-apple-400');
+        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-apple-400');
         expect(within(sourceItems.at(2)!).getByTestId('status')).toHaveClass('bg-red-300');
       });
     });
@@ -214,8 +214,8 @@ describe('SourceAndSystemFilter', () => {
 
         const sourceItems = getAllByTestId('source-item');
 
-        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-green-400');
-        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-green-400');
+        expect(within(sourceItems.at(0)!).getByTestId('status')).toHaveClass('bg-apple-400');
+        expect(within(sourceItems.at(1)!).getByTestId('status')).toHaveClass('bg-apple-400');
         expect(within(sourceItems.at(2)!).getByTestId('status')).toHaveClass('bg-red-300');
       });
 
