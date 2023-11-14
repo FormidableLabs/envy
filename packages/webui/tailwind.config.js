@@ -11,6 +11,7 @@ export default {
       white: colors.white,
       gray: colors.gray,
       slate: colors.slate,
+      green: colors.green,
       apple: {
         50: '#F3FBF2',
         100: '#E4F8E0',
