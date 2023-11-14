@@ -5,7 +5,7 @@
 @tailwind utilities;
 @tailwind variants;
 
-body {
+html {
   font-size: 14px;
 }
 
