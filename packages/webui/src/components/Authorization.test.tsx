@@ -7,7 +7,7 @@ jest.mock('@/components', () => ({
   Code: function ({ children, ...props }: any) {
     return <div {...props}>{children}</div>;
   },
-  IconButton: function ({ short, Icon, ...safeProps }: any) {
+  Button: function ({ short, Icon, ...safeProps }: any) {
     return <button {...safeProps} />;
   },
   CodeDisplay: function ({ data, contentType, ...props }: any) {

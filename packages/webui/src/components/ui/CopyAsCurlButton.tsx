@@ -3,7 +3,7 @@ import { CurlGenerator } from 'curl-generator';
 import { ClipboardCopy } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
-import { IconButton } from '@/components';
+import { Button } from '@/components';
 import { Trace } from '@/types';
 import { cloneHeaders, flatMapHeaders } from '@/utils';
 
@@ -30,7 +30,5 @@ export default function CopyAsCurlButton({ trace, ...props }: CopyAsCurlButtonPr
     });
   }
 
-  return (
-    <IconButton {...props} Icon={ClipboardCopy} size="small" border="ghost" onClick={async () => await copyAsCurl()} />
-  );
+  return <Button {...props} Icon={ClipboardCopy} border="none" onClick={async () => await copyAsCurl()} />;
 }

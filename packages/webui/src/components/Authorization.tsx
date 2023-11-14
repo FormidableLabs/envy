@@ -1,7 +1,7 @@
-import { ChevronDown, ChevronUp, Code2, MoreHorizontal } from 'lucide-react';
+import { ChevronDown, Code2, MoreHorizontal, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { Code, CodeDisplay, IconButton } from '@/components';
+import { Button, Code, CodeDisplay } from '@/components';
 import { tw } from '@/utils';
 
 enum TokenType {
@@ -107,32 +107,35 @@ export default function Authorization({ value }: AuthorizationProps) {
       {tokenState !== TokenState.Minimal && (
         <div className={tw('flex flex-row gap-2 bg-gray-200 px-4 pt-4')}>
           <>
-            <IconButton
+            <Button
               data-test-id="token-expanded-button"
               Icon={MoreHorizontal}
               title="View full token"
-              className={tw(tokenState === TokenState.Expanded && 'bg-neutral')}
-              disabled={tokenState === TokenState.Expanded}
+              size="small"
+              selected={tokenState === TokenState.Expanded}
               onClick={() => setTokenState(TokenState.Expanded)}
             >
               Full token
-            </IconButton>
+            </Button>
             {decodedToken && (
-              <IconButton
+              <Button
                 data-test-id="token-decoded-button"
                 Icon={Code2}
                 title="Decode token"
-                className={tw(tokenState === TokenState.Decoded && 'bg-neutral')}
+                size="small"
+                selected={tokenState === TokenState.Decoded}
                 onClick={() => setTokenState(TokenState.Decoded)}
               >
                 Decoded token
-              </IconButton>
+              </Button>
             )}
-            <IconButton
+            <Button
               data-test-id="token-minimal-button"
-              Icon={ChevronUp}
+              Icon={X}
               title="Collapse"
-              className="ml-auto px-0"
+              className="ml-auto"
+              border="none"
+              size="small"
               onClick={() => setTokenState(TokenState.Minimal)}
             />
           </>

@@ -5,10 +5,6 @@
 @tailwind utilities;
 @tailwind variants;
 
-html {
-  font-size: 14px;
-}
-
 html,
 body,
 main#root {

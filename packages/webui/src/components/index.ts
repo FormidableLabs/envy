@@ -7,7 +7,6 @@ export { default as Code } from './Code';
 export { default as CodeDisplay } from './CodeDisplay';
 export { default as DateTime } from './DateTime';
 export { default as Fields, Field } from './Fields';
-export { default as IconButton } from './IconButton';
 export { default as Input } from './Input';
 export { default as KeyValueList } from './KeyValueList';
 export { default as Label } from './Label';

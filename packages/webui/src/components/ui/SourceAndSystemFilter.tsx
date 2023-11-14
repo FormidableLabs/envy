@@ -6,7 +6,7 @@ import useClickAway from '@/hooks/useClickAway';
 import { getDefaultSystem, getRegisteredSystems } from '@/systems/registration';
 import { tw } from '@/utils';
 
-import IconButton from '../IconButton';
+import Button from '../Button';
 
 type SourceAndSystemFilterProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -47,25 +47,20 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
 
   return (
     <div ref={finalRef} data-test-id="sources-and-systems" className={tw('relative', className)} {...props}>
-      <IconButton
-        role="listbox"
-        className={tw((isOpen || hasFilters) && 'bg-green-200 hover:shadow-none')}
-        Icon={Filter}
-        onClick={() => setIsOpen(curr => !curr)}
-      />
+      <Button role="listbox" selected={isOpen || hasFilters} Icon={Filter} onClick={() => setIsOpen(curr => !curr)} />
       {isOpen && (
         <div
           data-test-id="filter-options"
-          className="absolute right-0 mt-2 z-50 bg-secondary border border-solid border-primary rounded-md p-3 w-96"
+          className="absolute right-0 mt-2 p-4 w-96 z-50 bg-manatee-100 border border-solid border-manatee-600 rounded-md text-sm uppercase"
         >
-          <div data-test-id="source-items-heading" className="font-bold p-2 uppercase">
+          <div data-test-id="source-items-heading" className="font-bold py-2">
             Sources
           </div>
           {hasSources ? (
-            <ul data-test-id="source-items" className="flex flex-col gap-1">
+            <ul data-test-id="source-items" className="flex flex-col gap-2">
               {connections.map(([name, isActive]) => {
                 const isSelected = filters.sources.includes(name);
-                const statusColor = isActive ? 'bg-green-400' : 'bg-red-300';
+                const statusColor = isActive ? 'bg-apple-400' : 'bg-red-300';
                 return (
                   <li
                     key={name}
@@ -75,30 +70,30 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                   >
                     <span
                       className={tw(
-                        'flex flex-row items-center py-2 px-4 rounded hover:bg-green-200 uppercase font-semibold border border-transparent hover:border-gray-400',
-                        isSelected && 'border-primary bg-green-200 hover:bg-green-200',
+                        'flex flex-row items-center py-2 px-3 rounded hover:bg-apple-200 hover:text-apple-900 font-semibold',
+                        isSelected && 'border-manatee-500 bg-manatee-300',
                       )}
                     >
                       <span data-test-id="status" className={tw('w-3 h-3 mr-2 rounded-full', statusColor)}></span>
                       <span className="flex-1">{name}</span>
-                      {isSelected && <Check className="flex-0 w-6 h-6" />}
+                      {isSelected && <Check className="flex-0 w-4 h-4" />}
                     </span>
                   </li>
                 );
               })}
             </ul>
           ) : (
-            <span data-test-id="no-sources" className="opacity-50 p-2 italic">
+            <span data-test-id="no-sources" className="opacity-50 p-2 pl-3 italic">
               No sources connected
             </span>
           )}
-          {hasSystems && <div data-test-id="items-divider" className="w-full border-b border-primary my-2"></div>}
+          {hasSystems && <div data-test-id="items-divider" className="w-full border-b border-manatee-600 my-2"></div>}
           {hasSystems && (
             <div>
-              <div data-test-id="system-items-heading" className="font-bold p-2 uppercase">
+              <div data-test-id="system-items-heading" className="font-bold py-2">
                 Systems
               </div>
-              <ul data-test-id="system-items" className="flex flex-col gap-1">
+              <ul data-test-id="system-items" className="flex flex-col gap-2">
                 {systems.map(system => {
                   const isSelected = filters.systems.includes(system.name);
                   const icon = system.getIconUri?.() ?? defaultIcon;
@@ -111,13 +106,13 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
                     >
                       <span
                         className={tw(
-                          'flex flex-row items-center py-2 px-4 rounded hover:bg-green-200 uppercase font-semibold border border-transparent hover:border-gray-400',
-                          isSelected && 'border-primary bg-green-200 hover:bg-green-200',
+                          'flex flex-row items-center py-2 px-3 rounded hover:bg-apple-200 hover:text-apple-900 font-semibold',
+                          isSelected && 'border-manatee-500 bg-manatee-300',
                         )}
                       >
-                        {icon && <img src={icon} alt="" className="flex-0 mr-2 w-6 object-contain" />}
+                        {icon && <img src={icon} alt="" className="flex-0 mr-2 h-4 w-4 object-contain" />}
                         <span className="flex-1">{system.name}</span>
-                        {isSelected && <Check className="flex-0  w-6 h-6" />}
+                        {isSelected && <Check className="flex-0 w-4 h-4" />}
                       </span>
                     </li>
                   );

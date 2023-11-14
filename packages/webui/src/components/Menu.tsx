@@ -5,7 +5,7 @@ import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
 import usePlatform from '@/hooks/usePlatform';
 import { tw } from '@/utils';
 
-import IconButton from './IconButton';
+import Button from './Button';
 
 export type MenuItem = {
   label: string;
@@ -52,14 +52,14 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
 
   return (
     <div ref={finalRef} className={tw('relative', className)} {...props}>
-      <IconButton
+      <Button
         role="menu"
         className={tw('', isOpen && 'bg-neutral hover:shadow-none')}
         Icon={Icon}
         onClick={() => setIsOpen(curr => !curr)}
       >
         {label}
-      </IconButton>
+      </Button>
       {isOpen && (
         <div data-test-id="menu-items" className="absolute right-0 mt-2 z-50 w-56">
           <ul className="shadow-lg py-1 divide-y divide-gray-100 rounded-md bg-neutral ring-1 ring-primary">

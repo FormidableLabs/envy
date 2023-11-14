@@ -43,8 +43,8 @@ jest.mock('@/components', () => ({
   XmlDisplay: function ({ children }: any) {
     return <>Mock XmlDisplay component: {children}</>;
   },
-  IconButton: function ({ children, Icon, ...props }: any) {
-    return <div {...props}>Mock IconButton component: {children}</div>;
+  Button: function ({ children, Icon, ...props }: any) {
+    return <div {...props}>Mock Button component: {children}</div>;
   },
 }));
 
