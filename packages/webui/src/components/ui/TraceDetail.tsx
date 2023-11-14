@@ -121,7 +121,7 @@ export default function TraceDetail() {
         </TabList>
       </div>
 
-      <div className="overflow-hidden overflow-y-auto h-full border-t border-t-gray-400" data-test-id="trace-detail">
+      <div className="overflow-hidden overflow-y-auto h-full border-t border-t-manatee-400" data-test-id="trace-detail">
         <TabContent id="default">
           <Section data-test-id="request-details" title="Request Details" className="border-t-0">
             <Fields>
