@@ -51,7 +51,7 @@ function SourceAndSystemFilter({ className, ...props }: SourceAndSystemFilterPro
       {isOpen && (
         <div
           data-test-id="filter-options"
-          className="absolute right-0 mt-2 p-3 w-96 z-50 bg-manatee-100 border border-solid border-manatee-600 rounded-md text-sm uppercase"
+          className="absolute right-0 mt-2 p-4 w-96 z-50 bg-manatee-100 border border-solid border-manatee-600 rounded-md text-sm uppercase"
         >
           <div data-test-id="source-items-heading" className="font-bold py-2">
             Sources
