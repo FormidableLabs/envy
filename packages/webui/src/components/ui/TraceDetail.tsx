@@ -79,7 +79,7 @@ export default function TraceDetail() {
 
   return (
     <div className="h-full flex flex-col p-default bg-secondary">
-      <div className="sticky top-0" data-test-id="summary">
+      <div className="sticky top-0 pb-2" data-test-id="summary">
         <div className="flex flex-row gap-2 items-center">
           <div className="flex-1 flex flex-row gap-2">
             <div>
@@ -116,12 +116,12 @@ export default function TraceDetail() {
 
         <TabList>
           <TabListItem title="Details" id="default" />
-          {availableTabs.includes(TabMap.payload) && <TabListItem title="Payload" id={TabMap.payload} />}
-          {availableTabs.includes(TabMap.response) && <TabListItem title="Response" id={TabMap.response} />}
+          <TabListItem title="Payload" id={TabMap.payload} disabled={!availableTabs.includes(TabMap.payload)} />
+          <TabListItem title="Response" id={TabMap.response} disabled={!availableTabs.includes(TabMap.response)} />
         </TabList>
       </div>
 
-      <div className="overflow-hidden overflow-y-auto h-full" data-test-id="trace-detail">
+      <div className="overflow-hidden overflow-y-auto h-full border-t border-t-manatee-400" data-test-id="trace-detail">
         <TabContent id="default">
           <Section data-test-id="request-details" title="Request Details" className="border-t-0">
             <Fields>

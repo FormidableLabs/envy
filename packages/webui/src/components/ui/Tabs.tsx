@@ -1,29 +1,51 @@
 import useApplication from '@/hooks/useApplication';
 import { tw } from '@/utils';
 
-export function TabList({ children }: { children: React.ReactNode }) {
+export function TabList({
+  children,
+  ...props
+}: { children: React.ReactNode } & React.HTMLAttributes<HTMLUListElement>) {
   return (
-    <div className="bg-secondary border-b border-primary">
-      <ul className="flex flex-wrap text-sm gap-1">{children}</ul>
-    </div>
+    <ul className="flex flex-wrap text-sm gap-1" {...props}>
+      {children}
+    </ul>
   );
 }
 
-export function TabListItem({ id, title }: { id: string; title: string }) {
+export function TabListItem({
+  id,
+  title,
+  disabled = false,
+  ...props
+}: { id: string; title: string; disabled?: boolean } & React.HTMLAttributes<HTMLAnchorElement>) {
   const { selectedTab, setSelectedTab } = useApplication();
 
+  const href = disabled ? undefined : `#${id}`;
+
+  const allowInteractive = !(disabled || selectedTab === id);
+
   const className = tw(
-    'inline-block px-4 py-3 uppercase font-semibold cursor-pointer',
-    'border border-b-0',
-    selectedTab === id ? 'border-green-400 bg-green-100' : 'border-primary bg-primary',
+    'inline-block px-3 py-2 rounded-[0.25rem] font-bold uppercase text-xs',
+    'text-manatee-800',
+    allowInteractive && 'hover:bg-apple-200 hover:text-apple-900',
+    allowInteractive && 'active:bg-apple-500 active:text-apple-950',
+    disabled && 'text-gray-400 cursor-not-allowed',
+    selectedTab === id && 'bg-apple-400 text-[#0D280B]',
   );
 
   return (
     <li>
       <a
-        href={`#${id}`}
+        {...props}
+        role="link"
+        aria-disabled={disabled}
+        href={href}
         className={className}
-        onClick={() => {
+        onClick={e => {
+          if (disabled) {
+            e.preventDefault();
+            return;
+          }
           setSelectedTab(id);
         }}
       >
