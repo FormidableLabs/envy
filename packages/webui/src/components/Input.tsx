@@ -61,40 +61,35 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
   }
 
   return (
-    <div className={className}>
-      <label htmlFor="search" className="sr-only">
-        Search
-      </label>
-      <div className="relative">
-        {Icon && (
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <Icon className="h-5 w-5 text-neutral" aria-hidden="true" />
-          </div>
-        )}
-        <input
-          className="block w-full rounded-md border-0 bg-neutral py-2 pl-10 pr-3 ring-1 ring-primary placeholder:text-gray-500 focus:ring-lime-600"
-          ref={finalRef}
-          type={inputType}
-          onChange={handleChange}
-          value={value}
-          {...props}
-        />
-        {!value && focusKey && specialKey && (
-          <span data-test-id="focus-key" className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral">
-            {specialKey}
-            {focusKey}
-          </span>
-        )}
-        {!!value && (
-          <span
-            data-test-id="input-clear"
-            className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral cursor-pointer"
-            onClick={clearValue}
-          >
-            <X />
-          </span>
-        )}
-      </div>
+    <div className="relative">
+      {Icon && (
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center ml-2">
+          <Icon size={24} className="text-manatee-600" aria-hidden="true" />
+        </div>
+      )}
+      <input
+        className="flex w-full pl-10 pr-3 py-2 rounded-md border-0 bg-white text-manatee-600 ring-1 ring-inset ring-manatee-600 placeholder:text-manatee-600 focus:ring-manatee-700 focus:text-manatee-700 focus:ring-inset"
+        ref={finalRef}
+        type={inputType}
+        onChange={handleChange}
+        value={value}
+        {...props}
+      />
+      {!value && focusKey && specialKey && (
+        <span data-test-id="focus-key" className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral">
+          {specialKey}
+          {focusKey}
+        </span>
+      )}
+      {!!value && (
+        <span
+          data-test-id="input-clear"
+          className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral cursor-pointer"
+          onClick={clearValue}
+        >
+          <X />
+        </span>
+      )}
     </div>
   );
 }
