@@ -1,9 +1,27 @@
 {
   "name": "@envyjs/node",
-  "version": "0.7.1",
+  "version": "0.8.4",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
-  "repository": "https://github.com/FormidableLabs/envy.git",
+  "author": {
+    "name": "Formidable",
+    "url": "https://formidable.com"
+  },
+  "homepage": "https://github.com/formidablelabs/envy",
+  "keywords": [
+    "react",
+    "nextjs",
+    "graphql",
+    "typescript",
+    "nodejs",
+    "telemetry",
+    "tracing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FormidableLabs/envy.git",
+    "directory": "packages/node"
+  },
   "license": "MIT",
   "publishConfig": {
     "provenance": true
@@ -18,11 +36,10 @@
     "test:live": "ts-node ./src/test.ts"
   },
   "dependencies": {
-    "@envyjs/core": "0.7.1",
+    "@envyjs/core": "0.8.4",
     "chalk": "^4.1.2",
     "shimmer": "^1.2.1",
-    "ws": "8.14.2",
-    "zlib": "1.0.5"
+    "ws": "8.14.2"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.4",

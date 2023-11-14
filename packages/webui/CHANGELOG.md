@@ -1,5 +1,51 @@
 # @envyjs/webui
 
+## 0.8.4
+
+### Patch Changes
+
+- 2c194a2: Fix npm publish warnings about git syntax
+- 4b1788b: Move react-json-view to peer dependency to avoid infinite loop in npm installs
+- Updated dependencies [2c194a2]
+  - @envyjs/core@0.8.4
+
+## 0.8.3
+
+### Patch Changes
+
+- 57c4ec8: Add npm metadata to all packages
+- Updated dependencies [57c4ec8]
+  - @envyjs/core@0.8.3
+
+## 0.8.2
+
+### Patch Changes
+
+- ceb95b0: Use repository directory fields for npm
+- Updated dependencies [ceb95b0]
+  - @envyjs/core@0.8.2
+
+## 0.8.1
+
+### Patch Changes
+
+- cbabdf4: Publish package provenance
+- Updated dependencies [cbabdf4]
+  - @envyjs/core@0.8.1
+
+## 0.8.0
+
+### Minor Changes
+
+- 9b61037: Handle aborted requests
+
+### Patch Changes
+
+- aa050d2: Add system name as system icon alt text
+- 1da5680: Fix custom viewer integration deps
+- Updated dependencies [9b61037]
+  - @envyjs/core@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes

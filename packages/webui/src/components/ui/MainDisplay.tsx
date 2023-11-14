@@ -5,8 +5,6 @@ import TraceDetail from '@/components/ui/TraceDetail';
 import TraceList from '@/components/ui/TraceList';
 import useApplication from '@/hooks/useApplication';
 
-import 'allotment/dist/style.css';
-
 export default function MainDisplay() {
   const { selectedTraceId } = useApplication();
 

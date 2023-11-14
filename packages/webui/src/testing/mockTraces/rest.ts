@@ -272,6 +272,31 @@ const errorEvent: Event = {
   },
 };
 
+// Aborted request (no response)
+const abortedEvent: Event = {
+  id: '99',
+  parentId: undefined,
+  serviceName: 'gql',
+  timestamp: elapseTime(0.4),
+  http: {
+    ...requestData('GET', 'data.restserver.com', 433, '/features'),
+    state: HttpRequestState.Aborted,
+    requestHeaders: {
+      'accept': 'application/json',
+      'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
+      'accept-encoding': 'br, gzip, deflate',
+    },
+    requestBody: undefined,
+    // ---------
+    httpVersion: '1.1',
+    statusCode: undefined,
+    statusMessage: undefined,
+    responseHeaders: undefined,
+    responseBody: undefined,
+    duration: 200,
+  },
+};
+
 // In flight request (no response)
 const inFlightEvent: Event = {
   id: '9',
@@ -296,4 +321,13 @@ const inFlightEvent: Event = {
   },
 };
 
-export default [authRequest, dataEvent, postEvent, optionsEvent, notFoundEvent, errorEvent, inFlightEvent];
+export default [
+  authRequest,
+  dataEvent,
+  postEvent,
+  optionsEvent,
+  notFoundEvent,
+  errorEvent,
+  abortedEvent,
+  inFlightEvent,
+];

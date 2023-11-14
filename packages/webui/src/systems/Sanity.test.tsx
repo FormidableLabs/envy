@@ -114,6 +114,6 @@ describe('SanitySystem', () => {
 
     const result = instance.getResponseBody({ trace: mockTrace, data });
 
-    expect(result).toEqual({ data: { bar: 'baz' } });
+    expect(result).toEqual('{"data":{"bar":"baz"}}');
   });
 });

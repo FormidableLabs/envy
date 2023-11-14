@@ -13,6 +13,7 @@ import {
   getIconUri,
   getRequestBody,
   getResponseBody,
+  getSystemName,
 } from '.';
 
 jest.mock('@/systems/registration');
@@ -53,7 +54,12 @@ describe('Systems', () => {
       },
     } as Trace;
 
-    it('should return correct value for `getSystemIconPath`', () => {
+    it('should return correct value for `getSystemName`', () => {
+      const result = getSystemName(trace);
+      expect(result).toEqual('Foo');
+    });
+
+    it('should return correct value for `getIconUri`', () => {
       const result = getIconUri(trace);
       expect(result).toEqual('foo_icon');
     });
@@ -100,6 +106,11 @@ describe('Systems', () => {
         responseBody: 'bar_response_body',
       },
     } as Trace;
+
+    it('should return correct value for `getSystemName`', () => {
+      const result = getSystemName(trace);
+      expect(result).toEqual('Bar');
+    });
 
     it('should return correct value for `getIconUri`', () => {
       const result = getIconUri(trace);
@@ -149,7 +160,12 @@ describe('Systems', () => {
       },
     } as Trace;
 
-    it('should return correct value for `getSystemIconPath`', () => {
+    it('should return correct value for `getSystemName`', () => {
+      const result = getSystemName(trace);
+      expect(result).toEqual('Fallbacks');
+    });
+
+    it('should return correct value for `getIconUri`', () => {
       const result = getIconUri(trace);
       expect(result).toEqual('default_icon');
     });
@@ -195,7 +211,12 @@ describe('Systems', () => {
       },
     } as Trace;
 
-    it('should return correct value for `getSystemIconPath`', () => {
+    it('should return correct value for `getSystemName`', () => {
+      const result = getSystemName(trace);
+      expect(result).toEqual('Default');
+    });
+
+    it('should return correct value for `getIconUri`', () => {
       const result = getIconUri(trace);
       expect(result).toEqual('default_icon');
     });

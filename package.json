@@ -2,12 +2,24 @@
   "name": "envy",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "index.js",
-  "repository": "https://github.com/FormidableLabs/envy.git",
-  "contributors": [
-    "Charlie Brown <carbonrobot@gmail.com>",
-    "Kevin Paxton <kevinpaxton82@gmail.com>",
-    "Matthew Ritter <matthewwilliamritter@gmail.com>"
+  "author": {
+    "name": "Formidable",
+    "url": "https://formidable.com"
+  },
+  "homepage": "https://github.com/formidablelabs/envy",
+  "keywords": [
+    "react",
+    "nextjs",
+    "graphql",
+    "typescript",
+    "nodejs",
+    "telemetry",
+    "tracing"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FormidableLabs/envy.git"
+  },
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -53,7 +65,6 @@
     "wait-on": "^7.0.1"
   },
   "resolutions": {
-    "@microlink/react-json-view/react": "^17.0.0",
     "react-hot-toast/csstype": "^3.0.10"
   },
   "lint-staged": {

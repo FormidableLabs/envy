@@ -1,12 +1,9 @@
 import http from 'http';
 import https from 'https';
 import process from 'process';
+import { createBrotliDecompress, unzip } from 'zlib';
 
 import { Event, HttpRequest, HttpRequestState, Plugin } from '@envyjs/core';
-
-// eslint thinks zlib is node20:builtin, but this is a node module
-// eslint-disable-next-line import/order
-import { createBrotliDecompress, unzip } from 'zlib';
 
 import { generateId } from './id';
 import log from './log';

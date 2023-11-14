@@ -64,9 +64,8 @@ export default class SanitySystem implements System<SanityData> {
   getResponseBody({ trace }: TraceContext<SanityData>) {
     if (!trace.http?.responseBody) return null;
 
-    const json = safeParseJson(trace.http.responseBody).value;
-    const transformed = { ...json };
+    const transformed = safeParseJson(trace.http.responseBody).value;
     delete transformed.query;
-    return transformed;
+    return JSON.stringify(transformed);
   }
 }

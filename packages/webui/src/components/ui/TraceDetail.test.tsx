@@ -31,8 +31,8 @@ jest.mock('@/components', () => ({
   Fields: function (props: any) {
     return <div {...props} />;
   },
-  JsonDisplay: function ({ children }: any) {
-    return <>Mock JsonDisplay component: {children}</>;
+  CodeDisplay: function ({ children }: any) {
+    return <>Mock CodeDisplay component: {children}</>;
   },
   Loading: function (props: any) {
     return <div {...props}>Mock Loading component</div>;
@@ -189,6 +189,30 @@ describe('TraceDetail', () => {
       const status = within(summary).queryByTestId('status');
 
       expect(status).not.toBeInTheDocument();
+    });
+
+    it('should display aborted indicator when request is aborted', () => {
+      const mockAbortedTrace = mockTraces.find(trace => trace.http?.state === HttpRequestState.Aborted);
+      getSelectedTraceFn.mockReturnValue(mockAbortedTrace);
+
+      const { getByTestId } = render(<TraceDetail />);
+
+      const summary = getByTestId('summary');
+      const abortedIndicator = within(summary).queryByTestId('aborted-indicator');
+
+      expect(abortedIndicator).toBeInTheDocument();
+    });
+
+    it('should not display aborted indicator when response is received', () => {
+      const mockAbortedTrace = mockTraces.find(trace => trace.http?.state === HttpRequestState.Received);
+      getSelectedTraceFn.mockReturnValue(mockAbortedTrace);
+
+      const { getByTestId } = render(<TraceDetail />);
+
+      const summary = getByTestId('summary');
+      const abortedIndicator = within(summary).queryByTestId('aborted-indicator');
+
+      expect(abortedIndicator).not.toBeInTheDocument();
     });
 
     it('should display full URL', () => {

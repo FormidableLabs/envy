@@ -1,5 +1,45 @@
 # @envyjs/apollo
 
+## 0.8.4
+
+### Patch Changes
+
+- 2c194a2: Fix npm publish warnings about git syntax
+- Updated dependencies [2c194a2]
+  - @envyjs/node@0.8.4
+
+## 0.8.3
+
+### Patch Changes
+
+- 57c4ec8: Add npm metadata to all packages
+- Updated dependencies [57c4ec8]
+  - @envyjs/node@0.8.3
+
+## 0.8.2
+
+### Patch Changes
+
+- ceb95b0: Use repository directory fields for npm
+- Updated dependencies [ceb95b0]
+  - @envyjs/node@0.8.2
+
+## 0.8.1
+
+### Patch Changes
+
+- cbabdf4: Publish package provenance
+- Updated dependencies [cbabdf4]
+  - @envyjs/node@0.8.1
+
+## 0.8.0
+
+### Patch Changes
+
+- Updated dependencies [6023c81]
+- Updated dependencies [9b61037]
+  - @envyjs/node@0.8.0
+
 ## 0.7.1
 
 ### Patch Changes

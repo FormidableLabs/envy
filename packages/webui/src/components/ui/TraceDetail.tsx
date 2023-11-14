@@ -2,18 +2,7 @@ import { HttpRequestState } from '@envyjs/core';
 import { X } from 'lucide-react';
 import { useCallback, useEffect, useRef } from 'react';
 
-import {
-  Badge,
-  Code,
-  DateTime,
-  Field,
-  Fields,
-  IconButton,
-  JsonDisplay,
-  Loading,
-  Section,
-  XmlDisplay,
-} from '@/components';
+import { Badge, CodeDisplay, DateTime, Field, Fields, IconButton, Loading, Section } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import {
   RequestDetailsComponent,
@@ -31,39 +20,21 @@ import ResponseHeaders from './ResponseHeaders';
 import { TabContent, TabList, TabListItem } from './Tabs';
 import TimingsDiagram from './TimingsDiagram';
 
-type CodeDisplayProps = {
-  contentType: string | string[] | null;
-  children: any;
+const TabMap = {
+  default: 'default',
+  payload: 'payload',
+  response: 'response',
 };
 
-function CodeDisplay({ contentType, children, ...props }: CodeDisplayProps) {
-  if (!children) return null;
-
-  const type = Array.isArray(contentType) ? contentType[0] : contentType;
-  const isJson = type?.includes('application/json') || contentType?.includes('application/graphql-response+json');
-  const isXml = contentType?.includes('application/xml');
-
-  return (
-    <div className="h-full" {...props}>
-      {isJson ? (
-        <JsonDisplay>{children}</JsonDisplay>
-      ) : isXml ? (
-        <XmlDisplay>{children}</XmlDisplay>
-      ) : (
-        <Code>{children}</Code>
-      )}
-    </div>
-  );
-}
-
 export default function TraceDetail() {
-  const { getSelectedTrace, clearSelectedTrace } = useApplication();
+  const { getSelectedTrace, clearSelectedTrace, selectedTab, setSelectedTab } = useApplication();
   const trace = getSelectedTrace();
 
   const { http, serviceName, timestamp } = trace || {};
   const { method, host, url, requestHeaders, statusCode, statusMessage, responseHeaders, duration, state } = http || {};
-
+  const requestAborted = state === HttpRequestState.Aborted;
   const responseComplete = state !== HttpRequestState.Sent;
+  const showResponseHeaders = state === HttpRequestState.Received;
 
   const updateTimer = useCallback(() => {
     if (counterElRef.current) {
@@ -93,6 +64,19 @@ export default function TraceDetail() {
   const responseBody = getResponseBody(trace);
   const httpStatusLabel = `${statusCode && statusCode > -1 ? statusCode : ''} ${statusMessage}`;
 
+  // handle persistent tabs
+  const availableTabs = [TabMap.default];
+  if (requestBody) {
+    availableTabs.push(TabMap.payload);
+  }
+  if (responseBody) {
+    availableTabs.push(TabMap.response);
+  }
+  if (!availableTabs.includes(selectedTab)) {
+    setSelectedTab(TabMap.default);
+    window.history.replaceState('', '', `#${TabMap.default}`);
+  }
+
   return (
     <div className="h-full flex flex-col p-default bg-secondary">
       <div className="sticky top-0 pb-2" data-test-id="summary">
@@ -102,6 +86,11 @@ export default function TraceDetail() {
               <img src={getIconUri(trace)} alt="" className="w-7 h-7" />
             </div>
             <Badge>{method}</Badge>
+            {requestAborted && (
+              <Badge className="bg-gray-500 uppercase" data-test-id="aborted-indicator">
+                Aborted
+              </Badge>
+            )}
             {statusCode && (
               <Badge className={statusCodeStyle(statusCode)} data-test-id="method">
                 {httpStatusLabel}
@@ -127,8 +116,8 @@ export default function TraceDetail() {
 
         <TabList>
           <TabListItem title="Details" id="default" />
-          <TabListItem title="Payload" id="payload" disabled={!requestBody} />
-          <TabListItem title="Response" id="response" disabled={!responseBody} />
+          <TabListItem title="Payload" id={TabMap.payload} disabled={!availableTabs.includes(TabMap.payload)} />
+          <TabListItem title="Response" id={TabMap.response} disabled={!availableTabs.includes(TabMap.response)} />
         </TabList>
       </div>
 
@@ -180,7 +169,7 @@ export default function TraceDetail() {
             )}
           </Section>
 
-          {responseComplete && duration && (
+          {showResponseHeaders && (
             <>
               <Section data-test-id="request-headers" title="Response Headers">
                 <ResponseHeaders data-test-id="headers" trace={trace} />
@@ -210,16 +199,20 @@ export default function TraceDetail() {
         </TabContent>
 
         <TabContent id="payload">
-          <CodeDisplay data-test-id="request-body" contentType={getHeader(requestHeaders, 'content-type')}>
-            {requestBody}
-          </CodeDisplay>
+          <CodeDisplay
+            data-test-id="request-body"
+            contentType={getHeader(requestHeaders, 'content-type')}
+            data={requestBody}
+          />
         </TabContent>
 
         <TabContent id="response">
           {responseComplete && (
-            <CodeDisplay data-test-id="response-body" contentType={getHeader(responseHeaders, 'content-type')}>
-              {responseBody}
-            </CodeDisplay>
+            <CodeDisplay
+              data-test-id="response-body"
+              contentType={getHeader(responseHeaders, 'content-type')}
+              data={responseBody}
+            />
           )}
         </TabContent>
       </div>
