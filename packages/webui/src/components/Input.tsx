@@ -68,7 +68,7 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
         </div>
       )}
       <input
-        className="flex w-full pl-10 pr-3 py-2 rounded-md border-0 bg-white text-manatee-600 ring-1 ring-inset ring-manatee-600 placeholder:text-manatee-600 focus:ring-manatee-700 focus:text-manatee-700 focus:ring-inset"
+        className="flex w-full pl-10 pr-3 py-1.5 rounded-xl bg-white text-manatee-600 border border-solid border-manatee-600 placeholder:text-manatee-600 focus:border-manatee-700 focus:text-manatee-700"
         ref={finalRef}
         type={inputType}
         onChange={handleChange}

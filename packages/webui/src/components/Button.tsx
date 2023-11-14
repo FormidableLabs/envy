@@ -26,35 +26,35 @@ function Button(
       ref={finalRef}
       className={tw(
         // layout
-        'inline-flex items-center gap-x-1.5 p-2',
-        !!children && 'px-3',
+        'inline-flex items-center gap-x-1.5 p-1.5',
+        !!children && 'px-2',
 
         // common styles
-        'ring-1 ring-inset rounded-md font-bold shadow-sm uppercase',
-        border === 'none' && 'ring-0 shadow-none',
+        'border border-solid rounded-[0.25rem] font-bold shadow-sm uppercase',
+        border === 'none' && 'border-none shadow-none',
 
         // base colors
-        'text-manatee-900 ring-manatee-600 bg-manatee-100',
+        'text-manatee-900 border-manatee-600 bg-manatee-100',
         border === 'none' && 'bg-transparent',
 
         // disabled
-        'disabled:text-manatee-400 disabled:ring-manatee-300 disabled:bg-manatee-100',
+        'disabled:text-manatee-400 disabled:border-manatee-300 disabled:bg-manatee-100',
         border === 'none' && 'bg-transparent',
 
         // focus
-        'focus:text-apple-900 focus:ring-apple-600 focus:bg-apple-200',
+        'focus:text-apple-900 focus:border-apple-600 focus:bg-apple-200',
 
         // hover
-        'hover:text-apple-900 hover:ring-[#2D7124] hover:bg-apple-200',
+        'hover:text-apple-900 hover:border-apple-700 hover:bg-apple-200',
 
         // pressed
-        'active:text-apple-950 active:ring-apple-500 active:bg-apple-500',
+        'active:text-apple-950 active:border-apple-500 active:bg-apple-500',
 
         // selected
-        selected && 'text-apple-950 ring-apple-400 bg-apple-400',
+        selected && 'text-apple-950 border-apple-400 bg-apple-400',
 
         // small
-        size === 'small' && 'p-1.5 text-xs',
+        size === 'small' && 'p-1 text-xs',
         size === 'small' && !!children && 'px-2',
 
         // externals
