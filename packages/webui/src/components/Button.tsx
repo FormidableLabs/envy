@@ -34,24 +34,24 @@ function Button(
         border === 'none' && 'ring-0 shadow-none',
 
         // base colors
-        'text-[#52535D] ring-[#8D90A1] bg-[#EEEFF1]',
+        'text-manatee-900 ring-manatee-600 bg-manatee-100',
         border === 'none' && 'bg-transparent',
 
         // disabled
-        'disabled:text-[#B5B9C4] disabled:ring-[#CBCFD6] disabled:bg-[#EEEFF1]',
+        'disabled:text-manatee-400 disabled:ring-manatee-300 disabled:bg-manatee-100',
         border === 'none' && 'bg-transparent',
 
         // focus
-        'focus:text-[#214A1D] focus:ring-[#378F2A] focus:bg-[#CAEFC3]',
+        'focus:text-apple-900 focus:ring-apple-600 focus:bg-apple-200',
 
         // hover
-        'hover:text-[#214A1D] hover:ring-[#2D7124] hover:bg-[#CAEFC3]',
+        'hover:text-apple-900 hover:ring-[#2D7124] hover:bg-apple-200',
 
         // pressed
-        'active:text-[#0D280B] active:ring-[#48AE39] active:bg-[#48AE39]',
+        'active:text-apple-950 active:ring-apple-500 active:bg-apple-500',
 
         // selected
-        selected && 'text-[#0D280B] ring-[#6CC95F] bg-[#6CC95F]',
+        selected && 'text-apple-950 ring-apple-400 bg-apple-400',
 
         // small
         size === 'small' && 'p-1.5 text-xs',
