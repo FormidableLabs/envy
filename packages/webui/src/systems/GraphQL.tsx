@@ -44,8 +44,8 @@ export default class GraphQLSystem implements System<GraphQLData> {
     const { operationType, operationName, query } = data;
 
     return (
-      <>
-        <Fields className="border-t border-manatee-400 pt-4">
+      <div className="border-t border-manatee-400 pt-3 mt-3">
+        <Fields>
           <Field data-test-id="name" label="Name">
             {operationName}
           </Field>
@@ -56,7 +56,7 @@ export default class GraphQLSystem implements System<GraphQLData> {
             <Code data-test-id="query">{query}</Code>
           </Field>
         </Fields>
-      </>
+      </div>
     );
   }
 }

@@ -81,7 +81,7 @@ export default function TraceDetail() {
 
   return (
     <div className="h-full flex flex-col p-3 pr-0 bg-manatee-50">
-      <div className="sticky top-0" data-test-id="summary">
+      <div className="sticky top-0 pr-3" data-test-id="summary">
         <div className="flex flex-row gap-2 items-center">
           <div className="flex-1 flex flex-row gap-2">
             <div className="flex items-center">

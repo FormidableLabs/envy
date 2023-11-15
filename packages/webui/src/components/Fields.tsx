@@ -1,7 +1,5 @@
 import { tw } from '@/utils';
 
-import Label from './Label';
-
 type FieldProps = React.HTMLAttributes<HTMLElement> & {
   label: string;
 };
@@ -12,20 +10,18 @@ type FieldsProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
 
 export default function Fields({ className, children, ...props }: FieldsProps) {
   return (
-    <div className={tw('w-full table-fixed text-xs pr-3 py-2', className)} {...props}>
-      <div className="space-y-2 table-row-group">{children}</div>
-    </div>
+    <table className={tw('table table-fixed min-w-full text-xs', className)} {...props}>
+      <tbody>{children}</tbody>
+    </table>
   );
 }
 
 export function Field({ label, className, children, ...props }: FieldProps) {
   if (!children) return null;
   return (
-    <div className="table-row" {...props}>
-      <div className={tw('table-cell w-[200px]', className)}>
-        <Label label={label} />
-      </div>
-      <div className="table-cell font-mono">{children}</div>
-    </div>
+    <tr className={className} {...props}>
+      <td className={tw('table-cell w-[200px] py-1 font-semibold font-mono uppercase', className)}>{label}</td>
+      <td className="table-cell font-mono">{children}</td>
+    </tr>
   );
 }

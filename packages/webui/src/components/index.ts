@@ -9,7 +9,6 @@ export { default as DateTime } from './DateTime';
 export { default as Fields, Field } from './Fields';
 export { default as Input } from './Input';
 export { default as KeyValueList } from './KeyValueList';
-export { default as Label } from './Label';
 export { default as Loading } from './Loading';
 export { default as Menu } from './Menu';
 export { default as SearchInput } from './SearchInput';
