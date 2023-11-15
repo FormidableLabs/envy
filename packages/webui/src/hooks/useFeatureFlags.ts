@@ -1,5 +1,5 @@
 export default function useFeatureFlags() {
   return {
-    enableThemeSwitcher: true,
+    enableThemeSwitcher: false,
   };
 }
