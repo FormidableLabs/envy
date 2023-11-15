@@ -8,7 +8,7 @@ export default function KeyValueList({ values }: KeyValueList) {
   if (!values.length) return null;
 
   return (
-    <table className="table-fixed min-w-full font-mono text-sm">
+    <table className="table-fixed min-w-full font-mono text-xs">
       <tbody>
         {values.map(([k, v]) => {
           let value: React.ReactNode = v;
@@ -25,8 +25,8 @@ export default function KeyValueList({ values }: KeyValueList) {
           }
           return (
             <tr key={k} data-test-id="key-value-item">
-              <td className="whitespace-nowrap pr-2 py-1 font-semibold align-top w-40">{k}</td>
-              <td className="break-all px-2 py-1 pr-3">{value}</td>
+              <td className="pr-2 py-1 font-semibold align-top w-[200px]">{k}</td>
+              <td className="break-all py-1 pr-3">{value}</td>
             </tr>
           );
         })}

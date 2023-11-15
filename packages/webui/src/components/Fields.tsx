@@ -12,7 +12,7 @@ type FieldsProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
 
 export default function Fields({ className, children, ...props }: FieldsProps) {
   return (
-    <div className={tw('w-full table-fixed text-sm pr-3 py-2', className)} {...props}>
+    <div className={tw('w-full table-fixed text-xs pr-3 py-2', className)} {...props}>
       <div className="space-y-2 table-row-group">{children}</div>
     </div>
   );
@@ -22,7 +22,7 @@ export function Field({ label, className, children, ...props }: FieldProps) {
   if (!children) return null;
   return (
     <div className="table-row" {...props}>
-      <div className={tw('table-cell w-40', className)}>
+      <div className={tw('table-cell w-[200px]', className)}>
         <Label label={label} />
       </div>
       <div className="table-cell font-mono">{children}</div>
