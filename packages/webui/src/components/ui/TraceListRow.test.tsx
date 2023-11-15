@@ -7,7 +7,7 @@ import { Trace } from '@/types';
 import TraceListRow from './TraceListRow';
 
 jest.mock('@/components', () => ({
-  Badge: function Badge({ children }: any) {
+  Badge: function Badge({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   },
   Loading: function Loading() {

@@ -114,5 +114,5 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .badge-abort {
-  @apply bg-[#787B8A] text-white
+  @apply bg-manatee-700 text-white
 }

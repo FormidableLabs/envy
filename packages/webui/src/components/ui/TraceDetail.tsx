@@ -89,7 +89,7 @@ export default function TraceDetail() {
             </div>
             <div className="text-xl font-bold">{method}</div>
             {requestAborted && (
-              <Badge className="bg-[#787B8A] uppercase" data-test-id="aborted-indicator">
+              <Badge className="bg-manatee-700 uppercase" data-test-id="aborted-indicator">
                 Aborted
               </Badge>
             )}

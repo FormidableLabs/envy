@@ -30,7 +30,7 @@ export function TabListItem({
     allowInteractive && 'hover:bg-apple-200 hover:text-apple-900',
     allowInteractive && 'active:bg-apple-500 active:text-apple-950',
     disabled && 'text-manatee-300 cursor-not-allowed',
-    selectedTab === id && 'bg-apple-400 text-[#0D280B]',
+    selectedTab === id && 'bg-apple-400 text-apple-950',
   );
 
   return (
