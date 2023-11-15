@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,600,700|Roboto Mono:400,600,700&display=swap');
 @import './allotment.css';
 
 @tailwind base;
