@@ -11,7 +11,6 @@ body,
 main#root {
   @apply h-full;
   @apply bg-manatee-200 text-manatee-950;
-  @apply antialiased;
 }
 
 /**
