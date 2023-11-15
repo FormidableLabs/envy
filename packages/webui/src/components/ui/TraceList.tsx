@@ -47,15 +47,15 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
 
   return (
     <div className="h-full flex flex-col bg-manatee-100">
-      {!hasTraces ? (
-        <TraceListPlaceholder />
-      ) : (
-        <div
-          data-test-id="scroll-container"
-          ref={scrollContainer}
-          onScroll={handleScroll}
-          className="flex-1 overflow-y-auto"
-        >
+      <div
+        data-test-id="scroll-container"
+        ref={scrollContainer}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto"
+      >
+        {!hasTraces ? (
+          <TraceListPlaceholder />
+        ) : (
           <div data-test-id="trace-list" className="table table-fixed w-full">
             <div className="table-header-group font-bold sticky top-0 uppercase">
               <TraceListHeader className="w-[110px]">Method</TraceListHeader>
@@ -68,8 +68,8 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
               ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       {hasTraces && (
         <div className="flex flex-row items-center p-3 bg-manatee-200 border-t border-manatee-400">
           <div data-test-id="trace-count" className="flex-1 font-bold uppercase text-xs">
