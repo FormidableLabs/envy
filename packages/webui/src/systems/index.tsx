@@ -60,20 +60,10 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
 
 export function RequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'getRequestDetailComponent');
-  return Component ? (
-    <>
-      <hr />
-      {Component}
-    </>
-  ) : null;
+  return Component ? Component : null;
 }
 
 export function ResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'getResponseDetailComponent');
-  return Component ? (
-    <>
-      <hr />
-      {Component}
-    </>
-  ) : null;
+  return Component ? Component : null;
 }

@@ -45,7 +45,7 @@ export default class GraphQLSystem implements System<GraphQLData> {
 
     return (
       <>
-        <Fields>
+        <Fields className="border-t border-manatee-400 pt-4">
           <Field data-test-id="name" label="Name">
             {operationName}
           </Field>

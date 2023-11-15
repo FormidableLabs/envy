@@ -54,7 +54,7 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
     <div ref={finalRef} className={tw('relative', className)} {...props}>
       <Button
         role="menu"
-        className={tw('', isOpen && 'bg-neutral hover:shadow-none')}
+        className={tw('', isOpen && 'bg-apple-400 hover:shadow-none')}
         Icon={Icon}
         onClick={() => setIsOpen(curr => !curr)}
       >
@@ -62,13 +62,13 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
       </Button>
       {isOpen && (
         <div data-test-id="menu-items" className="absolute right-0 mt-2 z-50 w-56">
-          <ul className="shadow-lg py-1 divide-y divide-gray-100 rounded-md bg-neutral ring-1 ring-primary">
+          <ul className="shadow-lg py-1 divide-y divide-manatee-400 rounded-md bg-manatee-100 border border-manatee-400">
             {items.map((x: MenuItem) => {
               return (
                 <li
                   key={x.label}
                   data-test-id="menu-items-item"
-                  className="cursor-pointer py-2 px-4 hover:bg-gray-100"
+                  className="cursor-pointer py-2 px-4 hover:bg-apple-200"
                   onClick={() => handleSelection(x)}
                 >
                   <div className="flex flex-col">

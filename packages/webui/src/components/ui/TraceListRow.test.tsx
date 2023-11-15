@@ -7,6 +7,9 @@ import { Trace } from '@/types';
 import TraceListRow from './TraceListRow';
 
 jest.mock('@/components', () => ({
+  Badge: function Badge({ children }: any) {
+    return <>{children}</>;
+  },
   Loading: function Loading() {
     return <>Mock Loading component</>;
   },
@@ -27,26 +30,6 @@ describe('TraceListRow', () => {
   });
 
   describe('method column', () => {
-    it('should display HTTP method only if no response status code exists', () => {
-      setUseApplicationData({});
-
-      const trace = {
-        id: '1',
-        timestamp: 0,
-        http: {
-          method: 'GET',
-          statusCode: undefined,
-        } as Trace['http'],
-      };
-
-      const { getByTestId } = render(<TraceListRow trace={trace} />);
-      const methodData = getByTestId('column-data-method-cell');
-      const statusCodeData = getByTestId('column-data-code-cell');
-
-      expect(methodData).toHaveTextContent('GET');
-      expect(statusCodeData).toBeEmptyDOMElement();
-    });
-
     it('should display HTTP method and status code if response exists', () => {
       const trace = {
         id: '1',
@@ -59,10 +42,8 @@ describe('TraceListRow', () => {
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const methodData = getByTestId('column-data-method-cell');
-      const statusCodeData = getByTestId('column-data-code-cell');
 
-      expect(methodData).toHaveTextContent('POST');
-      expect(statusCodeData).toHaveTextContent('204');
+      expect(methodData).toHaveTextContent('POST 204');
     });
 
     it('should display HTTP method and aborted status if response exists and state is aborted', () => {
@@ -78,10 +59,8 @@ describe('TraceListRow', () => {
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const methodData = getByTestId('column-data-method-cell');
-      const statusCodeData = getByTestId('column-data-code-cell');
 
-      expect(methodData).toHaveTextContent('POST');
-      expect(statusCodeData).toHaveTextContent('Aborted');
+      expect(methodData).toHaveTextContent('POST Aborted');
     });
 
     it('should render nothing for method and status if `http` property of trace is not defined', () => {
@@ -93,10 +72,8 @@ describe('TraceListRow', () => {
 
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const methodData = getByTestId('column-data-method-cell');
-      const statusCodeData = getByTestId('column-data-code-cell');
 
-      expect(methodData).toBeEmptyDOMElement();
-      expect(statusCodeData).toBeEmptyDOMElement();
+      expect(methodData).toHaveTextContent('');
     });
   });
 
@@ -169,33 +146,6 @@ describe('TraceListRow', () => {
   });
 
   describe('trace row colours', () => {
-    const scenarios = [
-      { statusCode: 500, bgColor: 'purple-500' },
-      { statusCode: 404, bgColor: 'red-500' },
-      { statusCode: 300, bgColor: 'yellow-500' },
-      { statusCode: 200, bgColor: 'green-500' },
-    ];
-
-    it.each(scenarios)('should have $bgColor left border for HTTP $statusCode responses', ({ statusCode, bgColor }) => {
-      const trace = {
-        id: '1',
-        timestamp: 0,
-        http: {
-          method: 'GET',
-          statusCode,
-        } as Trace['http'],
-      };
-
-      const { getByTestId } = render(<TraceListRow trace={trace} />);
-      const badge = getByTestId('column-data-status-cell');
-
-      if (bgColor) {
-        expect(badge).toHaveClass(`border-l-${bgColor}`);
-      } else {
-        expect(badge).toHaveClass('border-gray-300');
-      }
-    });
-
     it('should render selected trace row correctly', () => {
       const trace = {
         id: '1',
@@ -212,7 +162,7 @@ describe('TraceListRow', () => {
       const { getByTestId } = render(<TraceListRow trace={trace} />);
       const traceRow = getByTestId('trace');
 
-      expect(traceRow).toHaveClass('bg-green-100');
+      expect(traceRow).toHaveClass('bg-manatee-400');
     });
   });
 

@@ -12,6 +12,7 @@ import {
   getResponseBody,
 } from '@/systems';
 import { getHeader, numberFormat, pathAndQuery } from '@/utils';
+import { badgeStyle } from '@/utils/styles';
 
 import CopyAsCurlButton from './CopyAsCurlButton';
 import QueryParams from './QueryParams';
@@ -35,6 +36,7 @@ export default function TraceDetail() {
   const requestAborted = state === HttpRequestState.Aborted;
   const responseComplete = state !== HttpRequestState.Sent;
   const showResponseHeaders = state === HttpRequestState.Received;
+  const showTiming = showResponseHeaders && (!!http?.timings || !!http?.timingsBlockedByCors);
 
   const updateTimer = useCallback(() => {
     if (counterElRef.current) {
@@ -78,21 +80,21 @@ export default function TraceDetail() {
   }
 
   return (
-    <div className="h-full flex flex-col p-default bg-secondary">
-      <div className="sticky top-0 pb-2" data-test-id="summary">
+    <div className="h-full flex flex-col p-3 pr-0 bg-manatee-50">
+      <div className="sticky top-0" data-test-id="summary">
         <div className="flex flex-row gap-2 items-center">
           <div className="flex-1 flex flex-row gap-2">
-            <div>
-              <img src={getIconUri(trace)} alt="" className="w-7 h-7" />
+            <div className="flex items-center">
+              <img src={getIconUri(trace)} alt="" className="w-6 h-6" />
             </div>
-            <Badge>{method}</Badge>
+            <div className="text-xl font-bold">{method}</div>
             {requestAborted && (
-              <Badge className="bg-gray-500 uppercase" data-test-id="aborted-indicator">
+              <Badge className="bg-[#787B8A] uppercase" data-test-id="aborted-indicator">
                 Aborted
               </Badge>
             )}
             {statusCode && (
-              <Badge className={statusCodeStyle(statusCode)} data-test-id="method">
+              <Badge className={badgeStyle(trace)} data-test-id="method">
                 {httpStatusLabel}
               </Badge>
             )}
@@ -104,7 +106,7 @@ export default function TraceDetail() {
           </div>
         </div>
 
-        <div className="mt-2 mb-4 break-all font-mono" data-test-id="url">
+        <div className="mb-4 break-all" data-test-id="url">
           {url}
         </div>
 
@@ -115,9 +117,12 @@ export default function TraceDetail() {
         </TabList>
       </div>
 
-      <div className="overflow-hidden overflow-y-auto h-full border-t border-t-manatee-400" data-test-id="trace-detail">
+      <div
+        className="overflow-hidden overflow-y-auto h-full mt-2 border-t border-t-manatee-400"
+        data-test-id="trace-detail"
+      >
         <TabContent id="default">
-          <Section data-test-id="request-details" title="Request Details" className="border-t-0">
+          <Section data-test-id="request-details" title="Request Details">
             <Fields>
               <Field data-test-id="sent" label="Sent">
                 <DateTime time={timestamp} />
@@ -164,31 +169,30 @@ export default function TraceDetail() {
           </Section>
 
           {showResponseHeaders && (
-            <>
-              <Section data-test-id="request-headers" title="Response Headers">
-                <ResponseHeaders data-test-id="headers" trace={trace} />
-              </Section>
-
-              <Section data-test-id="request-headers" title="Timing">
-                {trace.http?.timingsBlockedByCors && (
-                  <div data-test-id="timings-blocked">
-                    <a
-                      href="https://github.com/FormidableLabs/envy#web-client-application"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Disabled by CORS policy
-                    </a>
-                  </div>
-                )}
-                {trace.http?.timings && (
-                  <div data-test-id="timings">
-                    <TimingsDiagram timings={trace.http.timings} />
-                  </div>
-                )}
-              </Section>
-            </>
+            <Section data-test-id="request-headers" title="Response Headers">
+              <ResponseHeaders data-test-id="headers" trace={trace} />
+            </Section>
+          )}
+          {showTiming && (
+            <Section data-test-id="request-timings" title="Timing">
+              {trace.http?.timingsBlockedByCors && (
+                <div data-test-id="timings-blocked">
+                  <a
+                    href="https://github.com/FormidableLabs/envy#web-client-application"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                    Disabled by CORS policy
+                  </a>
+                </div>
+              )}
+              {trace.http?.timings && (
+                <div data-test-id="timings">
+                  <TimingsDiagram timings={trace.http.timings} />
+                </div>
+              )}
+            </Section>
           )}
         </TabContent>
 
@@ -212,13 +216,4 @@ export default function TraceDetail() {
       </div>
     </div>
   );
-}
-
-function statusCodeStyle(code: number) {
-  let style = 'bg-gray-500';
-  if (code >= 500) style = 'bg-purple-500';
-  else if (code >= 400) style = 'bg-red-500';
-  else if (code >= 300) style = 'bg-yellow-500';
-  else if (code >= 200) style = 'bg-green-500';
-  return style;
 }

@@ -1,10 +1,11 @@
 import { HttpRequestState } from '@envyjs/core';
 
-import { Loading } from '@/components';
+import { Badge, Loading } from '@/components';
 import useApplication from '@/hooks/useApplication';
 import { ListDataComponent } from '@/systems';
 import { Trace } from '@/types';
 import { tw } from '@/utils';
+import { badgeStyle } from '@/utils/styles';
 
 import TraceListRowCell from './TraceListRowCell';
 
@@ -17,26 +18,20 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
       key={trace.id}
       onClick={() => setSelectedTrace(trace.id)}
       className={tw(
-        'table-row h-16 hover:bg-green-100 hover:cursor-pointer hover:shadow',
-        rowStyle(trace),
-        trace.id === selectedTraceId && 'bg-green-100',
+        'table-row h-11 hover:bg-apple-200 hover:cursor-pointer hover:text-apple-900 even:bg-manatee-200 text-manatee-800',
+        trace.http?.state === HttpRequestState.Sent && 'text-manatee-500',
+        trace.id === selectedTraceId && 'bg-manatee-400 text-manatee-950',
       )}
     >
-      <TraceListRowCell
-        className={tw('border-0 p-0 border-l-8', indicatorStyle(trace))}
-        data-test-id="column-data-status-cell"
-      >
-        <div className="font-semibold" data-test-id="column-data-method-cell">
-          {trace.http?.method.toUpperCase()}
-        </div>
-        <div className="font-semibold text-xs text-opacity-70 uppercase" data-test-id="column-data-code-cell">
-          {getResponseStatus(trace)}
-        </div>
+      <TraceListRowCell data-test-id="column-data-method-cell">
+        <Badge className={badgeStyle(trace)}>
+          <span className="font-bold mr-1">{trace.http?.method.toUpperCase()}</span> {getResponseStatus(trace)}
+        </Badge>
       </TraceListRowCell>
       <TraceListRowCell data-test-id="column-data-request-cell">
         <ListDataComponent trace={trace} />
       </TraceListRowCell>
-      <TraceListRowCell className="text-right" data-test-id="column-data-time-cell">
+      <TraceListRowCell className="text-right text-xs" data-test-id="column-data-time-cell">
         {formatRequestDuration(trace)}
       </TraceListRowCell>
     </div>
@@ -45,35 +40,8 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
 
 function getResponseStatus(trace: Trace) {
   const { statusCode, state } = trace.http || {};
-
   if (state === HttpRequestState.Aborted) return 'Aborted';
-
   return statusCode;
-}
-
-function indicatorStyle(trace: Trace) {
-  const { statusCode, state } = trace.http || {};
-
-  if (state === HttpRequestState.Aborted) return 'border-l-gray-500';
-
-  if (statusCode) {
-    if (statusCode >= 500) return 'border-l-purple-500';
-    else if (statusCode >= 400) return 'border-l-red-500';
-    else if (statusCode >= 300) return 'border-l-yellow-500';
-    else if (statusCode >= 200) return 'border-l-green-500';
-  }
-}
-
-function rowStyle(trace: Trace) {
-  const { statusCode, state } = trace.http || {};
-
-  if (state === HttpRequestState.Aborted) return 'bg-gray-300';
-
-  if (statusCode) {
-    if (statusCode >= 500) return 'bg-purple-200';
-    else if (statusCode >= 400) return 'bg-red-200';
-    else if (statusCode >= 300) return 'bg-yellow-200';
-  }
 }
 
 function formatRequestDuration(trace: Trace) {

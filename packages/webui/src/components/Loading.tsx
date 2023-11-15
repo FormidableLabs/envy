@@ -9,7 +9,7 @@ export default function Loading({ size = 2, className, ...props }: LoadingProps)
     <div className={className}>
       <div
         className={tw(
-          'inline-block rounded-full border-primary opacity-70 animate-spin',
+          'inline-block rounded-full border-manatee-400 opacity-70 animate-spin',
           size === 2 ? 'w-2 h-2 border-2' : '',
           size === 3 ? 'w-3 h-3 border-2' : '',
           size === 4 ? 'w-4 h-4 border-2' : '',

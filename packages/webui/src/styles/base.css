@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto Mono&display=swap');
 @import './allotment.css';
 
 @tailwind base;
@@ -9,71 +11,19 @@ html,
 body,
 main#root {
   @apply h-full;
-  @apply bg-gray-200 text-gray-800;
-}
-
-/**
- * Text colors
- */
-.text-primary {
-  @apply text-gray-800 dark:text-gray-800;
-}
-
-.text-secondary {
-  @apply text-gray-500 dark:text-gray-500;
-}
-
-.text-neutral {
-  @apply text-gray-400 dark:text-gray-400;
-}
-
-/**
- * Background colors
- */
-.bg-primary {
-  @apply bg-gray-200;
-}
-
-.bg-secondary {
-  @apply bg-gray-300;
-}
-
-.bg-neutral {
-  @apply bg-white;
-}
-
-/**
- * Border colors
- */
-.border-primary {
-  @apply border-gray-400;
-}
-
-.border-secondary {
-  @apply border-gray-300;
-}
-
-.border-neutral {
-  @apply border-gray-200;
-}
-
-.ring-primary {
-  @apply ring-gray-400;
+  @apply bg-manatee-200 text-manatee-950;
+  @apply antialiased;
 }
 
 /**
  * Override native elements
  */
-hr {
-  @apply block border-0 border-b border-b-gray-400/50 h-0 my-1;
-}
-
 ::-webkit-scrollbar {
-  @apply bg-gray-300 w-2 h-3;
+  @apply bg-transparent w-2 h-3;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400;
+  @apply bg-manatee-700;
 }
 
 input[type='search']::-webkit-search-decoration,
@@ -101,8 +51,8 @@ input[type='search']::-webkit-search-results-decoration {
 
 .p-cell {
   @apply py-1 px-2;
-  @apply first:pl-4;
-  @apply last:pr-4;
+  @apply first:pl-3;
+  @apply last:pr-3;
 }
 
 .absolute-v-center {
@@ -123,7 +73,7 @@ input[type='search']::-webkit-search-results-decoration {
  */
 .code {
   @apply !font-mono !tracking-normal !break-all;
-  @apply text-slate-900;
+  @apply text-manatee-950;
 }
 
 .code-inline {
@@ -135,7 +85,7 @@ input[type='search']::-webkit-search-results-decoration {
   @apply code;
   @apply w-full py-4;
   @apply block overflow-auto;
-  @apply bg-gray-200;
+  @apply bg-manatee-100;
   @apply rounded;
 }
 
@@ -144,4 +94,27 @@ input[type='search']::-webkit-search-results-decoration {
   @apply whitespace-pre-wrap;
   @apply hover:bg-opacity-50 hover:bg-white;
   @apply hover:cursor-default;
+}
+
+/**
+ * Tables
+ */
+.badge-200 {
+  @apply bg-[#318B47] text-white
+}
+
+.badge-300 {
+  @apply bg-yellow-400 text-white
+}
+
+.badge-400 {
+  @apply bg-[#AC0535] text-white
+}
+
+.badge-500 {
+  @apply bg-[#613C8D] text-white
+}
+
+.badge-abort {
+  @apply bg-[#787B8A] text-white
 }

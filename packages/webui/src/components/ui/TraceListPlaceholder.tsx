@@ -14,7 +14,7 @@ export default function TraceListPlaceholder() {
   return (
     <div
       data-test-id="trace-list-placeholder"
-      className="flex flex-none h-full justify-center items-center text-3xl text-neutral"
+      className="flex flex-none h-full justify-center items-center text-3xl text-manatee-400"
     >
       <Icon className="translate-y-[0.05em] w-8 h-8 mr-2" /> <span>{message}</span>
     </div>

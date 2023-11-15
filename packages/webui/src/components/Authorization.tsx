@@ -83,7 +83,7 @@ export default function Authorization({ value }: AuthorizationProps) {
             return (
               <div
                 data-test-id="token-minimal-view"
-                className="flex hover:bg-gray-100 rounded-sm cursor-pointer"
+                className="flex hover:bg-apple-200 rounded-sm cursor-pointer mr-4"
                 onClick={() => setTokenState(TokenState.Expanded)}
               >
                 <div className="clamp">
@@ -98,14 +98,14 @@ export default function Authorization({ value }: AuthorizationProps) {
             return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
           case TokenState.Decoded:
             return (
-              <div data-test-id="token-decoded-view" className="h-[300px]">
+              <div data-test-id="token-decoded-view" className="h-[200px]">
                 {decodedToken}
               </div>
             );
         }
       })()}
       {tokenState !== TokenState.Minimal && (
-        <div className={tw('flex flex-row gap-2 bg-gray-200 px-4 pt-4')}>
+        <div className={tw('flex flex-row gap-2 bg-manatee-100 px-4 pt-4')}>
           <>
             <Button
               data-test-id="token-expanded-button"

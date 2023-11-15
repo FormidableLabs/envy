@@ -68,7 +68,7 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
         </div>
       )}
       <input
-        className="flex w-full pl-10 pr-3 py-1.5 rounded-xl bg-white text-manatee-600 border border-solid border-manatee-600 placeholder:text-manatee-600 focus:border-manatee-700 focus:text-manatee-700"
+        className="w-full pl-10 pr-3 py-2 rounded-xl bg-white text-sm text-manatee-600 border border-solid border-manatee-600 placeholder:text-manatee-600 focus:border-manatee-700 focus:text-manatee-700 focus:ring-0"
         ref={finalRef}
         type={inputType}
         onChange={handleChange}
@@ -76,7 +76,10 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
         {...props}
       />
       {!value && focusKey && specialKey && (
-        <span data-test-id="focus-key" className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral">
+        <span
+          data-test-id="focus-key"
+          className="absolute flex items-center inset-y-0 right-0 pr-3 text-sm text-manatee-600"
+        >
           {specialKey}
           {focusKey}
         </span>
@@ -84,7 +87,7 @@ function Input({ className, onChange, Icon, focusKey, type, ...props }: InputPro
       {!!value && (
         <span
           data-test-id="input-clear"
-          className="absolute flex items-center inset-y-0 right-0 pr-3 text-neutral cursor-pointer"
+          className="absolute flex items-center inset-y-0 right-0 pr-3 text-manatee-600 text-sm cursor-pointer"
           onClick={clearValue}
         >
           <X />

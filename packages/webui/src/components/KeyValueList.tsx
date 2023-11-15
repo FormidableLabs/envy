@@ -25,8 +25,8 @@ export default function KeyValueList({ values }: KeyValueList) {
           }
           return (
             <tr key={k} data-test-id="key-value-item">
-              <td className="whitespace-nowrap pl-3 pr-2 py-1 font-semibold align-top w-40">{k}</td>
-              <td className="break-all px-2 py-1">{value}</td>
+              <td className="whitespace-nowrap pr-2 py-1 font-semibold align-top w-40">{k}</td>
+              <td className="break-all px-2 py-1 pr-3">{value}</td>
             </tr>
           );
         })}

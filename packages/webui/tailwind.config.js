@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
 export default {
   darkMode: ['class'],
   content: ['./src/index.html', './src/**/*.tsx'],
@@ -45,8 +46,12 @@ export default {
           950: '#0F1212',
         },
       },
+      fontFamily: {
+        sans: ['Roboto', ...defaultTheme.fontFamily.sans],
+        mono: ['Roboto Mono', ...defaultTheme.fontFamily.mono],
+      },
       fontSize: {
-        '2xs': ['0.6rem', '0.9rem'],
+        '2xs': ['0.625rem', '0.875rem'],
       },
     },
   },
