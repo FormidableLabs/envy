@@ -18,8 +18,9 @@ export default function TraceListRow({ trace }: { trace: Trace }) {
       key={trace.id}
       onClick={() => setSelectedTrace(trace.id)}
       className={tw(
-        'table-row h-11 hover:bg-apple-200 hover:cursor-pointer hover:text-apple-900 even:bg-manatee-200 text-manatee-800',
+        'table-row h-11 hover:bg-apple-200 hover:cursor-pointer hover:text-apple-900 text-manatee-800',
         trace.http?.state === HttpRequestState.Sent && 'text-manatee-500',
+        trace.id !== selectedTraceId && 'even:bg-manatee-200',
         trace.id === selectedTraceId && 'bg-manatee-400 text-manatee-950',
       )}
     >
