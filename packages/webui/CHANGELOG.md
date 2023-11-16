@@ -1,5 +1,18 @@
 # @envyjs/webui
 
+## 0.9.0
+
+### Minor Changes
+
+- 2bc08f4: Use monaco-editor for code display
+
+### Patch Changes
+
+- 36b5e70: Update input element styles
+- a74222e: Align styles with new design
+- e9e14ae: Update tab design
+  - @envyjs/core@0.9.0
+
 ## 0.8.4
 
 ### Patch Changes
