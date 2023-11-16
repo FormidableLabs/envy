@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/nextjs",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Node.js Network & Telemetry Viewer",
   "main": "dist/index.js",
   "author": {
@@ -35,7 +35,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@envyjs/node": "0.9.0",
-    "@envyjs/web": "0.9.0"
+    "@envyjs/node": "0.9.1",
+    "@envyjs/web": "0.9.1"
   }
 }
