@@ -17,14 +17,14 @@ export default function TraceRequestData({ systemName, iconPath, hostName, path,
       <span data-test-id="item-request" className="flex flex-row items-center">
         <img data-test-id="item-image" src={iconPath} alt={systemName} className="flex-0 inline-block w-4 h-4 mr-1.5" />
         {hostName && (
-          <span data-test-id="item-hostname" className="font-semibold pr-1">
+          <span data-test-id="item-hostname" className="font-bold">
             {hostName}
           </span>
         )}
         <span data-test-id="item-path">{pathValue}</span>
       </span>
       {data && (
-        <span data-test-id="item-data" className="block text-xs font-mono text-secondary">
+        <span data-test-id="item-data" className="block text-2xs font-mono">
           {data}
         </span>
       )}

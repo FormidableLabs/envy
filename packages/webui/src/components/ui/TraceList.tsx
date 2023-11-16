@@ -46,7 +46,7 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
   const hasTraces = data.length > 0;
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col bg-manatee-100">
       <div
         data-test-id="scroll-container"
         ref={scrollContainer}
@@ -56,13 +56,13 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
         {!hasTraces ? (
           <TraceListPlaceholder />
         ) : (
-          <div data-test-id="trace-list" className="table table-fixed w-full relative">
-            <div className="table-header-group font-bold bg-primary sticky top-0 uppercase">
-              <TraceListHeader className="w-[85px]">Method</TraceListHeader>
+          <div data-test-id="trace-list" className="table table-fixed w-full">
+            <div className="table-header-group font-bold sticky top-0 uppercase">
+              <TraceListHeader className="w-[110px]">Method</TraceListHeader>
               <TraceListHeader>Request</TraceListHeader>
               <TraceListHeader className="text-right w-[85px]">Time</TraceListHeader>
             </div>
-            <div className="flex-1 table-row-group">
+            <div className="table-row-group">
               {data.map(trace => (
                 <TraceListRow trace={trace} key={trace.id} />
               ))}
@@ -71,8 +71,8 @@ export default function TraceList({ autoScroll: initialAutoScroll = true }: Trac
         )}
       </div>
       {hasTraces && (
-        <div className="flex flex-row items-center border-t border-primary p-3">
-          <div data-test-id="trace-count" className="flex-1 font-semibold uppercase">
+        <div className="flex flex-row items-center p-3 bg-manatee-200 border-t border-manatee-400">
+          <div data-test-id="trace-count" className="flex-1 font-bold uppercase text-xs">
             Traces: {data.length}
           </div>
           <div className="flex flex-row gap-2">

@@ -8,7 +8,7 @@ export default function Badge({ className, children }: BadgeProps) {
   return (
     <span
       className={tw(
-        'inline-flex items-center rounded-full bg-gray-400 px-3 py-1 text-sm font-medium text-white',
+        'inline-flex items-center rounded-full bg-manatee-700 px-2 py-1.5 text-xs font-medium text-white',
         className,
       )}
     >

@@ -29,8 +29,8 @@ export function TabListItem({
     'text-manatee-800',
     allowInteractive && 'hover:bg-apple-200 hover:text-apple-900',
     allowInteractive && 'active:bg-apple-500 active:text-apple-950',
-    disabled && 'text-gray-400 cursor-not-allowed',
-    selectedTab === id && 'bg-apple-400 text-[#0D280B]',
+    disabled && 'text-manatee-300 cursor-not-allowed',
+    selectedTab === id && 'bg-apple-400 text-apple-950',
   );
 
   return (

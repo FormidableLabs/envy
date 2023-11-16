@@ -6,7 +6,7 @@ export default function TraceListRowCell({ className, children, ...props }: Trac
   return (
     <div
       className={tw(
-        'table-cell p-cell align-middle border-b border-solid border-gray-300 whitespace-nowrap overflow-hidden',
+        'table-cell p-cell align-middle border-b border-solid border-manatee-300 whitespace-nowrap overflow-hidden text-sm',
         className,
       )}
       {...props}

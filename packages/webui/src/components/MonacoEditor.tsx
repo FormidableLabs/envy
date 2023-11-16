@@ -1,6 +1,5 @@
 import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import { useEffect, useRef } from 'react';
-import colors from 'tailwindcss/colors';
 
 export type MonacoEditorProps = Pick<EditorProps, 'value' | 'language'>;
 
@@ -34,8 +33,8 @@ export default function MonacoEditor({ value, language }: MonacoEditorProps) {
       base: 'vs',
       inherit: true,
       colors: {
-        'editor.background': colors.gray['200'],
-        'editor.lineHighlightBackground': colors.gray['200'],
+        'editor.background': '#F5F7F8',
+        'editor.lineHighlightBackground': '#F5F7F8',
       },
       rules: [],
     });

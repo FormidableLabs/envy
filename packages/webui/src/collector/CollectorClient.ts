@@ -22,6 +22,8 @@ type WebSocketClientOptions = {
 const INTERNAL_HTTP_TIMEOUT = 120 * 1000;
 
 const initialTraceMap = () => {
+  // ignore coverage for this line since it's only used in dev
+  // istanbul ignore next
   return process.env.DEMO === 'true' ? mockTraceCollection() : new Map();
 };
 

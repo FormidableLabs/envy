@@ -48,7 +48,7 @@ export default class SanitySystem implements System<SanityData> {
     const { type, query } = data;
 
     return (
-      <>
+      <div className="border-t border-manatee-400 pt-3 mt-3">
         <Fields>
           <Field data-test-id="type" label="Item type">
             {type}
@@ -57,7 +57,7 @@ export default class SanitySystem implements System<SanityData> {
             <Code data-test-id="query">{query}</Code>
           </Field>
         </Fields>
-      </>
+      </div>
     );
   }
 

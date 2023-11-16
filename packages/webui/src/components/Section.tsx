@@ -17,8 +17,7 @@ export default function Section({ title, collapsible = true, className, children
         <div
           data-test-id="section-title"
           className={tw(
-            `flex flex-row items-center px-3 py-2`,
-            `bg-gray-300 border-b border-t border-primary`,
+            `flex flex-row items-center py-3 pr-3`,
             `font-bold uppercase`,
             collapsible ? 'cursor-pointer' : '',
             className,
@@ -29,11 +28,11 @@ export default function Section({ title, collapsible = true, className, children
           {...props}
         >
           <div className="flex-1">{title}</div>
-          {collapsible && <Icon className="h-4 w-4" />}
+          {collapsible && <Icon className="h-6 w-6" />}
         </div>
       )}
       {children && expanded && (
-        <div data-test-id="section-content" className="mb-2">
+        <div data-test-id="section-content" className="pb-4 border-b border-manatee-400">
           {children}
         </div>
       )}
