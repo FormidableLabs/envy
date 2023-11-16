@@ -1,5 +1,12 @@
 # @envyjs/webui
 
+## 0.9.1
+
+### Patch Changes
+
+- 0892b1f: Ensure selected row color takes precendence
+  - @envyjs/core@0.9.1
+
 ## 0.9.0
 
 ### Minor Changes
