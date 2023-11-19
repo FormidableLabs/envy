@@ -201,6 +201,30 @@ describe('Menu', () => {
       expect(fn3).not.toHaveBeenCalled();
     });
 
+    it('should include event object in callback when clicked', async () => {
+      const { getByRole, getAllByTestId } = render(<Menu label="Menu" items={itemsWithCallback} />);
+      const menu = getByRole('menu');
+
+      await act(async () => {
+        await userEvent.click(menu);
+      });
+
+      await act(async () => {
+        const user = userEvent.setup();
+
+        const listItems = getAllByTestId('menu-items-item');
+        const firstItem = listItems.at(0)!;
+
+        await user.keyboard('{Shift>}');
+        await user.keyboard('{Meta>}');
+        await user.click(firstItem);
+        await user.keyboard('{/Shift}');
+        await user.keyboard('{/Meta}');
+      });
+
+      expect(fn1).toHaveBeenCalledWith(expect.objectContaining({ shiftKey: true, metaKey: true }));
+    });
+
     it('should hide items after clicked', async () => {
       const { getByRole, getAllByTestId, queryByTestId } = render(<Menu label="Menu" items={items} />);
       const menu = getByRole('menu');

@@ -10,7 +10,7 @@ import Button from './Button';
 export type MenuItem = {
   label: string;
   description?: string;
-  callback: () => void;
+  callback: (e: React.MouseEvent) => void;
 };
 
 type MenuProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -45,8 +45,8 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
 
   useClickAway(finalRef, () => setIsOpen(false));
 
-  function handleSelection(item: MenuItem) {
-    item.callback();
+  function handleSelection(e: React.MouseEvent, item: MenuItem) {
+    item.callback(e);
     setIsOpen(false);
   }
 
@@ -69,7 +69,7 @@ function Menu({ Icon, label, items, className, focusKey, ...props }: MenuProps, 
                   key={x.label}
                   data-test-id="menu-items-item"
                   className="cursor-pointer py-2 px-4 hover:bg-apple-200"
-                  onClick={() => handleSelection(x)}
+                  onClick={e => handleSelection(e, x)}
                 >
                   <div className="flex flex-col">
                     <div data-test-id="label" className="block">

@@ -18,6 +18,14 @@ const mockTraces: Trace[] = withSequentialIds([...gql, ...largeGql, ...sanity, .
 
 export default mockTraces;
 
+// useful for testing performance with lots of traces in the list. Hold shift whilst choosing the "Inject Mock Traces"
+// option in the debug dropdown menu.  Going forward, we should increase the multiplier in order to really stress test
+// the UI with large volumes of traces
+export function generateLotsOfMockTraces(): Trace[] {
+  const multiplier = 100; // number of times to repeat mock traces
+  return withSequentialIds(new Array(multiplier).fill(mockTraces).flat());
+}
+
 export function mockTraceCollection(): Map<string, Trace> {
   return mockTraces.reduce((acc, curr) => {
     acc.set(curr.id, curr);
