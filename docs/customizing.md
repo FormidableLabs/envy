@@ -1,6 +1,5 @@
 # Customizing Envy
 
-
 ## Contents
 
 - [Introduction](#introduction)
@@ -8,7 +7,6 @@
 - [Creating your own systems](#creating-your-own-systems)
 - [Basic example walkthrough](#basic-example-walkthrough)
 - [System implementation](#system-implementation)
-
 
 ## Introduction
 
@@ -18,7 +16,7 @@ This guide will walk you through how to self-host and customize your Envy viewer
 
 ## Self hosting
 
-The `@envyjs/webui` package has a default export which is the Envy viewer root component; therefore, to self-host Envy, all you need to do is to mount this `EnvyViewer` component somewhere.  It could be in a new route in your application or as a separate standalone application.
+The `@envyjs/webui` package has a default export which is the Envy viewer root component; therefore, to self-host Envy, all you need to do is to mount this `EnvyViewer` component somewhere. It could be in a new route in your application or as a separate standalone application.
 
 For example, we might choose to create a new entry point for a standalone application which can be run alongside your current appliation:
 
@@ -36,13 +34,13 @@ root.render(<EnvyViewer />);
 
 ### Running the Envy collector with a self-hosted viewer
 
-Any self-hosted Envy viewer will need to connect to the Envy collector which is automatically started by the standalone Envy viewer.  In order to start the collector without starting the standalone viewer, you can use the following command:
+Any self-hosted Envy viewer will need to connect to the Envy collector which is automatically started by the standalone Envy viewer. In order to start the collector without starting the standalone viewer, you can use the following command:
 
 `npx @envyjs/webui --no-ui`
 
 You can then start your custom viewer and it will connect to this collector via web sockets on port `9999`.
 
-The standalone Envy viewer is fully functional, and so the question should be asked "why would I self-host?".  To answer that question, we should look at the ways in which Envy can be customized:
+The standalone Envy viewer is fully functional, and so the question should be asked "why would I self-host?". To answer that question, we should look at the ways in which Envy can be customized:
 
 - You can create new systems to filter traces and control presentation
 
@@ -86,7 +84,7 @@ export default class CatFactsSystem implements System<null> {
 }
 ```
 
-Once you have that system, we need to register it with your self-hosted Envy viewer.  To do this, you can pass your custom systems in as a prop to the `EnvyViewer` component:
+Once you have that system, we need to register it with your self-hosted Envy viewer. To do this, you can pass your custom systems in as a prop to the `EnvyViewer` component:
 
 ```tsx
 // ./src/MyEnvyViewer.tsx
@@ -99,12 +97,7 @@ import CatFactsSystem from './systems/CatFactsSystem';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-root.render(
-  <EnvyViewer systems={[
-    new CatFactsSystem()
-    ]}
-  />
-);
+root.render(<EnvyViewer systems={[new CatFactsSystem()]} />);
 ```
 
 Once you have done this, you can start up your self-hosted Envy viewer and you will see that this system has been registered and will control how traces belonging to that system are displayed:
@@ -123,6 +116,7 @@ interface System<T = null> {
   isMatch(trace: Trace): boolean;
   getData?(trace: Trace): T;
   getIconUri?(): string | null;
+  getSearchKeywords?(context: TraceContext<T>): string[];
   getTraceRowData?(context: TraceContext<T>): TraceRowData | null;
   getRequestDetailComponent?(context: TraceContext<T>): React.ReactNode;
   getRequestBody?(context: TraceContext<T>): any;
@@ -134,23 +128,27 @@ interface System<T = null> {
 ---
 
 ### `name` - required
+
 The name of the system as it would appear in the system dropdown in the header bar.
 
 **Returns:** `string`
 
 **Example:**
+
 ```tsx
-name: 'Salesforce'
+name: 'Salesforce';
 ```
 
 ---
 
 ### `isMatch` - required
-Used to determine whether the supplied trace belongs to this system.  Typically this would be determined based on host or path based details, but any details in the trace can be used to determine whether it is a match.
+
+Used to determine whether the supplied trace belongs to this system. Typically this would be determined based on host or path based details, but any details in the trace can be used to determine whether it is a match.
 
 **Returns:** `boolean`
 
 **Example:**
+
 ```tsx
 isMatch(trace: Trace) {
   return (trace.http?.host ?? '').endsWith('.commercecloud.salesforce.com');
@@ -160,19 +158,25 @@ isMatch(trace: Trace) {
 ---
 
 ### `getData` - optional
-Used to extract pertinent data from the trace into an object for use in other functions of the system.  This must conform to the type variable used for the system class (i.e., the `T` of `System<T>`).  This data will be included in the `TraceContext` data supplied to other functions of the system implementation.
+
+Used to extract pertinent data from the trace into an object for use in other functions of the system. This must conform to the type variable used for the system class (i.e., the `T` of `System<T>`). This data will be included in the `TraceContext` data supplied to other functions of the system implementation.
 
 **Returns:** `T`
 
 **Example:**
+
 ```tsx
 getData(trace: Trace) {
   const [path, qs] = (trace.http?.path ?? '').split('?');
   const query = new URLSearchParams(qs);
   const productIds = path.endsWith('/product') ? query.get('ids') : [];
+  // parse the response and get all of the product names to display
+  const data = JSON.parse(trace.http?.responseBody ?? '{}');
+  const productNames = data.results?.map(x => x.name) ?? [];
 
   return {
-    productIds
+    productIds,
+    productNames
   }
 }
 ```
@@ -180,11 +184,13 @@ getData(trace: Trace) {
 ---
 
 ### `getIconUri` - optional
-Used to define the URI for the icon to be used for the system, as displayed in the trace list, trace detail and system dropdown.  This will be used as the `src` of an HTML `<img>` element, so you can use any valid value for that.
+
+Used to define the URI for the icon to be used for the system, as displayed in the trace list, trace detail and system dropdown. This will be used as the `src` of an HTML `<img>` element, so you can use any valid value for that.
 
 **Returns:** `string`
 
 **Example:**
+
 ```tsx
 getIconUri() {
   return '<base_64_data>'; // real base64 image data too long to use as an example
@@ -197,12 +203,30 @@ getIconUri() {
 
 ---
 
+### `getSearchKeywords` - optional
+
+Used to provide additional keywords related to the trace which can be used to help find the trace via the main search. Given that the main search will only look for the search term in the URL by default, this allows a system to define other data in the request or response which can be searched for.
+
+**Returns:** `string`
+
+**Example:**
+
+```tsx
+getSearchKeywords({ data }: TraceContext<{ productIds: string[] }>) {
+  return [...data.productNames, data.productCategory];
+}
+```
+
+---
+
 ### `getTraceRowData` - optional
-Used to specify details to appear for the trace in the trace list.  Currently this defines the "data" to appear below the host and path part of the trace.  This has access to both the `trace` itself and the `data` from the `getData` function.
+
+Used to specify details to appear for the trace in the trace list. Currently this defines the "data" to appear below the host and path part of the trace. This has access to both the `trace` itself and the `data` from the `getData` function.
 
 **Returns:** `{ data: string }`
 
 **Example:**
+
 ```tsx
 getTraceRowData({ data }: TraceContext<{ productIds: string[] }>) {
   return {
@@ -218,11 +242,13 @@ getTraceRowData({ data }: TraceContext<{ productIds: string[] }>) {
 ---
 
 ### getRequestDetailComponent - optional
+
 Used to render a custom component after the main request details. This has access to both the `trace` itself and the `data` from the `getData` function.
 
 **Returns:** `React.ReactNode`
 
 **Example:**
+
 ```tsx
 getRequestDetailComponent({ data }: TraceContext<{ productIds: string[] }>) {
   // note: `@envyjs/webui` exports some useful components for you to retain visual
@@ -241,13 +267,14 @@ getRequestDetailComponent({ data }: TraceContext<{ productIds: string[] }>) {
 
 ---
 
-
 ### `getRequestBody` - optional
-Used to determine what the body of the request is.  This will automatically be the contents of `trace.http.requestBody` and so typically you would not need to override this function, but if you wanted to have some control over what data is presented in the request body part of the trace details, then you can do that here.
+
+Used to determine what the body of the request is. This will automatically be the contents of `trace.http.requestBody` and so typically you would not need to override this function, but if you wanted to have some control over what data is presented in the request body part of the trace details, then you can do that here.
 
 **Returns:** `string | undefined`
 
 **Example:**
+
 ```tsx
 getRequestBody({ trace }: TraceContext<{ productIds: string[] }>) {
   const body = JSON.parse(trace.http?.requestBody ?? '{}');
@@ -259,21 +286,20 @@ getRequestBody({ trace }: TraceContext<{ productIds: string[] }>) {
 ---
 
 ### getResponseDetailComponent - optional
+
 Used to render a custom component after the main response details. This has access to both the `trace` itself and the `data` from the `getData` function.
 
 **Returns:** `React.ReactNode`
 
 **Example:**
+
 ```tsx
-getResponseDetailComponent({ trace }: TraceContext<{ productIds: string[] }>) {
-  // parse the response and get all of the product names to display
-  const data = JSON.parse(trace.http?.responseBody ?? '{}');
-  const productNames = data.results?.map(x => x.name) ?? [];
+getResponseDetailComponent({ data }: TraceContext<{ productIds: string[] }>) {
   return (
     <Fields>
       <Field label="Product Names">
         <ul>
-          {productNames.map(x => (<li key={x}>{x}</li>))}
+          {data.productNames.map(x => (<li key={x}>{x}</li>))}
         </ul>
       </Field>
     </Fields>
@@ -288,11 +314,13 @@ getResponseDetailComponent({ trace }: TraceContext<{ productIds: string[] }>) {
 ---
 
 ### `getResponseBody` - optional
-Used to determine what the body of the response is.  This will automatically be the contents of `trace.http.responseBody` and so typically you would not need to override this function, but if you wanted to have some control over what data is presented in the response body part of the trace details, then you can do that here.
+
+Used to determine what the body of the response is. This will automatically be the contents of `trace.http.responseBody` and so typically you would not need to override this function, but if you wanted to have some control over what data is presented in the response body part of the trace details, then you can do that here.
 
 **Returns:** `string | undefined`
 
 **Example:**
+
 ```tsx
 getResponseBody({ trace }: TraceContext<{ productIds: string[] }>) {
   const body = JSON.parse(trace.http?.responseBody ?? '{}');
