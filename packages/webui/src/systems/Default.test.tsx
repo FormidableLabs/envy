@@ -18,6 +18,11 @@ describe('DefaultSystem', () => {
     expect(instance.getIconUri()).toEqual(expect.any(String));
   });
 
+  it('should return empty array for `getSearchKeywords`', () => {
+    const instance = new DefaultSystem();
+    expect(instance.getSearchKeywords()).toEqual([]);
+  });
+
   it('should return `null` for `getData`', () => {
     const instance = new DefaultSystem();
     expect(instance.getData()).toBe(null);

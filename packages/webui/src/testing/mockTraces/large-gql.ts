@@ -403,7 +403,7 @@ const responseBody = `
 
 // Large GQL query
 const gqlQuery: Event = {
-  id: '277',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'web',
   timestamp: elapseTime(0.1),

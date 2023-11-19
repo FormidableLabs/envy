@@ -100,6 +100,32 @@ describe('GraphQLSystem', () => {
     expect(instance.getIconUri()).toEqual(expect.any(String));
   });
 
+  it('should return the expected keywords if operation name is present', () => {
+    const instance = new GraphQLSystem();
+    const data = {
+      operationType: 'Query' as GraphqlRequest['operationType'],
+      operationName: 'Foo',
+      query,
+      variables: {},
+      response: responseBody,
+    };
+
+    expect(instance.getSearchKeywords({ trace: mockQueryTrace, data })).toEqual(['Foo']);
+  });
+
+  it('should return the empty keywords if operation name is not present', () => {
+    const instance = new GraphQLSystem();
+    const data = {
+      operationType: 'Query' as GraphqlRequest['operationType'],
+      operationName: undefined,
+      query,
+      variables: {},
+      response: responseBody,
+    };
+
+    expect(instance.getSearchKeywords({ trace: mockQueryTrace, data })).toEqual([]);
+  });
+
   it('should expected data for `getData` when trace represents a query', () => {
     const instance = new GraphQLSystem();
 

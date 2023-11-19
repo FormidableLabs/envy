@@ -116,6 +116,9 @@ const mockDefaultSystem = new (class implements System<null> {
   getIconUri() {
     return 'default_icon';
   }
+  getSearchKeywords() {
+    return [];
+  }
   getTraceRowData() {
     return null;
   }

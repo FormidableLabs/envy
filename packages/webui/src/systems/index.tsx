@@ -35,6 +35,10 @@ export function getIconUri(trace: Trace | null): string {
   return callOrFallback(trace as Trace, 'getIconUri');
 }
 
+export function getSearchKeywords(trace: Trace | null): string[] {
+  return callOrFallback(trace as Trace, 'getSearchKeywords');
+}
+
 export function getRequestBody(trace: Trace): string | undefined | null {
   return callOrFallback(trace, 'getRequestBody');
 }

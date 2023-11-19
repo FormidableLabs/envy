@@ -4,12 +4,14 @@ import { ReactElement, useContext, useEffect } from 'react';
 
 import CollectorClient from '@/collector/CollectorClient';
 import { ApplicationContext, Filters } from '@/hooks/useApplication';
+import { getSearchKeywords } from '@/systems';
 import { setupMockSystems } from '@/testing/mockSystems';
 import mockTraces, { mockTraceCollection } from '@/testing/mockTraces';
 import { Trace } from '@/types';
 
 import ApplicationContextProvider from './ApplicationContext';
 
+jest.mock('@/systems');
 jest.mock('@/collector/CollectorClient');
 
 type CollectorClientData = {
@@ -73,6 +75,8 @@ describe('ApplicationContext', () => {
 
     setupMockSystems();
     setupMockCollector();
+
+    jest.mocked(getSearchKeywords).mockReturnValue([]);
   });
 
   afterEach(() => {
@@ -406,7 +410,7 @@ describe('ApplicationContext', () => {
         });
       });
 
-      it('should filter traces by value', async () => {
+      it('should filter traces by search term (from URL)', async () => {
         const filters: Filters = {
           sources: [],
           systems: [],
@@ -442,6 +446,53 @@ describe('ApplicationContext', () => {
         const traces = getAllByTestId('trace');
 
         const expectedTraces = mockTraces.filter(x => x.http?.host.includes('data.restserver'));
+
+        expect(traces).toHaveLength(expectedTraces.length);
+        expectedTraces.forEach((trace, idx) => {
+          expect(traces.at(idx)).toHaveTextContent(traceString(trace));
+        });
+      });
+
+      it('should filter traces by search term (from keywords)', async () => {
+        jest.mocked(getSearchKeywords).mockImplementation(trace => {
+          return trace?.id === '6' ? ['RegisterPerson'] : [];
+        });
+
+        const filters: Filters = {
+          sources: [],
+          systems: [],
+          searchTerm: 'registerperson',
+        };
+
+        function TestComponent() {
+          const { traces, setFilters } = useContext(ApplicationContext);
+
+          return (
+            <>
+              <ul>
+                {[...traces.entries()].map(([id, trace]) => (
+                  <li data-test-id="trace" key={id}>
+                    {traceString(trace)}
+                  </li>
+                ))}
+              </ul>
+              <button data-test-id="button" onClick={() => setFilters(filters)}>
+                Button
+              </button>
+            </>
+          );
+        }
+
+        const { getByTestId, getAllByTestId } = renderComponentInProvider(<TestComponent />);
+
+        await act(async () => {
+          const button = getByTestId('button');
+          await userEvent.click(button);
+        });
+
+        const traces = getAllByTestId('trace');
+
+        const expectedTraces = mockTraces.filter(x => x.id === '6');
 
         expect(traces).toHaveLength(expectedTraces.length);
         expectedTraces.forEach((trace, idx) => {
@@ -582,7 +633,7 @@ describe('ApplicationContext', () => {
       });
 
       const valueAfter = getByTestId('value');
-      expect(valueAfter).toHaveTextContent('2');
+      expect(valueAfter).toHaveTextContent('1');
     });
 
     it('should keep current `selectedTraceId` when pressing the up arrow if it is the first one', () => {
@@ -673,7 +724,7 @@ describe('ApplicationContext', () => {
       });
 
       const valueAfter = getByTestId('value');
-      expect(valueAfter).toHaveTextContent('6');
+      expect(valueAfter).toHaveTextContent('3');
     });
 
     it('should keep current `selectedTraceId` when pressing the down arrow if it is the last one', () => {

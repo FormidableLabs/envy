@@ -6,7 +6,15 @@ import rest from './rest';
 import sanity from './sanity';
 import xml from './xml';
 
-const mockTraces: Trace[] = [...gql, ...largeGql, ...sanity, ...rest, ...xml];
+const withSequentialIds = (traces: Trace[]) =>
+  traces.map((trace, idx) => ({
+    ...trace,
+    id: (idx + 1).toString(),
+  }));
+
+// given that mock traces are split into separate files, we need to be able to have the ids for each trace sequential
+// so that certain tests which expect a certain sequence of IDs will pass
+const mockTraces: Trace[] = withSequentialIds([...gql, ...largeGql, ...sanity, ...rest, ...xml]);
 
 export default mockTraces;
 

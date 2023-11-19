@@ -4,7 +4,7 @@ import { elapseTime, requestData } from './util';
 
 // Sanity request (data)
 const sanityEvent: Event = {
-  id: '39',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(0.9),

@@ -4,7 +4,7 @@ import { elapseTime, requestData } from './util';
 
 // GQL query (people)
 const gqlQuery: Event = {
-  id: '2',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'web',
   timestamp: elapseTime(0.1),
@@ -61,7 +61,7 @@ const gqlQuery: Event = {
 
 // GQL mutation
 const gqlMutation: Event = {
-  id: '6',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'web',
   timestamp: elapseTime(0.1),

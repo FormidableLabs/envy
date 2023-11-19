@@ -4,7 +4,7 @@ import { elapseTime, requestData } from './util';
 
 // XML response
 const xmlEvent: Event = {
-  id: '8',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(3.14),
