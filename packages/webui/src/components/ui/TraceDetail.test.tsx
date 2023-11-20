@@ -16,8 +16,8 @@ import { Trace } from '@/types';
 import TraceDetail from './TraceDetail';
 
 jest.mock('@/components', () => ({
-  Badge: function ({ children }: any) {
-    return <>Mock Badge component: {children}</>;
+  Badge: function ({ children, ...props }: any) {
+    return <span {...props}>Mock Badge component: {children}</span>;
   },
   Code: function ({ children }: any) {
     return <>Mock Code component: {children}</>;
@@ -31,17 +31,18 @@ jest.mock('@/components', () => ({
   Fields: function (props: any) {
     return <div {...props} />;
   },
-  CodeDisplay: function ({ children }: any) {
-    return <>Mock CodeDisplay component: {children}</>;
+  CodeDisplay: function ({ children, contentType, ...props }: any) {
+    return (
+      <div {...props} data-content-type={contentType}>
+        Mock CodeDisplay component: {children}
+      </div>
+    );
   },
   Loading: function (props: any) {
     return <div {...props}>Mock Loading component</div>;
   },
   Section: function ({ collapsible, ...safeProps }: any) {
     return <div {...safeProps} />;
-  },
-  XmlDisplay: function ({ children }: any) {
-    return <>Mock XmlDisplay component: {children}</>;
   },
   Button: function ({ children, Icon, ...props }: any) {
     return <div {...props}>Mock Button component: {children}</div>;
@@ -76,6 +77,25 @@ jest.mock(
       return <div {...props}>Mock ResponseHeaders component: {trace.id}</div>;
     },
 );
+jest.mock('@/components/ui/Tabs', () => ({
+  TabList: function MockTabList({ children, ...props }: any) {
+    return <ul {...props}>Mock TabList component: {children}</ul>;
+  },
+  TabListItem: function MockTabListItem({ id, title, ...props }: any) {
+    return (
+      <li {...props} data-test-id={id}>
+        Mock TabListItem component: {title}
+      </li>
+    );
+  },
+  TabContent: function MockTabContent({ id, children, ...props }: any) {
+    return (
+      <div {...props} data-test-id={id}>
+        Mock TabContent component: {children}
+      </div>
+    );
+  },
+}));
 jest.mock(
   '@/components/ui/TimingsDiagram',
   () =>
@@ -122,7 +142,7 @@ describe('TraceDetail', () => {
     cleanup();
   });
 
-  fit('should render without error', () => {
+  it('should render without error', () => {
     render(<TraceDetail />);
   });
 
@@ -250,10 +270,10 @@ describe('TraceDetail', () => {
       const { getByTestId } = render(<TraceDetail />);
 
       const summary = getByTestId('summary');
-      const service = within(summary).getByTestId('service');
+      const service = within(summary).getByTestId('service-name');
 
       expect(service).toBeVisible();
-      expect(service).toHaveTextContent('Sent from my-service');
+      expect(service).toHaveTextContent('my-service');
     });
 
     it('should display button to copy as cURL snippet', () => {
@@ -281,11 +301,11 @@ describe('TraceDetail', () => {
     });
 
     it.each([
-      { statusCode: 500, color: 'purple-500' },
-      { statusCode: 400, color: 'red-500' },
-      { statusCode: 300, color: 'yellow-500' },
-      { statusCode: 200, color: 'green-500' },
-    ])('should display a $color circle next to the status code for HTTP $statusCode', ({ statusCode, color }) => {
+      { statusCode: 500, color: 'badge-500' },
+      { statusCode: 400, color: 'badge-400' },
+      { statusCode: 300, color: 'badge-300' },
+      { statusCode: 200, color: 'badge-200' },
+    ])('should display a $color badge next to the status code for HTTP $statusCode', ({ statusCode, color }) => {
       getSelectedTraceFn.mockReturnValue({
         ...mockTrace,
         http: {
@@ -297,9 +317,7 @@ describe('TraceDetail', () => {
       const { getByTestId } = render(<TraceDetail />);
 
       const status = getByTestId('response-status');
-      const statusCodeCircle = status.firstChild;
-
-      expect(statusCodeCircle).toHaveClass(`bg-${color}`);
+      expect(status).toHaveClass(color);
     });
   });
 
@@ -369,47 +387,35 @@ describe('TraceDetail', () => {
     it.each([
       {
         contentType: 'application/json',
-        component: 'JsonDisplay',
-        content: 'Mock JsonDisplay component: mock_request_body',
       },
       {
         contentType: 'application/graphql-response+json',
-        component: 'JsonDisplay',
-        content: 'Mock JsonDisplay component: mock_request_body',
       },
       {
         contentType: 'application/xml',
-        component: 'XmlDisplay',
-        content: 'Mock XmlDisplay component: mock_request_body',
       },
       {
         contentType: 'text/text',
-
-        component: 'Code',
-        content: 'Mock Code component: mock_request_body',
       },
-    ])(
-      'should render $component component for request body when content type is $contentType',
-      ({ contentType, content }) => {
-        getSelectedTraceFn.mockReturnValue({
-          ...mockTrace,
-          http: {
-            ...mockTrace.http,
-            requestHeaders: {
-              'content-type': contentType,
-            },
+    ])('should display the correct content type for $contentType', ({ contentType }) => {
+      getSelectedTraceFn.mockReturnValue({
+        ...mockTrace,
+        http: {
+          ...mockTrace.http,
+          requestHeaders: {
+            'content-type': contentType,
           },
-        });
+        },
+      });
 
-        const { getByTestId } = render(<TraceDetail />);
+      const { getByTestId } = render(<TraceDetail />);
 
-        const requestDetails = getByTestId('trace-detail');
-        const body = within(requestDetails).getByTestId('request-body');
+      const requestDetails = getByTestId('trace-detail');
+      const body = within(requestDetails).getByTestId('request-body');
 
-        expect(body).toBeVisible();
-        expect(body).toHaveTextContent(content);
-      },
-    );
+      expect(body).toBeVisible();
+      expect(body.getAttribute('data-content-type')).toBe(contentType);
+    });
 
     it('should not render anything for the body if the body is empty', () => {
       jest.mocked(getRequestBody).mockReturnValue(undefined);
@@ -424,8 +430,7 @@ describe('TraceDetail', () => {
     it('should render QueryParams component for trace query params', () => {
       const { getByTestId } = render(<TraceDetail />);
 
-      const requestDetails = getByTestId('request-details');
-      const queryParams = within(requestDetails).getByTestId('query-params');
+      const queryParams = getByTestId('query-params');
 
       expect(queryParams).toBeVisible();
       expect(queryParams).toHaveTextContent(`Mock QueryParams component: ${mockTrace.id}`);
@@ -434,7 +439,7 @@ describe('TraceDetail', () => {
     it('should render RequestHeaders component for trace headers', () => {
       const { getByTestId } = render(<TraceDetail />);
 
-      const requestDetails = getByTestId('request-details');
+      const requestDetails = getByTestId('request-headers');
       const headers = within(requestDetails).getByTestId('headers');
 
       expect(headers).toBeVisible();
@@ -535,7 +540,7 @@ describe('TraceDetail', () => {
       it('should render ResponseHeaders component for trace headers', () => {
         const { getByTestId } = render(<TraceDetail />);
 
-        const responseDetails = getByTestId('response-details');
+        const responseDetails = getByTestId('response-headers');
         const headers = within(responseDetails).getByTestId('headers');
 
         expect(headers).toBeVisible();
@@ -599,7 +604,7 @@ describe('TraceDetail', () => {
 
         const { getByTestId } = render(<TraceDetail />);
 
-        const responseDetails = getByTestId('response-details');
+        const responseDetails = getByTestId('request-timings');
         const timings = within(responseDetails).getByTestId('timings');
 
         expect(timings).toBeVisible();
@@ -618,7 +623,7 @@ describe('TraceDetail', () => {
 
         const { getByTestId } = render(<TraceDetail />);
 
-        const responseDetails = getByTestId('response-details');
+        const responseDetails = getByTestId('request-timings');
         const timingsBlocked = within(responseDetails).getByTestId('timings-blocked');
 
         expect(timingsBlocked).toBeVisible();
@@ -673,57 +678,45 @@ describe('TraceDetail', () => {
       it.each([
         {
           contentType: 'application/json',
-          component: 'JsonDisplay',
-          content: 'Mock JsonDisplay component: mock_response_body',
         },
         {
           contentType: 'application/graphql-response+json',
-          component: 'JsonDisplay',
-          content: 'Mock JsonDisplay component: mock_response_body',
         },
         {
           contentType: 'application/xml',
-          component: 'XmlDisplay',
-          content: 'Mock XmlDisplay component: mock_response_body',
         },
         {
           contentType: 'text/text',
-
-          component: 'Code',
-          content: 'Mock Code component: mock_response_body',
         },
-      ])(
-        'should render $component component for response body when content type is $contentType',
-        ({ contentType, content }) => {
-          getSelectedTraceFn.mockReturnValue({
-            ...mockTrace,
-            http: {
-              ...mockTrace.http,
-              responseHeaders: {
-                'content-type': contentType,
-              },
+      ])('should display the correct content type for $contentType', ({ contentType }) => {
+        getSelectedTraceFn.mockReturnValue({
+          ...mockTrace,
+          http: {
+            ...mockTrace.http,
+            responseHeaders: {
+              'content-type': contentType,
             },
-          });
+          },
+        });
 
-          const { getByTestId } = render(<TraceDetail />);
+        const { getByTestId } = render(<TraceDetail />);
 
-          const responseBody = getByTestId('trace-detail');
-          const body = within(responseBody).queryByTestId('response-body');
+        const requestDetails = getByTestId('trace-detail');
+        const body = within(requestDetails).getByTestId('response-body');
 
-          expect(body).toBeVisible();
-          expect(body).toHaveTextContent(content);
-        },
-      );
+        expect(body).toBeVisible();
+        expect(body.getAttribute('data-content-type')).toBe(contentType);
+      });
 
-      it('should not render anything for the body if the body is empty', () => {
+      it('should disable the response tab if the body is empty', () => {
         jest.mocked(getResponseBody).mockReturnValue(undefined);
 
         const { getByTestId } = render(<TraceDetail />);
 
-        const responseBody = getByTestId('trace-detail');
-        const body = within(responseBody).queryByTestId('response-body');
+        const responseBody = getByTestId('summary');
+        const tab = within(responseBody).queryByTestId('response');
 
-        expect(body).not.toBeInTheDocument();
+        expect(tab).toHaveAttribute('disabled');
       });
     });
   });

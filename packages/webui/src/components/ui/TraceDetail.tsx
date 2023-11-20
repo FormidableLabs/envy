@@ -87,18 +87,20 @@ export default function TraceDetail() {
             <div className="flex items-center">
               <img src={getIconUri(trace)} alt="" className="w-6 h-6" />
             </div>
-            <div className="text-xl font-bold">{method}</div>
+            <div className="text-xl font-bold" data-test-id="method">
+              {method}
+            </div>
             {requestAborted && (
               <Badge className="bg-manatee-700 uppercase" data-test-id="aborted-indicator">
                 Aborted
               </Badge>
             )}
             {statusCode && (
-              <Badge className={badgeStyle(trace)} data-test-id="method">
+              <Badge className={badgeStyle(trace)} data-test-id="response-status">
                 {httpStatusLabel}
               </Badge>
             )}
-            <Badge>{serviceName}</Badge>
+            <Badge data-test-id="service-name">{serviceName}</Badge>
           </div>
           <div className="flex flex-row gap-1">
             <CopyAsCurlButton data-test-id="copy-as-curl" trace={trace} />
@@ -139,7 +141,7 @@ export default function TraceDetail() {
 
           <QueryParams data-test-id="query-params" trace={trace} />
 
-          <Section data-test-id="request-details" title="Request Headers">
+          <Section data-test-id="request-headers" title="Request Headers">
             <RequestHeaders data-test-id="headers" trace={trace} />
           </Section>
 
@@ -169,7 +171,7 @@ export default function TraceDetail() {
           </Section>
 
           {showResponseHeaders && (
-            <Section data-test-id="request-headers" title="Response Headers">
+            <Section data-test-id="response-headers" title="Response Headers">
               <ResponseHeaders data-test-id="headers" trace={trace} />
             </Section>
           )}
