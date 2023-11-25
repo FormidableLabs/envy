@@ -4,7 +4,7 @@ import { elapseTime, requestData } from './util';
 
 // REST request (auth)
 const authRequest: Event = {
-  id: '1',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(0),
@@ -54,7 +54,7 @@ const authRequest: Event = {
 
 // REST request (data)
 const dataEvent: Event = {
-  id: '3',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(1.2),
@@ -97,7 +97,7 @@ const dataEvent: Event = {
 
 // REST request (404)
 const notFoundEvent: Event = {
-  id: '4',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(3.1),
@@ -137,7 +137,7 @@ const notFoundEvent: Event = {
 
 // REST request (POST)
 const postEvent: Event = {
-  id: '5',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(16.3),
@@ -190,7 +190,7 @@ const postEvent: Event = {
 
 // OPTIONS request
 const optionsEvent: Event = {
-  id: '59',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'web',
   timestamp: elapseTime(16.3),
@@ -234,7 +234,7 @@ const optionsEvent: Event = {
 
 // REST request (500)
 const errorEvent: Event = {
-  id: '7',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(3.14),
@@ -274,7 +274,7 @@ const errorEvent: Event = {
 
 // Aborted request (no response)
 const abortedEvent: Event = {
-  id: '99',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(0.4),
@@ -299,7 +299,7 @@ const abortedEvent: Event = {
 
 // In flight request (no response)
 const inFlightEvent: Event = {
-  id: '9',
+  id: 'TBC',
   parentId: undefined,
   serviceName: 'gql',
   timestamp: elapseTime(0.4),

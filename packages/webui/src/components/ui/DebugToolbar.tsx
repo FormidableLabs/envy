@@ -2,7 +2,7 @@ import { Bug } from 'lucide-react';
 
 import { Menu } from '@/components';
 import useApplication from '@/hooks/useApplication';
-import mockData from '@/testing/mockTraces';
+import mockData, { generateLotsOfMockTraces } from '@/testing/mockTraces';
 
 import { MenuItem } from '../Menu';
 
@@ -13,8 +13,9 @@ export default function DebugToolbar() {
     {
       label: 'Mock data',
       description: 'Inject mock traces',
-      callback: () => {
-        for (const trace of mockData) {
+      callback: (e: React.MouseEvent) => {
+        const data = e.shiftKey ? generateLotsOfMockTraces() : mockData;
+        for (const trace of data) {
           collector?.addEvent(trace);
         }
       },

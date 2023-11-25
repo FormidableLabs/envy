@@ -17,6 +17,7 @@ export interface System<T = null> {
   isMatch(trace: Trace): boolean;
   getData?(trace: Trace): T;
   getIconUri?(): string | null;
+  getSearchKeywords?(context: TraceContext<T>): string[];
   getTraceRowData?(context: TraceContext<T>): TraceRowData | null;
   getRequestDetailComponent?(context: TraceContext<T>): React.ReactNode;
   getRequestBody?(context: TraceContext<T>): string | undefined | null;

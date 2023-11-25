@@ -8,6 +8,9 @@ const isDemo = process.env.DEMO === 'true';
 const productionCode = `
 const mockTraces = [];
 export default mockTraces;
+export function generateLotsOfMockTraces() {
+  return [];
+}
 export function mockTraceCollection() {
   return new Map();
 }

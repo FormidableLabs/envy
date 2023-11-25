@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CollectorClient from '@/collector/CollectorClient';
 import { ApplicationContext, ApplicationContextData, Filters } from '@/hooks/useApplication';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
+import { getSearchKeywords } from '@/systems';
 import { getRegisteredSystems } from '@/systems/registration';
 import { Trace } from '@/types';
 
@@ -88,18 +89,27 @@ export default function ApplicationContextProvider({ children }: React.HTMLAttri
       if (!hasFilters()) return collectorRef.current?.traces;
       else {
         const filteredTraces = new Map<string, Trace>();
+        const systems = getRegisteredSystems();
+        const validSystems = systems.filter(x => filters.systems.includes(x.name));
+
         for (const [traceId, trace] of collectorRef.current.traces.entries()) {
           let includeInTraces = true;
 
-          if (!!filters.searchTerm && !trace?.http?.url.includes(filters.searchTerm)) includeInTraces = false;
+          if (!!filters.searchTerm) {
+            const searchTermInUrl = trace?.http?.url.includes(filters.searchTerm);
+            const keywords = getSearchKeywords(trace);
+            const searchTermInKeywords =
+              keywords.length > 0
+                ? keywords.some(x => x.toLowerCase().includes(filters.searchTerm.toLowerCase()))
+                : false;
+            if (!searchTermInUrl && !searchTermInKeywords) includeInTraces = false;
+          }
 
           if (includeInTraces && filters.sources.length > 0) {
             includeInTraces = !!trace.serviceName && filters.sources.includes(trace.serviceName);
           }
 
           if (includeInTraces && filters.systems.length > 0) {
-            const systems = getRegisteredSystems();
-            const validSystems = systems.filter(x => filters.systems.includes(x.name));
             includeInTraces = validSystems.some(x => x.isMatch(trace));
           }
 

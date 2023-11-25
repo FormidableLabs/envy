@@ -27,6 +27,11 @@ export default class GraphQLSystem implements System<GraphQLData> {
       response: trace.http?.responseBody ?? null,
     };
   }
+
+  getSearchKeywords({ data }: TraceContext<GraphQLData>) {
+    return data.operationName ? [data.operationName] : [];
+  }
+
   getTraceRowData({ data }: TraceContext<GraphQLData>) {
     const { operationType, operationName } = data;
 
