@@ -321,6 +321,56 @@ const inFlightEvent: Event = {
   },
 };
 
+// REST request (super long URL)
+const superLongUrlEvent: Event = {
+  id: 'TBC',
+  parentId: undefined,
+  serviceName: 'gql',
+  timestamp: elapseTime(1.2),
+  http: {
+    ...requestData(
+      'GET',
+      'data.restserver.com',
+      443,
+      `/features?${new Array(500)
+        .fill(0)
+        .map((_, idx) => `query_variable_${idx + 1}=value_${idx + 1}`)
+        .join('&')}`,
+    ),
+    state: HttpRequestState.Received,
+    requestHeaders: {
+      'accept': 'application/json',
+      'User-Agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'],
+      'accept-encoding': 'br, gzip, deflate',
+    },
+    requestBody: undefined,
+    // ---------
+    httpVersion: '1.1',
+    statusCode: 200,
+    statusMessage: 'OK',
+    responseHeaders: {
+      'content-type': 'application/json; charset=utf-8',
+      'content-length': '351',
+      'date': 'Thu, 17 Mar 2022 19:51:00 GMT',
+      'vary': 'Origin',
+      'connection': 'close',
+    },
+    responseBody: JSON.stringify({
+      foo: 'bar',
+    }),
+    duration: 15,
+    timings: {
+      blocked: 1,
+      dns: 1,
+      connect: 5,
+      ssl: 2,
+      send: 3,
+      wait: 2,
+      receive: 3,
+    },
+  },
+};
+
 export default [
   authRequest,
   dataEvent,
@@ -330,4 +380,5 @@ export default [
   errorEvent,
   abortedEvent,
   inFlightEvent,
+  superLongUrlEvent,
 ];
