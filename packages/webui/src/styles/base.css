@@ -90,7 +90,6 @@ input[type='search']::-webkit-search-results-decoration {
 .code-block > ul > li {
   @apply px-4;
   @apply whitespace-pre-wrap;
-  @apply hover:bg-opacity-50 hover:bg-white;
   @apply hover:cursor-default;
 }
 
@@ -98,21 +97,21 @@ input[type='search']::-webkit-search-results-decoration {
  * Tables
  */
 .badge-200 {
-  @apply bg-[#318B47] text-white
+  @apply bg-[#318B47] text-white;
 }
 
 .badge-300 {
-  @apply bg-yellow-400 text-white
+  @apply bg-yellow-400 text-white;
 }
 
 .badge-400 {
-  @apply bg-[#AC0535] text-white
+  @apply bg-[#AC0535] text-white;
 }
 
 .badge-500 {
-  @apply bg-[#613C8D] text-white
+  @apply bg-[#613C8D] text-white;
 }
 
 .badge-abort {
-  @apply bg-manatee-700 text-white
+  @apply bg-manatee-700 text-white;
 }

@@ -72,7 +72,7 @@ export default function Authorization({ value }: AuthorizationProps) {
       decoded = JSON.stringify({ username: un, password: pw });
     }
 
-    setDecodedToken(<CodeDisplay contentType="application/json" data={decoded} />);
+    setDecodedToken(<CodeDisplay contentType="application/json" data={decoded} className="py-4" />);
   }
 
   return (
@@ -98,7 +98,7 @@ export default function Authorization({ value }: AuthorizationProps) {
             return <Code data-test-id="token-expanded-view">{`${type} ${token}`}</Code>;
           case TokenState.Decoded:
             return (
-              <div data-test-id="token-decoded-view" className="h-[200px]">
+              <div data-test-id="token-decoded-view" className="bg-manatee-100">
                 {decodedToken}
               </div>
             );

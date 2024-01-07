@@ -31,7 +31,7 @@ jest.mock('@/components', () => ({
   Fields: function (props: any) {
     return <div {...props} />;
   },
-  CodeDisplay: function ({ children, contentType, ...props }: any) {
+  CodeDisplay: function ({ children, contentType, editorHeight, ...props }: any) {
     return (
       <div {...props} data-content-type={contentType}>
         Mock CodeDisplay component: {children}

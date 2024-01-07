@@ -1,11 +1,15 @@
 import { safeParseJson } from '@envyjs/core';
 import formatXml from 'xml-formatter';
 
-import Editor, { MonacoEditorProps } from './MonacoEditor';
+import { tw } from '@/utils';
+
+import Editor, { EditorHeight, MonacoEditorProps } from './MonacoEditor';
 
 type CodeDisplayProps = {
   contentType?: string | string[] | null;
   data: string | null | undefined;
+  editorHeight?: EditorHeight;
+  className?: string;
 };
 
 const languageMap: Record<string, MonacoEditorProps['language']> = {
@@ -14,7 +18,7 @@ const languageMap: Record<string, MonacoEditorProps['language']> = {
   'application/xml': 'xml',
 };
 
-export default function CodeDisplay({ data, contentType }: CodeDisplayProps) {
+export default function CodeDisplay({ data, contentType, editorHeight, className }: CodeDisplayProps) {
   if (!data) {
     return;
   }
@@ -42,8 +46,8 @@ export default function CodeDisplay({ data, contentType }: CodeDisplayProps) {
   }
 
   return (
-    <div className="w-full h-full">
-      <Editor value={value} language={lang} />
+    <div className={tw('w-full h-full', className)}>
+      <Editor value={value} language={lang} height={editorHeight} />
     </div>
   );
 }

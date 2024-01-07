@@ -19,7 +19,7 @@ export default function Fields({ className, children, ...props }: FieldsProps) {
 export function Field({ label, className, children, ...props }: FieldProps) {
   if (!children) return null;
   return (
-    <tr className={className} {...props}>
+    <tr className={tw('align-top', className)} {...props}>
       <td className={tw('table-cell w-[200px] py-1 font-semibold font-mono uppercase', className)}>{label}</td>
       <td className="table-cell font-mono">{children}</td>
     </tr>
