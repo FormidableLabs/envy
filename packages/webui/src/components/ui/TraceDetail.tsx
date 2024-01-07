@@ -87,7 +87,7 @@ export default function TraceDetail() {
             <div className="flex items-center">
               <img src={getIconUri(trace)} alt="" className="w-6 h-6" />
             </div>
-            <div className="text-xl font-bold" data-test-id="method">
+            <div className="text-xl font-bold uppercase" data-test-id="method">
               {method}
             </div>
             {requestAborted && (
@@ -203,6 +203,7 @@ export default function TraceDetail() {
             data-test-id="request-body"
             contentType={getHeader(requestHeaders, 'content-type')}
             data={requestBody}
+            editorHeight="full"
           />
         </TabContent>
 
@@ -212,6 +213,7 @@ export default function TraceDetail() {
               data-test-id="response-body"
               contentType={getHeader(responseHeaders, 'content-type')}
               data={responseBody}
+              editorHeight="full"
             />
           )}
         </TabContent>

@@ -1,9 +1,13 @@
 import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import { useEffect, useRef } from 'react';
 
-export type MonacoEditorProps = Pick<EditorProps, 'value' | 'language'>;
+export type EditorHeight = 'full' | 'auto';
 
-const editorOptions: EditorProps['options'] = {
+export type MonacoEditorProps = Pick<EditorProps, 'value' | 'language'> & {
+  height?: EditorHeight;
+};
+
+const defaultOptions: EditorProps['options'] = {
   minimap: {
     enabled: false,
   },
@@ -13,8 +17,17 @@ const editorOptions: EditorProps['options'] = {
   lineNumbers: 'off',
 };
 
-export default function MonacoEditor({ value, language }: MonacoEditorProps) {
+const autoHeightOptions: EditorProps['options'] = {
+  ...defaultOptions,
+  scrollbar: {
+    alwaysConsumeMouseWheel: false,
+  },
+};
+
+export default function MonacoEditor({ value, language, height = 'auto' }: MonacoEditorProps) {
   const editorRef = useRef<Parameters<OnMount>['0'] | null>(null);
+
+  const isAutoHeight = height === 'auto';
 
   const executeFolding = () => {
     if (!editorRef.current) return;
@@ -33,17 +46,34 @@ export default function MonacoEditor({ value, language }: MonacoEditorProps) {
       base: 'vs',
       inherit: true,
       colors: {
-        'editor.background': '#F5F7F8',
-        'editor.lineHighlightBackground': '#F5F7F8',
+        'editor.background': '#EEEEF1',
       },
       rules: [],
     });
     monaco.editor.setTheme('envy');
+
+    if (isAutoHeight) {
+      const updateHeight = () => {
+        const height = editor.getContentHeight();
+        const width = editor.getScrollWidth();
+        editor.layout({ width, height });
+      };
+
+      editor.onDidContentSizeChange(updateHeight);
+      updateHeight();
+    }
 
     executeFolding();
   };
 
   useEffect(executeFolding, [value, language]);
 
-  return <Editor value={value} language={language} options={editorOptions} onMount={onMount} />;
+  return (
+    <Editor
+      value={value}
+      language={language}
+      options={isAutoHeight ? autoHeightOptions : defaultOptions}
+      onMount={onMount}
+    />
+  );
 }

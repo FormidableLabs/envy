@@ -49,19 +49,17 @@ export default class GraphQLSystem implements System<GraphQLData> {
     const { operationType, operationName, query } = data;
 
     return (
-      <div className="border-t border-manatee-400 pt-3 mt-3">
-        <Fields>
-          <Field data-test-id="name" label="Name">
-            {operationName}
-          </Field>
-          <Field data-test-id="type" label="Type">
-            {operationType}
-          </Field>
-          <Field label="Query">
-            <Code data-test-id="query">{query}</Code>
-          </Field>
-        </Fields>
-      </div>
+      <Fields>
+        <Field data-test-id="name" label="Name">
+          {operationName}
+        </Field>
+        <Field data-test-id="type" label="Type">
+          {operationType}
+        </Field>
+        <Field label="Query">
+          <Code data-test-id="query">{query}</Code>
+        </Field>
+      </Fields>
     );
   }
 }

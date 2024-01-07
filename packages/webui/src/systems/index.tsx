@@ -64,10 +64,10 @@ export function ListDataComponent({ trace }: SystemDetailProps): React.ReactNode
 
 export function RequestDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'getRequestDetailComponent');
-  return Component ? Component : null;
+  return Component ? <div className="border-t border-manatee-200 pt-4 mt-4">{Component}</div> : null;
 }
 
 export function ResponseDetailsComponent({ trace }: SystemDetailProps): React.ReactNode {
   const Component = callOrFallback<ReactNode | null>(trace, 'getResponseDetailComponent');
-  return Component ? Component : null;
+  return Component ? <div className="border-t border-manatee-200 pt-4 mt-4">{Component}</div> : null;
 }

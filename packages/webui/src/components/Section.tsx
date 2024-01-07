@@ -27,7 +27,7 @@ export default function Section({ title, collapsible = true, className, children
           }}
           {...props}
         >
-          <div className="flex-1">{title}</div>
+          <div className={tw('flex-1', !expanded && 'opacity-50')}>{title}</div>
           {collapsible && <Icon className="h-6 w-6" />}
         </div>
       )}
