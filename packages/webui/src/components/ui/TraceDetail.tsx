@@ -108,7 +108,7 @@ export default function TraceDetail() {
           </div>
         </div>
 
-        <div className="mb-4 break-all" data-test-id="url">
+        <div className="mb-4 break-all overflow-y-auto max-h-12" data-test-id="url">
           {url}
         </div>
 

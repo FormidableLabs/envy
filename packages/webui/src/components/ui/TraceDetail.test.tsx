@@ -297,7 +297,7 @@ describe('TraceDetail', () => {
       const copyAsCurl = within(summary).getByTestId('copy-as-curl');
 
       expect(copyAsCurl).toBeVisible();
-      expect(copyAsCurl).toHaveTextContent('Mock CopyAsCurlButton component: 2');
+      expect(copyAsCurl).toHaveTextContent(`Mock CopyAsCurlButton component: ${mockTrace.id}`);
     });
 
     it.each([
@@ -345,7 +345,7 @@ describe('TraceDetail', () => {
       const sent = within(requestDetails).getByTestId('sent');
 
       expect(sent).toBeVisible();
-      expect(sent).toHaveTextContent(`Mock DateTime component: ${1695308938}`);
+      expect(sent).toHaveTextContent(`Mock DateTime component: ${timestamp}`);
     });
 
     it('should display request host', () => {
