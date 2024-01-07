@@ -1,6 +1,6 @@
 {
   "name": "@envyjs/webui",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Envy Web UI",
   "targets": {
     "main": false,
@@ -61,7 +61,7 @@
     "storybook": "yarn run sb dev --port 9009 --no-open"
   },
   "dependencies": {
-    "@envyjs/core": "0.9.1",
+    "@envyjs/core": "0.10.0",
     "@monaco-editor/react": "4.6.0",
     "chalk": "^4.1.2",
     "monaco-editor": "0.44.0",

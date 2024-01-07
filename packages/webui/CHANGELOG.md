@@ -1,5 +1,17 @@
 # @envyjs/webui
 
+## 0.10.0
+
+### Minor Changes
+
+- a818453: Added new System capability to allow custom search keywords for traces
+
+### Patch Changes
+
+- a837b9a: Prevent long URLs from affecting visibility of trace details
+- 8bdc3de: Minor UI tweaks
+  - @envyjs/core@0.10.0
+
 ## 0.9.1
 
 ### Patch Changes
