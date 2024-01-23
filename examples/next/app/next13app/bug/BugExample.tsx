@@ -1,8 +1,7 @@
 'use client';
 
-import { SWAPI_URL } from '@/app/api/swapi/route';
-
 const API_ROUTE_URL = 'http://localhost:3000/api/swapi';
+const SWAPI_URL = 'https://swapi.dev/api/people/1';
 
 export default function BugExample() {
   async function makeSwapiCall() {
@@ -24,7 +23,7 @@ export default function BugExample() {
     <main className="container my-8 mx-auto">
       <div>
         <h1>Envy - Potential bug with Next JS</h1>
-        <p className="font-bold">Follow the steps to observe the bug:</p>
+        <p className="font-bold">Follow the steps to observe the bug</p>
       </div>
       <div className="mt-8 ml-8">
         <ol className="list-decimal space-y-8">

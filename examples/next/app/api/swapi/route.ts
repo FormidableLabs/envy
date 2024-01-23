@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-export const SWAPI_URL = 'https://swapi.dev/api/people/1';
+const SWAPI_URL = 'https://swapi.dev/api/people/1';
 
 export async function GET() {
   // Look - just one call to the SWAPI endpoint!
