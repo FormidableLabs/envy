@@ -3,7 +3,7 @@ import { TracingOptions, enableTracing as nodeTracing } from '@envyjs/node';
 
 import { Routes } from './route';
 
-type GlobalWithFlag = { nextjsTracingInitialized: boolean };
+type GlobalWithFlag = { __nextjsTracingInitialized: boolean };
 const globalWithFlag: GlobalWithFlag = global as unknown as GlobalWithFlag;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -29,8 +29,8 @@ export function enableTracing(options: NextjsTracingOptions) {
     return true;
   };
 
-  if (!globalWithFlag.nextjsTracingInitialized) {
-    globalWithFlag.nextjsTracingInitialized = true;
+  if (!globalWithFlag.__nextjsTracingInitialized) {
+    globalWithFlag.__nextjsTracingInitialized = true;
     return nodeTracing({
       ...nextjsOptions,
       plugins: [...(options.plugins || []), Routes],
