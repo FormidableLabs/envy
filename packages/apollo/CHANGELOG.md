@@ -1,5 +1,11 @@
 # @envyjs/apollo
 
+## 0.10.1
+
+### Patch Changes
+
+- @envyjs/node@0.10.1
+
 ## 0.10.0
 
 ### Patch Changes

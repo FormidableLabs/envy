@@ -1,5 +1,13 @@
 # @envyjs/nextjs
 
+## 0.10.1
+
+### Patch Changes
+
+- 5694118: Fix bug where the nextjs sender could be registered multiple times, causing traces to show duplicates
+  - @envyjs/node@0.10.1
+  - @envyjs/web@0.10.1
+
 ## 0.10.0
 
 ### Patch Changes
