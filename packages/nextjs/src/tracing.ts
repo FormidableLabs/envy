@@ -3,12 +3,11 @@ import { TracingOptions, enableTracing as nodeTracing } from '@envyjs/node';
 
 import { Routes } from './route';
 
+type GlobalWithFlag = { nextjsTracingInitialized: boolean };
+const globalWithFlag: GlobalWithFlag = global as unknown as GlobalWithFlag;
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextjsTracingOptions = TracingOptions & {};
-
-// nextjs dev mode can run this multiple times
-// prevent multiple registrations with a flag
-let initialized = false;
 
 export function enableTracing(options: NextjsTracingOptions) {
   const nextjsOptions: NextjsTracingOptions = {
@@ -30,8 +29,8 @@ export function enableTracing(options: NextjsTracingOptions) {
     return true;
   };
 
-  if (!initialized) {
-    initialized = true;
+  if (!globalWithFlag.nextjsTracingInitialized) {
+    globalWithFlag.nextjsTracingInitialized = true;
     return nodeTracing({
       ...nextjsOptions,
       plugins: [...(options.plugins || []), Routes],
