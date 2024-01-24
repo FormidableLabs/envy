@@ -25,7 +25,7 @@ export default function ApiRouteExample() {
         <h1>Calling an API route which makes an upstream request</h1>
         <p>Click the button to make a call to an API route from this page.</p>
         <p>
-          This will call {apiRouteUrl} from, where that API route will call {swapiUrl}
+          This will call {apiRouteUrl}, where that API route will call {swapiUrl}
         </p>
       </div>
       <div className="mt-8">{button}</div>
