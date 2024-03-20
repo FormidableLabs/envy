@@ -22,7 +22,7 @@ Envy is a monorepo managed by [Yarn workspaces](https://classic.yarnpkg.com/lang
 
 ### Requirements
 
-- [Node.js](https://nodejs.org/) 16 or higher.
+- [Node.js](https://nodejs.org/) 18 or higher.
 - [yarn](https://yarn.io/) 1.2 or higher.
 
 ### Setup
